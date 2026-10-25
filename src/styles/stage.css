@@ -15,6 +15,7 @@
 
 html.stage-anim .stage {
   position: relative;
+  isolation: isolate; /* les z-index internes ne passent pas au-dessus des services qui recouvrent la scène */
   display: grid;
   height: 100svh;
   overflow: hidden; /* le cercle dépasse largement l'écran */
@@ -53,3 +54,11 @@ html.stage-anim .experience > * {
 }
 html.stage-anim .experience__orange { z-index: 1; background: transparent; } /* le cercle fait le fond orange */
 html.stage-anim .approach { z-index: 2; pointer-events: none; }
+
+/* Superposition (ANIMATIONS.md §6) : les services remontent par-dessus la scène encore épinglée. Leur marge négative les
+   place à un écran (--overlap) avant la fin du pin ; ils sont opaques et au-dessus de la scène. */
+html.stage-anim .services {
+  position: relative;
+  z-index: 2;
+  margin-top: calc(var(--overlap, 1) * -100svh);
+}

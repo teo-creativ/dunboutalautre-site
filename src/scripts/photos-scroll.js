@@ -1,5 +1,5 @@
 // Section orange (ANIMATIONS.md §4 et §5) : les photos traversent l'écran en perspective, puis la photo large grandit
-// comme une carte jusqu'à devenir le fond de la section, que le voile assombrit.
+// comme une carte jusqu'à devenir le fond de la section. Le voile et le texte qui suivent sont dans approach.js.
 // Positions et durées sont exprimées en unités de la timeline maîtresse (1 unité = 1 écran de scroll).
 import { SplitText } from "./core.js";
 
@@ -76,8 +76,4 @@ export function addPhotos(tl, { stage, T }) {
 
   // Pendant l'agrandissement, le titre et le CTA s'effacent en place : la photo passe devant eux.
   tl.to(stage.querySelector(".experience__content"), { autoAlpha: 0, duration: T.contentFadeDur, ease: "power1.in" }, T.contentFade);
-
-  // Voile, puis texte. Le texte « Notre approche » n'est ici qu'un fondu : sa révélation par lignes est au prompt 06.
-  tl.fromTo(stage.querySelector(".approach__veil"), { opacity: 0 }, { opacity: 1, duration: T.veilDur, ease: "none" }, T.veil)
-    .fromTo(stage.querySelector(".approach__content"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: T.textDur, ease: "power2.out" }, T.text);
 }

@@ -16,11 +16,20 @@
 /* Le média est découpé et déplacé au scroll (clip-path) : le voile reste à part pour apparaître après la photo plein écran. */
 .approach__media { position: absolute; inset: 0; z-index: -2; }
 .approach__photo { width: 100%; height: 100%; object-fit: cover; }
-.approach__veil {
+.approach__veil,
+.approach__shade {
   position: absolute;
   inset: 0;
   z-index: -1;
   background: var(--veil);
+}
+/* Assombrit encore la photo quand les services la recouvrent (le filtre brightness n'est pas animé : opacité seulement). */
+.approach__shade { opacity: 0; }
+
+/* Le masque de ligne de SplitText rogne ce qui dépasse : on l'agrandit pour les tags inclinés, sans changer la mise en page. */
+.approach__line-mask {
+  padding-block: 0.25em;
+  margin-block: -0.25em;
 }
 
 .approach__content {

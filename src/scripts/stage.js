@@ -3,12 +3,14 @@
 // entre le hero et la section orange, et aucun flash au dégagement du pin.
 import { gsap, ScrollTrigger } from "./core.js";
 import { addCircle } from "./hero-circle.js";
+import { addApproach } from "./approach.js";
 import { addOrangeText, addPhotos } from "./photos-scroll.js";
 
-// Calendrier (en écrans de scroll). Desktop : 4,2 écrans, dont 3 pour la section orange et la photo qui grandit.
-// Mobile : 2 écrans, avec 2 photos seulement (ANIMATIONS.md §12).
+// Calendrier (en écrans de scroll). Desktop : cercle 1, section orange et photo qui grandit 3, lecture du texte 1,4, puis
+// 1 écran de superposition des services (overlap, compris dans total). Mobile : 2 photos seulement, pin de 1,9 écran
+// avant une superposition d'un demi-écran (ANIMATIONS.md §12).
 const DESKTOP = {
-  total: 4.2,
+  total: 5.95, overlap: 1,
   circle: 1, heroFade: 0.45, leavesFade: 0.6,
   title: 1, titleDur: 0.35, cta: 1.2,
   // Carte : rest est l'instant où elle atteint sa pose CSS (frame 04), duration règle sa vitesse (plus courte = plus
@@ -23,21 +25,21 @@ const DESKTOP = {
   card: { width: 0.384, ratio: 1.81, top: 0.7 },
   appear: 2.55, appearDur: 0.4, grow: 2.95, growDur: 0.6,
   contentFade: 3.05, contentFadeDur: 0.4,
-  veil: 3.55, veilDur: 0.3, text: 3.85, textDur: 0.35,
+  veil: 3.55, veilDur: 0.3, text: 3.85,
 };
 
 const MOBILE = {
-  total: 2,
-  circle: 0.7, heroFade: 0.32, leavesFade: 0.42,
-  title: 0.7, titleDur: 0.3, cta: 0.85,
+  total: 2.4, overlap: 0.5,
+  circle: 0.6, heroFade: 0.28, leavesFade: 0.36,
+  title: 0.6, titleDur: 0.3, cta: 0.72,
   cards: [
-    { index: 0, rest: 1.15, duration: 0.85, z: -150, rx: 4, rot: -1.5, dx: 20 },
-    { index: 2, rest: 1.25, duration: 0.9, z: -250, rx: 6, rot: 2, dx: -20 },
+    { index: 0, rest: 1, duration: 0.75, z: -150, rx: 4, rot: -1.5, dx: 20 },
+    { index: 2, rest: 1.08, duration: 0.8, z: -250, rx: 6, rot: 2, dx: -20 },
   ],
   card: { width: 0.8, ratio: 1.81, top: 0.72 },
-  appear: 1.15, appearDur: 0.25, grow: 1.4, growDur: 0.4,
-  contentFade: 1.45, contentFadeDur: 0.25,
-  veil: 1.7, veilDur: 0.15, text: 1.85, textDur: 0.15,
+  appear: 0.95, appearDur: 0.2, grow: 1.15, growDur: 0.35,
+  contentFade: 1.2, contentFadeDur: 0.2,
+  veil: 1.5, veilDur: 0.1, text: 1.6,
 };
 
 export function initStage() {
@@ -57,30 +59,56 @@ export function initStage() {
       const T = conditions.desktop ? DESKTOP : MOBILE;
       const root = document.documentElement;
       root.classList.add("stage-anim");
+      root.style.setProperty("--overlap", T.overlap); // marge négative des services, voir stage.css
 
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: stage,
-          start: "top top",
-          end: () => `+=${T.total * stage.offsetHeight}`,
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
+      const build = () => {
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: stage,
+            start: "top top",
+            end: () => `+=${T.total * stage.offsetHeight}`,
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
 
-      const ctx = { stage, T };
-      addCircle(tl, ctx);
-      addOrangeText(tl, ctx);
-      addPhotos(tl, ctx);
-      tl.set({}, {}, T.total); // fixe la durée : 1 unité de timeline = 1 écran de scroll
+        const ctx = { stage, T };
+        addCircle(tl, ctx);
+        addOrangeText(tl, ctx);
+        addPhotos(tl, ctx);
+        addApproach(tl, ctx);
+        tl.set({}, {}, T.total); // fixe la durée : 1 unité de timeline = 1 écran de scroll
+      };
+
+      // Le texte est découpé en lignes : quand la largeur change, les retours à la ligne aussi, donc on reconstruit tout.
+      // Un changement de hauteur seul (barre d'adresse mobile) est géré par invalidateOnRefresh, sans reconstruction.
+      let scope = gsap.context(build);
+      let width = window.innerWidth;
+      let timer;
+      const onResize = () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          if (window.innerWidth === width) return;
+          width = window.innerWidth;
+          scope.revert();
+          scope = gsap.context(build);
+        }, 300);
+      };
+      window.addEventListener("resize", onResize);
 
       // Les polices changent la hauteur du texte : les positions mesurées sont à relire quand elles sont chargées.
       document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
-      return () => root.classList.remove("stage-anim");
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener("resize", onResize);
+        scope.revert();
+        root.classList.remove("stage-anim");
+        root.style.removeProperty("--overlap");
+      };
     },
   );
 }

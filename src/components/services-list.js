@@ -9,6 +9,7 @@ const rows = site.services
             <span class="service-row__n">${s.n}</span>
             <span class="service-row__title" data-text="${esc(s.label)}">${esc(s.label)}</span>
             <span class="service-row__text">${esc(s.text)}</span>
+            <span class="service-row__rule" aria-hidden="true"></span>
           </a>
         </li>`,
   )

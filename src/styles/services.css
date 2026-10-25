@@ -1,19 +1,31 @@
 /* Liste des services (DESIGN.md §5.5, frames home-transition-3 et services-rows-et-chiffres-cles).
    Au repos tout est en sand ; au survol (ou au focus clavier) la ligne passe en olive-deep avec un soulignement orange. */
 .services {
+  min-height: 100svh; /* recouvre entièrement la scène épinglée pendant la superposition */
   padding: var(--section-y) var(--section-x);
   background: var(--cream);
 }
 .services .label { margin-bottom: 1.2vw; }
 
 .service-row {
+  position: relative;
   display: grid;
   grid-template-columns: 9.6vw minmax(0, 1fr) 30.7vw;
   align-items: center;
   padding-block: 2.3vw;
-  border-bottom: 1px solid var(--grey-line);
   color: var(--sand);
-  transition: border-color 0.35s;
+}
+
+/* Filet de séparation : un vrai élément, pour que son échelle puisse être animée à l'entrée de la section. */
+.service-row__rule {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: var(--grey-line);
+  transform-origin: left;
+  transition: background-color 0.35s;
 }
 
 .service-row__n,
@@ -49,8 +61,8 @@
   transition: opacity 0.35s;
 }
 
-.service-row:hover,
-.service-row:focus-visible { border-bottom-color: var(--olive-deep); }
+.service-row:hover .service-row__rule,
+.service-row:focus-visible .service-row__rule { background: var(--olive-deep); }
 .service-row:hover .service-row__n,
 .service-row:focus-visible .service-row__n { color: var(--olive-deep); }
 .service-row:hover .service-row__title::after,

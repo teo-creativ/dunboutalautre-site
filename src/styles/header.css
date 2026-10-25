@@ -6,10 +6,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: clamp(14px, 1.74vw, 36px) var(--gutter);
+  /* --sbw : largeur de la barre de défilement masquée pendant que le menu est ouvert, pour que le header ne bouge pas. */
+  padding: clamp(14px, 1.74vw, 36px) calc(var(--gutter) + var(--sbw, 0px)) clamp(14px, 1.74vw, 36px) var(--gutter);
   color: var(--cream);
   pointer-events: none;
+  transition: color 0.3s;
 }
+.header[data-theme="light"] { color: var(--olive); }
 .header > * { pointer-events: auto; }
 
 .header__logo {

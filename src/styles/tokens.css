@@ -13,6 +13,7 @@
 
   /* Dérivés des tokens ci-dessus (pas de nouveau gris : voir docs/POINTS-A-VALIDER.md, lignes 21 et 22) */
   --olive-soft: color-mix(in srgb, var(--olive) 75%, transparent);
+  --cream-soft: color-mix(in srgb, var(--cream) 60%, transparent);
   --veil: rgb(0 0 0 / 0.4);
   --shadow-card: 0 12px 40px color-mix(in srgb, var(--olive-deep) 10%, transparent);
 
@@ -25,8 +26,7 @@
   --fs-text-lg: clamp(1.75rem, 2.78vw, 3.4rem);    /* 48 px : approche, titre des chiffres clés */
   --fs-service: clamp(1.75rem, 2.78vw, 3.4rem);    /* 48 px */
   --fs-stat: clamp(3.25rem, 4.17vw, 5rem);         /* 72 px */
-  --fs-menu: clamp(3rem, 5.09vw, 6.2rem);          /* 88 px */
-  --fs-menu-sub: clamp(1.5rem, 1.97vw, 2.4rem);    /* 34 px */
+  --fs-menu-sub: clamp(1.5rem, 1.97vw, 2.4rem);    /* 34 px, aussi les coordonnées du footer */
   --fs-tagline: clamp(0.8125rem, 1.39vw, 1.65rem); /* 24 px */
   --fs-body: clamp(0.9375rem, 1.04vw, 1.25rem);    /* 18 px */
   --fs-cta: clamp(1rem, 1.16vw, 1.4rem);           /* 20 px */

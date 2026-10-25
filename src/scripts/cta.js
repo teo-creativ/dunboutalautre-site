@@ -50,6 +50,7 @@ const destroy = (cta) => {
 };
 
 const setFlag = (cta, key, value) => {
+  if (value && cta.getAttribute("aria-expanded") === "true") return; // « Fermer » : plus de pilule à remplir
   const state = states.get(cta) ?? (value ? build(cta) : null);
   if (!state) return;
   state[key] = value;
@@ -59,6 +60,12 @@ const setFlag = (cta, key, value) => {
   if (active) state.tl.timeScale(1).play();
   else state.tl.timeScale(REVERSE_SPEED).reverse();
 };
+
+// Change le libellé dans les deux couches. Le texte découpé par SplitText est défait : la prochaine interaction le redécoupe.
+export function setCtaLabel(cta, label) {
+  if (states.has(cta)) destroy(cta);
+  cta.querySelectorAll(".cta__text").forEach((text) => { text.textContent = label; });
+}
 
 const ctaOf = (event) => event.target.closest?.(".cta");
 

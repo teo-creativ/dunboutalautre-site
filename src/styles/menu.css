@@ -1,0 +1,238 @@
+/* Menu plein écran, deux colonnes séparées par un filet (DESIGN.md §5.7, frames references/menu).
+   Toutes les tailles dérivent de --u : 1vw, sans dépasser 1,68svh, pour que les 5 liens et la colonne de droite tiennent
+   dans les écrans bas. À 1728 × 1030, 1 u = 17,28 px, soit l'échelle des frames. */
+.menu {
+  --u: min(1vw, 1.68svh);
+  --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1); /* power3.out */
+  --focus: var(--cream);
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  visibility: hidden;
+  color: var(--white);
+}
+
+.menu__bg { position: absolute; inset: 0; background: var(--olive); }
+.menu__line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: var(--olive-line);
+  transform-origin: 50% 0;
+}
+
+.menu__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  height: 100%;
+  padding-top: calc(var(--u) * 10.8); /* centre les colonnes à 59 % de la hauteur, comme les frames */
+}
+.menu__col { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.menu__col--links { padding-left: var(--gutter); }
+.menu__col--aside { padding-left: calc(var(--u) * 5.3); padding-right: var(--gutter); }
+
+/* Liens principaux et sous-liens : point orange, décalage vers la droite, soulignement qui se dessine (power3.out, 0,45 s). */
+.menu__item { overflow: clip; } /* masque de la montée des liens à l'ouverture */
+
+.menu-link {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: calc(var(--u) * 5.2);
+  font-weight: 300;
+  line-height: 1.6;
+  color: inherit;
+  outline: none; /* le point, le décalage et le soulignement servent d'indicateur de focus */
+}
+.menu-link--sub { font-size: calc(var(--u) * 2.78); line-height: 1.875; }
+
+.menu-link__dot {
+  position: absolute;
+  top: calc(50% + 0.11em);
+  left: 0.02em;
+  width: 0.23em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--orange);
+  transform: translateY(-50%) scale(0);
+  transition: transform 0.35s var(--ease-out);
+}
+.menu-link--sub .menu-link__dot { width: 0.3em; top: 50%; left: 0; }
+
+.menu-link__body {
+  display: inline-block;
+  transition: transform 0.45s var(--ease-out);
+}
+.menu-link__text { position: relative; display: inline-block; }
+.menu-link__text::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0.325em;
+  bottom: round(0.325em, 1px); /* position et épaisseur calées sur le pixel : sinon le trait se rend flou */
+  left: 0;
+  height: 0.045em;
+  height: round(0.045em, 1px);
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: right; /* la sortie se rétracte vers la droite */
+  transition: transform 0.45s var(--ease-out);
+}
+.menu-link--sub .menu-link__text::after {
+  bottom: 0.31em;
+  bottom: round(0.31em, 1px);
+  height: 2px;
+}
+
+.menu-link__count {
+  margin-left: 0.12em;
+  font-size: 0.38em;
+}
+
+.menu-link:hover .menu-link__body,
+.menu-link:focus-visible .menu-link__body,
+.menu-link[aria-expanded="true"] .menu-link__body { transform: translateX(0.4em); }
+.menu-link--sub:hover .menu-link__body,
+.menu-link--sub:focus-visible .menu-link__body { transform: translateX(0.58em); }
+.menu-link:hover .menu-link__dot,
+.menu-link:focus-visible .menu-link__dot,
+.menu-link[aria-expanded="true"] .menu-link__dot { transform: translateY(-50%) scale(1); }
+.menu-link:hover .menu-link__text::after,
+.menu-link:focus-visible .menu-link__text::after,
+.menu-link[aria-expanded="true"] .menu-link__text::after { transform: scaleX(1); transform-origin: left; }
+
+/* Colonne de droite : deux panneaux superposés, l'un ou l'autre selon data-services (ouvert au survol de « Services »). */
+.menu__panel {
+  transition: opacity 0.35s, transform 0.45s var(--ease-out), visibility 0s linear 0s;
+}
+
+.menu__panel--default { display: flex; flex-direction: column; }
+.menu__title {
+  font-size: calc(var(--u) * 2.78);
+  font-weight: 300;
+  line-height: 1.25;
+}
+/* La pilule est plus haute que l'interligne : on rogne sa marge pour garder le pas de 60 px de la frame. */
+.menu__title .tag { margin-block: -0.14em; }
+.menu__photo {
+  margin-top: calc(var(--u) * 2.3);
+  overflow: hidden;
+  aspect-ratio: 2.79;
+  border-radius: var(--radius-photo);
+}
+.menu__photo-img { width: 100%; height: 100%; object-fit: cover; }
+.menu__label {
+  font-size: calc(var(--u) * 1.74);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--cream-soft);
+}
+.menu__panel--default .menu__label { margin-top: calc(var(--u) * 2.9); }
+.menu__contact {
+  display: flex;
+  flex-direction: column;
+  margin-top: calc(var(--u) * 1.4);
+  font-size: calc(var(--u) * 2.78);
+  font-weight: 300;
+  line-height: 1.8;
+}
+.menu__contact a { align-self: flex-start; }
+.menu__contact a:hover,
+.menu__contact a:focus-visible { text-decoration: underline 2px var(--orange); text-underline-offset: 0.2em; }
+
+/* Panneau « Services » : en desktop, il se superpose à la colonne de droite ; il vit dans l'élément de liste de Services. */
+.menu__panel--services {
+  position: absolute;
+  top: calc(var(--u) * 10.8);
+  right: var(--gutter);
+  bottom: 0;
+  left: calc(50% + var(--u) * 5.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(calc(var(--u) * 0.8));
+  transition: opacity 0.3s, transform 0.45s var(--ease-out), visibility 0s linear 0.3s;
+}
+.menu__panel--services .menu__label { margin-bottom: calc(var(--u) * 1.5); }
+.menu__sublinks li {
+  opacity: 0;
+  transform: translateY(calc(var(--u) * 0.7));
+  transition: opacity 0.3s, transform 0.45s var(--ease-out);
+}
+
+.menu[data-services="open"] .menu__panel--default {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(calc(var(--u) * -0.8));
+  transition: opacity 0.3s, transform 0.45s var(--ease-out), visibility 0s linear 0.3s;
+}
+.menu[data-services="open"] .menu__panel--services {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.4s 0.1s, transform 0.5s var(--ease-out) 0.1s, visibility 0s;
+}
+.menu[data-services="open"] .menu__sublinks li {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(0.12s + var(--i) * 0.05s);
+}
+
+@media (hover: none) {
+  .menu-link:hover .menu-link__body { transform: none; }
+  .menu-link:hover .menu-link__dot { transform: translateY(-50%) scale(0); }
+  .menu-link:hover .menu-link__text::after { transform: scaleX(0); }
+}
+
+/* Mobile : une seule colonne, « Services » devient un accordéon, la colonne de droite passe sous les liens. */
+@media (max-width: 900px) {
+  .menu { --u: 1vw; }
+  .menu__line { display: none; }
+  .menu__inner {
+    display: block;
+    overflow-y: auto;
+    padding: 5.5rem var(--gutter) 2rem;
+  }
+  .menu__col { display: block; padding: 0; }
+  .menu__col--aside { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--olive-line); }
+
+  .menu-link { font-size: clamp(2.25rem, 11vw, 3.25rem); line-height: 1.5; }
+  .menu__label { font-size: 1rem; }
+  .menu-link--sub { font-size: 1.375rem; line-height: 2.1; }
+  .menu-link--sub .menu-link__dot { width: 0.4em; }
+  .menu-link__dot { left: 0; }
+
+  .menu__panel--services {
+    position: static;
+    display: block;
+    transform: none;
+    max-height: 0;
+    padding-left: 1.5rem;
+    overflow: hidden;
+    transition: opacity 0.3s, max-height 0.5s var(--ease-out), visibility 0s linear 0.3s;
+  }
+  .menu__panel--services .menu__label { margin-bottom: 0.25rem; }
+  .menu[data-services="open"] .menu__panel--services {
+    max-height: 30rem;
+    padding-block: 0.5rem 1rem;
+    transition: opacity 0.4s, max-height 0.5s var(--ease-out), visibility 0s;
+  }
+  .menu[data-services="open"] .menu__panel--default {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .menu__title { font-size: 1.625rem; }
+  .menu__photo { margin-top: 1.25rem; aspect-ratio: 2.4; }
+  .menu__panel--default .menu__label { margin-top: 1.5rem; }
+  .menu__contact { margin-top: 0.75rem; font-size: 1.375rem; }
+}

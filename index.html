@@ -6,14 +6,59 @@
     <meta name="description" content="D'un Bout À L'autre : design végétal et scénographie pour les entreprises à Paris. Bureaux végétalisés, décors sur mesure, événements, Noël. Devis gratuit." />
   </head>
   <body>
-    <header id="header"></header>
+    <!--@header-->
     <main id="main">
-      <section id="hero"></section>
-      <section id="experience"></section>
-      <section id="services"></section>
-      <section id="stats"></section>
+      <section id="hero" class="hero" data-header-theme="dark">
+        <div class="hero__inner">
+          <ul class="hero__tagline">
+            <li>PLANTES NATURELLES</li>
+            <li>VÉGÉTAUX STABILISÉS</li>
+            <li>VÉGÉTAUX ARTIFICIELS</li>
+            <li>SCÉNOGRAPHIE</li>
+          </ul>
+          <h1 class="hero__title">Design <span class="tag tag--cream">végétal</span> &amp; <span class="tag tag--orange">scénographie</span> pour les entreprises.</h1>
+          <!--@cta label="Discutons de votre projet" variant="on-olive"-->
+        </div>
+      </section>
+
+      <section id="experience" class="experience" data-header-theme="dark">
+        <div class="experience__orange">
+          <div class="experience__content">
+            <h2 class="experience__title">On crée de véritables expériences <span class="tag tag--cream tag--punct">végétales</span>.</h2>
+            <!--@cta label="Discutons de votre projet" variant="on-orange"-->
+          </div>
+          <ul class="experience__photos">
+            <li class="float-photo float-photo--1"><!--@img src="home-scroll/bw-graminees-sacre-coeur" alt="Terrasse parisienne plantée de graminées, avec le Sacré-Cœur au loin" sizes="(min-width: 900px) 18vw, 40vw"--></li>
+            <li class="float-photo float-photo--2"><!--@img src="home-scroll/bw-facade-fleurie" alt="Façade d'immeuble parisien couverte de fleurs, vue d'en bas" sizes="(min-width: 900px) 20vw, 40vw"--></li>
+            <li class="float-photo float-photo--3"><!--@img src="home-scroll/bw-ailes-floral-fashion-show" alt="Femme entre deux grandes ailes végétales en herbes de la pampa" sizes="(min-width: 900px) 21vw, 40vw"--></li>
+            <li class="float-photo float-photo--4"><!--@img src="home-scroll/bw-feuillage" alt="Gros plan sur des branches et des feuilles découpées sur le ciel" sizes="(min-width: 900px) 20vw, 40vw"--></li>
+          </ul>
+        </div>
+
+        <div class="approach">
+          <!--@img src="home-scroll/bw-lavande-tour-eiffel-large" alt="" sizes="100vw" class="approach__photo"-->
+          <div class="approach__veil"></div>
+          <div class="approach__content">
+            <h2 class="label label--light label--lg"><span class="label__dot" aria-hidden="true"></span>NOTRE APPROCHE</h2>
+            <p class="approach__text">De la conception à l'entretien, <span class="tag tag--orange tag--punct">on s'occupe de tout</span>. Une relation directe, un interlocuteur unique, et un résultat qui <span class="tag tag--cream tag--punct">vous ressemble</span>. C'est notre volonté pour chaque projet.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="services" data-header-theme="light" aria-labelledby="services-label">
+        <h2 class="label" id="services-label"><span class="label__dot" aria-hidden="true"></span>SERVICES</h2>
+        <!--@services-list-->
+      </section>
+
+      <section id="stats" class="stats" data-header-theme="light" aria-labelledby="stats-title">
+        <div class="stats__intro">
+          <p class="label"><span class="label__dot" aria-hidden="true"></span>CHIFFRES CLÉS</p>
+          <h2 class="stats__title" id="stats-title">Nous transformons vos idées en expérience <span class="tag tag--orange tag--punct">inoubliable</span>.</h2>
+        </div>
+        <!--@stats-cards-->
+      </section>
     </main>
-    <footer id="footer"></footer>
+    <!--@footer-->
     <script type="module" src="/src/scripts/main.js"></script>
   </body>
 </html>

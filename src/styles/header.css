@@ -1,0 +1,23 @@
+/* Header fixe et transparent : logo à gauche, bouton Menu à droite (DESIGN.md §5.3). */
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(14px, 1.74vw, 36px) var(--gutter);
+  color: var(--cream);
+  pointer-events: none;
+}
+.header > * { pointer-events: auto; }
+
+.header__logo {
+  display: block;
+  position: relative;
+  top: -0.23vw; /* le centre optique du wordmark est sous le centre de sa boîte */
+  width: clamp(11.9rem, 22.15vw, 28rem); /* 383 px de boîte, 370 px d'encre à 1728 */
+  margin-left: -0.17vw;
+  color: inherit;
+}
+.header__logo-svg { display: block; width: 100%; height: auto; }

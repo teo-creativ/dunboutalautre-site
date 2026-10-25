@@ -1,4 +1,6 @@
+/* Tokens du design system (DESIGN.md). Valeurs de pixel mesurées sur un canvas de 1728 px, converties en clamp() fluides. */
 :root {
+  /* Couleurs */
   --olive: #5E530E;
   --olive-deep: #4C430B;
   --orange: #FC4C00;
@@ -6,14 +8,38 @@
   --white: #FFFFFF;
   --sand: #C9BDA0;
   --olive-line: #766C2F;
-  --blue: #B2D4E0;
+  --blue: #B2D4E0; /* réserve, non utilisé dans les maquettes actuelles */
   --grey-line: #D2D2D2;
 
+  /* Dérivés des tokens ci-dessus (pas de nouveau gris : voir docs/POINTS-A-VALIDER.md, lignes 21 et 22) */
+  --olive-soft: color-mix(in srgb, var(--olive) 75%, transparent);
+  --veil: rgb(0 0 0 / 0.4);
+  --shadow-card: 0 12px 40px color-mix(in srgb, var(--olive-deep) 10%, transparent);
+
+  /* Typographie */
   --font-sans: "Poppins", system-ui, sans-serif;
   --font-serif: "Playfair Display", Georgia, serif;
 
-  --gutter: clamp(24px, 3.95vw, 68px);
+  --fs-h1: clamp(2.5rem, 4.63vw, 5.6rem);          /* 80 px à 1728 */
+  --fs-h2: clamp(2.125rem, 3.94vw, 4.75rem);       /* 68 px */
+  --fs-text-lg: clamp(1.75rem, 2.78vw, 3.4rem);    /* 48 px : approche, titre des chiffres clés */
+  --fs-service: clamp(1.75rem, 2.78vw, 3.4rem);    /* 48 px */
+  --fs-stat: clamp(3.25rem, 4.17vw, 5rem);         /* 72 px */
+  --fs-menu: clamp(3rem, 5.09vw, 6.2rem);          /* 88 px */
+  --fs-menu-sub: clamp(1.5rem, 1.97vw, 2.4rem);    /* 34 px */
+  --fs-tagline: clamp(0.8125rem, 1.39vw, 1.65rem); /* 24 px */
+  --fs-body: clamp(0.9375rem, 1.04vw, 1.25rem);    /* 18 px */
+  --fs-cta: clamp(1rem, 1.16vw, 1.4rem);           /* 20 px */
+  --fs-label: clamp(0.875rem, 1.16vw, 1.4rem);     /* 20 px */
+  --fs-label-lg: clamp(1rem, 1.34vw, 1.6rem);      /* 23 px */
+
+  /* Espacements et rayons */
+  --gutter: clamp(24px, 3.95vw, 5rem);             /* 68 px à 1728 */
+  --section-x: clamp(24px, 9.8vw, 12rem);          /* 169 px : services et chiffres clés */
+  --section-y: clamp(64px, 5.8vw, 8rem);           /* 100 px */
   --radius-photo: 14px;
   --radius-card: 28px;
+  --cta-h: clamp(2.75rem, 2.9vw, 3.5rem);          /* 50 px */
+
   --footer-h: 100vh;
 }

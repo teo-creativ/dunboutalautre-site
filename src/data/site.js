@@ -11,8 +11,12 @@ const services = [
   { n: "06", label: "Entretien & abonnements", path: "/entretien-abonnement-plantes-entreprise-paris", text: "Entretien, remplacement, renouvellement des décors. Vos plantes restent belles toute l'année." },
 ];
 
+const contact = { path: "/contact" };
+
 export const site = {
   name: "D'un Bout À L'autre",
+  contact,
+  copyright: "© 2026 D'un bout à l'autre",
   email: "hello@dunboutalautre.co",
   phone: { display: "+33 6 03 34 23 12", href: "tel:+33603342312" }, // à confirmer (copywriting : 07 70 44 77 59)
   instagram: { label: "@dunboutalautre.co", href: "https://www.instagram.com/dunboutalautre.co" },
@@ -22,7 +26,7 @@ export const site = {
     { label: "Accueil", path: "/", live: true },
     { label: "Services", children: true }, // parent sans page propre : ouvre la liste des services
     { label: "Réalisations", path: "/realisations", count: true },
-    { label: "Contact", path: "/contact" },
+    { label: "Contact", ...contact },
     { label: "Blog", path: "/blog" },
   ],
   // Lignes de la section Services de l'accueil (6).

@@ -1,0 +1,63 @@
+/* Section orange : titre, CTA et photos flottantes. Positions de départ calées sur la frame home-animation-04 ;
+   les photos traverseront l'écran au prompt 05. Le texte passe au-dessus des cartes (frame 06). */
+.experience { position: relative; }
+
+.experience__orange {
+  --focus: var(--white);
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  padding: var(--gutter);
+  overflow: hidden;
+  background: var(--orange);
+  color: var(--white);
+  text-align: center;
+}
+
+.experience__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.85vw;
+}
+
+.experience__title {
+  max-width: 46vw;
+  font-size: var(--fs-h2);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.experience__photos {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.float-photo {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  aspect-ratio: var(--ratio);
+  overflow: hidden;
+  border-radius: var(--radius-photo);
+}
+.float-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.float-photo--1 { --x: 6vw;    --y: 27%; --w: 17.4vw; --ratio: 1000 / 1333; }
+.float-photo--2 { --x: 81.4vw; --y: 32%; --w: 19.7vw; --ratio: 1000 / 1333; }
+.float-photo--3 { --x: -1.3vw; --y: 70%; --w: 20.8vw; --ratio: 1000 / 1154; }
+.float-photo--4 { --x: 66.6vw; --y: 86%; --w: 20.1vw; --ratio: 1000 / 1276; }
+
+@media (max-width: 900px) {
+  .experience__title { max-width: none; }
+  .float-photo--2,
+  .float-photo--4 { display: none; }
+  .float-photo--1 { --x: 6vw; --y: 6%; --w: 36vw; }
+  .float-photo--3 { --x: 58vw; --y: 80%; --w: 44vw; }
+}

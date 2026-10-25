@@ -1,0 +1,22 @@
+/* Label de section : « • SERVICES ». Orange par défaut, --light pour les fonds sombres. */
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  font-size: var(--fs-label);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--label-color, var(--orange));
+}
+.label--light { --label-color: var(--white); }
+.label--lg { font-size: var(--fs-label-lg); }
+
+.label__dot {
+  flex: none;
+  width: 0.45em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: currentColor;
+}

@@ -1,0 +1,51 @@
+/* Bouton CTA en pilule (DESIGN.md §5.2). Variantes par data-variant. Le remplissage circulaire au survol arrive au prompt 03 :
+   en attendant, le survol et le focus changent simplement les couleurs. */
+.cta {
+  --cta-bg: var(--white);
+  --cta-fg: var(--orange);
+  --cta-dot: var(--orange);
+  --cta-hover-bg: var(--orange);
+  --cta-hover-fg: var(--white);
+  --cta-hover-dot: var(--white);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  height: var(--cta-h);
+  padding-inline: 1em;
+  border-radius: 999px;
+  background: var(--cta-bg);
+  color: var(--cta-fg);
+  font-size: var(--fs-cta);
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background-color 0.35s, color 0.35s;
+}
+
+.cta[data-variant="on-orange"] {
+  --cta-hover-bg: var(--olive);
+  --cta-hover-fg: var(--cream);
+  --cta-hover-dot: var(--cream);
+}
+.cta[data-variant="on-cream"] {
+  --cta-bg: var(--olive);
+  --cta-fg: var(--cream);
+}
+
+.cta__dot {
+  flex: none;
+  width: 0.35em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--cta-dot);
+  transition: background-color 0.35s;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: var(--cta-hover-bg);
+  color: var(--cta-hover-fg);
+}
+.cta:hover .cta__dot,
+.cta:focus-visible .cta__dot { background: var(--cta-hover-dot); }

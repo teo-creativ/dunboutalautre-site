@@ -1,0 +1,61 @@
+/* Chiffres clés : titre à gauche, trois cartes blanches qui se chevauchent à droite (frame services-rows-et-chiffres-cles).
+   Les rotations sont fixes ici ; elles s'ajusteront à l'entrée des cartes au prompt 07. */
+.stats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 25.8vw;
+  column-gap: 4vw;
+  align-items: start;
+  padding: var(--section-y) calc(var(--section-x) + 3.1vw) var(--section-y) var(--section-x);
+  background: var(--cream);
+}
+
+.stats__intro { display: flex; flex-direction: column; gap: 0.6vw; }
+
+.stats__title {
+  max-width: 42vw;
+  font-size: var(--fs-text-lg);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--olive-deep);
+}
+
+.stats__cards { display: flex; flex-direction: column; }
+
+.stat-card {
+  padding: 1.85vw 0.8vw 1.85vw 1.85vw; /* padding droit réduit : le texte de la maquette occupe presque toute la carte */
+  border-radius: var(--radius-card);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+  transform: rotate(var(--card-rotate));
+}
+.stat-card + .stat-card { margin-top: -0.6vw; }
+/* --text-w reproduit les retours à la ligne de la maquette (blocs de texte de largeur propre à chaque carte). */
+.stat-card--1 { --card-rotate: -1.3deg; --text-w: 11.8em; }
+.stat-card--2 { --card-rotate: 1deg; --text-w: 20em; }
+.stat-card--3 { --card-rotate: -1.5deg; --text-w: 25.5em; }
+
+.stat-card__num {
+  font-size: var(--fs-stat);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--olive-deep);
+}
+.stat-card__sign,
+.stat-card__unit { color: var(--orange); }
+.stat-card__unit { margin-left: 0.08em; font-size: 0.42em; }
+
+.stat-card__text {
+  margin-top: 0.9vw;
+  font-size: clamp(0.9375rem, 1vw, 1.2rem);
+  max-width: var(--text-w);
+  line-height: 1.55;
+  color: var(--olive-soft);
+}
+
+@media (max-width: 900px) {
+  .stats { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; padding-right: var(--section-x); }
+  .stats__intro { gap: 1.25rem; }
+  .stats__title { max-width: none; }
+  .stat-card { padding: 1.5rem; }
+  .stat-card__text { max-width: none; margin-top: 0.75rem; }
+}

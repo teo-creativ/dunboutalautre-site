@@ -1,0 +1,18 @@
+/* Title tag : mot mis en avant dans un titre, pilule inclinée en Playfair Display italique (DESIGN.md §5.1). */
+.tag {
+  display: inline-block;
+  padding: 0.08em 0.42em;
+  border-radius: 0.55em;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+  margin-inline: -0.06em;
+  transform: rotate(var(--tag-rotate, -2deg));
+}
+.tag--cream { background: var(--cream); color: var(--orange); --tag-rotate: -2deg; }
+.tag--orange { background: var(--orange); color: var(--cream); --tag-rotate: 2deg; }
+
+/* Tag suivi d'un point : la pilule inclinée déborde, on garde un peu d'air avant la ponctuation. */
+.tag--punct { margin-right: 0.3em; }

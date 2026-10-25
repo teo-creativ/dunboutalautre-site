@@ -1,0 +1,74 @@
+/* Liste des services (DESIGN.md §5.5, frames home-transition-3 et services-rows-et-chiffres-cles).
+   Au repos tout est en sand ; au survol (ou au focus clavier) la ligne passe en olive-deep avec un soulignement orange. */
+.services {
+  padding: var(--section-y) var(--section-x);
+  background: var(--cream);
+}
+.services .label { margin-bottom: 1.2vw; }
+
+.service-row {
+  display: grid;
+  grid-template-columns: 9.6vw minmax(0, 1fr) 30.7vw;
+  align-items: center;
+  padding-block: 2.3vw;
+  border-bottom: 1px solid var(--grey-line);
+  color: var(--sand);
+  transition: border-color 0.35s;
+}
+
+.service-row__n,
+.service-row__title {
+  font-size: var(--fs-service);
+  font-weight: 300;
+  line-height: 1;
+}
+.service-row__n { transition: color 0.35s; }
+
+.service-row__title {
+  position: relative;
+  justify-self: start;
+}
+/* Calque de texte souligné, révélé de gauche à droite. Le soulignement natif garde l'interruption sous les jambages. */
+.service-row__title::after {
+  content: attr(data-text);
+  content: attr(data-text) / "";
+  position: absolute;
+  inset: 0;
+  color: var(--olive-deep);
+  text-decoration: underline 3px var(--orange);
+  text-decoration-skip-ink: auto;
+  text-underline-offset: 0.1em;
+  clip-path: inset(-20% 100% -20% 0);
+  transition: clip-path 0.45s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.service-row__text {
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--olive-soft);
+  transition: opacity 0.35s;
+}
+
+.service-row:hover,
+.service-row:focus-visible { border-bottom-color: var(--olive-deep); }
+.service-row:hover .service-row__n,
+.service-row:focus-visible .service-row__n { color: var(--olive-deep); }
+.service-row:hover .service-row__title::after,
+.service-row:focus-visible .service-row__title::after { clip-path: inset(-20% -2% -20% 0); }
+
+/* Les autres lignes s'estompent légèrement pendant qu'une ligne est active. */
+.services__list:has(.service-row:hover) .service-row:not(:hover) .service-row__text,
+.services__list:has(.service-row:focus-visible) .service-row:not(:focus-visible) .service-row__text { opacity: 0.55; }
+
+/* Sans survol possible, rien ne signale la ligne active : on passe tout en olive, lisible. */
+@media (hover: none) {
+  .service-row { color: var(--olive); }
+}
+
+@media (max-width: 900px) {
+  .services .label { margin-bottom: 6vw; }
+  .service-row { grid-template-columns: 3.2rem minmax(0, 1fr); row-gap: 0.75rem; padding-block: 1.5rem; }
+  .service-row__n,
+  .service-row__title { line-height: 1.15; }
+  .service-row__text { grid-column: 2; }
+}

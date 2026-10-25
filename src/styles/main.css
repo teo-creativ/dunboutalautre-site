@@ -1,3 +1,12 @@
 @import "./tokens.css";
 @import "./base.css";
-/* Un fichier par composant à ajouter ici (voir prompts/02) */
+@import "./label.css";
+@import "./tag.css";
+@import "./cta.css";
+@import "./header.css";
+@import "./hero.css";
+@import "./experience.css";
+@import "./approach.css";
+@import "./services.css";
+@import "./stats.css";
+@import "./footer.css";

@@ -1,36 +1,48 @@
-/* Bouton CTA en pilule (DESIGN.md §5.2). Variantes par data-variant. Le remplissage circulaire au survol arrive au prompt 03 :
-   en attendant, le survol et le focus changent simplement les couleurs. */
+/* Bouton CTA en pilule (DESIGN.md §5.2, ANIMATIONS.md §10). Deux couches : la base (repos) et le calque de remplissage
+   (--fill) révélé en cercle depuis le point par src/scripts/cta.js. Variantes par data-variant, tout passe par des variables. */
 .cta {
   --cta-bg: var(--white);
   --cta-fg: var(--orange);
   --cta-dot: var(--orange);
-  --cta-hover-bg: var(--orange);
-  --cta-hover-fg: var(--white);
-  --cta-hover-dot: var(--white);
+  --cta-fill-bg: var(--orange);
+  --cta-fill-fg: var(--white);
+  --cta-fill-dot: var(--white);
 
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
-  align-items: center;
-  gap: 0.5em;
   height: var(--cta-h);
-  padding-inline: 1em;
+  overflow: hidden;
   border-radius: 999px;
-  background: var(--cta-bg);
   color: var(--cta-fg);
   font-size: var(--fs-cta);
   font-weight: 400;
   line-height: 1;
   white-space: nowrap;
-  transition: background-color 0.35s, color 0.35s;
 }
 
 .cta[data-variant="on-orange"] {
-  --cta-hover-bg: var(--olive);
-  --cta-hover-fg: var(--cream);
-  --cta-hover-dot: var(--cream);
+  --cta-fill-bg: var(--olive);
+  --cta-fill-fg: var(--cream);
+  --cta-fill-dot: var(--cream);
 }
 .cta[data-variant="on-cream"] {
   --cta-bg: var(--olive);
   --cta-fg: var(--cream);
+}
+
+.cta__layer {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding-inline: 1em;
+}
+.cta__layer--base { background: var(--cta-bg); }
+.cta__layer--fill {
+  position: absolute;
+  inset: 0;
+  background: var(--cta-fill-bg);
+  color: var(--cta-fill-fg);
 }
 
 .cta__dot {
@@ -39,13 +51,23 @@
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--cta-dot);
-  transition: background-color 0.35s;
+}
+.cta__layer--fill .cta__dot { background: var(--cta-fill-dot); }
+
+/* Interligne confortable : les jambages (p, j) ne sont pas coupés par le masque du texte qui remonte. */
+.cta__text { display: block; line-height: 1.35; }
+.cta__layer--fill .cta__text { overflow: clip; }
+
+/* Sans JavaScript ou en mouvement réduit : simple fondu de couleur (150 ms) au survol et au focus clavier. */
+.cta__layer--fill { opacity: 0; transition: opacity 0.15s; }
+html:not(.cta-anim) .cta:focus-visible .cta__layer--fill { opacity: 1; }
+@media (hover: hover) {
+  html:not(.cta-anim) .cta:hover .cta__layer--fill { opacity: 1; }
 }
 
-.cta:hover,
-.cta:focus-visible {
-  background: var(--cta-hover-bg);
-  color: var(--cta-hover-fg);
+/* Mouvement activé : le calque est entièrement masqué au repos, GSAP anime ensuite le clip-path. */
+html.cta-anim .cta__layer--fill {
+  opacity: 1;
+  clip-path: circle(0 at 0 50%);
+  transition: none;
 }
-.cta:hover .cta__dot,
-.cta:focus-visible .cta__dot { background: var(--cta-hover-dot); }

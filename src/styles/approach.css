@@ -13,15 +13,15 @@
   text-align: center;
 }
 
-.approach__photo,
+/* Le média est découpé et déplacé au scroll (clip-path) : le voile reste à part pour apparaître après la photo plein écran. */
+.approach__media { position: absolute; inset: 0; z-index: -2; }
+.approach__photo { width: 100%; height: 100%; object-fit: cover; }
 .approach__veil {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  z-index: -1;
+  background: var(--veil);
 }
-.approach__photo { z-index: -2; object-fit: cover; }
-.approach__veil { z-index: -1; background: var(--veil); }
 
 .approach__content {
   display: flex;

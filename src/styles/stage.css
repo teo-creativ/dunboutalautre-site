@@ -1,0 +1,55 @@
+/* Scène épinglée de l'accueil : hero, cercle orange et section orange superposés dans un seul écran (ANIMATIONS.md §3 à §5).
+   Sans la classe stage-anim (JavaScript absent, mouvement réduit), les sections restent empilées comme dans le flux normal. */
+
+/* Intro : les éléments sont masqués avant l'initialisation de GSAP, qui les reprend en main et retire la classe js. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .header__logo,
+  html.js .header__menu,
+  html.js .hero__leaves,
+  html.js .hero__tagline,
+  html.js .hero__title,
+  html.js .hero__inner .cta { opacity: 0; }
+}
+
+.hero-circle { display: none; }
+
+html.stage-anim .stage {
+  position: relative;
+  display: grid;
+  height: 100svh;
+  overflow: hidden; /* le cercle dépasse largement l'écran */
+}
+html.stage-anim .stage > .hero,
+html.stage-anim .stage > .experience {
+  grid-area: 1 / 1;
+  height: 100%;
+  min-height: 0;
+}
+html.stage-anim .stage > .hero { z-index: 1; }
+
+/* Cercle : sa taille est celle qui couvre l'écran depuis son centre final (50 %, 48 %). Il ne fait que grandir jusqu'à
+   scale(1), jamais au-delà : le bord reste net, il n'est jamais agrandi à partir d'une image plus petite. */
+html.stage-anim .hero-circle {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: calc(2 * hypot(50vw, 52svh) + 8px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--orange);
+  pointer-events: none;
+}
+
+html.stage-anim .stage > .experience {
+  z-index: 3;
+  display: grid;
+}
+html.stage-anim .experience > * {
+  grid-area: 1 / 1;
+  height: 100%;
+  min-height: 0;
+}
+html.stage-anim .experience__orange { z-index: 1; background: transparent; } /* le cercle fait le fond orange */
+html.stage-anim .approach { z-index: 2; pointer-events: none; }

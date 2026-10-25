@@ -6,12 +6,22 @@
   place-items: center;
   min-height: 100svh;
   padding: calc(var(--gutter) * 1.6) var(--gutter);
-  background: var(--olive) url("/assets/brand/bg-hero-leaves.svg") center / cover no-repeat;
+  background: var(--olive);
   color: var(--white);
   text-align: center;
 }
 
+/* Feuilles décoratives : le calque --bg s'estompe au scroll, --leaves apparaît à l'intro. Le SVG contient son fond olive. */
+.hero__bg { position: absolute; inset: 0; pointer-events: none; }
+.hero__leaves {
+  position: absolute;
+  inset: 0;
+  background: url("/assets/brand/bg-hero-leaves.svg") center / cover no-repeat;
+}
+
 .hero__inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;

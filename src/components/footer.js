@@ -6,7 +6,7 @@ import { wordmark } from "./logo.js";
 
 const nav = site.nav.map((item) => `<li><a href="${esc(href(item))}">${esc(item.label)}</a></li>`).join("\n              ");
 
-export default () => `<footer class="footer" id="footer" data-header-theme="dark">
+export default () => `<footer class="footer" id="footer">
       <div class="footer__main">
         <div class="footer__top">
           <h2 class="footer__title">Parlons de votre espace <span class="tag tag--orange tag--punct">ensemble</span>.</h2>

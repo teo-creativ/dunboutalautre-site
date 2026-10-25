@@ -9,7 +9,9 @@
     <!--@header-->
     <!--@menu current="/"-->
     <main id="main">
-      <section id="hero" class="hero" data-header-theme="dark">
+      <div class="stage" id="stage">
+      <section id="hero" class="hero">
+        <div class="hero__bg" aria-hidden="true"><div class="hero__leaves"></div></div>
         <div class="hero__inner">
           <ul class="hero__tagline">
             <li>PLANTES NATURELLES</li>
@@ -22,7 +24,9 @@
         </div>
       </section>
 
-      <section id="experience" class="experience" data-header-theme="dark">
+      <div class="hero-circle" aria-hidden="true"></div>
+
+      <section id="experience" class="experience">
         <div class="experience__orange">
           <div class="experience__content">
             <h2 class="experience__title">On crée de véritables expériences <span class="tag tag--cream tag--punct">végétales</span>.</h2>
@@ -37,7 +41,9 @@
         </div>
 
         <div class="approach">
-          <!--@img src="home-scroll/bw-lavande-tour-eiffel-large" alt="" sizes="100vw" class="approach__photo"-->
+          <div class="approach__media">
+            <!--@img src="home-scroll/bw-lavande-tour-eiffel-large" alt="" sizes="100vw" class="approach__photo" fetchpriority="low"-->
+          </div>
           <div class="approach__veil"></div>
           <div class="approach__content">
             <h2 class="label label--light label--lg"><span class="label__dot" aria-hidden="true"></span>NOTRE APPROCHE</h2>
@@ -45,6 +51,7 @@
           </div>
         </div>
       </section>
+      </div>
 
       <section id="services" class="services" data-header-theme="light" aria-labelledby="services-label">
         <h2 class="label" id="services-label"><span class="label__dot" aria-hidden="true"></span>SERVICES</h2>

@@ -1,0 +1,50 @@
+/* Références : même principe que la liste des services (nom, texte, filet), sur fond olive, et emplacement du témoignage. */
+.refs {
+  --focus: var(--cream);
+  --title-color: var(--cream);
+  padding: var(--pad-y) var(--section-x);
+  background: var(--olive);
+  color: var(--cream);
+}
+
+.refs__list { margin-top: 3.5vw; border-top: 1px solid var(--olive-line); }
+
+.ref {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  column-gap: 4vw;
+  align-items: start;
+  padding-block: 2.3vw;
+}
+.ref__rule {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: var(--olive-line);
+}
+.ref__name {
+  font-size: var(--fs-service);
+  font-weight: 300;
+  line-height: 1.2;
+}
+.ref__text { font-size: var(--fs-body); line-height: 1.65; }
+
+/* Témoignage : bloc en pointillés tant que la citation n'est pas fournie. */
+.refs__quote {
+  margin-top: 4vw;
+  padding: clamp(1.5rem, 2.6vw, 3.25rem);
+  border: 1px dashed var(--olive-line);
+  border-radius: var(--radius-card);
+}
+.refs__quote p { font-size: var(--fs-text-lg); font-weight: 300; line-height: 1.4; }
+.refs__quote figcaption { margin-top: 1.25rem; font-size: var(--fs-body); }
+
+@media (max-width: 900px) {
+  .refs__list { margin-top: 2rem; }
+  .ref { grid-template-columns: minmax(0, 1fr); row-gap: 0.75rem; padding-block: 1.5rem; }
+  .ref__name { font-size: 1.625rem; }
+  .refs__quote { margin-top: 2rem; }
+}

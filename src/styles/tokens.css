@@ -14,6 +14,7 @@
   /* Dérivés des tokens ci-dessus (pas de nouveau gris : voir docs/POINTS-A-VALIDER.md, lignes 21 et 22) */
   --olive-soft: color-mix(in srgb, var(--olive) 75%, transparent);
   --cream-soft: color-mix(in srgb, var(--cream) 60%, transparent);
+  --olive-tint: color-mix(in srgb, var(--olive) 9%, var(--cream));
   --veil: rgb(0 0 0 / 0.4);
   --shadow-card: 0 12px 40px color-mix(in srgb, var(--olive-deep) 10%, transparent);
 

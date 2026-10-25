@@ -6,13 +6,13 @@ import { ScrollTrigger } from "./core.js";
 const HEADER_CENTER = 55; // le trait de changement passe par le centre du header, à 1728 px de large
 
 let header;
-let button;
+let buttons; // bouton Menu, et CTA persistant de la landing Noël s'il existe
 let current = "dark";
 let locked = false;
 
 const apply = (theme) => {
   header.dataset.theme = theme;
-  button.dataset.variant = theme === "light" ? "on-cream" : "on-olive";
+  buttons.forEach((button) => { button.dataset.variant = theme === "light" ? "on-cream" : "on-olive"; });
 };
 
 // Le menu ouvert force le thème sombre (fond olive) sans perdre celui de la section en cours.
@@ -27,8 +27,8 @@ export const unlockHeaderTheme = () => {
 
 export function initHeaderTheme() {
   header = document.getElementById("header");
-  button = header?.querySelector(".header__menu");
-  if (!header || !button) return;
+  buttons = header ? [...header.querySelectorAll(".header__menu, .header__quote")] : [];
+  if (!header || !buttons.length) return;
 
   // Le thème se déduit de l'ensemble des sections claires actives : deux sections claires voisines ne font pas clignoter.
   const triggers = [...document.querySelectorAll('[data-header-theme="light"]')].map((section) =>

@@ -1,0 +1,79 @@
+/* « Comment ça se passe » : titre à gauche (collant), timeline verticale à droite. La ligne orange se dessine au scroll,
+   chaque étape apparaît quand la ligne atteint son point (src/scripts/process.js). Sans JavaScript, tout est visible. */
+.process {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  column-gap: 6vw;
+  padding: var(--pad-y) var(--section-x);
+  background: var(--cream);
+}
+.process__intro { position: sticky; top: 22vh; align-self: start; }
+.process .section-title { max-width: 30vw; }
+
+.process__timeline {
+  --pad: clamp(2.75rem, 5vw, 6rem);
+  --line-x: 0.5rem;
+  --dot: 14px;
+  --dot-y: calc(var(--fs-stat) / 2); /* centre du grand numéro : ligne de départ des points */
+  position: relative;
+  padding-left: var(--pad);
+  padding-top: 0.5rem;
+}
+
+/* top et bottom sont réajustés en JavaScript d'un point à l'autre ; ces valeurs valent sans lui. */
+.process__line {
+  position: absolute;
+  top: calc(var(--dot-y) + 0.5rem);
+  bottom: 0;
+  left: calc(var(--line-x) - 1px);
+  width: 2px;
+  background: var(--grey-line);
+}
+.process__line-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--orange);
+  transform-origin: top;
+}
+
+.process__steps { display: flex; flex-direction: column; gap: clamp(3.5rem, 7vw, 9rem); }
+
+.step { position: relative; }
+.step__dot {
+  position: absolute;
+  top: calc(var(--dot-y) - var(--dot) / 2);
+  left: calc(var(--line-x) - var(--pad) - var(--dot) / 2);
+  width: var(--dot);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 5px var(--cream); /* le point « coupe » la ligne */
+}
+
+.step__n {
+  font-size: var(--fs-stat);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--sand);
+}
+.step__title {
+  margin-top: 0.35em;
+  font-size: var(--fs-menu-sub);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--olive-deep);
+}
+.step__text {
+  max-width: 32em;
+  margin-top: 0.7em;
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  color: var(--olive);
+}
+
+@media (max-width: 900px) {
+  .process { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
+  .process__intro { position: static; }
+  .process .section-title { max-width: none; }
+  .process__timeline { --pad: 2.25rem; --line-x: 0.4rem; }
+}

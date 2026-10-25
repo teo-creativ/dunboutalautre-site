@@ -13,13 +13,13 @@ const link = (item, { sub = false, current } = {}) => {
   if (item.children) {
     return `<button class="${classes}" type="button" aria-expanded="false" aria-controls="menu-services" data-services-button>${body}</button>`;
   }
-  const isCurrent = !sub && item.live && item.path === current;
+  const isCurrent = item.live && item.path === current;
   return `<a class="${classes}" href="${esc(href(item))}"${isCurrent ? ' aria-current="page"' : ""}>${body}</a>`;
 };
 
 export default ({ current = "/" } = {}) => {
   const sublinks = site.menuServices
-    .map((s, i) => `<li style="--i: ${i}">${link(s, { sub: true })}</li>`)
+    .map((s, i) => `<li style="--i: ${i}">${link(s, { sub: true, current })}</li>`)
     .join("\n              ");
 
   const items = site.nav

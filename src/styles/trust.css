@@ -1,0 +1,49 @@
+/* Bandeau de confiance : logos clients en niveaux de gris sur fond blanc (les logos à fond blanc s'y fondent, sans mode de
+   fusion : un parent animé par transform isolerait la fusion). Statique par défaut ; src/scripts/marquee.js le fait défiler. */
+.trust {
+  --trust-gap: clamp(3rem, 7vw, 9rem);
+  background: var(--white);
+  border-bottom: 1px solid var(--grey-line);
+}
+
+.trust__viewport {
+  overflow: hidden;
+  padding-block: clamp(1.5rem, 2.4vw, 3rem);
+  mask-image: linear-gradient(90deg, transparent, black 7%, black 93%, transparent);
+}
+
+.trust__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem var(--trust-gap);
+  padding-inline: var(--gutter);
+}
+.trust__item { flex: none; display: flex; align-items: center; }
+
+.trust__logo { width: auto; max-width: none; filter: grayscale(1); opacity: 0.8; }
+.trust__logo--lg { height: clamp(3.5rem, 4.6vw, 5.75rem); }
+.trust__logo--sm { height: clamp(1.75rem, 2.4vw, 3rem); }
+/* Le logo de l'Hôtel Cluny Square a un texte blanc sur transparent : en silhouette, il reste lisible sur le fond blanc. */
+.trust__logo--silhouette { filter: brightness(0); opacity: 0.55; }
+
+/* Logo d'Eataly manquant : texte provisoire, avec la mention à compléter. */
+.trust__text {
+  font-size: var(--fs-service);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--olive-soft);
+}
+.trust__todo { margin-left: 0.8em; font-size: var(--fs-body); color: var(--olive); }
+
+/* Défilement : une piste de largeur maximale contient la rangée et ses copies (aria-hidden), déplacée par GSAP. */
+.trust--marquee .trust__track { display: flex; width: max-content; }
+.trust--marquee .trust__list {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: var(--trust-gap);
+  padding-inline: 0 var(--trust-gap); /* le vide de fin de rangée compte dans la largeur : la boucle est sans raccord */
+}

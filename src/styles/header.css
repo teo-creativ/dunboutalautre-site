@@ -24,3 +24,16 @@
   color: inherit;
 }
 .header__logo-svg { display: block; width: 100%; height: auto; }
+
+/* Boutons du côté droit : le CTA persistant de la landing Noël (.header__quote) à gauche du bouton Menu. */
+.header__actions { display: flex; align-items: center; gap: clamp(0.5rem, 1vw, 1.25rem); }
+.header__quote { transition: color 0.3s, opacity 0.3s; }
+/* Menu ouvert : seul « Fermer » reste en haut à droite. */
+.header:has(.header__menu[aria-expanded="true"]) .header__quote {
+  opacity: 0;
+  visibility: hidden;
+  transition: color 0.3s, opacity 0.3s, visibility 0s linear 0.3s;
+}
+@media (max-width: 700px) {
+  .header__quote { display: none; } /* le header n'a pas la place : le CTA du hero et celui de fin de page prennent le relais */
+}

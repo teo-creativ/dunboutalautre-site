@@ -1,5 +1,5 @@
 /* Chiffres clés : titre à gauche, trois cartes blanches qui se chevauchent à droite (frame services-rows-et-chiffres-cles).
-   Les rotations sont fixes ici ; elles s'ajusteront à l'entrée des cartes au prompt 07. */
+   Les rotations ci-dessous sont celles de repos : à l'entrée des cartes, GSAP part d'une rotation plus forte et y revient. */
 .stats {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 25.8vw;
@@ -58,4 +58,11 @@
   .stats__title { max-width: none; }
   .stat-card { padding: 1.5rem; }
   .stat-card__text { max-width: none; margin-top: 0.75rem; }
+}
+
+/* Section épinglée : elle occupe un écran, son contenu est centré verticalement (les cartes arrivent par le bas). */
+html.stats-anim .stats {
+  position: relative; /* offsetTop des cartes relatif à la section, pour calculer leur départ sous l'écran */
+  min-height: 100svh;
+  align-content: center;
 }

@@ -41,5 +41,5 @@
   --radius-card: 28px;
   --cta-h: clamp(2.75rem, 2.9vw, 3.5rem);          /* 50 px */
 
-  --footer-h: 100vh;
+  --footer-h: 100svh; /* hauteur du footer en révélation : un écran */
 }

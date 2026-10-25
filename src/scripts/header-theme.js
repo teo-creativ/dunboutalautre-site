@@ -35,7 +35,8 @@ export function initHeaderTheme() {
     ScrollTrigger.create({
       trigger: section,
       start: `top ${HEADER_CENTER}px`,
-      end: `bottom ${HEADER_CENTER}px`,
+      // Une section claire épinglée (data-pin-length, en px, posé par son propre pin) reste à l'écran pendant tout son pin.
+      end: () => `bottom+=${Number(section.dataset.pinLength) || 0} ${HEADER_CENTER}px`,
       // Calculé après les triggers épinglés, dont les espacements décalent les sections suivantes.
       refreshPriority: -1,
       onToggle: () => {

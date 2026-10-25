@@ -1,4 +1,16 @@
 // Source unique des données du site. Voir docs/POINTS-A-VALIDER.md pour les valeurs à confirmer.
+// Seules l'accueil et la landing Noël existent dans ce prototype. Les autres pages ont leur URL finale (`path`)
+// mais pas `live: true` : `href()` renvoie alors "#" pour ne pas casser la démo.
+
+const services = [
+  { n: "01", label: "Végétalisation de bureaux", path: "/vegetalisation-bureaux-paris", text: "Plantes, bacs, cloisons végétales, murs, espaces d'accueil… On installe le végétal là où vivent vos équipes." },
+  { n: "02", label: "Design végétal sur mesure", path: "/design-vegetal-sur-mesure-paris", text: "Tableaux, logos, murs végétaux, structures, suspensions… Des créations uniques, fabriquées pour votre espace." },
+  { n: "03", label: "Scénographie végétale", path: "/scenographie-vegetale-evenementiel-paris", text: "Lancements, soirées, salons, shootings. On transforme vos événements en décors végétaux sur mesure." },
+  { n: "04", label: "Terrasses", path: "/amenagement-terrasse-paris", text: "Du balcon parisien à la grande terrasse d'hôtel ou de restaurant : des extérieurs où l'on a envie de rester." },
+  { n: "05", label: "Décoration saisonnière", path: "/decoration-vegetale-saisonniere-paris", text: "Noël, printemps, événements internes, vitrines… Un décor qui change avec les saisons, sans rien gérer de votre côté." },
+  { n: "06", label: "Entretien & abonnements", path: "/entretien-abonnement-plantes-entreprise-paris", text: "Entretien, remplacement, renouvellement des décors. Vos plantes restent belles toute l'année." },
+];
+
 export const site = {
   name: "D'un Bout À L'autre",
   email: "hello@dunboutalautre.co",
@@ -7,24 +19,25 @@ export const site = {
   realisationsCount: 32, // provisoire, sera dynamique avec le CMS
   zone: "Paris & Île-de-France",
   nav: [
-    { label: "Accueil", href: "/" },
-    { label: "Services", href: "#", children: true },
-    { label: "Réalisations", href: "#", count: true },
-    { label: "Contact", href: "#" },
-    { label: "Blog", href: "#" },
+    { label: "Accueil", path: "/", live: true },
+    { label: "Services", children: true }, // parent sans page propre : ouvre la liste des services
+    { label: "Réalisations", path: "/realisations", count: true },
+    { label: "Contact", path: "/contact" },
+    { label: "Blog", path: "/blog" },
   ],
-  services: [
-    { n: "01", label: "Végétalisation de bureaux", href: "#" },
-    { n: "02", label: "Design végétal sur mesure", href: "#" },
-    { n: "03", label: "Scénographie végétale", href: "#" },
-    { n: "04", label: "Terrasses", href: "#" },
-    { n: "05", label: "Décoration saisonnière", href: "#" },
-    { n: "06", label: "Entretien & abonnements", href: "#" },
-    { n: "07", label: "Décors de Noël", href: "/decoration-noel-entreprises-paris/" },
+  // Lignes de la section Services de l'accueil (6).
+  services,
+  // Sous-liens du menu (7) : les 6 services puis la landing Noël.
+  menuServices: [
+    ...services,
+    { n: "07", label: "Décors de Noël", path: "/decoration-noel-entreprises-paris/", live: true },
   ],
+  // Valeurs de la maquette, à confirmer avec la cliente.
   stats: [
     { value: 70, prefix: "+", suffix: "", text: "projets réalisés à Paris et en Île-de-France" },
     { value: 10, prefix: "+", suffix: " ans", text: "d'expérience en végétalisation et en décoration végétale" },
     { value: 100, prefix: "", suffix: "%", text: "Entreprises, hôtels, restaurants, particuliers : tous types de clients accompagnés" },
   ],
 };
+
+export const href = (item) => (item.live ? item.path : "#");

@@ -1,0 +1,19 @@
+:root {
+  --olive: #5E530E;
+  --olive-deep: #4C430B;
+  --orange: #FC4C00;
+  --cream: #FEF1E0;
+  --white: #FFFFFF;
+  --sand: #C9BDA0;
+  --olive-line: #766C2F;
+  --blue: #B2D4E0;
+  --grey-line: #D2D2D2;
+
+  --font-sans: "Poppins", system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+
+  --gutter: clamp(24px, 3.95vw, 68px);
+  --radius-photo: 14px;
+  --radius-card: 28px;
+  --footer-h: 100vh;
+}

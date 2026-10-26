@@ -10,6 +10,11 @@
   --olive-line: #766C2F;
   --blue: #B2D4E0; /* réserve, non utilisé dans les maquettes actuelles */
   --grey-line: #D2D2D2;
+  --grey-label: #B7B7B7; /* labels de colonnes et textes secondaires du footer V2 sur olive : 3,85:1, sous l'AA en petit texte (POINTS-A-VALIDER 80) */
+
+  /* Dégradé de lisibilité sous le header (retours-v2/docs/01-CORRECTIFS-ACCUEIL.md §5) : même teinte que la section qui passe dessous. */
+  --header-grad-cream: var(--cream);
+  --header-grad-olive: var(--olive);
 
   /* Dérivés des tokens ci-dessus (pas de nouveau gris : voir docs/POINTS-A-VALIDER.md, lignes 21 et 22).
      Contrastes mesurés : --olive-soft 4,8:1 sur crème et 5,2:1 sur blanc (texte courant, AA) ; --olive-muted 3,5:1 sur crème,
@@ -43,6 +48,7 @@
   --section-y: clamp(64px, 5.8vw, 8rem);           /* 100 px */
   --radius-photo: 14px;
   --radius-card: 28px;
+  --radius-pill: 999px;                            /* title tags, CTA, pilules */
   --cta-h: clamp(2.75rem, 2.9vw, 3.5rem);          /* 50 px */
 
   --footer-h: 100svh; /* hauteur du footer en révélation : un écran */

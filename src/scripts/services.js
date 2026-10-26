@@ -11,7 +11,7 @@ export function initServices() {
     const label = section.querySelector(".label");
     const rows = [...section.querySelectorAll(".service-row")];
     const rules = rows.map((row) => row.querySelector(".service-row__rule"));
-    const texts = rows.flatMap((row) => [...row.querySelectorAll(".service-row__n, .service-row__title, .service-row__text")]);
+    const texts = rows.flatMap((row) => [...row.querySelectorAll(".service-row__title, .service-row__text")]);
 
     const tl = gsap
       .timeline({

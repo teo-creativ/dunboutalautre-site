@@ -1,5 +1,6 @@
-/* Liste des services (DESIGN.md §5.5, frames home-transition-3 et services-rows-et-chiffres-cles).
-   Au repos le numéro et le titre sont en olive-muted (3,5:1, AA pour 48 px) à la place du sand des frames (1,7:1, voir
+/* Liste des services (DESIGN.md §5.5, frames home-transition-3 et services-rows-et-chiffres-cles), sans numéros (retours-v2 01 §4) :
+   le titre est aligné à gauche sur la marge de la section, là où commençaient les numéros.
+   Au repos le titre est en olive-muted (3,5:1, AA pour 48 px) à la place du sand des frames (1,7:1, voir
    POINTS-A-VALIDER 21) ; au survol (ou au focus clavier) la ligne passe en olive-deep avec un soulignement orange. */
 .services {
   min-height: 100svh; /* recouvre entièrement la scène épinglée pendant la superposition */
@@ -11,7 +12,7 @@
 .service-row {
   position: relative;
   display: grid;
-  grid-template-columns: 9.6vw minmax(0, 1fr) 30.7vw;
+  grid-template-columns: minmax(0, 1fr) 30.7vw;
   align-items: center;
   padding-block: 2.3vw;
   color: var(--olive-muted);
@@ -29,13 +30,11 @@
   transition: background-color 0.35s;
 }
 
-.service-row__n,
 .service-row__title {
   font-size: var(--fs-service);
   font-weight: 300;
   line-height: 1;
 }
-.service-row__n { transition: color 0.35s; }
 
 .service-row__title {
   position: relative;
@@ -64,8 +63,6 @@
 
 .service-row:hover .service-row__rule,
 .service-row:focus-visible .service-row__rule { background: var(--olive-deep); }
-.service-row:hover .service-row__n,
-.service-row:focus-visible .service-row__n { color: var(--olive-deep); }
 .service-row:hover .service-row__title::after,
 .service-row:focus-visible .service-row__title::after { clip-path: inset(-20% -2% -20% 0); }
 
@@ -80,8 +77,6 @@
 
 @media (max-width: 900px) {
   .services .label { margin-bottom: 6vw; }
-  .service-row { grid-template-columns: 3.2rem minmax(0, 1fr); row-gap: 0.75rem; padding-block: 1.5rem; }
-  .service-row__n,
+  .service-row { grid-template-columns: minmax(0, 1fr); row-gap: 0.75rem; padding-block: 1.5rem; }
   .service-row__title { line-height: 1.15; }
-  .service-row__text { grid-column: 2; }
 }

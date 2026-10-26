@@ -79,9 +79,9 @@ Règles : l'orange n'est jamais utilisé en grand aplat en dehors de la section 
 `public/assets/brand/bg-hero-leaves.svg` (et `@2x.png`) : fond olive avec **4 feuilles décoratives** en contour (couleur `--olive-line`) découpées aux 4 coins. Le motif reprend la forme du « O » du logo. Pas d'autre décor.
 
 ### 5.5 Ligne de service (liste « SERVICES »)
-Ligne = `01` | titre | description courte, séparée par un filet fin.
-- Inactif : numéro et titre `--sand`, description `--sand`, filet `--grey-line`.
-- Actif (survol) : numéro, titre et description `--olive-deep` (opacité 100 %), filet du bas `--olive-deep` 1 px, **soulignement orange** (3 px) sous le titre, qui se dessine de gauche à droite.
+Ligne = titre | description courte, séparée par un filet fin (sans numéros, le titre est aligné à gauche sur la marge de la section).
+- Inactif : titre `--sand`, description `--sand`, filet `--grey-line`.
+- Actif (survol) : titre et description `--olive-deep` (opacité 100 %), filet du bas `--olive-deep` 1 px, **soulignement orange** (3 px) sous le titre, qui se dessine de gauche à droite.
 - Au repos, aucune ligne n'est survolée : toutes à une opacité intermédiaire (voir §ANIMATIONS 6).
 
 ### 5.6 Carte de chiffre clé

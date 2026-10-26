@@ -3,12 +3,12 @@
 // mais pas `live: true` : `href()` renvoie alors "#" pour ne pas casser la démo.
 
 const services = [
-  { n: "01", label: "Végétalisation de bureaux", path: "/vegetalisation-bureaux-paris", text: "Plantes, bacs, cloisons végétales, murs, espaces d'accueil… On installe le végétal là où vivent vos équipes." },
-  { n: "02", label: "Design végétal sur mesure", path: "/design-vegetal-sur-mesure-paris", text: "Tableaux, logos, murs végétaux, structures, suspensions… Des créations uniques, fabriquées pour votre espace." },
-  { n: "03", label: "Scénographie végétale", path: "/scenographie-vegetale-evenementiel-paris", text: "Lancements, soirées, salons, shootings. On transforme vos événements en décors végétaux sur mesure." },
-  { n: "04", label: "Terrasses", path: "/amenagement-terrasse-paris", text: "Du balcon parisien à la grande terrasse d'hôtel ou de restaurant : des extérieurs où l'on a envie de rester." },
-  { n: "05", label: "Décoration saisonnière", path: "/decoration-vegetale-saisonniere-paris", text: "Noël, printemps, événements internes, vitrines… Un décor qui change avec les saisons, sans rien gérer de votre côté." },
-  { n: "06", label: "Entretien & abonnements", path: "/entretien-abonnement-plantes-entreprise-paris", text: "Entretien, remplacement, renouvellement des décors. Vos plantes restent belles toute l'année." },
+  { label: "Végétalisation de bureaux", path: "/vegetalisation-bureaux-paris", text: "Plantes, bacs, cloisons végétales, murs, espaces d'accueil… On installe le végétal là où vivent vos équipes." },
+  { label: "Design végétal sur mesure", path: "/design-vegetal-sur-mesure-paris", text: "Tableaux, logos, murs végétaux, structures, suspensions… Des créations uniques, fabriquées pour votre espace." },
+  { label: "Scénographie végétale", path: "/scenographie-vegetale-evenementiel-paris", text: "Lancements, soirées, salons, shootings. On transforme vos événements en décors végétaux sur mesure." },
+  { label: "Terrasses", path: "/amenagement-terrasse-paris", text: "Du balcon parisien à la grande terrasse d'hôtel ou de restaurant : des extérieurs où l'on a envie de rester." },
+  { label: "Décoration saisonnière", path: "/decoration-vegetale-saisonniere-paris", text: "Noël, printemps, événements internes, vitrines… Un décor qui change avec les saisons, sans rien gérer de votre côté." },
+  { label: "Entretien & abonnements", path: "/entretien-abonnement-plantes-entreprise-paris", text: "Entretien, remplacement, renouvellement des décors. Vos plantes restent belles toute l'année." },
 ];
 
 const contact = { path: "/contact" };
@@ -34,7 +34,7 @@ export const site = {
   // Sous-liens du menu (7) : les 6 services puis la landing Noël.
   menuServices: [
     ...services,
-    { n: "07", label: "Décors de Noël", path: "/decoration-noel-entreprises-paris/", live: true },
+    { label: "Décors de Noël", path: "/decoration-noel-entreprises-paris/", live: true },
   ],
   // Valeurs de la maquette, à confirmer avec la cliente.
   stats: [

@@ -54,7 +54,7 @@ Règles : l'orange n'est jamais utilisé en grand aplat en dehors de la section 
 ## 5. Composants
 
 ### 5.1 Title tag (mot mis en avant)
-Pilule inclinée de **±2°**, padding `0.08em 0.5em`, **Playfair Display Italic** (taille = taille du titre), `display:inline-block`, léger décalage vertical de la ligne de base.
+**Vraie pilule** inclinée de **±2°** (`border-radius: var(--radius-pill)`, extrémités en demi-cercles, jamais un rectangle), **Playfair Display Italic** (taille = taille du titre), `display:inline-block`, padding `0.04em 0.5em 0.1em`, `line-height: 1.2`. Balisage unique (`src/components/tag.js`, `<!--@tag text="…" variant="orange"-->`) : `.tag > .tag__bg + .tag__text`. Le fond se dessine en `clip-path` avec rayon de pilule (`src/scripts/tag.js`), jamais en `scaleX`. Aucun espace entre le tag et la ponctuation qui suit, aucun parent en `overflow: hidden` (les masques de SplitText sont agrandis par `.split-word-mask` et `.split-line-mask`).
 - Variante **claire** : fond `--cream`, texte `--orange` (ex. « végétal », « végétales », « vous ressemble »).
 - Variante **orange** : fond `--orange`, texte `--cream` (ex. « scénographie », « on s'occupe de tout », « votre espace », « inoubliable »).
 - Rotation en alternance : claire `-2°`, orange `+2°`. Exemple hero : « Design [végétal] & [scénographie] pour les entreprises. »

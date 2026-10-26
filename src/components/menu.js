@@ -5,6 +5,7 @@
 import { site, href } from "../data/site.js";
 import { esc } from "./utils.js";
 import img from "./img.js";
+import { tag } from "./tag.js";
 
 const link = (item, { sub = false, current } = {}) => {
   const count = item.count ? `<span class="menu-link__count">(${site.realisationsCount})</span>` : "";
@@ -48,7 +49,7 @@ export default ({ current = "/" } = {}) => {
         </div>
         <div class="menu__col menu__col--aside">
           <div class="menu__panel menu__panel--default">
-            <p class="menu__title">Parlons de la transformation de <span class="tag tag--orange">votre espace</span> ensemble.</p>
+            <p class="menu__title">Parlons de la transformation de ${tag({ text: "votre espace", variant: "orange" })} ensemble.</p>
             <div class="menu__photo">${img({ src: "home-scroll/bw-lavande-tour-eiffel-large", alt: "", sizes: "(min-width: 900px) 42vw, 90vw", class: "menu__photo-img" })}</div>
             <p class="menu__label">CONTACT</p>
             <address class="menu__contact">

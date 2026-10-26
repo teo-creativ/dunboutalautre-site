@@ -26,12 +26,6 @@
 /* Assombrit encore la photo quand les services la recouvrent (le filtre brightness n'est pas animé : opacité seulement). */
 .approach__shade { opacity: 0; }
 
-/* Le masque de ligne de SplitText rogne ce qui dépasse : on l'agrandit pour les tags inclinés, sans changer la mise en page. */
-.approach__line-mask {
-  padding-block: 0.25em;
-  margin-block: -0.25em;
-}
-
 .approach__content {
   display: flex;
   flex-direction: column;

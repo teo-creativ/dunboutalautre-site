@@ -3,6 +3,7 @@
 import { gsap, SplitText, lenis, scrollTo } from "./core.js";
 import { setCtaLabel } from "./cta.js";
 import { lockHeaderTheme, unlockHeaderTheme } from "./header-theme.js";
+import { fillTag } from "./tag.js";
 
 const CLOSE_SPEED = 2.6; // fermeture d'environ 0,5 s pour une ouverture de 1,3 s (les easings expo sont très avancés tôt)
 const CLOSE_DELAY = 250; // ms avant de refermer la liste Services, pour éviter le clignotement en traversant l'écart
@@ -25,11 +26,11 @@ export function initMenu() {
   const buildFull = () => {
     const q = (selector) => menu.querySelectorAll(selector);
     const title = menu.querySelector(".menu__title");
-    const split = SplitText.create(title, { type: "words", mask: "words", ignore: ".tag", aria: "none" });
+    const split = SplitText.create(title, { type: "words", mask: "words", wordsClass: "split-word", ignore: ".tag", aria: "none" });
     const tag = title.querySelector(".tag");
     const links = q(".menu__links > .menu__item > .menu-link");
 
-    return gsap
+    const open = gsap
       .timeline({ paused: true, defaults: { ease: "expo.out" } })
       .set(menu, { autoAlpha: 1 }, 0)
       // Fond : fondu et balayage circulaire depuis le coin haut droit, sans coupure sèche.
@@ -41,7 +42,6 @@ export function initMenu() {
       .fromTo(q(".menu-link__count"), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 0.55)
       // Colonne de droite : titre mot à mot, tag qui se remplit, photo qui se dévoile, puis coordonnées.
       .fromTo(split.words, { yPercent: 110 }, { yPercent: 0, duration: 0.8, stagger: 0.045 }, 0.25)
-      .fromTo(tag, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "power3.out" }, 0.55)
       .fromTo(q(".menu__photo"), { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.9 }, 0.3)
       .fromTo(q(".menu__photo-img"), { scale: 1.15 }, { scale: 1, duration: 1.1 }, 0.3)
       .fromTo(
@@ -50,6 +50,8 @@ export function initMenu() {
         { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.06 },
         0.55,
       );
+    fillTag(open, tag, 0.55, { duration: 0.6 });
+    return open;
   };
 
   // Mouvement réduit : un simple fondu de 200 ms, sans balayage ni cascade.

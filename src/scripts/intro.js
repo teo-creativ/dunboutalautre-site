@@ -2,6 +2,7 @@
 // title tags qui apparaissent, CTA. Les éléments sont masqués en CSS (html.js) jusqu'à ce que GSAP les reprenne.
 // La landing Noël ajoute le sous-titre, le téléphone et la photo en arche, qui se dévoile de bas en haut.
 import { gsap, SplitText, reducedMotion } from "./core.js";
+import { clearTags, fillTag, hideTags } from "./tag.js";
 
 // Le CSS ne masque plus rien : le contenu est visible tel quel, sans animation.
 const endIntro = () => {
@@ -26,7 +27,7 @@ export function initIntro({ skip = false } = {}) {
   const photo = q(".hero__photo");
   const photoImg = photo?.querySelector("img");
   const cta = q(".hero__inner .cta");
-  const split = SplitText.create(title, { type: "words", mask: "words", ignore: ".tag", aria: "none" });
+  const split = SplitText.create(title, { type: "words", mask: "words", wordsClass: "split-word", ignore: ".tag", aria: "none" });
   const tags = title.querySelectorAll(".tag");
   // Rotation finale du tag, lue dans le CSS (--tag-rotate) : l'animation part de 0 et y revient exactement.
   const tagRotation = (_index, tag) => parseFloat(getComputedStyle(tag).getPropertyValue("--tag-rotate"));
@@ -40,7 +41,8 @@ export function initIntro({ skip = false } = {}) {
   if (rises.length) gsap.set(rises, { autoAlpha: 0, y: 20 }); // vide sur l'accueil : GSAP avertirait d'une cible absente
   gsap.set(split.words, { yPercent: 110 });
   gsap.set(title, { autoAlpha: 1 });
-  gsap.set(tags, { autoAlpha: 0, scale: 0.7, rotation: 0, clipPath: "inset(0% 100% 0% 0%)" });
+  gsap.set(tags, { autoAlpha: 0, scale: 0.7, rotation: 0 });
+  hideTags(tags);
   gsap.set(cta, { autoAlpha: 0, y: 24 });
   if (photo) {
     gsap.set(photo, { opacity: 1, clipPath: "inset(100% 0% 0% 0%)" });
@@ -52,19 +54,21 @@ export function initIntro({ skip = false } = {}) {
     .timeline({
       defaults: { ease: "expo.out" },
       // Les styles inline de l'intro sont retirés : le CSS reprend (rotation des tags, survol des CTA).
-      onComplete: () =>
+      onComplete: () => {
         gsap.set([...header, leaves, tagline, ...rises, split.words, title, tags, cta, photo].filter(Boolean), {
           clearProps: "opacity,visibility,transform,clipPath",
-        }),
+        });
+        clearTags(tags);
+      },
     })
     .to(header, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, 0)
     .to(leaves, { opacity: 1, duration: 1.6, ease: "power2.out" }, 0)
     .to(split.words, { yPercent: 0, duration: 1.1, stagger: 0.07 }, 0.2)
-    // Tag : le fond se dévoile de gauche à droite pendant qu'il s'incline et grossit avec un léger rebond.
+    // Tag : il s'incline et grossit avec un léger rebond pendant que son fond se dessine de gauche à droite (pilule).
     .to(tags, { autoAlpha: 1, scale: 1, rotation: tagRotation, duration: 0.7, ease: "back.out(1.6)", stagger: 0.12 }, 0.75)
-    .to(tags, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "power3.out", stagger: 0.12 }, 0.75)
     .to(cta, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, 1.1);
 
+  tags.forEach((tag, i) => fillTag(tl, tag, 0.75 + i * 0.12));
   if (tagline) tl.to(tagline, { autoAlpha: 1, duration: 0.8, ease: "power2.out" }, 0.1);
   if (lead) tl.to(lead, { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out" }, 0.9);
   if (phone) tl.to(phone, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, 1.3);

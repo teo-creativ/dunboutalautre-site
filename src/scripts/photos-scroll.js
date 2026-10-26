@@ -2,16 +2,18 @@
 // comme une carte jusqu'à devenir le fond de la section. Le voile et le texte qui suivent sont dans approach.js.
 // Positions et durées sont exprimées en unités de la timeline maîtresse (1 unité = 1 écran de scroll).
 import { SplitText } from "./core.js";
+import { fillTag } from "./tag.js";
 
 // Titre et CTA, révélés juste après la fin du cercle, comme dans l'intro.
 export function addOrangeText(tl, { stage, T }) {
   const title = stage.querySelector(".experience__title");
   const tag = title.querySelector(".tag");
   const cta = stage.querySelector(".experience__content .cta");
-  const split = SplitText.create(title, { type: "words", mask: "words", ignore: ".tag", aria: "none" });
+  const split = SplitText.create(title, { type: "words", mask: "words", wordsClass: "split-word", ignore: ".tag", aria: "none" });
 
-  tl.fromTo(split.words, { yPercent: 110 }, { yPercent: 0, duration: T.titleDur, ease: "power3.out", stagger: 0.04 }, T.title)
-    .fromTo(tag, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.25, ease: "power3.out" }, T.title + 0.2)
+  tl.fromTo(split.words, { yPercent: 110 }, { yPercent: 0, duration: T.titleDur, ease: "power3.out", stagger: 0.04 }, T.title);
+  fillTag(tl, tag, T.title + 0.2, { duration: 0.25 });
+  tl
     // Opacité seule : le CTA reste atteignable au clavier avant son entrée (stage.js amène alors le scroll jusqu'à lui).
     // Sans clic possible tant qu'il est invisible : il passerait sinon par-dessus le CTA du hero.
     .fromTo(cta, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.25, ease: "power3.out" }, T.cta)

@@ -70,7 +70,7 @@
 }
 
 .hero__title {
-  max-width: 74vw;
+  max-width: 78vw; /* la première ligne (« Design [végétal] & [scénographie] ») tient avec les pilules, à 74 vw environ */
   margin-top: 1.4vw;
   font-size: var(--fs-h1);
   font-weight: 400;

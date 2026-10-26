@@ -4,13 +4,14 @@ import { site, href } from "../data/site.js";
 import { cta } from "./cta.js";
 import { esc } from "./utils.js";
 import { wordmark } from "./logo.js";
+import { tag } from "./tag.js";
 
 const nav = site.nav.map((item) => `<li><a href="${esc(href(item))}">${esc(item.label)}</a></li>`).join("\n              ");
 
 export default () => `<footer class="footer" id="footer">
       <div class="footer__main">
         <div class="footer__top">
-          <h2 class="footer__title">Parlons de votre espace <span class="tag tag--orange tag--punct">ensemble</span>.</h2>
+          <h2 class="footer__title">Parlons de votre espace ${tag({ text: "ensemble", variant: "orange" })}.</h2>
           ${cta({ label: "Parlons de votre projet", variant: "on-olive" })}
         </div>
         <div class="footer__mid">

@@ -1,18 +1,40 @@
-/* Title tag : mot mis en avant dans un titre, pilule inclinée en Playfair Display italique (DESIGN.md §5.1). */
+/* Title tag : mot mis en avant dans un titre, vraie pilule inclinée en Playfair Display italique (DESIGN.md §5.1,
+   retours-v2 01 §2). Balisage : <span class="tag tag--orange"><span class="tag__bg"></span><span class="tag__text">…</span></span>
+   (components/tag.js). Le fond est un calque à part : il se dessine en clip-path avec rayon de pilule (src/scripts/tag.js),
+   jamais en scaleX, qui déformerait les demi-cercles. Aucune ponctuation ne se sépare du tag : <!--@tag-->. */
 .tag {
+  --tag-bg: var(--orange);
+  --tag-fg: var(--cream);
+  position: relative;
   display: inline-block;
-  padding: 0.08em 0.42em;
-  border-radius: 0.55em;
+  /* Le padding horizontal laisse passer les jambages et les hampes de l'italique (f, p, g, l) sans toucher le bord du fond. */
+  padding: 0.04em 0.5em 0.1em;
+  margin-inline: 0.12em;
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
-  line-height: normal;
+  line-height: 1.2;
   white-space: nowrap;
-  margin-inline: -0.06em;
+  vertical-align: baseline;
+  color: var(--tag-fg);
   transform: rotate(var(--tag-rotate, -2deg));
 }
-.tag--cream { background: var(--cream); color: var(--orange); --tag-rotate: -2deg; }
-.tag--orange { background: var(--orange); color: var(--cream); --tag-rotate: 2deg; }
+.tag--cream { --tag-bg: var(--cream); --tag-fg: var(--orange); --tag-rotate: -2deg; }
+.tag--orange { --tag-bg: var(--orange); --tag-fg: var(--cream); --tag-rotate: 2deg; }
 
-/* Tag suivi d'un point : la pilule inclinée déborde, on garde un peu d'air avant la ponctuation. */
-.tag--punct { margin-right: 0.3em; }
+.tag__bg {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  background: var(--tag-bg);
+}
+.tag__text { position: relative; display: inline-block; }
+
+/* Masques de SplitText (overflow: clip, posé en style inline) : ils épousent la boîte non tournée du mot, donc rognent les
+   coins d'un tag incliné. On les agrandit sans changer la mise en page (padding compensé par une marge négative). Les mots
+   partent de 110 % sous leur ligne : l'agrandissement n'en laisse rien voir avant l'entrée. */
+.split-word-mask,
+.split-line-mask {
+  padding: 0.25em 0.3em;
+  margin: -0.25em -0.3em;
+}

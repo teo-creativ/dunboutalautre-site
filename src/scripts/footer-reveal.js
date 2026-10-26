@@ -1,5 +1,7 @@
 // Footer en révélation (ANIMATIONS.md §8) : fixé derrière le contenu, qui se décolle en fin de page. Le contenu du footer
 // monte légèrement (parallaxe), le wordmark aussi. Si le footer ne tient pas dans un écran, ou en mobile, il reste statique.
+// --footer-h (marge basse du contenu) est la hauteur mesurée du footer : les tokens en donnent une valeur de départ (footer V2,
+// environ 32 vw), la mesure la corrige si les polices ou un petit écran changent sa hauteur.
 import { gsap, ScrollTrigger, lenis } from "./core.js";
 
 export function initFooterReveal() {
@@ -13,13 +15,14 @@ export function initFooterReveal() {
   mm.add("(min-width: 901px) and (prefers-reduced-motion: no-preference)", () => {
     let scope = null;
 
-    // Le footer a la hauteur d'un écran : on vérifie que son contenu y tient, sinon il resterait coupé et inaccessible.
-    const fits = () => footer.scrollHeight <= footer.clientHeight + 1;
+    // Le footer fixé ne défile pas : on vérifie qu'il tient dans l'écran, sinon il resterait coupé et inaccessible.
+    const fits = () => footer.offsetHeight <= window.innerHeight;
 
     const disable = () => {
       scope?.revert();
       scope = null;
       root.classList.remove("footer-reveal");
+      root.style.removeProperty("--footer-h");
     };
 
     const enable = () => {
@@ -28,6 +31,7 @@ export function initFooterReveal() {
         root.classList.remove("footer-reveal");
         return;
       }
+      root.style.setProperty("--footer-h", `${footer.offsetHeight}px`);
       scope = gsap.context(() => {
         gsap
           .timeline({
@@ -35,7 +39,9 @@ export function initFooterReveal() {
             scrollTrigger: {
               trigger: main,
               start: "bottom bottom", // le bas du contenu entre dans l'écran : le footer commence à se découvrir
-              end: "bottom top", // le bas du contenu sort par le haut : le footer est entièrement découvert
+              // Le footer est entièrement découvert en fin de page, quand le bas du contenu est à une hauteur de footer du bas de l'écran
+              // (le footer V2 est plus bas qu'un écran : le bas du contenu ne sort plus par le haut).
+              end: () => `bottom bottom-=${footer.offsetHeight}`,
               scrub: 0.6,
               invalidateOnRefresh: true,
               refreshPriority: -1, // après les pins : la hauteur du contenu les inclut

@@ -1,94 +1,143 @@
-/* Footer sur fond olive, wordmark géant rogné au bord inférieur (DESIGN.md §5.8). */
+/* Footer V2 (retours-v2 03, design footer-v2-design.png, canvas 1728 x 553). Fond olive, texte blanc. Deux zones : le bloc principal
+   (deux moitiés séparées par un filet vertical à 50 %), puis une barre basse séparée par un filet de 1 px. Mesures du PNG en vw (÷ 1728). */
 .footer {
   --focus: var(--cream);
+  --footer-x: clamp(24px, 3.47vw, 4.5rem); /* 60 px */
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 100svh;
-  padding: calc(var(--section-y) * 1.2) var(--gutter) 0;
-  overflow: hidden;
+  min-height: var(--footer-min);
   background: var(--olive);
-  color: var(--cream);
-}
-
-.footer__top {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 4vw;
-  padding-bottom: 3vw;
-  border-bottom: 1px solid var(--olive-line);
-}
-.footer__title {
-  max-width: 48vw;
-  font-size: var(--fs-h2);
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.footer__mid {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 4vw;
-  padding-block: 3vw;
-}
-.footer__contact {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4em;
-  font-size: var(--fs-menu-sub);
+  color: var(--white);
   font-weight: 300;
-  line-height: 1.3;
 }
-.footer__nav ul {
+
+/* Le bloc principal est découpé en haut : pendant la révélation, son contenu (.footer__main) remonte de quelques pour cent
+   sans déborder. Le filet vertical reste fixe, c'est lui qui joint le filet horizontal de la barre basse. */
+.footer__top {
+  position: relative;
+  display: grid;
+  flex: 1;
+  overflow: clip;
+}
+.footer__top::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 50%;
+  width: 1px;
+  background: var(--olive-line);
+}
+
+.footer__main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  min-height: var(--footer-main-h);
+}
+
+/* Moitié gauche : titre et CTA en haut, wordmark en bas. */
+.footer__intro { grid-area: 1 / 1; padding: 3.9vw var(--footer-x) 0; }
+.footer__title {
+  max-width: 43vw;
+  font-size: var(--fs-text-lg); /* 48 px : « Parlons de » fait 246 px sur le design */
+  font-weight: 300;
+  line-height: 1.25; /* pas de 60 px entre les deux lignes */
+}
+/* La pilule est plus haute que l'interligne : on rogne sa marge pour garder le pas de 60 px du design. */
+.footer__title .tag { margin-block: -0.14em; }
+.footer__intro .cta { margin-top: 2.28vw; }
+
+.footer__wordmark { grid-area: 2 / 1; align-self: end; padding: 0 var(--footer-x) 2.25vw; }
+.footer__wordmark-svg { display: block; width: clamp(11.9rem, 22vw, 28rem); height: auto; } /* 380 px de boîte, 366 px d'encre sur le design */
+
+/* Moitié droite : trois colonnes alignées en haut (x = 918, 1263 et 1517 sur 1728). */
+.footer__cols {
+  grid-area: 1 / 2 / 3 / 3;
+  display: grid;
+  grid-template-columns: 19.97vw 14.7vw auto;
+  justify-content: start;
+  align-content: start;
+  padding: 3.5vw var(--footer-x) 2vw 3.125vw;
+}
+.footer__label {
+  margin-bottom: 1.2em;
+  font-size: var(--fs-label);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.06em; /* SERVICES fait 94 px sur le design */
+  text-transform: uppercase;
+  color: var(--grey-label);
+}
+.footer__col ul {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5em;
-  font-size: var(--fs-cta);
+  align-items: flex-start;
+  gap: 1.05em; /* pas de 45 px entre deux liens à 20 px */
+  font-size: var(--fs-label);
+  line-height: 1.2;
 }
 
-.footer__bottom {
+/* Lien : blanc au repos, soulignement orange fin qui se dessine de gauche à droite au survol et au focus, et se retire vers la
+   droite en partant (même geste que dans le menu, version de 2 px). */
+.footer__link {
+  position: relative;
+  display: inline-block;
+}
+.footer__link::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -0.18em;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.footer__link:hover::after,
+.footer__link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.footer__link--social { display: inline-flex; align-items: center; gap: 0.4em; }
+.footer__icon { flex: none; width: 0.8em; height: 0.8em; }
+
+/* Barre basse : 51 px, filet en haut, textes de 16 px en gris. */
+.footer__bar {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  padding-bottom: 2.5vw;
-  font-size: var(--fs-body);
+  gap: 1.5rem;
+  height: var(--footer-bar-h);
+  padding-inline: var(--footer-x);
+  border-top: 1px solid var(--olive-line);
+  font-size: clamp(0.8125rem, 0.93vw, 1.1rem);
+  line-height: 1.2;
+  color: var(--grey-label);
 }
+.footer__legal { display: flex; gap: 1.16vw; }
+.footer__bar .footer__link { transition: color 0.35s; }
+.footer__bar .footer__link:hover,
+.footer__bar .footer__link:focus-visible { color: var(--white); }
 
-.footer a {
-  text-decoration: underline 2px transparent;
-  text-underline-offset: 0.25em;
-  transition: text-decoration-color 0.35s;
-}
-.footer a:hover,
-.footer a:focus-visible { text-decoration-color: var(--orange); }
-.footer .cta { text-decoration: none; }
-
-/* Wordmark pleine largeur, rogné sous la ligne de base : on garde le haut du SVG pour l'accent du « À ». */
-.footer__wordmark {
-  margin-inline: calc(var(--gutter) * -1);
-  padding-inline: var(--gutter);
-  aspect-ratio: 936 / 70;
-  overflow: hidden;
-}
-.footer__wordmark-svg { display: block; width: 100%; height: auto; }
-
+/* Mobile : une colonne (titre, CTA, les trois listes, wordmark), pas de filet vertical, barre basse sur deux lignes. */
 @media (max-width: 900px) {
-  .footer { padding-top: var(--section-y); }
-  .footer__top,
-  .footer__mid { flex-direction: column; align-items: flex-start; }
-  .footer__title { max-width: none; }
-  .footer__top { gap: 2rem; padding-bottom: 2rem; }
-  .footer__mid { gap: 2rem; padding-block: 2rem; }
-  .footer__nav ul { align-items: flex-start; }
-  .footer__bottom { flex-direction: column; gap: 0.5rem; padding-bottom: 2rem; }
+  .footer__top::before { display: none; }
+  .footer__main { display: block; min-height: 0; padding: 3.5rem var(--footer-x) 2.5rem; }
+  .footer__intro { padding: 0; }
+  .footer__title { max-width: none; font-size: clamp(1.75rem, 7.4vw, 2.5rem); }
+  .footer__intro .cta { margin-top: 1.75rem; }
+  .footer__cols { display: flex; flex-direction: column; gap: 2.25rem; padding: 2.75rem 0 0; }
+  .footer__label { font-size: 0.875rem; }
+  .footer__col ul { font-size: 1.125rem; gap: 0.9em; }
+  .footer__wordmark { padding: 3rem 0 0; }
+  .footer__wordmark-svg { width: min(100%, 15rem); }
+  .footer__bar { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0.5rem; height: auto; padding-block: 1.25rem; font-size: 0.875rem; }
+  .footer__legal { flex-wrap: wrap; gap: 0.25rem 1.25rem; }
 }
 
 /* Révélation (ANIMATIONS.md §8) : le footer est fixé derrière le contenu, qui se décolle pour le dévoiler. Il reste dans le DOM
-   et dans l'ordre de tabulation. La classe est posée par src/scripts/footer-reveal.js seulement si le footer tient dans un écran. */
+   et dans l'ordre de tabulation. La classe est posée par src/scripts/footer-reveal.js seulement si le footer tient dans un écran.
+   --footer-h : hauteur du footer, donnée par les tokens puis remplacée par la hauteur mesurée (footer-reveal.js). */
 html.footer-reveal main {
   position: relative;
   z-index: 2;
@@ -99,6 +148,4 @@ html.footer-reveal .footer {
   position: fixed;
   inset: auto 0 0;
   z-index: 1;
-  height: var(--footer-h);
-  min-height: 0;
 }

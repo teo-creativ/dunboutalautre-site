@@ -16,10 +16,20 @@ const contact = { path: "/contact" };
 export const site = {
   name: "D'un Bout À L'autre",
   contact,
-  copyright: "© 2026 D'un bout à l'autre",
+  copyright: "© 2026 D'un bout à l'autre, Tous droits réservés",
   email: "hello@dunboutalautre.co",
   phone: { display: "+33 6 03 34 23 12", href: "tel:+33603342312" }, // à confirmer (copywriting : 07 70 44 77 59)
   instagram: { label: "@dunboutalautre.co", href: "https://www.instagram.com/dunboutalautre.co" },
+  // Colonne RÉSEAUX du footer. Facebook : URL à confirmer (docs/POINTS-A-VALIDER.md, ligne 74).
+  social: [
+    { label: "Instagram", href: "https://www.instagram.com/dunboutalautre.co", icon: "instagram" },
+    { label: "Facebook", href: "#", icon: "facebook" },
+  ],
+  // Barre basse du footer : pages légales pas encore créées (href() renvoie « # » tant qu'elles ne sont pas live).
+  legal: [
+    { label: "Mentions légales", path: "/mentions-legales" },
+    { label: "Politique de confidentialité", path: "/politique-de-confidentialite" },
+  ],
   realisationsCount: 32, // provisoire, sera dynamique avec le CMS
   zone: "Paris & Île-de-France",
   nav: [

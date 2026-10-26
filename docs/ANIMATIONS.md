@@ -77,8 +77,8 @@ Frames : `home-transition-1` à `3`, `references/menu/services-rows-et-chiffres-
 ## 8. Footer en « révélation » (sous-position)
 
 - Principe : la section « Chiffres clés » est **au-dessus** du footer et **se décolle** pour le dévoiler.
-- Structure : `main { position: relative; z-index: 2; background: var(--cream); margin-bottom: var(--footer-h); }` ; `footer { position: fixed; inset: auto 0 0 0; height: var(--footer-h); z-index: 1; }`. `--footer-h` est mesuré en JS (resize inclus).
-- Pendant le scroll final : le contenu du footer a un léger **parallaxe** (`yPercent: -20 → 0`) et `opacity .6 → 1`, le wordmark géant monte de 8 à 0 %.
+- Structure : `main { position: relative; z-index: 2; background: var(--cream); margin-bottom: var(--footer-h); }` ; `footer { position: fixed; inset: auto 0 0 0; z-index: 1; }` (hauteur naturelle). `--footer-h` est la hauteur mesurée du footer (resize inclus), avec une valeur de départ dans `tokens.css`.
+- Pendant le scroll final : le contenu du footer a un léger **parallaxe** (`yPercent: -20 → 0`) et `opacity .6 → 1`, le wordmark monte de 8 à 0 %. Le footer V2 (553 px à 1728) est plus bas qu'un écran : la révélation va de « le bas du contenu entre dans l'écran » à « le bas du contenu est à une hauteur de footer du bas de l'écran », soit la fin de la page (V1 : le footer avait la hauteur de l'écran et la fin était « le bas du contenu sort par le haut »).
 - Le footer doit rester accessible au clavier et aux lecteurs d'écran (ne pas le masquer avec `display: none`).
 - Attention : sur la landing Noël, réutiliser le même composant.
 

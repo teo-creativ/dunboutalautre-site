@@ -54,7 +54,7 @@
   font-size: var(--fs-stat);
   font-weight: 300;
   line-height: 1;
-  color: var(--sand);
+  color: var(--olive-muted); /* 3,5:1 sur crème : grand chiffre décoratif (le sand des frames n'atteignait que 1,7:1) */
 }
 .step__title {
   margin-top: 0.35em;

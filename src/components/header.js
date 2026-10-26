@@ -6,7 +6,8 @@ import { cta } from "./cta.js";
 import { esc } from "./utils.js";
 import { wordmark } from "./logo.js";
 
-export default ({ quote } = {}) => `<header class="header" id="header" data-theme="dark">
+export default ({ quote } = {}) => `<a class="skip-link" href="#main">Aller au contenu</a>
+    <header class="header" id="header" data-theme="dark">
       <a class="header__logo" href="/" aria-label="${esc(site.name)}, accueil">${wordmark("header__logo-svg")}</a>
       <div class="header__actions">
         ${quote ? `${cta({ label: quote, className: "header__quote" })}\n        ` : ""}${cta({ label: "Menu", tag: "button", className: "header__menu", attrs: 'aria-expanded="false" aria-controls="menu"' })}

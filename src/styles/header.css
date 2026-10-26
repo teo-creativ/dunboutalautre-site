@@ -37,3 +37,22 @@
 @media (max-width: 700px) {
   .header__quote { display: none; } /* le header n'a pas la place : le CTA du hero et celui de fin de page prennent le relais */
 }
+
+/* Lien d'évitement : hors écran jusqu'au focus clavier, puis une pilule au-dessus du header (premier élément de la page). */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  z-index: 100;
+  padding: 0.7em 1.4em;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--olive-deep);
+  font-size: var(--fs-cta);
+  line-height: 1.2;
+  transform: translate(-50%, -250%);
+}
+.skip-link:focus-visible {
+  transform: translate(-50%, 0);
+  outline-color: var(--cream);
+}

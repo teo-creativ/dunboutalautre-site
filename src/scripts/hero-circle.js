@@ -5,6 +5,7 @@
 export function addCircle(tl, { stage, T }) {
   const circle = stage.querySelector(".hero-circle");
   const content = stage.querySelector(".hero__inner");
+  const cta = content.querySelector(".cta");
   const leaves = stage.querySelector(".hero__bg");
   const width = () => stage.clientWidth;
   const height = () => stage.clientHeight;
@@ -17,6 +18,9 @@ export function addCircle(tl, { stage, T }) {
     { scale: 1, x: () => width() * 0.5 - radius(), y: () => height() * 0.48 - radius(), duration: T.circle, ease: "power2.in" },
     0,
   )
-    .to(content, { autoAlpha: 0, y: -40, scale: 0.96, duration: T.heroFade, ease: "power1.out" }, 0)
+    // Opacité seule : le titre reste dans l'arbre d'accessibilité (navigation par titres) une fois le hero quitté.
+    // Seul le CTA, qu'on pourrait encore focaliser ou cliquer, disparaît pour de bon.
+    .to(content, { opacity: 0, y: -40, scale: 0.96, duration: T.heroFade, ease: "power1.out" }, 0)
+    .set(cta, { visibility: "hidden" }, T.heroFade)
     .to(leaves, { opacity: 0, duration: T.leavesFade, ease: "none" }, 0);
 }

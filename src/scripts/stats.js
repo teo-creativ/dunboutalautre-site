@@ -58,8 +58,8 @@ export function initStats() {
       // Titre : mots depuis un masque, puis le tag « inoubliable » qui se remplit.
       const title = section.querySelector(".stats__title");
       const tag = title.querySelector(".tag");
-      const split = SplitText.create(title, { type: "words", mask: "words", ignore: ".tag" });
-      tl.fromTo(section.querySelector(".stats__intro .label"), { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.15, ease: "power2.out" }, T.title)
+      const split = SplitText.create(title, { type: "words", mask: "words", ignore: ".tag", aria: "none" });
+      tl.fromTo(section.querySelector(".stats__intro .label"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, T.title)
         .fromTo(split.words, { yPercent: 110 }, { yPercent: 0, duration: T.titleDur, ease: "power3.out", stagger: 0.04 }, T.title)
         .fromTo(tag, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.2, ease: "power3.out" }, T.title + T.titleDur * 0.6);
 

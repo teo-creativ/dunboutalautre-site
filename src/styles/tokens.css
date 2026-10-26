@@ -11,11 +11,14 @@
   --blue: #B2D4E0; /* réserve, non utilisé dans les maquettes actuelles */
   --grey-line: #D2D2D2;
 
-  /* Dérivés des tokens ci-dessus (pas de nouveau gris : voir docs/POINTS-A-VALIDER.md, lignes 21 et 22) */
-  --olive-soft: color-mix(in srgb, var(--olive) 75%, transparent);
-  --cream-soft: color-mix(in srgb, var(--cream) 60%, transparent);
+  /* Dérivés des tokens ci-dessus (pas de nouveau gris : voir docs/POINTS-A-VALIDER.md, lignes 21 et 22).
+     Contrastes mesurés : --olive-soft 4,8:1 sur crème et 5,2:1 sur blanc (texte courant, AA) ; --olive-muted 3,5:1 sur crème,
+     réservé aux grands textes (24 px et plus). */
+  --olive-soft: color-mix(in srgb, var(--olive) 85%, transparent);
+  --olive-muted: color-mix(in srgb, var(--olive) 70%, var(--cream));
+  --cream-soft: color-mix(in srgb, var(--cream) 75%, transparent); /* 4,7:1 sur olive : labels du menu (16 px en mobile) */
   --olive-tint: color-mix(in srgb, var(--olive) 9%, var(--cream));
-  --veil: rgb(0 0 0 / 0.4);
+  --veil: rgb(0 0 0 / 0.45); /* voile de la photo « Notre approche » : 0,4 mesuré sur les frames, 0,45 (spec) pour tenir 3:1 sous le pixel le plus clair */
   --shadow-card: 0 12px 40px color-mix(in srgb, var(--olive-deep) 10%, transparent);
 
   /* Typographie */

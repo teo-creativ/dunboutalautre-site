@@ -18,11 +18,12 @@ export function initServices() {
         paused: true,
         defaults: { ease: "power3.out" },
         // Les styles inline sont retirés une fois la cascade finie : le survol (opacité des descriptions) reprend la main en CSS.
-        onComplete: () => gsap.set(texts, { clearProps: "opacity,visibility,transform" }),
+        // Opacité seule avant l'entrée : un lien invisible reste dans l'arbre d'accessibilité et au clavier.
+        onComplete: () => gsap.set(texts, { clearProps: "opacity,transform" }),
       })
-      .fromTo(label, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0)
+      .fromTo(label, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6 }, 0)
       .fromTo(rules, { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power3.inOut", stagger: 0.08 }, 0.05)
-      .fromTo(texts, { autoAlpha: 0, y: 28 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.025 }, 0.1);
+      .fromTo(texts, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.025 }, 0.1);
 
     // end: "max" : si on saute au-delà de la section, la cascade est quand même jouée.
     ScrollTrigger.create({

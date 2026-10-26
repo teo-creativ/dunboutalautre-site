@@ -21,8 +21,8 @@ export function addApproach(tl, { stage, T }) {
   tl.fromTo(stage.querySelector(".approach__veil"), { opacity: 0 }, { opacity: 1, duration: T.veilDur, ease: "none" }, T.veil);
 
   // Texte : les lignes montent une à une sous leur masque, les mots passent de 25 % à 100 % d'opacité (effet de lecture).
-  const split = SplitText.create(text, { type: "lines,words", mask: "lines", linesClass: "approach__line", ignore: ".tag" });
-  tl.fromTo(label, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.15, ease: "power2.out" }, T.text)
+  const split = SplitText.create(text, { type: "lines,words", mask: "lines", linesClass: "approach__line", ignore: ".tag", aria: "none" });
+  tl.fromTo(label, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, T.text)
     .fromTo(split.lines, { yPercent: 105 }, { yPercent: 0, duration: 0.3, ease: "power3.out", stagger: 0.1 }, T.text + 0.05)
     .fromTo(split.words, { opacity: 0.25 }, { opacity: 1, duration: 0.25, ease: "none", stagger: 0.009 }, T.text + 0.15);
 
@@ -39,7 +39,8 @@ export function addApproach(tl, { stage, T }) {
 
   // Superposition : la section est épinglée en arrière-plan, les services remontent par-dessus (marge négative en CSS).
   const overlap = T.total - T.overlap;
-  tl.to(content, { autoAlpha: 0, scale: 0.92, duration: T.overlap * 0.8, ease: "power1.in" }, overlap)
+  // Opacité seule : le texte reste dans l'arbre d'accessibilité une fois recouvert par les services.
+  tl.to(content, { opacity: 0, scale: 0.92, duration: T.overlap * 0.8, ease: "power1.in" }, overlap)
     .fromTo(stage.querySelector(".approach__shade"), { opacity: 0 }, { opacity: 1, duration: T.overlap, ease: "none" }, overlap)
     .to(stage.querySelector(".approach__media img"), { yPercent: -8, duration: T.overlap, ease: "none" }, overlap);
 }

@@ -3,6 +3,8 @@
 // - [data-reveal="title"] : titre seul, même révélation.
 // - [data-reveal="up"] : élément qui monte en fondu ; ceux qui entrent ensemble arrivent en cascade.
 // Les états de départ sont aussi posés en CSS (html.js, noel.css) : aucun flash avant l'initialisation.
+// Opacité seule (jamais visibility) : un contenu pas encore révélé reste dans l'arbre d'accessibilité et atteignable au clavier,
+// le navigateur le fait défiler dans l'écran, ce qui déclenche sa révélation.
 import { gsap, ScrollTrigger, SplitText } from "./core.js";
 
 export function initReveal() {
@@ -16,16 +18,16 @@ export function initReveal() {
       const isHead = el.dataset.reveal === "head";
       const title = isHead ? el.querySelector(".section-title") : el;
       const label = isHead ? el.querySelector(".label") : null;
-      const split = SplitText.create(title, { type: "words", mask: "words", ignore: ".tag" });
+      const split = SplitText.create(title, { type: "words", mask: "words", ignore: ".tag", aria: "none" });
       const tags = title.querySelectorAll(".tag");
 
       gsap.set(split.words, { yPercent: 110 });
       gsap.set(tags, { clipPath: "inset(0% 100% 0% 0%)" });
-      gsap.set(title, { autoAlpha: 1 });
+      gsap.set(title, { opacity: 1 });
       const tl = gsap.timeline({ paused: true, defaults: { ease: "expo.out" } });
       if (label) {
-        gsap.set(label, { autoAlpha: 0, y: 12 });
-        tl.to(label, { autoAlpha: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0);
+        gsap.set(label, { opacity: 0, y: 12 });
+        tl.to(label, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0);
       }
       tl.to(split.words, { yPercent: 0, duration: 1.1, stagger: 0.06 }, 0.1).to(
         tags,
@@ -43,13 +45,21 @@ export function initReveal() {
     });
 
     if (items.length) {
-      gsap.set(items, { autoAlpha: 0, y: 36 });
+      gsap.set(items, { opacity: 0, y: 36 });
       ScrollTrigger.batch(items, {
         start: "top 90%",
         end: "max",
-        onEnter: (batch) => gsap.to(batch, { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: 0.12, overwrite: true }),
-        onLeaveBack: (batch) => gsap.to(batch, { autoAlpha: 0, y: 36, duration: 0.4, ease: "power2.in", overwrite: true }),
+        // Décalage plafonné : après un saut (ancre, focus clavier), un grand lot ne met pas plus d'une demi-seconde à se révéler.
+        onEnter: (batch) =>
+          gsap.to(batch, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: (i) => Math.min(i * 0.12, 0.5), overwrite: true }),
+        onLeaveBack: (batch) => gsap.to(batch, { opacity: 0, y: 36, duration: 0.4, ease: "power2.in", overwrite: true }),
       });
+
+      // Clavier : au bord bas de l'écran, un élément focalisé n'a pas encore franchi le seuil de révélation. Il apparaît
+      // aussitôt : le focus ne doit jamais se trouver sur un élément invisible.
+      const reveal = (e) => gsap.to(e.currentTarget, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", overwrite: "auto" });
+      items.forEach((item) => item.addEventListener("focusin", reveal));
+      return () => items.forEach((item) => item.removeEventListener("focusin", reveal));
     }
   });
 }

@@ -1,5 +1,6 @@
 /* Liste des services (DESIGN.md §5.5, frames home-transition-3 et services-rows-et-chiffres-cles).
-   Au repos tout est en sand ; au survol (ou au focus clavier) la ligne passe en olive-deep avec un soulignement orange. */
+   Au repos le numéro et le titre sont en olive-muted (3,5:1, AA pour 48 px) à la place du sand des frames (1,7:1, voir
+   POINTS-A-VALIDER 21) ; au survol (ou au focus clavier) la ligne passe en olive-deep avec un soulignement orange. */
 .services {
   min-height: 100svh; /* recouvre entièrement la scène épinglée pendant la superposition */
   padding: var(--section-y) var(--section-x);
@@ -13,7 +14,7 @@
   grid-template-columns: 9.6vw minmax(0, 1fr) 30.7vw;
   align-items: center;
   padding-block: 2.3vw;
-  color: var(--sand);
+  color: var(--olive-muted);
 }
 
 /* Filet de séparation : un vrai élément, pour que son échelle puisse être animée à l'entrée de la section. */

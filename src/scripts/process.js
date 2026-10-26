@@ -49,7 +49,7 @@ export function initProcess() {
     steps.forEach((step) => {
       const tl = gsap
         .timeline({ paused: true, defaults: { ease: "power3.out" } })
-        .fromTo(step.querySelector(".step__body"), { autoAlpha: 0, y: 36 }, { autoAlpha: 1, y: 0, duration: 0.9 }, 0)
+        .fromTo(step.querySelector(".step__body"), { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.9 }, 0)
         .fromTo(step.querySelector(".step__dot"), { scale: 0 }, { scale: 1, duration: 0.6, ease: "back.out(2.4)" }, 0);
 
       ScrollTrigger.create({

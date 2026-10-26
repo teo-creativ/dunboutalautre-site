@@ -1,5 +1,5 @@
-/* Section orange : titre, CTA et photos flottantes. Positions de départ calées sur la frame home-animation-04 ;
-   les photos traverseront l'écran au prompt 05. Le texte passe au-dessus des cartes (frame 06). */
+/* Section orange : titre, CTA et photos flottantes. Positions de repos calées sur la frame home-animation-04 ; les photos
+   traversent l'écran en perspective (photos-scroll.js). Le texte passe au-dessus des cartes (frame 06). */
 .experience { position: relative; }
 
 .experience__orange {

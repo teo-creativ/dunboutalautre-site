@@ -1,4 +1,5 @@
-// Footer sur fond olive. Le comportement « révélation » (position fixe, parallaxe) est ajouté au prompt 07.
+// Footer sur fond olive. En desktop il est fixé derrière le contenu, qui se décolle pour le révéler (footer-reveal.js ; la classe
+// footer-reveal est posée dès le <head>, voir components/head.js).
 import { site, href } from "../data/site.js";
 import { cta } from "./cta.js";
 import { esc } from "./utils.js";

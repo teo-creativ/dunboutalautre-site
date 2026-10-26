@@ -19,6 +19,29 @@
   background: url("/assets/brand/bg-hero-leaves.svg") center / cover no-repeat;
 }
 
+/* Portrait : le fond paysage serait rogné au centre et les feuilles disparaîtraient (POINTS-A-VALIDER 31). Les 4 feuilles des
+   coins sont redessinées avec leaf.svg en masque : coin carré vers le centre, bout arrondi vers l'angle de l'écran.
+   Quatre pseudo-éléments (.hero__leaves et son span) : l'intro et le fondu au scroll les pilotent comme le fond desktop. */
+@media (max-width: 900px) {
+  .hero__leaves { background: none; }
+  .hero__leaves::before,
+  .hero__leaves::after,
+  .hero__leaves > span::before,
+  .hero__leaves > span::after {
+    content: "";
+    position: absolute;
+    width: 42vw;
+    aspect-ratio: 64 / 68;
+    background: var(--olive-line);
+    -webkit-mask: url("/assets/brand/leaf.svg") center / contain no-repeat;
+    mask: url("/assets/brand/leaf.svg") center / contain no-repeat;
+  }
+  .hero__leaves::before { top: -10vw; left: -10vw; transform: rotate(90deg); }
+  .hero__leaves::after { top: -10vw; right: -10vw; transform: rotate(180deg); }
+  .hero__leaves > span::before { bottom: -10vw; left: -10vw; }
+  .hero__leaves > span::after { right: -10vw; bottom: -10vw; transform: rotate(270deg); }
+}
+
 .hero__inner {
   position: relative;
   z-index: 1;

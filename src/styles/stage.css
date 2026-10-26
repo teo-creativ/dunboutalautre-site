@@ -28,15 +28,15 @@ html.stage-anim .stage > .experience {
 }
 html.stage-anim .stage > .hero { z-index: 1; }
 
-/* Cercle : sa taille est celle qui couvre l'écran depuis son centre final (50 %, 48 %). Il ne fait que grandir jusqu'à
-   scale(1), jamais au-delà : le bord reste net, il n'est jamais agrandi à partir d'une image plus petite. */
+/* Cercle : sa taille est celle qui couvre l'écran depuis son centre (50 %, 50 %), jusqu'au coin le plus éloigné. Il ne fait que
+   grandir jusqu'à scale(1), jamais au-delà : le bord reste net, il n'est jamais agrandi à partir d'une image plus petite. */
 html.stage-anim .hero-circle {
   display: block;
   position: absolute;
   z-index: 2;
   top: 0;
   left: 0;
-  width: calc(2 * hypot(50vw, 52svh) + 8px);
+  width: calc(2 * hypot(50vw, 50svh) + 8px);
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--orange);

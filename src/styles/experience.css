@@ -39,6 +39,17 @@
   perspective: 1200px; /* profondeur de la traversée des cartes */
 }
 
+/* Voile orange sous le logo, hauteur et dégradé du header (retours-v2 01 §5). Masqué tant que le cercle n'a pas couvert l'écran. */
+.experience__top {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  height: var(--header-grad-h);
+  background: linear-gradient(to bottom, var(--orange) 0%, color-mix(in srgb, var(--orange) 85%, transparent) 35%, transparent 100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
 .float-photo {
   position: absolute;
   left: var(--x);
@@ -53,7 +64,8 @@
 .float-photo--1 { --x: 6vw;    --y: 27%; --w: 17.4vw; --ratio: 1000 / 1333; }
 .float-photo--2 { --x: 81.4vw; --y: 32%; --w: 19.7vw; --ratio: 1000 / 1333; }
 .float-photo--3 { --x: -1.3vw; --y: 70%; --w: 20.8vw; --ratio: 1000 / 1154; }
-.float-photo--4 { --x: 66.6vw; --y: 86%; --w: 20.1vw; --ratio: 1000 / 1276; }
+/* Zone centrale libre : le titre occupe 27 à 73 vw, aucune carte n'y entre (retours-v2 01 §3). */
+.float-photo--4 { --x: 78vw;   --y: 86%; --w: 20.1vw; --ratio: 1000 / 1276; }
 
 @media (max-width: 900px) {
   .experience__title { max-width: none; }

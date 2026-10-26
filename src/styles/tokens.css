@@ -50,6 +50,7 @@
   --radius-card: 28px;
   --radius-pill: 999px;                            /* title tags, CTA, pilules */
   --cta-h: clamp(2.75rem, 2.9vw, 3.5rem);          /* 50 px */
+  --header-grad-h: clamp(110px, 13vh, 170px);      /* hauteur du dégradé de lisibilité sous le header */
 
   --footer-h: 100svh; /* hauteur du footer en révélation : un écran */
 }

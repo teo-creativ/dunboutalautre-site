@@ -67,17 +67,27 @@ export function addPhotos(tl, { stage, T }) {
     const top = h * T.card.top;
     return { w, h, cardW, cardH, top, side: (w - cardW) / 2 };
   };
+  // Les deux extrémités du clip-path sont écrites en toutes lettres (4 insets et un rayon) : à partir de la valeur relue dans
+  // le style, que Chrome abrège (« inset(a b c round r) »), GSAP associait le rayon à l'inset gauche et le perdait en route.
+  // Le rayon de 14 px (--radius-photo) tient jusqu'au plein écran, il ne tombe à 0 qu'une fois l'écran rempli.
   const cardClip = () => {
     const p = pose();
     return `inset(${p.top}px ${p.side}px ${p.h - p.top - p.cardH}px ${p.side}px round 14px)`;
   };
-  const fullClip = "inset(0px 0px 0px 0px round 0px)";
+  const fullRounded = "inset(0px 0px 0px 0px round 14px)";
+  const fullSquare = "inset(0px 0px 0px 0px round 0px)";
+  const SQUARE = 0.04; // les derniers pixels de scroll de l'agrandissement : les coins de l'écran passent de 14 px à 0
 
   tl.set(media, { clipPath: cardClip }, 0)
     .set(photo, { scale: () => pose().cardW / pose().w, y: () => pose().top + pose().cardH / 2 - pose().h / 2 }, 0)
     .fromTo(media, { y: () => pose().h - pose().top + 24 }, { y: 0, duration: T.appearDur, ease: "power2.out" }, T.appear)
-    .to(media, { clipPath: fullClip, duration: T.growDur, ease: "power2.inOut" }, T.grow)
+    .fromTo(media, { clipPath: cardClip }, { clipPath: fullRounded, duration: T.growDur, ease: "power2.inOut" }, T.grow)
+    .fromTo(media, { clipPath: fullRounded }, { clipPath: fullSquare, duration: SQUARE, ease: "none" }, T.grow + T.growDur)
     .to(photo, { scale: 1, y: 0, duration: T.growDur, ease: "power2.inOut" }, T.grow);
+
+  // Voile orange sous le logo : une photo qui sort par le haut ne passe plus sous un logo illisible. Il apparaît quand le cercle
+  // a couvert l'écran, et la photo plein écran de « Notre approche » le recouvre ensuite (couche supérieure).
+  tl.fromTo(stage.querySelector(".experience__top"), { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "none" }, T.circle - 0.1);
 
   // Pendant l'agrandissement, le titre et le CTA s'effacent en place : la photo passe devant eux. Opacité seule pour le titre
   // (il reste dans l'arbre d'accessibilité), le CTA est masqué à la fin du fondu.

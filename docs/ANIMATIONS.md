@@ -21,8 +21,8 @@ Références : `references/frames/`, `references/menu/`, PDF dans `references/an
 
 Frames : `home-animation-01` à `03`.
 - Le hero est **épinglé** (`pin: true`, `scrub: 1`) sur ~**100 vh** de scroll.
-- Un élément `.hero-circle` (orange `--orange`, `border-radius: 50%`) est placé à l'origine **(60 % de la largeur, 45 % de la hauteur)** du hero, taille initiale ~280 px, `scale: 0` au début.
-- Pendant le scroll : `scale: 0 → N` avec `N` calculé pour que le cercle couvre tout le viewport depuis son origine (diamètre ≥ 2 × la distance au coin le plus éloigné). Easing `power2.in` pour une accélération naturelle.
+- Un élément `.hero-circle` (orange `--orange`, `border-radius: 50%`) est placé au **centre exact du viewport (50 %, 50 %)**, y compris au resize (V2, `retours-v2/docs/01-CORRECTIFS-ACCUEIL.md` §1). Il apparaît d'abord comme un point d'environ 70 px (`scale: 0` à 0 de scroll, le point en 5 % de la timeline).
+- Pendant le scroll : le point grandit jusqu'à `scale: 1`, la taille du cercle étant calculée pour couvrir tout le viewport depuis le centre (diamètre ≥ 2 × la distance au coin le plus éloigné). Easing `power2.in` pour une accélération naturelle.
 - En parallèle : le contenu du hero (positionnement, H1, CTA) fait `opacity: 1 → 0`, `y: 0 → -40`, `scale: 1 → 0.96` sur les 45 premiers pour cent du trajet, plus rapidement que le cercle. Les feuilles de fond s'estompent.
 - Le header (logo + « Menu ») reste visible par-dessus le cercle, inchangé.
 - À la fin, tout l'écran est orange (`--orange`) et se prolonge **sans coupure** dans la section suivante (même couleur).
@@ -120,6 +120,7 @@ Frames : `references/frames/cta-hover-1.png` à `5.png`.
 - Sur fond olive, orange ou photo sombre : logo crème, bouton « Menu » blanc/orange.
 - Sur fond crème (services, chiffres clés) : logo olive, bouton `on-cream` (olive/crème).
 - Pilotage par ScrollTrigger (`onToggle`) avec un changement de couleur de 0,3 s, sans clignotement. Pas de `mix-blend-mode` si le rendu est instable.
+- **Dégradé de lisibilité sous le logo** (V2, `retours-v2/docs/01-CORRECTIFS-ACCUEIL.md` §5) : bande fixe de `--header-grad-h` sous le logo et le bouton, deux calques (`cream`, `olive`) qui se fondent l'un dans l'autre en 0,35 s. Chaque section déclare `data-header-gradient="cream | olive | off"` ; la dernière section active dans le DOM l'emporte (une section qui en recouvre une autre épinglée), sans déclaration : rien. Masqué menu ouvert. Dans la scène épinglée de l'accueil, un voile orange (`.experience__top`) joue ce rôle pendant la section orange, jusqu'à ce que la photo plein écran la recouvre.
 
 ## 12. Responsive et mouvement réduit
 

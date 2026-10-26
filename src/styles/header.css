@@ -15,6 +15,26 @@
 .header[data-theme="light"] { color: var(--olive); }
 .header > * { pointer-events: auto; }
 
+/* Dégradé de lisibilité (retours-v2 01 §5) : le texte d'une section qui passe sous le logo reste lisible. Bande fixe sous le logo et le
+   bouton (z-index -1 dans le contexte d'empilement du header), au-dessus du contenu de la page. Deux calques, un par couleur de fond :
+   changer de section fait un fondu croisé de 0,35 s, jamais un changement de teinte. data-gradient="off" : rien. */
+.header > .header__grad {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: var(--header-grad-h);
+  background: linear-gradient(to bottom, var(--hdr-grad) 0%, color-mix(in srgb, var(--hdr-grad) 85%, transparent) 35%, transparent 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+.header__grad--cream { --hdr-grad: var(--header-grad-cream); }
+.header__grad--olive { --hdr-grad: var(--header-grad-olive); }
+.header[data-gradient="cream"] .header__grad--cream,
+.header[data-gradient="olive"] .header__grad--olive { opacity: 1; }
+/* Menu ouvert : son fond olive couvre tout, le dégradé n'a plus lieu d'être. */
+.header:has(.header__menu[aria-expanded="true"]) .header__grad { opacity: 0; }
+
 .header__logo {
   display: block;
   position: relative;

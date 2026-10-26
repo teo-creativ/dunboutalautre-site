@@ -1,5 +1,7 @@
-// Contenu de la landing Noël (docs/CONTENU-NOEL.md et docs/copywriting/07-landing-noel.md), texte repris tel quel.
-// Les emplacements à compléter portent la mention [À compléter] (photos, logo Eataly, témoignage).
+// Contenu de la landing Noël V2 (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md), texte repris tel quel.
+// Le texte du hero, de « Notre volonté » et du titre du flux est dans la page (decoration-noel-entreprises-paris/index.html), car il
+// porte des title tags. Ici : les photos, les univers et la FAQ. Les sections Nos univers, Notre fonctionnement, Témoignages et FAQ
+// sont complétées aux prompts 05 et 06.
 
 export const noel = {
   path: "/decoration-noel-entreprises-paris/",
@@ -7,109 +9,57 @@ export const noel = {
   title: "Décoration de Noël entreprise à Paris | D'un Bout À L'autre",
   description:
     "Décoration de Noël pour entreprises à Paris : sapins, scénographies, décors aux couleurs de votre marque. Conception, fabrication, installation, démontage.",
-  quote: "Demander un devis Noël",
-  placeholder: "[À compléter]",
+  // Image de partage (Open Graph) : à remplacer par un visuel 1200 x 630, voir docs/POINTS-A-VALIDER.md ligne 54.
+  share: {
+    src: "noel-v2/noel-salon-dore-couleur",
+    alt: "Salon aux boiseries dorées décoré de branches givrées, de bûches de bouleau et de bougies devant une cheminée",
+  },
 
-  // Photos de Noël disponibles. La photo « arche » ouvre la page, les trois alimentent les univers et la galerie.
-  photos: {
-    arche: {
-      src: "photos/noel-salon-dore-arche-lustre",
-      alt: "Salon doré vu à travers une grande arche, avec des branches givrées autour d'une table ronde sous un lustre en cristal",
-    },
-    givrees: {
-      src: "photos/noel-salon-dore-branches-givrees",
+  // Flux horizontal. Positions de départ en % du viewport (x et w : de la largeur, y et h : de la hauteur), mesurées sur la
+  // frame noel-page-07 (1728 x 849). speed : vitesse relative de défilement de droite à gauche (profondeur), mesurée sur les frames 09
+  // et 11 (portail 1,5, sapins 1,2, salon 1,15 ; le tableau du doc donnait 1,5 / 1,3 / 1,1).
+  flux: {
+    photos: [
+      // Vignette : pas d'image propre. C'est la photo « Notre volonté » (le même plafond, en grand) qui rétrécit jusqu'à cette position
+      // et défile avec le flux, ce qui assure la continuité. noel-bw-eataly-plafond.jpg (sa moitié gauche) n'est pas utilisé.
+      { id: "plafond", thumb: true, x: -2, y: 61, w: 20, h: 39, speed: 1 },
+      {
+        id: "branches",
+        src: "noel-v2/noel-bw-branches-givrees",
+        alt: "Branches givrées, bûches de bouleau et bougies dans un salon baigné de lumière",
+        x: 15, y: -4, w: 16, h: 27, speed: 1.25,
+      },
+      {
+        id: "salon",
+        src: "noel-v2/noel-bw-salon-dore",
+        alt: "Salon aux boiseries sculptées et au grand miroir, avec des branches givrées devant la cheminée",
+        x: 47, y: 74, w: 17, h: 33, speed: 1.15,
+      },
+      {
+        id: "portail",
+        src: "noel-v2/noel-bw-portail-couronne",
+        alt: "Grille de fer noir entourée d'une grande couronne de sapin avec un nœud, dans une cour parisienne",
+        x: 78, y: -8, w: 21, h: 42, speed: 1.5,
+      },
+      {
+        id: "sapins",
+        src: "noel-v2/noel-bw-sapins-verriere",
+        alt: "Trois grands sapins décorés de guirlandes lumineuses et de lanternes, sous une grande verrière métallique",
+        x: 84, y: 66, w: 17, h: 38, speed: 1.2,
+      },
+    ],
+  },
+
+  // Nos univers : bloc provisoire du prompt 04 (remplacé au prompt 05).
+  univers: {
+    label: "NOS UNIVERS",
+    photo: {
+      src: "noel-v2/noel-salon-dore-couleur",
       alt: "Salon aux boiseries dorées décoré de branches givrées, de bûches de bouleau et de bougies devant une cheminée",
-    },
-    eataly: {
-      src: "photos/noel-eataly-plafond-vegetalise",
-      alt: "Plafond d'un restaurant recouvert de lierre, de feuillage blanc, de nœuds rouges et de suspensions lumineuses",
     },
   },
 
-  // Bandeau de confiance. Le logo d'Eataly manque : texte provisoire (docs/CONTENU-NOEL.md).
-  trust: [
-    { name: "Hôtel Cluny Square", file: "hotel-cluny-square.png", w: 351, h: 230, tone: "silhouette", size: "lg" },
-    { name: "Hôtel des Grands Boulevards", file: "grands-boulevards.jpg", w: 200, h: 200, tone: "multiply", size: "lg" },
-    { name: "Eataly", text: true },
-    { name: "Botimyst", file: "botimyst.png", w: 432, h: 117, tone: "multiply", size: "sm" },
-  ],
-
-  universes: [
-    {
-      n: "01",
-      title: "Noël naturel",
-      text: "Sapin, branches, pommes de pin et végétaux naturels. Une ambiance chaleureuse, qui sent la forêt.",
-      for: ["bureaux", "accueils", "restaurants"],
-      tone: "olive",
-    },
-    {
-      n: "02",
-      title: "Noël chic",
-      text: "Blanc, doré et végétal. Un Noël élégant et sobre, pour les lieux qui reçoivent une clientèle exigeante.",
-      for: ["hôtels", "boutiques", "halls d'entrée"],
-      photo: "givrees",
-    },
-    {
-      n: "03",
-      title: "Noël immersif",
-      text: "Forêt, arche, plafond végétalisé, scénographie complète. On transforme le lieu entier : vos clients entrent dans un décor.",
-      for: ["restaurants", "salons", "soirées de fin d'année"],
-      photo: "eataly",
-    },
-    {
-      n: "04",
-      title: "Noël corporate",
-      text: "Un décor aux couleurs de votre marque, avec votre logo. Votre Noël devient une extension de votre identité.",
-      for: ["sièges", "showrooms", "événements clients"],
-      tone: "orange",
-    },
-    {
-      n: "05",
-      title: "Noël responsable",
-      text: "Location, réutilisation d'une année sur l'autre, végétaux artificiels ou stabilisés. Un décor beau, sans gaspillage.",
-      for: ["bureaux", "commerces", "entreprises engagées"],
-      tone: "olive",
-    },
-  ],
-
-  steps: [
-    { n: "01", title: "Brief", text: "Vous nous indiquez le lieu, la surface, le budget et l'univers qui vous plaît. On peut aussi passer sur place pour mesurer." },
-    { n: "02", title: "Proposition visuelle", text: "On vous envoie un moodboard et un devis. On ajuste ensemble jusqu'à validation." },
-    { n: "03", title: "Fabrication", text: "Les éléments du décor sont préparés en atelier : couronnes, compositions, structures, décors aux couleurs de votre marque." },
-    { n: "04", title: "Installation", text: "Notre équipe installe sur site, dans vos délais, avec le moins de gêne possible pour votre activité." },
-    { n: "05", title: "Démontage", text: "Après les fêtes, on revient tout démonter, au moment qui vous arrange." },
-  ],
-
-  references: [
-    {
-      name: "Hôtel Cluny Square",
-      text: "Décoration complète de la façade et des espaces intérieurs, guirlandes, couronnes, compositions florales. Un projet qui demande discrétion, élégance et respect de l'identité de l'établissement.",
-    },
-    {
-      name: "Hôtel des Grands Boulevards",
-      text: "Décoration de Noël intérieure pour les espaces communs et le restaurant, une ambiance festive mais maîtrisée, en accord avec l'ADN de l'hôtel.",
-    },
-    {
-      name: "Eataly Paris",
-      text: "Grand sapin et décoration des espaces du restaurant pour la période des fêtes, avec l'installation d'un plafond végétalisé pour le press day de Noël.",
-    },
-    {
-      name: "Botimyst",
-      text: "Décoration de Noël pour les espaces de l'enseigne, sapins, guirlandes et compositions florales de saison.",
-    },
-  ],
-  testimonial: { quote: "« [Citation client à intégrer] »", author: "Prénom Nom, Poste, Entreprise" },
-
-  // Galerie : 3 photos disponibles, 3 emplacements provisoires. Ordre de lecture : colonne par colonne.
-  gallery: [
-    { photo: "eataly" },
-    { placeholder: true, ratio: "4 / 3" },
-    { photo: "arche" },
-    { placeholder: true, ratio: "1 / 1" },
-    { photo: "givrees" },
-    { placeholder: true, ratio: "4 / 5" },
-  ],
-
+  // FAQ de la V1, gardée le temps du prompt 06 : elle alimente le JSON-LD de noel-seo.js, la section n'est plus dans la page.
   faq: [
     {
       q: "À partir de quand faut-il nous contacter pour Noël ?",

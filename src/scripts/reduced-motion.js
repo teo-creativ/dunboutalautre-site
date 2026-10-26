@@ -3,7 +3,7 @@
 // Ceux déjà visibles ne bougent pas, et sans JavaScript tout reste affiché.
 import { gsap, ScrollTrigger } from "./core.js";
 
-const BLOCKS = ".experience__content, .approach__content, .real-title, .real-photo, .service-row, .stats__intro, .stat-card, [data-reveal]";
+const BLOCKS = ".experience__content, .approach__content, .volonte__content, .flux__content, .real-title, .real-photo, .service-row, .stats__intro, .stat-card, [data-reveal]";
 
 export function initReducedMotion() {
   gsap.matchMedia().add("(prefers-reduced-motion: reduce)", () => {

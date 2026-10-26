@@ -1,0 +1,178 @@
+/* Landing Noël V2, première partie (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md §1 à §3, docs/05-NOEL-ANIMATIONS.md §A à §F) :
+   hero centré, « Notre volonté » (photo plein écran), flux horizontal de photos sur fond orange, puis le bloc Nos univers qui arrive.
+   Base : sections empilées, sans épinglage (mobile, mouvement réduit, JavaScript absent). Desktop avec mouvement : html.nstage-anim,
+   posée par src/scripts/noel-stage.js, superpose les quatre couches dans un seul écran épinglé. */
+
+/* ---------- Hero (même fond et même intro que l'accueil, contenu centré) ---------- */
+.hero--noel .hero__title { max-width: 64vw; margin-top: 1.4vw; } /* « Décoration de Noël pour » puis « les entreprises à Paris. » */
+.hero__lead {
+  max-width: 34.7vw;
+  margin-top: 1.9vw;
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 2;
+}
+.hero--noel .hero__inner .cta { margin-top: 1.8vw; }
+
+/* ---------- Notre volonté : photo plein écran sous un voile, texte centré ---------- */
+.volonte {
+  --focus: var(--cream);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  padding: var(--gutter);
+  overflow: clip;
+  color: var(--white);
+  text-align: center;
+}
+/* Le média est découpé et déplacé au scroll (clip-path) ; son contenu (photo et voile) est mis à l'échelle à l'intérieur, pour que la
+   photo rétrécisse en entier au lieu d'être rognée. L'origine des transformations est le coin haut gauche (noel-stage.js). */
+.volonte__media { position: absolute; inset: 0; z-index: -1; }
+.volonte__inner { position: absolute; inset: 0; transform-origin: 0 0; }
+.volonte__photo { width: 100%; height: 100%; object-fit: cover; }
+.volonte__veil { position: absolute; inset: 0; background: var(--veil); }
+
+.volonte__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4vw;
+  max-width: 72vw;
+}
+.volonte__text {
+  font-size: var(--fs-text-lg);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+/* ---------- Flux horizontal : titre et CTA fixes au centre, photos qui défilent derrière ---------- */
+.flux {
+  --focus: var(--white);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.5rem;
+  padding: calc(var(--section-y) * 1.4) var(--gutter);
+  overflow: clip;
+  background: var(--orange);
+  color: var(--white);
+  text-align: center;
+}
+/* Voile orange sous le logo (même hauteur et même dégradé que celui du header) : une photo qui passe sous le logo reste lisible. */
+.flux__top {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  height: var(--header-grad-h);
+  background: linear-gradient(to bottom, var(--orange) 0%, color-mix(in srgb, var(--orange) 85%, transparent) 35%, transparent 100%);
+  pointer-events: none;
+}
+.flux__content {
+  position: relative;
+  z-index: 2; /* le texte est toujours au-dessus des photos */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.4vw;
+}
+.flux__title {
+  max-width: 54vw; /* « Apportons [la magie de Noël] » puis « que méritent vos décors. » */
+  font-size: var(--fs-h2);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Sans défilement : les quatre photos en grille. La vignette (hidden) ne sert qu'à porter une position. */
+.flux__photos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5vw;
+  width: 100%;
+}
+.flux__photo {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: var(--radius-photo);
+}
+.flux__photo img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Nos univers : bloc provisoire (prompt 05), crème, qui arrive par la droite ---------- */
+.univers {
+  padding: var(--section-y) var(--section-x);
+  background: var(--cream);
+  color: var(--olive-deep);
+}
+.univers__inner { display: grid; gap: 1.75rem; justify-items: start; }
+.univers__card {
+  width: min(100%, 28rem);
+  aspect-ratio: 8 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-photo);
+}
+.univers__card img { width: 100%; height: 100%; object-fit: cover; }
+.univers__inner .label { order: -1; }
+
+@media (max-width: 900px) {
+  .hero--noel .hero__title { max-width: none; margin-top: 4vw; }
+  .hero__lead { max-width: 30em; margin-top: 1.5rem; font-size: 1.0625rem; line-height: 1.7; }
+  .hero--noel .hero__inner .cta { margin-top: 1.75rem; }
+  .volonte__content { max-width: none; gap: 1.5rem; }
+  .flux__title { max-width: none; }
+  .flux__content { gap: 1.75rem; }
+  .flux__photos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+}
+
+/* ---------- Desktop avec mouvement : une scène épinglée, quatre couches ---------- */
+html.nstage-anim .nstage {
+  position: relative;
+  isolation: isolate; /* les z-index internes ne passent pas au-dessus du reste de la page */
+  display: grid;
+  height: 100svh;
+  overflow: hidden;
+}
+html.nstage-anim .nstage > * {
+  grid-area: 1 / 1;
+  height: 100%;
+  min-height: 0;
+}
+/* De bas en haut : le flux orange (déjà en place sous le hero), le hero, la photo qui monte, les univers qui arrivent par la droite. */
+html.nstage-anim .nstage > .flux { z-index: 1; }
+html.nstage-anim .nstage > .hero { z-index: 2; }
+html.nstage-anim .nstage > .volonte { z-index: 3; }
+html.nstage-anim .nstage > .univers { z-index: 5; }
+/* Les couches empilées sur tout l'écran ne captent ni survol ni clic : sans cela elles masquent le CTA du hero, qui est dessous.
+   Le CTA du flux ne reprend les clics qu'à son entrée (noel-flux.js). */
+html.nstage-anim .nstage > .flux,
+html.nstage-anim .nstage > .volonte,
+html.nstage-anim .nstage > .univers { pointer-events: none; }
+
+html.nstage-anim .flux {
+  display: grid;
+  place-items: center;
+  padding: var(--gutter);
+}
+html.nstage-anim .flux__photos {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: auto;
+}
+/* Position de départ (frame 07) : x et w en vw, y et h en svh. Les photos défilent vers la gauche par transform (noel-flux.js). */
+html.nstage-anim .flux__photo {
+  position: absolute;
+  left: calc(var(--x) * 1vw);
+  top: calc(var(--y) * 1svh);
+  width: calc(var(--w) * 1vw);
+  height: calc(var(--h) * 1svh);
+  aspect-ratio: auto;
+}
+
+html.nstage-anim .univers { display: block; padding: 0; }
+html.nstage-anim .univers__inner { position: relative; display: block; height: 100%; }
+/* Positions de la frame 13 (1728 x 849) : carte à 30,5 % de la largeur, 36 % de large, de 8,6 % à 91 % de la hauteur ; label à 72,8 %. */
+html.nstage-anim .univers__card { position: absolute; left: 30.5vw; top: 8.6svh; width: 36vw; }
+html.nstage-anim .univers__inner .label { position: absolute; left: 72.8vw; top: 9.5svh; }

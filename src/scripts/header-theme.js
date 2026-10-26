@@ -4,18 +4,29 @@
 // Dégradé de lisibilité sous le logo (retours-v2 01 §5) : une section déclare data-header-gradient="cream | olive | off".
 // Sans déclaration, rien (off). Quand plusieurs sections couvrent le trait du header (une section qui en recouvre une autre
 // épinglée), c'est la dernière dans le DOM qui l'emporte : elle est au-dessus.
+// Une scène épinglée dont les fonds changent sans que la page défile (la landing Noël : l'orange laisse place à la crème qui
+// arrive par la droite) pose un état à la main avec setHeaderOverride, qui prime sur les sections.
 import { ScrollTrigger } from "./core.js";
 
 const HEADER_CENTER = 55; // le trait de changement passe par le centre du header, à 1728 px de large
 
 let header;
-let buttons; // bouton Menu, et CTA persistant de la landing Noël s'il existe
-let current = "dark";
+let buttons; // bouton Menu
+let current = "dark"; // thème donné par les sections
+let zoneGradient = "off"; // dégradé donné par les sections
+let override = null; // { theme, gradient } posé par une scène, ou null
 let locked = false;
 
 const apply = (theme) => {
   header.dataset.theme = theme;
   buttons.forEach((button) => { button.dataset.variant = theme === "light" ? "on-cream" : "on-olive"; });
+};
+
+// Pose le thème et le dégradé : l'état d'une scène l'emporte sur celui des sections, le menu ouvert sur les deux.
+const render = () => {
+  if (!header) return;
+  if (!locked) apply(override?.theme ?? current);
+  header.dataset.gradient = override?.gradient ?? zoneGradient;
 };
 
 // Le menu ouvert force le thème sombre (fond olive) sans perdre celui de la section en cours.
@@ -25,7 +36,13 @@ export const lockHeaderTheme = (theme) => {
 };
 export const unlockHeaderTheme = () => {
   locked = false;
-  apply(current);
+  render();
+};
+
+// state : { theme: "dark" | "light", gradient: "cream" | "olive" | "off" }, ou null pour rendre la main aux sections.
+export const setHeaderOverride = (state) => {
+  override = state;
+  render();
 };
 
 // Zone où une section est « sous le header » : de son bord haut qui passe par le centre du header jusqu'à son bord bas.
@@ -40,7 +57,7 @@ const zone = (section) => ({
 
 export function initHeaderTheme() {
   header = document.getElementById("header");
-  buttons = header ? [...header.querySelectorAll(".header__menu, .header__quote")] : [];
+  buttons = header ? [...header.querySelectorAll(".header__menu")] : [];
   if (!header || !buttons.length) return;
 
   // Le thème se déduit de l'ensemble des sections claires actives : deux sections claires voisines ne font pas clignoter.
@@ -49,18 +66,21 @@ export function initHeaderTheme() {
       ...zone(section),
       onToggle: () => {
         current = triggers.some((t) => t.isActive) ? "light" : "dark";
-        if (!locked) apply(current);
+        render();
       },
     }),
   );
 
   // Dégradé : la dernière section active dans l'ordre du DOM donne sa couleur, aucune section active : off.
   const gradients = [...document.querySelectorAll("[data-header-gradient]")].map((section) =>
-    ScrollTrigger.create({ ...zone(section), onToggle: updateGradient }),
+    ScrollTrigger.create({
+      ...zone(section),
+      onToggle: () => {
+        const active = gradients.filter((t) => t.isActive).at(-1);
+        zoneGradient = active ? active.trigger.dataset.headerGradient : "off";
+        render();
+      },
+    }),
   );
-  function updateGradient() {
-    const active = gradients.filter((t) => t.isActive).at(-1);
-    header.dataset.gradient = active ? active.trigger.dataset.headerGradient : "off";
-  }
-  updateGradient();
+  render();
 }

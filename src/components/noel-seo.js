@@ -5,7 +5,7 @@ import { site } from "../data/site.js";
 import { esc } from "./utils.js";
 
 const url = `${noel.origin}${noel.path}`;
-const image = `${noel.origin}/assets/images/${noel.photos.arche.src}.jpg`;
+const image = `${noel.origin}/assets/images/${noel.share.src}.jpg`;
 
 const faqPage = {
   "@context": "https://schema.org",
@@ -30,7 +30,6 @@ export default () => `<title>${esc(noel.title)}</title>
     <meta property="og:description" content="${esc(noel.description)}" />
     <meta property="og:url" content="${url}" />
     <meta property="og:image" content="${image}" />
-    <meta property="og:image:alt" content="${esc(noel.photos.arche.alt)}" />
+    <meta property="og:image:alt" content="${esc(noel.share.alt)}" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">${json}</script>
-    <noscript><style>.faq__panel[hidden] { display: block; } .faq__icon { display: none; }</style></noscript>`;
+    <script type="application/ld+json">${json}</script>`;

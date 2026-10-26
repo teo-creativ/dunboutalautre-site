@@ -1,6 +1,6 @@
 // Animation de chargement des pages (ANIMATIONS.md §2) : header, ligne de positionnement, titre mot à mot sous masque,
 // title tags qui apparaissent, CTA. Les éléments sont masqués en CSS (html.js) jusqu'à ce que GSAP les reprenne.
-// La landing Noël ajoute le sous-titre, le téléphone et la photo en arche, qui se dévoile de bas en haut.
+// La landing Noël ajoute le sous-titre, qui monte après le titre.
 import { gsap, SplitText, reducedMotion } from "./core.js";
 import { clearTags, fillTag, hideTags } from "./tag.js";
 
@@ -19,20 +19,16 @@ export function initIntro({ skip = false } = {}) {
   const q = (selector) => document.querySelector(selector);
   const logo = q(".header__logo");
   const menu = q(".header__menu");
-  const quote = q(".header__quote"); // CTA persistant de la landing Noël (absent de l'accueil)
   const leaves = q(".hero__leaves");
   const tagline = q(".hero__tagline");
   const lead = q(".hero__lead");
-  const phone = q(".hero__phone");
-  const photo = q(".hero__photo");
-  const photoImg = photo?.querySelector("img");
   const cta = q(".hero__inner .cta");
   const split = SplitText.create(title, { type: "words", mask: "words", wordsClass: "split-word", ignore: ".tag", aria: "none" });
   const tags = title.querySelectorAll(".tag");
   // Rotation finale du tag, lue dans le CSS (--tag-rotate) : l'animation part de 0 et y revient exactement.
   const tagRotation = (_index, tag) => parseFloat(getComputedStyle(tag).getPropertyValue("--tag-rotate"));
-  const header = [logo, menu, quote].filter(Boolean);
-  const rises = [lead, phone].filter(Boolean);
+  const header = [logo, menu].filter(Boolean);
+  const rises = [lead].filter(Boolean);
 
   // États de départ en styles inline, puis on retire la classe js : le CSS ne masque plus rien, GSAP a pris le relais.
   gsap.set(header, { autoAlpha: 0, y: 12 });
@@ -44,10 +40,6 @@ export function initIntro({ skip = false } = {}) {
   gsap.set(tags, { autoAlpha: 0, scale: 0.7, rotation: 0 });
   hideTags(tags);
   gsap.set(cta, { autoAlpha: 0, y: 24 });
-  if (photo) {
-    gsap.set(photo, { opacity: 1, clipPath: "inset(100% 0% 0% 0%)" });
-    gsap.set(photoImg, { scale: 1.3 });
-  }
   endIntro();
 
   const tl = gsap
@@ -55,7 +47,7 @@ export function initIntro({ skip = false } = {}) {
       defaults: { ease: "expo.out" },
       // Les styles inline de l'intro sont retirés : le CSS reprend (rotation des tags, survol des CTA).
       onComplete: () => {
-        gsap.set([...header, leaves, tagline, ...rises, split.words, title, tags, cta, photo].filter(Boolean), {
+        gsap.set([...header, leaves, tagline, ...rises, split.words, title, tags, cta].filter(Boolean), {
           clearProps: "opacity,visibility,transform,clipPath",
         });
         clearTags(tags);
@@ -71,12 +63,4 @@ export function initIntro({ skip = false } = {}) {
   tags.forEach((tag, i) => fillTag(tl, tag, 0.75 + i * 0.12));
   if (tagline) tl.to(tagline, { autoAlpha: 1, duration: 0.8, ease: "power2.out" }, 0.1);
   if (lead) tl.to(lead, { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out" }, 0.9);
-  if (phone) tl.to(phone, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, 1.3);
-  if (photo) {
-    tl.to(photo, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.5, ease: "expo.inOut" }, 0.25).to(
-      photoImg,
-      { scale: 1, duration: 2, ease: "expo.out" },
-      0.25,
-    );
-  }
 }

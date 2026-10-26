@@ -1,6 +1,6 @@
 // Contenu de la landing Noël V2 (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md), texte repris tel quel.
 // Le texte du hero, de « Notre volonté » et du titre du flux est dans la page (decoration-noel-entreprises-paris/index.html), car il
-// porte des title tags. Ici : les photos, les univers, les étapes et la FAQ. Témoignages et FAQ sont complétées au prompt 06.
+// porte des title tags. Ici : les photos, les univers, les étapes, les témoignages et la FAQ.
 
 export const noel = {
   path: "/decoration-noel-entreprises-paris/",
@@ -80,31 +80,68 @@ export const noel = {
     ],
   },
 
-  // FAQ de la V1, gardée le temps du prompt 06 : elle alimente le JSON-LD de noel-seo.js, la section n'est plus dans la page.
-  faq: [
-    {
-      q: "À partir de quand faut-il nous contacter pour Noël ?",
-      a: "Idéalement, prenez contact dès septembre ou octobre. La période de Noël est notre saison la plus chargée et les créneaux d'installation partent vite, surtout pour les premières semaines de décembre. Plus vous nous contactez tôt, plus on a de liberté pour concevoir quelque chose d'ambitieux.",
+  // Témoignages (04 §6). FICTIF : ces quatre avis sont inventés pour la démonstration (noms fictifs, entreprises de la liste des
+  // réalisations). À remplacer par de vrais avis de clients avant toute mise en ligne (docs/POINTS-A-VALIDER.md, ligne 68).
+  testimonials: {
+    label: "TÉMOIGNAGES",
+    items: [
+      {
+        fictif: true, // FICTIF : à remplacer avant mise en ligne
+        quote: "Pour Noël, D'un Bout À L'autre a transformé notre plafond en véritable forêt suspendue. Les équipes comme les clients s'arrêtaient pour regarder. L'installation était soignée et le démontage impeccable en janvier.",
+        name: "Camille Laurent",
+        role: "Responsable communication, Eataly Paris",
+      },
+      {
+        fictif: true, // FICTIF : à remplacer avant mise en ligne
+        quote: "Elles ont su respecter l'élégance de notre établissement tout en apportant une vraie chaleur à l'accueil. Nos clients nous ont parlé de la décoration dès leur arrivée.",
+        name: "Julien Moreau",
+        role: "Directeur d'exploitation, Hôtel Cluny Square",
+      },
+      {
+        fictif: true, // FICTIF : à remplacer avant mise en ligne
+        quote: "Un interlocuteur unique, des délais tenus et un résultat qui nous ressemble. Nous renouvelons l'expérience cette année.",
+        name: "Sophie Garnier",
+        role: "Cheffe de projet événementiel, BHV Marais",
+      },
+      {
+        fictif: true, // FICTIF : à remplacer avant mise en ligne
+        quote: "La personnalisation aux couleurs de notre maison m'a bluffée. Tout était prêt le jour J, sans que nous ayons à coordonner quoi que ce soit.",
+        name: "Antoine Delmas",
+        role: "Directeur, Hôtel des Grands Boulevards",
+      },
+    ],
+  },
+
+  // FAQ (04 §7) : alimente la section et le JSON-LD FAQPage de noel-seo.js. Délai de contact : « octobre ou novembre » (la maquette
+  // prime sur le copywriting, docs/POINTS-A-VALIDER.md ligne 71).
+  faq: {
+    label: "FAQ",
+    help: {
+      title: "Toujours une question ?",
+      text: "Une question spécifique sur les normes de sécurité de votre lieu ou une contrainte de montage ? Nous vous répondons en moins de 24h.",
+      cta: "Réserver un appel",
     },
-    {
-      q: "Proposez-vous le démontage après les fêtes ?",
-      a: "Oui, c'est inclus dans toutes nos prestations de Noël. On vient récupérer tout le matériel après les fêtes, au moment qui vous arrange.",
-    },
-    {
-      q: "Peut-on personnaliser aux couleurs de notre marque ?",
-      a: "Absolument. C'est même ce qu'on préfère faire. Nous adaptons les couleurs des boules, des rubans, des guirlandes et de tous les éléments décoratifs à votre charte graphique. Votre décoration de Noël devient une extension cohérente de votre identité de marque.",
-    },
-    {
-      q: "Peut-on louer le décor plutôt que l'acheter ?",
-      a: "Oui. La location est possible, et elle est au cœur de notre offre Noël responsable : le décor est réutilisé d'une année sur l'autre. Contactez-nous pour voir ce qui est possible selon votre projet.",
-    },
-    {
-      q: "Intervenez-vous en dehors de Paris ?",
-      a: "Oui, nous intervenons dans toute l'Île-de-France et en dehors pour les projets d'envergure.",
-    },
-    {
-      q: "Quel budget prévoir pour décorer nos bureaux pour Noël ?",
-      a: "Cela dépend de la surface, du type de décoration souhaité et du nombre d'espaces à habiller. Nos prestations commencent à quelques centaines d'euros pour une décoration simple et peuvent aller jusqu'à plusieurs milliers pour la décoration complète d'un hôtel ou d'un grand commerce. Contactez-nous pour un devis personnalisé.",
-    },
-  ],
+    items: [
+      {
+        q: "À partir de quand faut-il nous contacter pour Noël ?",
+        a: "Idéalement, prenez contact dès octobre ou novembre. La période de Noël est notre saison la plus chargée et les créneaux d'installation partent vite, surtout pour les premières semaines de décembre. Plus vous nous contactez tôt, plus on a de liberté pour concevoir quelque chose d'ambitieux.",
+      },
+      {
+        q: "Proposez-vous le démontage après les fêtes ?",
+        a: "Oui, c'est inclus dans toutes nos prestations de Noël. On vient récupérer tout le matériel après les fêtes, au moment qui vous arrange.",
+      },
+      {
+        q: "Peut-on personnaliser aux couleurs de notre marque ?",
+        a: "Absolument. C'est même ce qu'on préfère faire. Nous adaptons les couleurs des boules, des rubans, des guirlandes et de tous les éléments décoratifs à votre charte graphique. Votre décoration de Noël devient une extension cohérente de votre identité de marque.",
+      },
+      {
+        q: "Quel budget prévoir pour des décorations de Noël ?",
+        a: "Cela dépend de la surface, du type de décoration souhaité et du nombre d'espaces à habiller. Nos prestations commencent à quelques centaines d'euros pour une décoration simple et peuvent aller jusqu'à plusieurs milliers pour la décoration complète d'un hôtel ou d'un grand commerce. Contactez-nous pour un devis personnalisé.",
+      },
+      {
+        q: "Intervenez-vous en dehors de Paris ?",
+        a: "Oui, nous intervenons dans toute l'Île-de-France et en dehors pour les projets d'envergure.",
+      },
+    ],
+  },
 };

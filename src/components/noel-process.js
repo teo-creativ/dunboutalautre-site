@@ -2,7 +2,7 @@
 // de progression et ses cinq étapes, générées depuis src/data/noel.js. L'état de chaque étape (atteinte, courante) est piloté par
 // src/scripts/process.js ; sans lui, la ligne et toutes les étapes sont affichées en entier.
 import { noel } from "../data/noel.js";
-import { esc } from "./utils.js";
+import { esc, fr } from "./utils.js";
 import { tag } from "./tag.js";
 
 const { label, steps } = noel.process;
@@ -13,7 +13,7 @@ const items = steps
             <span class="step__dot" aria-hidden="true"></span>
             <div class="step__body">
               <h3 class="step__title"><span class="step__name">${esc(s.title)}<span class="uline" aria-hidden="true"></span></span></h3>
-              <p class="step__desc">${esc(s.text)}</p>
+              <p class="step__desc">${esc(fr(s.text))}</p>
             </div>
           </li>`,
   )

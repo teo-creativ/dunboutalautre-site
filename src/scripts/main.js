@@ -16,6 +16,7 @@ import { initServices } from "./services.js";
 import { initSkipLink } from "./skip-link.js";
 import { initStage } from "./stage.js";
 import { initStats } from "./stats.js";
+import { initTestimonials } from "./testimonials.js";
 import { initUniverses } from "./universes.js";
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -38,7 +39,7 @@ async function boot() {
     [initCta, initMenu],
     [initStage, initNoelStage],
     [initRealisations, initServices, initStats, initUniverses],
-    [initProcess, initReveal, initFaq],
+    [initProcess, initTestimonials, initReveal, initFaq],
     [initReducedMotion, initFooterReveal, initHeaderTheme],
   ];
   for (const group of groups) {

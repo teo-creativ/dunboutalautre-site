@@ -4,7 +4,7 @@
 // sont affichés. Le balisage de l'univers ouvert par défaut porte déjà l'état actif (couleur), pour éviter tout saut à l'initialisation.
 // Pas de data-header-theme : la section est empilée dans la scène épinglée, le thème de l'en-tête est piloté par noel-stage.js.
 import { noel } from "../data/noel.js";
-import { esc } from "./utils.js";
+import { esc, fr } from "./utils.js";
 import img from "./img.js";
 import { tag } from "./tag.js";
 
@@ -22,7 +22,7 @@ const list = items
                 <span class="universe__dot" aria-hidden="true"></span>
                 <span class="universe__text">${esc(u.title)}<span class="uline" aria-hidden="true"></span></span>
               </button>
-              <div class="universe__panel" id="universe-panel-${i}" role="region" aria-labelledby="universe-${i}"><p>${esc(u.text)}</p></div>
+              <div class="universe__panel" id="universe-panel-${i}" role="region" aria-labelledby="universe-${i}"><p>${esc(fr(u.text))}</p></div>
             </li>`;
   })
   .join("\n            ");

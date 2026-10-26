@@ -27,6 +27,15 @@
   --cta-fill-fg: var(--cream);
   --cta-fill-dot: var(--cream);
 }
+/* Orange plein (bouton « Réserver un appel » de la FAQ, retours-v2 04 §7) : texte et point blancs, remplissage olive au survol. */
+.cta[data-variant="solid"] {
+  --cta-bg: var(--orange);
+  --cta-fg: var(--white);
+  --cta-dot: var(--white);
+  --cta-fill-bg: var(--olive);
+  --cta-fill-fg: var(--cream);
+  --cta-fill-dot: var(--cream);
+}
 .cta[data-variant="on-cream"] {
   --cta-bg: var(--olive);
   --cta-fg: var(--cream);

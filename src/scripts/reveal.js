@@ -1,7 +1,8 @@
 // Révélations à l'entrée dans l'écran (landing Noël), réversibles au scroll arrière.
 // - [data-reveal="head"] : label qui monte, titre mot à mot sous masque, title tags qui se remplissent (comme l'accueil).
 // - [data-reveal="title"] : titre seul, même révélation.
-// - [data-reveal="up"] : élément qui monte en fondu ; ceux qui entrent ensemble arrivent en cascade.
+// - [data-reveal="up"] : élément qui monte en fondu ; ceux qui entrent ensemble arrivent en cascade. Réglages par élément :
+//   data-reveal-y (distance de montée en px, 36 par défaut) et data-reveal-step (décalage de la cascade en s, 0,12 par défaut).
 // Les états de départ sont aussi posés en CSS (html.js, noel.css) : aucun flash avant l'initialisation.
 // Opacité seule (jamais visibility) : un contenu pas encore révélé reste dans l'arbre d'accessibilité et atteignable au clavier,
 // le navigateur le fait défiler dans l'écran, ce qui déclenche sa révélation.
@@ -43,14 +44,17 @@ export function initReveal() {
     });
 
     if (items.length) {
-      gsap.set(items, { opacity: 0, y: 36 });
+      const rise = (_i, el) => Number(el.dataset.revealY) || 36;
+      gsap.set(items, { opacity: 0, y: rise });
       ScrollTrigger.batch(items, {
         start: "top 90%",
         end: "max",
         // Décalage plafonné : après un saut (ancre, focus clavier), un grand lot ne met pas plus d'une demi-seconde à se révéler.
-        onEnter: (batch) =>
-          gsap.to(batch, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: (i) => Math.min(i * 0.12, 0.5), overwrite: true }),
-        onLeaveBack: (batch) => gsap.to(batch, { opacity: 0, y: 36, duration: 0.4, ease: "power2.in", overwrite: true }),
+        onEnter: (batch) => {
+          const step = Number(batch[0].dataset.revealStep) || 0.12;
+          gsap.to(batch, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: (i) => Math.min(i * step, 0.5), overwrite: true });
+        },
+        onLeaveBack: (batch) => gsap.to(batch, { opacity: 0, y: rise, duration: 0.4, ease: "power2.in", overwrite: true }),
       });
 
       // Clavier : au bord bas de l'écran, un élément focalisé n'a pas encore franchi le seuil de révélation. Il apparaît

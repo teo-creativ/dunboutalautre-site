@@ -10,7 +10,7 @@ const image = `${noel.origin}/assets/images/${noel.share.src}.jpg`;
 const faqPage = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: noel.faq.map(({ q, a }) => ({
+  mainEntity: noel.faq.items.map(({ q, a }) => ({
     "@type": "Question",
     name: q,
     acceptedAnswer: { "@type": "Answer", text: a },
@@ -32,4 +32,5 @@ export default () => `<title>${esc(noel.title)}</title>
     <meta property="og:image" content="${image}" />
     <meta property="og:image:alt" content="${esc(noel.share.alt)}" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">${json}</script>`;
+    <script type="application/ld+json">${json}</script>
+    <noscript><style>.faq__panel[hidden], .testi__slide[hidden] { display: block; } .faq__chev { display: none; }</style></noscript>`;

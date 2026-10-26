@@ -30,11 +30,22 @@
 }
 .tag__text { position: relative; display: inline-block; }
 
-/* Masques de SplitText (overflow: clip, posé en style inline) : ils épousent la boîte non tournée du mot, donc rognent les
-   coins d'un tag incliné. On les agrandit sans changer la mise en page (padding compensé par une marge négative). Les mots
-   partent de 110 % sous leur ligne : l'agrandissement n'en laisse rien voir avant l'entrée. */
+/* Masques de SplitText (overflow: clip, posé en style inline) : ils épousent la boîte non tournée du mot ou de la ligne, donc rognent les
+   coins d'un tag incliné. On étend la zone rognée de 0,3 em avec overflow-clip-margin : aucun effet sur la mise en page.
+   Mots (inline-block) : le repli sans overflow-clip-margin est un padding compensé par une marge négative, sans effet sur la mise en page.
+   Lignes (blocs) : le même repli ferait fusionner les marges négatives de deux lignes voisines et ajouterait 0,25 em à chaque interligne
+   (le pas de « Notre approche » était de 84 px au lieu de 72 px sur la frame) : il est réservé aux navigateurs sans overflow-clip-margin,
+   et compense la fusion par une marge de 0,5 em. Les mots partent de 110 % sous leur ligne : l'extension n'en laisse rien voir avant l'entrée. */
 .split-word-mask,
-.split-line-mask {
-  padding: 0.25em 0.3em;
-  margin: -0.25em -0.3em;
+.split-line-mask { overflow-clip-margin: 0.3em; }
+
+@supports not (overflow-clip-margin: 1px) {
+  .split-word-mask {
+    padding: 0.25em 0.3em;
+    margin: -0.25em -0.3em;
+  }
+  .split-line-mask {
+    padding: 0.25em 0.3em;
+    margin: -0.5em -0.3em; /* deux lignes voisines fusionnent leurs marges (une seule de -0,5 em) : le pas reste celui de l'interligne */
+  }
 }

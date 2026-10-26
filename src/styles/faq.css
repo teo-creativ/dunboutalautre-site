@@ -1,0 +1,103 @@
+/* FAQ (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md §7, frame noel-page-17, canvas 1728 x 1024). Colonne gauche : label, titre, carte d'aide
+   en bas. Colonne droite : accordéon de cartes blanches (un seul panneau ouvert, le premier d'emblée). Tailles mesurées sur la frame :
+   questions 22 px, réponses et texte d'aide 16 px, titre de la carte d'aide 32 px, rayon des cartes environ 32 px (le doc dit 20 px),
+   carte d'aide à 4 % d'olive (le doc dit 6 %). Chevron : cercle de 30 px, orange plein et blanc ouvert, orange pâle (25 %) et orange
+   fermé. Mobile : une colonne. */
+.faq {
+  --faq-radius: clamp(1.25rem, 1.85vw, 2.25rem); /* 32 px */
+  --faq-pad: 1.4vw; /* 24 px */
+  --fs-faq-q: clamp(1.0625rem, 1.27vw, 1.5rem); /* 22 px */
+  --fs-faq-text: clamp(0.9375rem, 0.93vw, 1.1rem); /* 16 px */
+  padding: 8.5vw var(--section-x) 7vw;
+  background: var(--cream);
+  color: var(--olive-deep);
+}
+
+.faq__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 41.2vw; /* les cartes occupent de 847 à 1559 px */
+  align-items: stretch;
+}
+
+.faq__intro { display: flex; flex-direction: column; justify-content: space-between; gap: 3rem; padding-right: 3vw; }
+.faq__head { display: flex; flex-direction: column; gap: 0.6vw; }
+.faq__title { max-width: 36vw; } /* « Les questions qu'on nous » puis « pose [fréquemment]. » */
+
+/* Carte d'aide : 519 px de large, alignée sur le bas de la dernière carte. */
+.faq__help {
+  width: min(100%, 30vw);
+  padding: 1.8vw 1.9vw 1.5vw;
+  border-radius: var(--faq-radius);
+  background: color-mix(in srgb, var(--olive) 4%, var(--cream));
+}
+.faq__help-title { font-size: clamp(1.375rem, 1.85vw, 2.25rem); font-weight: 300; line-height: 1.2; color: var(--olive-deep); }
+.faq__help-text {
+  margin: 0.6vw 0 1.15vw;
+  font-size: var(--fs-faq-text);
+  line-height: 1.5;
+  color: var(--olive-soft); /* 4,8:1 : le gris de la frame ne passe pas l'AA, docs/POINTS-A-VALIDER.md ligne 81 */
+}
+
+.faq__list { display: grid; gap: 1.25vw; align-content: start; }
+.faq__item {
+  border-radius: var(--faq-radius);
+  background: var(--white);
+  box-shadow: 0 2px 14px color-mix(in srgb, var(--olive-deep) 4%, transparent);
+}
+
+.faq__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 2.2vw var(--faq-pad); /* 38 px : une carte fermée fait 110 px */
+  border-radius: var(--faq-radius);
+  font-size: var(--fs-faq-q);
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  color: var(--olive-deep);
+  transition: padding-bottom 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+/* Ouvert : le bouton resserre son bas (24 px entre la question et la réponse sur la frame) au lieu de faire remonter la réponse sous lui :
+   l'anneau de focus ne recouvre jamais le texte de la réponse. */
+.faq__trigger[aria-expanded="true"] { padding-bottom: var(--faq-pad); }
+.faq__trigger:focus-visible { outline-offset: -3px; }
+
+.faq__chev {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: clamp(1.6rem, 1.74vw, 2.1rem); /* 30 px */
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--orange) 25%, var(--white));
+  color: var(--orange);
+  transition: transform 0.45s cubic-bezier(0.645, 0.045, 0.355, 1), background-color 0.35s, color 0.35s;
+}
+.faq__trigger[aria-expanded="true"] .faq__chev { transform: rotate(180deg); background: var(--orange); color: var(--white); }
+
+/* 38 px sous la dernière ligne de la réponse (frame). */
+.faq__panel { overflow: hidden; }
+.faq__answer { padding: 0 var(--faq-pad) 2.2vw; }
+.faq__answer p {
+  font-size: var(--fs-faq-text);
+  line-height: 1.5;
+  color: var(--olive-soft);
+}
+
+@media (max-width: 900px) {
+  .faq { --faq-radius: 1.25rem; --faq-pad: 1.25rem; padding-block: 4.5rem 4rem; }
+  .faq__inner { display: flex; flex-direction: column; gap: 2.5rem; }
+  .faq__intro { gap: 2rem; padding-right: 0; }
+  .faq__head { gap: 1.25rem; }
+  .faq__title { max-width: none; }
+  .faq__help { width: 100%; padding: 1.5rem; }
+  .faq__help-title { font-size: 1.375rem; }
+  .faq__help-text { margin: 0.5rem 0 1.25rem; }
+  .faq__list { gap: 0.75rem; }
+  .faq__trigger { padding-block: 1.25rem; }
+  .faq__trigger[aria-expanded="true"] { padding-bottom: 0.75rem; }
+  .faq__answer { padding-bottom: 1.5rem; }
+}

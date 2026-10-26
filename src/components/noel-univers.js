@@ -1,11 +1,45 @@
-// Nos univers : bloc provisoire du prompt 04 (cream, label et photo-carte), qui arrive par la droite sur l'orange. Le prompt 05 le
-// remplace par la vraie section (titre, liste des cinq univers, survol).
+// Nos univers (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md §4), générée depuis src/data/noel.js : photo-carte à gauche, label, titre
+// et liste des cinq univers à droite. Chaque univers est un bouton (aria-expanded, aria-controls) suivi de son sous-titre dans une
+// région associée : src/scripts/universes.js en ouvre un seul à la fois (survol, focus, tap). Sans JavaScript, tous les sous-titres
+// sont affichés. Le balisage de l'univers ouvert par défaut porte déjà l'état actif (couleur), pour éviter tout saut à l'initialisation.
+// Pas de data-header-theme : la section est empilée dans la scène épinglée, le thème de l'en-tête est piloté par noel-stage.js.
 import { noel } from "../data/noel.js";
+import { esc } from "./utils.js";
 import img from "./img.js";
+import { tag } from "./tag.js";
 
-export default () => `<section id="univers" class="univers" aria-labelledby="univers-label">
+const { label, photo, items, default: initial } = noel.univers;
+
+// Photos distinctes (une seule pour l'instant) : l'indice de la photo de chaque univers sert au fondu enchaîné.
+const photos = [...new Map(items.map((u) => u.photo ?? photo).map((p) => [p.src, p])).values()];
+const photoIndex = (u) => photos.findIndex((p) => p.src === (u.photo ?? photo).src);
+
+const list = items
+  .map((u, i) => {
+    const open = i === initial;
+    return `<li class="universe${open ? " is-active" : ""}" data-photo="${photoIndex(u)}">
+              <button class="universe__btn" type="button" id="universe-${i}" aria-expanded="${open}" aria-controls="universe-panel-${i}">
+                <span class="universe__dot" aria-hidden="true"></span>
+                <span class="universe__text">${esc(u.title)}<span class="uline" aria-hidden="true"></span></span>
+              </button>
+              <div class="universe__panel" id="universe-panel-${i}" role="region" aria-labelledby="universe-${i}"><p>${esc(u.text)}</p></div>
+            </li>`;
+  })
+  .join("\n            ");
+
+const figure = photos
+  .map((p, i) => img({ src: p.src, alt: p.alt, class: i === photoIndex(items[initial]) ? "" : "is-hidden", sizes: "(min-width: 901px) 36vw, 90vw" }))
+  .join("");
+
+export default () => `<section id="univers" class="univers" aria-labelledby="univers-title">
         <div class="univers__inner">
-          <figure class="univers__card">${img({ src: noel.univers.photo.src, alt: noel.univers.photo.alt, sizes: "(min-width: 901px) 36vw, 90vw" })}</figure>
-          <h2 class="label" id="univers-label"><span class="label__dot" aria-hidden="true"></span>${noel.univers.label}</h2>
+          <div class="univers__body">
+            <p class="label"><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>
+            <h2 class="section-title univers__title" id="univers-title">Choisissez l'univers de ${tag({ text: "votre Noël", variant: "orange" })}.</h2>
+            <ul class="universes">
+            ${list}
+            </ul>
+          </div>
+          <figure class="univers__card">${figure}</figure>
         </div>
       </section>`;

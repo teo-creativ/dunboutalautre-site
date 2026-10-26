@@ -1,0 +1,102 @@
+/* Nos univers (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md §4, frame noel-page-14, canvas 1728 x 896). Photo-carte à gauche, label,
+   titre et liste des cinq univers à droite. Un seul univers est ouvert (src/scripts/universes.js) : couleur olive-deep, point orange,
+   soulignement orange et sous-titre. Les autres sont au repos. Tailles mesurées sur la frame : titres 34 px, sous-titres 16 px.
+   Sans JavaScript, tous les sous-titres sont affichés. Mobile : photo au-dessus, liste en accordéon. */
+.univers {
+  padding: var(--section-y) var(--section-x);
+  background: var(--cream);
+  color: var(--olive-deep);
+}
+
+.univers__inner { display: grid; gap: 2.5rem; }
+
+/* Photo-carte : 36 vw de large, ratio 8 / 9, coins arrondis. Les photos sont empilées (une seule pour l'instant) pour le fondu. */
+.univers__card {
+  position: relative;
+  order: -1;
+  width: min(100%, 24rem);
+  aspect-ratio: 8 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-photo);
+}
+.univers__card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.univers__card img.is-hidden { opacity: 0; }
+
+.univers__body > .label { margin-bottom: 0.6rem; }
+.univers__title { max-width: none; }
+
+.universes {
+  --pitch: clamp(2.75rem, 12vw, 3.5rem); /* hauteur d'une ligne de titre */
+  --shift: 1.2rem; /* décalage du texte de l'univers actif */
+  margin-top: 2rem;
+}
+
+.universe__btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--pitch);
+  padding: 0 var(--shift) 0 0; /* la place du décalage est dans le bouton : l'anneau de focus englobe le point et le texte décalé */
+  font-size: clamp(1.4rem, 6.2vw, 2rem);
+  font-weight: 300;
+  line-height: 1.2;
+  text-align: left;
+  color: var(--olive-muted); /* repos : 3,5:1 sur crème, suffisant pour un titre de cette taille (le sable de la frame fait 1,7:1) */
+  transition: color 0.35s;
+}
+.universe.is-active .universe__btn { color: var(--olive-deep); }
+.universe__btn:focus-visible { outline-offset: 0.15em; border-radius: 0.2em; }
+
+.universe__text { position: relative; display: inline-block; }
+.universe__text .uline { --uline-gap: 0.1em; }
+
+/* Point : caché au repos (échelle 0), GSAP le fait apparaître sur l'univers actif. */
+.universe__dot {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0.55rem;
+  aspect-ratio: 1;
+  margin-top: -0.275rem;
+  border-radius: 50%;
+  background: var(--orange);
+  transform: scale(0);
+}
+
+/* Le panneau fermé a une hauteur de 0 : son retrait et son écart sont dans le paragraphe, pour que le pas des titres au repos soit celui de la frame. */
+.universe__panel {
+  overflow: hidden;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--olive-soft); /* 4,8:1 sur crème : le gris clair de la frame (≈ 2,6:1) ne passe pas l'AA, docs/POINTS-A-VALIDER.md ligne 81 */
+}
+.universe__panel p { padding: 0 0 0.9rem var(--shift); }
+
+@media (min-width: 901px) {
+  .univers { padding: 0 var(--section-x); }
+  .univers__inner {
+    grid-template-columns: 36vw minmax(0, 1fr);
+    gap: 0 6.2vw; /* le texte commence à 52 vw */
+    align-items: center;
+    min-height: 100svh;
+  }
+  .univers__card {
+    order: 0;
+    grid-column: 1;
+    grid-row: 1;
+    width: min(36vw, calc(78svh * 8 / 9)); /* jamais plus haute que 78 % de l'écran */
+  }
+  /* Le label est à 12,5 % de la hauteur de l'écran : le titre ne bouge pas quand la liste change de hauteur. */
+  .univers__body { grid-column: 2; grid-row: 1; align-self: start; padding-top: calc(12.5svh - 0.6vw); }
+  .univers__body > .label { margin-bottom: 0.7vw; }
+  .univers__title { max-width: 28.5vw; } /* « Choisissez l'univers » puis « de [votre Noël]. » */
+  .universes {
+    --pitch: clamp(2.75rem, 4.2vw, 5.2rem); /* 73 px à 1728 */
+    --shift: 1.4vw; /* 24 px */
+    margin-top: min(5.2vw, 9svh);
+  }
+  .universe__btn { font-size: clamp(1.4rem, 1.98vw, 2.4rem); }
+  .universe__dot { width: clamp(0.5rem, 0.7vw, 0.9rem); margin-top: calc(clamp(0.5rem, 0.7vw, 0.9rem) / -2); }
+  .universe__panel { max-width: 31vw; font-size: clamp(0.875rem, 0.93vw, 1.1rem); }
+  .universe__panel p { padding-bottom: 0.9vw; }
+}

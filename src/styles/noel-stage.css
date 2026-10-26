@@ -1,5 +1,6 @@
 /* Landing Noël V2, première partie (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md §1 à §3, docs/05-NOEL-ANIMATIONS.md §A à §F) :
-   hero centré, « Notre volonté » (photo plein écran), flux horizontal de photos sur fond orange, puis le bloc Nos univers qui arrive.
+   hero centré, « Notre volonté » (photo plein écran), flux horizontal de photos sur fond orange, puis la section Nos univers
+   (universes.css) qui arrive par la droite.
    Base : sections empilées, sans épinglage (mobile, mouvement réduit, JavaScript absent). Desktop avec mouvement : html.nstage-anim,
    posée par src/scripts/noel-stage.js, superpose les quatre couches dans un seul écran épinglé. */
 
@@ -99,22 +100,6 @@
 }
 .flux__photo img { width: 100%; height: 100%; object-fit: cover; }
 
-/* ---------- Nos univers : bloc provisoire (prompt 05), crème, qui arrive par la droite ---------- */
-.univers {
-  padding: var(--section-y) var(--section-x);
-  background: var(--cream);
-  color: var(--olive-deep);
-}
-.univers__inner { display: grid; gap: 1.75rem; justify-items: start; }
-.univers__card {
-  width: min(100%, 28rem);
-  aspect-ratio: 8 / 9;
-  overflow: hidden;
-  border-radius: var(--radius-photo);
-}
-.univers__card img { width: 100%; height: 100%; object-fit: cover; }
-.univers__inner .label { order: -1; }
-
 @media (max-width: 900px) {
   .hero--noel .hero__title { max-width: none; margin-top: 4vw; }
   .hero__lead { max-width: 30em; margin-top: 1.5rem; font-size: 1.0625rem; line-height: 1.7; }
@@ -144,7 +129,7 @@ html.nstage-anim .nstage > .hero { z-index: 2; }
 html.nstage-anim .nstage > .volonte { z-index: 3; }
 html.nstage-anim .nstage > .univers { z-index: 5; }
 /* Les couches empilées sur tout l'écran ne captent ni survol ni clic : sans cela elles masquent le CTA du hero, qui est dessous.
-   Le CTA du flux ne reprend les clics qu'à son entrée (noel-flux.js). */
+   Le CTA du flux ne reprend les clics qu'à son entrée (noel-flux.js), les univers qu'à leur arrivée (noel-univers.js). */
 html.nstage-anim .nstage > .flux,
 html.nstage-anim .nstage > .volonte,
 html.nstage-anim .nstage > .univers { pointer-events: none; }
@@ -170,9 +155,3 @@ html.nstage-anim .flux__photo {
   height: calc(var(--h) * 1svh);
   aspect-ratio: auto;
 }
-
-html.nstage-anim .univers { display: block; padding: 0; }
-html.nstage-anim .univers__inner { position: relative; display: block; height: 100%; }
-/* Positions de la frame 13 (1728 x 849) : carte à 30,5 % de la largeur, 36 % de large, de 8,6 % à 91 % de la hauteur ; label à 72,8 %. */
-html.nstage-anim .univers__card { position: absolute; left: 30.5vw; top: 8.6svh; width: 36vw; }
-html.nstage-anim .univers__inner .label { position: absolute; left: 72.8vw; top: 9.5svh; }

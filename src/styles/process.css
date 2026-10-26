@@ -1,0 +1,93 @@
+/* Notre fonctionnement (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md §5, frame noel-page-15, canvas 1728 x 1251). Titre à gauche, timeline
+   verticale à droite : ligne de progression, points et cinq étapes. Tailles mesurées sur la frame : titres d'étapes 36 px, descriptions
+   18 px. Base : tout est affiché en entier (mobile, mouvement réduit, JavaScript absent). Avec la classe process--anim, posée par
+   src/scripts/process.js (desktop avec mouvement), la ligne se remplit au scroll et chaque étape passe de « pas atteinte » à
+   « atteinte » puis « courante ». */
+.process {
+  --dot: clamp(0.9rem, 1.39vw, 1.6rem); /* 24 px */
+  --step-gap: 2.75rem;
+  padding: var(--section-y) var(--section-x);
+  background: var(--cream);
+  color: var(--olive);
+}
+
+.process__head { display: flex; flex-direction: column; gap: 0.75rem; }
+.process__title { max-width: none; }
+
+.process__timeline {
+  position: relative;
+  display: grid;
+  gap: var(--step-gap);
+  padding: 0; /* <ol> : ni retrait ni numéros du navigateur */
+  list-style: none;
+  margin: 3rem 0 0 calc(var(--dot) / 2); /* le trait et les points sont centrés sur le bord gauche de la liste */
+}
+
+/* Ligne : fond sable (la frame), remplissage orange. Ses extrémités (premier et dernier point) sont posées par process.js ;
+   les valeurs ci-dessous valent pour la version statique, sans JavaScript. */
+.process__line {
+  position: absolute;
+  top: 0.85rem;
+  bottom: 4.5rem;
+  left: -1.5px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--sand);
+}
+.process__fill { position: absolute; inset: 0; border-radius: inherit; background: var(--orange); transform-origin: top; }
+
+.step { position: relative; padding-left: 2.25rem; }
+.step__dot {
+  position: absolute;
+  left: calc(var(--dot) / -2);
+  top: calc(0.6 * var(--fs-step) - var(--dot) / 2); /* centré sur la première ligne du titre (interligne 1,2) */
+  width: var(--dot);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--orange);
+  transition: background-color 0.35s;
+}
+.process { --fs-step: clamp(1.4rem, 6vw, 2rem); }
+.step__title {
+  font-size: var(--fs-step);
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--olive);
+  transition: color 0.35s;
+}
+.step__name { position: relative; display: inline-block; }
+.step__name .uline { --uline-gap: 0.06em; }
+.step__desc {
+  margin-top: 0.45em;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--olive-soft);
+  transition: color 0.35s;
+}
+
+/* États animés. Pas atteinte : point sable (la frame) et titre en olive atténué (3,5:1, suffisant pour un titre de 36 px : le sable de la
+   frame fait 1,7:1) ; la description reste en olive-soft (4,8:1) car l'AA demande 4,5:1 pour un texte de 18 px, alors que la frame la
+   dessine à environ 30 % d'opacité (docs/POINTS-A-VALIDER.md ligne 107). Atteinte : titre plein et point orange. Courante : titre
+   olive-deep et soulignement, description pleine. */
+.process--anim .step:not(.is-reached) .step__dot { background: var(--sand); }
+.process--anim .step:not(.is-reached) .step__title { color: var(--olive-muted); }
+.process--anim .step.is-current .step__title { color: var(--olive-deep); }
+.process--anim .step.is-current .step__desc { color: var(--olive); }
+
+@media (min-width: 901px) {
+  .process {
+    --step-gap: clamp(0.75rem, min(4.4vw, calc((78svh - 33vw) / 4)), 6rem); /* 76 px à 1728 sur la frame, réduit pour que le bloc tienne dans l'écran */
+    --fs-step: clamp(1.4rem, 2.1vw, 2.5rem);
+    display: grid;
+    grid-template-columns: 40.1vw minmax(0, 1fr); /* la ligne est à 50 % de la largeur */
+    align-content: center;
+    align-items: start;
+    min-height: 100svh;
+    padding-block: calc(var(--header-grad-h) + 1.5svh) 3svh; /* le bloc reste sous le logo : il est centré dans ce qui reste de l'écran */
+  }
+  .process__head { gap: 0.6vw; }
+  .process__title { max-width: 30vw; } /* « Du premier [échange] » puis « au démontage. » */
+  .process__timeline { margin: 2.6vw 0 0; }
+  .step { padding-left: 3.06vw; } /* 53 px entre le trait et le texte */
+  .step__desc { max-width: 33vw; margin-top: 0.9vw; }
+}

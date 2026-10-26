@@ -7,6 +7,7 @@ import { initHeaderTheme } from "./header-theme.js";
 import { initIntro } from "./intro.js";
 import { initMenu } from "./menu.js";
 import { initNoelStage } from "./noel-stage.js";
+import { initProcess } from "./process.js";
 import { initReducedMotion } from "./reduced-motion.js";
 import { initRealisations } from "./realisations.js";
 import { initReveal } from "./reveal.js";
@@ -15,6 +16,7 @@ import { initServices } from "./services.js";
 import { initSkipLink } from "./skip-link.js";
 import { initStage } from "./stage.js";
 import { initStats } from "./stats.js";
+import { initUniverses } from "./universes.js";
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // Rend la main au navigateur entre deux groupes d'initialisation : il peut peindre et répondre, aucune tâche ne reste longue.
@@ -35,8 +37,8 @@ async function boot() {
   const groups = [
     [initCta, initMenu],
     [initStage, initNoelStage],
-    [initRealisations, initServices, initStats],
-    [initReveal, initFaq],
+    [initRealisations, initServices, initStats, initUniverses],
+    [initProcess, initReveal, initFaq],
     [initReducedMotion, initFooterReveal, initHeaderTheme],
   ];
   for (const group of groups) {

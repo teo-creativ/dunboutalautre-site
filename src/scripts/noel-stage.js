@@ -10,9 +10,9 @@ import { addFlux } from "./noel-flux.js";
 import { addUnivers } from "./noel-univers.js";
 
 // Calendrier (en écrans de scroll). Photo qui monte sur le hero 1, lecture du texte (révélation, tenue d'environ 0,6 écran,
-// disparition), réduction de la photo 1, flux de photos 2, arrivée des univers 0,6.
+// disparition), réduction de la photo 1, flux de photos 2, arrivée des univers 0,6 puis révélation de leur contenu 0,4.
 const DESKTOP = {
-  total: 5.8,
+  total: 6.15,
   rise: 1, heroFade: 0.7,
   text: 0.8, textOut: 1.9,
   shrink: 2.1, shrinkDur: 1.0,
@@ -22,13 +22,31 @@ const DESKTOP = {
   univers: 5.15, universDur: 0.6,
 };
 const HEADER_CENTER = 55; // même valeur que header-theme.js
-const LOGO_CLEARED = 0.72; // part de l'arrivée des univers à partir de laquelle la crème a recouvert le logo
+// Part de l'arrivée des univers (la crème arrive de la droite, le logo est à gauche, sa droite à 25 % de la largeur) où le logo passe en
+// olive (la crème atteint le logo à 75 % : le logo crème y deviendrait invisible), et où la crème l'a recouvert en entier (96 %) : le
+// dégradé crème n'est visible qu'à ce moment-là, sinon il délaverait la bande orange.
+const LOGO_TOUCHED = 0.7;
+const LOGO_COVERED = 0.96;
 
 export function initNoelStage() {
   const stage = document.getElementById("nstage");
   if (!stage) return;
 
   const mm = gsap.matchMedia();
+
+  // Sans scène épinglée (mobile, mouvement réduit), la section Nos univers est une section crème comme les autres : l'en-tête passe en
+  // thème clair avec le dégradé crème pendant qu'elle est sous lui.
+  mm.add("(max-width: 900px), (prefers-reduced-motion: reduce)", () => {
+    ScrollTrigger.create({
+      trigger: stage.querySelector(".univers"),
+      start: `top ${HEADER_CENTER}px`,
+      end: `bottom ${HEADER_CENTER}px`,
+      refreshPriority: -1,
+      onToggle: (self) => setHeaderOverride(self.isActive ? { theme: "light", gradient: "cream" } : null),
+    });
+    return () => setHeaderOverride(null);
+  });
+
   mm.add("(min-width: 901px) and (prefers-reduced-motion: no-preference)", () => {
     const T = DESKTOP;
     const root = document.documentElement;
@@ -56,26 +74,38 @@ export function initNoelStage() {
       addUnivers(tl, ctx);
       tl.set({}, {}, T.total); // fixe la durée : 1 unité de timeline = 1 écran de scroll
 
-      // Header : dès que la crème a dépassé le logo (elle arrive de la droite et le logo est à gauche, à 25 % de la largeur), le logo et le
-      // bouton passent en thème clair avec le dégradé crème, jusqu'à ce que la scène quitte le header une fois désépinglée (le CTA final,
-      // orange, reprend alors la main).
-      ScrollTrigger.create({
-        start: () => st.start + ((T.univers + T.universDur * LOGO_CLEARED) / T.total) * (st.end - st.start),
-        end: () => st.end + stage.offsetHeight - HEADER_CENTER,
+      // Header : le logo et le bouton passent en thème clair quand la crème approche du logo, puis le dégradé crème s'y ajoute quand elle
+      // l'a recouvert, jusqu'à ce que la scène quitte l'écran une fois désépinglée (« Notre fonctionnement » prend alors le relais).
+      const at = (part) => () => st.start + ((T.univers + T.universDur * part) / T.total) * (st.end - st.start);
+      const end = () => st.end + stage.offsetHeight;
+      const theme = ScrollTrigger.create({
+        start: at(LOGO_TOUCHED),
+        end,
         refreshPriority: -1,
-        onToggle: (self) => setHeaderOverride(self.isActive ? { theme: "light", gradient: "cream" } : null),
+        onToggle: (self) => setHeaderOverride(self.isActive ? { theme: "light", gradient: "off" } : null),
+      });
+      ScrollTrigger.create({
+        start: at(LOGO_COVERED),
+        end,
+        refreshPriority: -1,
+        onToggle: (self) => setHeaderOverride(self.isActive ? { theme: "light", gradient: "cream" } : theme.isActive ? { theme: "light", gradient: "off" } : null),
       });
 
-      // Clavier : le CTA du flux vit dans la scène épinglée, invisible tant que le scroll n'est pas arrivé à son entrée. Quand il reçoit
-      // le focus avant, on amène le scroll jusqu'à l'instant où il est visible.
+      // Clavier : le CTA du flux et la liste des univers vivent dans la scène épinglée, invisibles tant que le scroll n'est pas arrivé à leur
+      // entrée. Quand l'un reçoit le focus avant, on amène le scroll jusqu'à l'instant où il est visible.
       const cta = stage.querySelector(".flux__content .cta");
-      const onFocus = () => {
-        const target = st.start + (T.cta + 0.4) * stage.offsetHeight;
+      const univers = stage.querySelector(".univers");
+      const bringTo = (position) => {
+        const target = st.start + position * stage.offsetHeight;
         if (window.scrollY < target) scrollTo(target, { immediate: true }); // instantané : une animation Lenis écraserait le saut natif du Tab suivant
       };
-      cta.addEventListener("focus", onFocus);
+      const onCtaFocus = () => bringTo(T.cta + 0.4);
+      const onUniversFocus = () => bringTo(T.total - 0.01); // la liste est révélée en fin de scène
+      cta.addEventListener("focus", onCtaFocus);
+      univers.addEventListener("focusin", onUniversFocus);
       return () => {
-        cta.removeEventListener("focus", onFocus);
+        cta.removeEventListener("focus", onCtaFocus);
+        univers.removeEventListener("focusin", onUniversFocus);
         setHeaderOverride(null);
       };
     };

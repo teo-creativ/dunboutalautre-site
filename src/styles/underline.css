@@ -1,0 +1,12 @@
+/* Soulignement orange animé (src/scripts/mark.js) : un trait posé sous le texte de son parent (position: relative), rogné à gauche et
+   à droite par --l et --r (en %). Au repos il est invisible. --uline-h : épaisseur, --uline-gap : écart au bas de la boîte du texte. */
+.uline {
+  --l: 0;
+  --r: 100;
+  position: absolute;
+  inset: auto 0 var(--uline-gap, -0.04em);
+  height: var(--uline-h, 2px);
+  background: var(--orange);
+  clip-path: inset(0 calc(var(--r) * 1%) 0 calc(var(--l) * 1%));
+  pointer-events: none;
+}

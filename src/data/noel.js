@@ -1,7 +1,6 @@
 // Contenu de la landing Noël V2 (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md), texte repris tel quel.
 // Le texte du hero, de « Notre volonté » et du titre du flux est dans la page (decoration-noel-entreprises-paris/index.html), car il
-// porte des title tags. Ici : les photos, les univers et la FAQ. Les sections Nos univers, Notre fonctionnement, Témoignages et FAQ
-// sont complétées aux prompts 05 et 06.
+// porte des title tags. Ici : les photos, les univers, les étapes et la FAQ. Témoignages et FAQ sont complétées au prompt 06.
 
 export const noel = {
   path: "/decoration-noel-entreprises-paris/",
@@ -50,13 +49,35 @@ export const noel = {
     ],
   },
 
-  // Nos univers : bloc provisoire du prompt 04 (remplacé au prompt 05).
+  // Nos univers (04 §4). Une seule photo-carte pour les cinq univers pour l'instant : un champ `photo` ({ src, alt }) sur un univers
+  // la remplace, la photo change alors en fondu enchaîné de 0,5 s à chaque changement d'univers (universes.js).
+  // default : indice de l'univers ouvert au chargement sur ordinateur (« Noël immersif », comme sur la maquette) ; sur tactile, le premier.
   univers: {
     label: "NOS UNIVERS",
     photo: {
       src: "noel-v2/noel-salon-dore-couleur",
       alt: "Salon aux boiseries dorées décoré de branches givrées, de bûches de bouleau et de bougies devant une cheminée",
     },
+    default: 2,
+    items: [
+      { title: "Noël naturel", text: "Sapin, branches, pommes de pin et végétaux naturels. Une ambiance chaleureuse, qui sent la forêt." },
+      { title: "Noël chic", text: "Blanc, doré et végétal. Un Noël élégant et sobre, pour les lieux qui reçoivent une clientèle exigeante." },
+      { title: "Noël immersif", text: "Forêt, arche, plafond végétalisé, scénographie complète. On transforme le lieu entier : vos clients entrent dans un décor." },
+      { title: "Noël corporate", text: "Un décor aux couleurs de votre marque, avec votre logo. Votre Noël devient une extension de votre identité." },
+      { title: "Noël responsable", text: "Location, réutilisation d'une année sur l'autre, végétaux artificiels ou stabilisés. Un décor beau, sans gaspillage." },
+    ],
+  },
+
+  // Notre fonctionnement (04 §5).
+  process: {
+    label: "NOTRE FONCTIONNEMENT",
+    steps: [
+      { title: "Brief", text: "Vous nous indiquez le lieu, la surface, le budget et l'univers qui vous plaît. On peut aussi passer sur place pour mesurer." },
+      { title: "Proposition visuelle", text: "On vous envoie un moodboard et un devis. On ajuste ensemble jusqu'à validation." },
+      { title: "Fabrication", text: "Les éléments du décor sont préparés en atelier : couronnes, compositions, structures, décors aux couleurs de votre marque." },
+      { title: "Installation", text: "Notre équipe installe sur site, dans vos délais, avec le moins de gêne possible pour votre activité." },
+      { title: "Démontage", text: "Après les fêtes, on revient tout démonter, au moment qui vous arrange." },
+    ],
   },
 
   // FAQ de la V1, gardée le temps du prompt 06 : elle alimente le JSON-LD de noel-seo.js, la section n'est plus dans la page.

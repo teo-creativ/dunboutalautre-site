@@ -1,14 +1,13 @@
 // FAQ en accordéon accessible : un bouton par question (aria-expanded, aria-controls), un panneau par réponse.
 // L'ouverture anime la hauteur jusqu'à « auto » puis rend la main au CSS : le panneau suit ensuite le redimensionnement.
 // Clavier : Entrée et Espace (natifs), flèches haut et bas, Début et Fin pour passer d'une question à l'autre.
-import { gsap, ScrollTrigger } from "./core.js";
+import { gsap, ScrollTrigger, reducedMotion } from "./core.js";
 
 export function initFaq() {
   const list = document.querySelector(".faq__list");
   if (!list) return;
 
   const triggers = [...list.querySelectorAll(".faq__trigger")];
-  const reduceMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   // La page change de hauteur : les positions des animations au scroll sont à recalculer, une fois l'animation finie.
   const refresh = () => ScrollTrigger.refresh();
 
@@ -18,7 +17,7 @@ export function initFaq() {
     button.setAttribute("aria-expanded", String(open));
     gsap.killTweensOf([panel, answer]);
 
-    if (!animate || reduceMotion()) {
+    if (!animate || reducedMotion()) {
       panel.hidden = !open;
       gsap.set([panel, answer], { clearProps: "height,opacity,visibility,transform" });
       return;

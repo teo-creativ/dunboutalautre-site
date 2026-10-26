@@ -63,12 +63,13 @@ export function initMarquee() {
       timer = setTimeout(build, 200);
     };
     window.addEventListener("resize", onResize);
-    document.fonts?.ready.then(build);
+    window.addEventListener("dbal:relayout", build); // polices arrivées après l'initialisation (réseau lent)
 
     return () => {
       alive = false;
       clearTimeout(timer);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("dbal:relayout", build);
       viewport.removeEventListener("mouseenter", slow);
       viewport.removeEventListener("mouseleave", resume);
       visibility.kill();

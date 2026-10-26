@@ -65,11 +65,12 @@ export function initFooterReveal() {
       timer = setTimeout(update, 200);
     };
     window.addEventListener("resize", onResize);
-    document.fonts?.ready.then(update);
+    window.addEventListener("dbal:relayout", update); // polices arrivées après l'initialisation (réseau lent)
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("dbal:relayout", update);
       footer.removeEventListener("focusin", onFocusIn);
       disable();
     };

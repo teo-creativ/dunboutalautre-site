@@ -31,6 +31,10 @@ img { max-width: 100%; display: block; }
   white-space: nowrap;
 }
 
+/* Reprise de scroll (scroll-memory.js) : la page reste masquée le temps de revenir à la position quittée, puis apparaît en fondu. */
+body { transition: opacity 0.3s; }
+html.restoring body { opacity: 0; }
+
 /* Lenis */
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -39,3 +43,6 @@ html.lenis, html.lenis body { height: auto; }
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .01ms !important; transition-duration: .2s !important; }
 }
+
+/* <main> reçoit le focus du lien d'évitement (tabindex -1) : pas d'anneau, ce n'est pas un contrôle. */
+main:focus { outline: none; }

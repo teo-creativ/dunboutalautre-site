@@ -1,5 +1,5 @@
 import "../styles/main.css";
-import "./core.js";
+import { ScrollTrigger, fontsLoaded, initCore } from "./core.js";
 import { initCta } from "./cta.js";
 import { initFaq } from "./faq.js";
 import { initFooterReveal } from "./footer-reveal.js";
@@ -9,25 +9,54 @@ import { initMarquee } from "./marquee.js";
 import { initMenu } from "./menu.js";
 import { initParallax } from "./parallax.js";
 import { initProcess } from "./process.js";
+import { initReducedMotion } from "./reduced-motion.js";
 import { initReveal } from "./reveal.js";
+import { restoreScroll, rememberScroll } from "./scroll-memory.js";
 import { initServices } from "./services.js";
+import { initSkipLink } from "./skip-link.js";
 import { initStage } from "./stage.js";
 import { initStats } from "./stats.js";
 
-initCta();
-initMenu();
-initStage();
-initServices();
-initStats();
-// Landing Noël : chaque module ne fait rien si ses éléments sont absents de la page.
-initReveal();
-initMarquee();
-initProcess();
-initParallax();
-initFaq();
-initFooterReveal();
-initHeaderTheme(); // après les pins : ses triggers en dépendent (refreshPriority et data-pin-length)
-initIntro();
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// Rend la main au navigateur entre deux groupes d'initialisation : il peut peindre et répondre, aucune tâche ne reste longue.
+const nextTask = () => (globalThis.scheduler?.yield ? scheduler.yield() : wait(0));
+// Après le premier rendu : la première mise en page se fait hors de nos tâches (le hero est masqué par html.js, rien ne clignote).
+const afterFirstPaint = () => new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve)));
+const loaded = document.readyState === "complete" ? Promise.resolve() : new Promise((resolve) => addEventListener("load", resolve, { once: true }));
+
+async function boot() {
+  rememberScroll();
+  initSkipLink();
+  await afterFirstPaint();
+  initCore();
+  const fontsOk = await fontsLoaded();
+
+  // Ordre utile : les pins avant ce qui dépend de leur position (header-theme : refreshPriority et data-pin-length).
+  // Landing Noël : chaque module ne fait rien si ses éléments sont absents de la page.
+  const groups = [
+    [initCta, initMenu],
+    [initStage],
+    [initServices, initStats],
+    [initReveal, initMarquee, initProcess, initParallax, initFaq],
+    [initReducedMotion, initFooterReveal, initHeaderTheme],
+  ];
+  for (const group of groups) {
+    group.forEach((init) => init());
+    await nextTask();
+  }
+
+  // Un seul recalcul des positions, avant l'intro : polices en place, mises en page terminées.
+  await Promise.race([loaded, wait(1000)]);
+  ScrollTrigger.refresh();
+  const restored = restoreScroll() > 0;
+  document.documentElement.classList.remove("restoring");
+  initIntro({ skip: restored });
+
+  // Réseau lent : les polices arrivent après l'initialisation, les textes découpés et les mesures sont à refaire.
+  if (!fontsOk) document.fonts.ready.then(() => window.dispatchEvent(new Event("dbal:relayout")));
+}
+
+boot();
 
 // Liens fictifs (#) : le prototype ne renvoie pas en haut de page.
 document.addEventListener("click", (e) => {

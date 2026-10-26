@@ -1,6 +1,6 @@
 // Menu plein écran (ANIMATIONS.md §9) : ouverture et fermeture en une timeline inversée, état de « Services »,
 // focus piégé, Échap, inert sur le reste de la page. Les survols des liens sont en CSS (menu.css).
-import { gsap, SplitText, lenis } from "./core.js";
+import { gsap, SplitText, lenis, scrollTo } from "./core.js";
 import { setCtaLabel } from "./cta.js";
 import { lockHeaderTheme, unlockHeaderTheme } from "./header-theme.js";
 
@@ -25,7 +25,7 @@ export function initMenu() {
   const buildFull = () => {
     const q = (selector) => menu.querySelectorAll(selector);
     const title = menu.querySelector(".menu__title");
-    const split = SplitText.create(title, { type: "words", mask: "words", ignore: ".tag" });
+    const split = SplitText.create(title, { type: "words", mask: "words", ignore: ".tag", aria: "none" });
     const tag = title.querySelector(".tag");
     const links = q(".menu__links > .menu__item > .menu-link");
 
@@ -149,7 +149,7 @@ export function initMenu() {
     } else if (new URL(a.href).pathname === location.pathname && !a.protocol.startsWith("mailto") && a.origin === location.origin) {
       e.preventDefault();
       close();
-      lenis.scrollTo(0);
+      scrollTo(0);
     }
   });
 

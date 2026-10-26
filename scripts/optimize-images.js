@@ -9,10 +9,16 @@ const OUT = "public/assets/optimized";
 const WIDTHS = [480, 800, 1400, 2200];
 // Le grain des photos N&B se compresse mal : qualité plus haute pour éviter l'effet empâté.
 const QUALITY = 82;
+// La grande photo plein cadre de « Notre approche » est vue sous un voile de 45 % : son grain y est peu lisible, et c'est
+// la plus lourde du site (700 Ko à 82, 515 Ko à 74 pour 3 dB de moins).
+const QUALITY_BY_IMAGE = { "home-scroll/bw-lavande-tour-eiffel-large": 74 };
+const EFFORT = 6;
 
+// Une sortie est à jour si elle est plus récente que la source ET que ce script (réglages changés : on régénère).
+const scriptTime = (await stat(new URL(import.meta.url))).mtimeMs;
 const isUpToDate = async (src, out) => {
   try {
-    return (await stat(out)).mtimeMs >= (await stat(src)).mtimeMs;
+    return (await stat(out)).mtimeMs >= Math.max((await stat(src)).mtimeMs, scriptTime);
   } catch {
     return false;
   }
@@ -40,7 +46,7 @@ for (const dir of await readdir(SRC)) {
         if (await isUpToDate(src, out)) return;
         let img = sharp(src).resize({ width: w, withoutEnlargement: true });
         if (opaque && hasAlpha) img = img.removeAlpha();
-        await img.webp({ quality: QUALITY }).toFile(out);
+        await img.webp({ quality: QUALITY_BY_IMAGE[`${dir}/${name}`] ?? QUALITY, effort: EFFORT }).toFile(out);
         made++;
       }),
     );

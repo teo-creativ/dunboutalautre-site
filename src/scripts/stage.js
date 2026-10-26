@@ -1,7 +1,8 @@
 // Scène épinglée de l'accueil : hero, cercle orange, photos en perspective et photo qui grandit forment une seule
 // timeline pilotée par le scroll. Une unité de timeline vaut un écran de scroll, donc un seul pin, aucun espace vide
 // entre le hero et la section orange, et aucun flash au dégagement du pin.
-import { gsap, ScrollTrigger } from "./core.js";
+import { gsap, scrollTo } from "./core.js";
+import { keepScroll, scrollRatio } from "./scroll-memory.js";
 import { addCircle } from "./hero-circle.js";
 import { addApproach } from "./approach.js";
 import { addOrangeText, addPhotos } from "./photos-scroll.js";
@@ -46,9 +47,6 @@ export function initStage() {
   const stage = document.getElementById("stage");
   if (!stage) return;
 
-  // Le pin ajoute de la hauteur de page : on ne laisse pas le navigateur restaurer un scroll calculé sans elle.
-  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-
   const mm = gsap.matchMedia();
   mm.add(
     {
@@ -81,30 +79,50 @@ export function initStage() {
         addPhotos(tl, ctx);
         addApproach(tl, ctx);
         tl.set({}, {}, T.total); // fixe la durée : 1 unité de timeline = 1 écran de scroll
+
+        // Clavier : le CTA de la section orange vit dans la scène épinglée, invisible tant que le scroll n'est pas arrivé à son
+        // entrée. Quand il reçoit le focus avant, on amène le scroll jusqu'à l'instant où il est visible.
+        const cta = stage.querySelector(".experience__content .cta");
+        const onFocus = () => {
+          const target = tl.scrollTrigger.start + (T.cta + 0.4) * stage.offsetHeight;
+          if (window.scrollY < target) scrollTo(target, { immediate: true }); // instantané : une animation Lenis écraserait le saut natif du Tab suivant
+        };
+        cta.addEventListener("focus", onFocus);
+        return () => cta.removeEventListener("focus", onFocus);
       };
 
       // Le texte est découpé en lignes : quand la largeur change, les retours à la ligne aussi, donc on reconstruit tout.
       // Un changement de hauteur seul (barre d'adresse mobile) est géré par invalidateOnRefresh, sans reconstruction.
+      // Même chose si les polices arrivent après l'initialisation (réseau lent, événement dbal:relayout de main.js).
       let scope = gsap.context(build);
       let width = window.innerWidth;
       let timer;
-      const onResize = () => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          if (window.innerWidth === width) return;
-          width = window.innerWidth;
+      const rebuild = (ratio) =>
+        keepScroll(() => {
           scope.revert();
           scope = gsap.context(build);
+        }, ratio);
+      // Le point de lecture est noté au premier événement : ScrollTrigger recalcule de lui-même 200 ms plus tard.
+      let reading;
+      const onResize = () => {
+        reading ??= scrollRatio();
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          const ratio = reading;
+          reading = undefined;
+          if (window.innerWidth === width) return;
+          width = window.innerWidth;
+          rebuild(ratio);
         }, 300);
       };
+      const onRelayout = () => rebuild();
       window.addEventListener("resize", onResize);
-
-      // Les polices changent la hauteur du texte : les positions mesurées sont à relire quand elles sont chargées.
-      document.fonts?.ready.then(() => ScrollTrigger.refresh());
+      window.addEventListener("dbal:relayout", onRelayout);
 
       return () => {
         clearTimeout(timer);
         window.removeEventListener("resize", onResize);
+        window.removeEventListener("dbal:relayout", onRelayout);
         scope.revert();
         root.classList.remove("stage-anim");
         root.style.removeProperty("--overlap");

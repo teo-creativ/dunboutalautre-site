@@ -74,7 +74,7 @@ const onOut = (e) => { const cta = ctaOf(e); if (cta && !cta.contains(e.relatedT
 const onFocusIn = (e) => { const cta = ctaOf(e); if (cta && e.target.matches(":focus-visible")) setFlag(cta, "focus", true); };
 const onFocusOut = (e) => { const cta = ctaOf(e); if (cta) setFlag(cta, "focus", false); };
 
-// Les mesures dépendent de la largeur du bouton : le resize et le chargement des polices les font relire,
+// Les mesures dépendent de la largeur du bouton : le resize et l'arrivée tardive des polices les font relire,
 // sans toucher à la position de lecture.
 let resizeTimer;
 const invalidate = () => states.forEach(({ tl }) => tl.invalidate());
@@ -93,7 +93,7 @@ export function initCta() {
     document.addEventListener("focusin", onFocusIn);
     document.addEventListener("focusout", onFocusOut);
     window.addEventListener("resize", onResize);
-    document.fonts?.ready.then(invalidate);
+    window.addEventListener("dbal:relayout", invalidate);
 
     return () => {
       document.documentElement.classList.remove("cta-anim");
@@ -102,6 +102,7 @@ export function initCta() {
       document.removeEventListener("focusin", onFocusIn);
       document.removeEventListener("focusout", onFocusOut);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("dbal:relayout", invalidate);
       clearTimeout(resizeTimer);
       for (const cta of [...states.keys()]) destroy(cta);
     };

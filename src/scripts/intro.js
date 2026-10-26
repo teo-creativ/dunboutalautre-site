@@ -1,16 +1,19 @@
 // Animation de chargement des pages (ANIMATIONS.md §2) : header, ligne de positionnement, titre mot à mot sous masque,
 // title tags qui apparaissent, CTA. Les éléments sont masqués en CSS (html.js) jusqu'à ce que GSAP les reprenne.
 // La landing Noël ajoute le sous-titre, le téléphone et la photo en arche, qui se dévoile de bas en haut.
-import { gsap, SplitText } from "./core.js";
+import { gsap, SplitText, reducedMotion } from "./core.js";
 
-const reduceMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const fontsReady = () =>
-  Promise.race([document.fonts?.ready, new Promise((resolve) => setTimeout(resolve, 1500))]);
+// Le CSS ne masque plus rien : le contenu est visible tel quel, sans animation.
+const endIntro = () => {
+  document.documentElement.classList.remove("js");
+  clearTimeout(window.__introFailsafe);
+};
 
-export async function initIntro() {
+// skip : la page est restaurée en milieu de parcours, le hero n'est plus à l'écran.
+export function initIntro({ skip = false } = {}) {
   const title = document.querySelector(".hero__title");
-  if (!title || reduceMotion()) return;
-  await fontsReady();
+  if (!title) return;
+  if (skip || reducedMotion()) return endIntro();
 
   const q = (selector) => document.querySelector(selector);
   const logo = q(".header__logo");
@@ -23,7 +26,7 @@ export async function initIntro() {
   const photo = q(".hero__photo");
   const photoImg = photo?.querySelector("img");
   const cta = q(".hero__inner .cta");
-  const split = SplitText.create(title, { type: "words", mask: "words", ignore: ".tag" });
+  const split = SplitText.create(title, { type: "words", mask: "words", ignore: ".tag", aria: "none" });
   const tags = title.querySelectorAll(".tag");
   // Rotation finale du tag, lue dans le CSS (--tag-rotate) : l'animation part de 0 et y revient exactement.
   const tagRotation = (_index, tag) => parseFloat(getComputedStyle(tag).getPropertyValue("--tag-rotate"));
@@ -34,7 +37,7 @@ export async function initIntro() {
   gsap.set(header, { autoAlpha: 0, y: 12 });
   gsap.set(leaves, { opacity: 0 });
   if (tagline) gsap.set(tagline, { autoAlpha: 0 });
-  gsap.set(rises, { autoAlpha: 0, y: 20 });
+  if (rises.length) gsap.set(rises, { autoAlpha: 0, y: 20 }); // vide sur l'accueil : GSAP avertirait d'une cible absente
   gsap.set(split.words, { yPercent: 110 });
   gsap.set(title, { autoAlpha: 1 });
   gsap.set(tags, { autoAlpha: 0, scale: 0.7, rotation: 0, clipPath: "inset(0% 100% 0% 0%)" });
@@ -43,8 +46,7 @@ export async function initIntro() {
     gsap.set(photo, { opacity: 1, clipPath: "inset(100% 0% 0% 0%)" });
     gsap.set(photoImg, { scale: 1.3 });
   }
-  document.documentElement.classList.remove("js");
-  clearTimeout(window.__introFailsafe);
+  endIntro();
 
   const tl = gsap
     .timeline({

@@ -58,10 +58,18 @@ html.stage-anim .approach { z-index: 2; }
    du CTA du hero (qui est dessous). Le CTA de la section orange ne reprend les clics qu'à son entrée (photos-scroll.js). */
 html.stage-anim .experience { pointer-events: none; }
 
-/* Superposition (ANIMATIONS.md §6) : les services remontent par-dessus la scène encore épinglée. Leur marge négative les
-   place à un écran (--overlap) avant la fin du pin ; ils sont opaques et au-dessus de la scène. */
-html.stage-anim .services {
+/* Superposition (ANIMATIONS.md §6) : la section Réalisations remonte par-dessus la scène encore épinglée. Sa marge négative la
+   place à un écran (--overlap) avant la fin du pin ; elle est opaque et au-dessus de la scène. */
+html.stage-anim .realisations {
   position: relative;
   z-index: 2;
   margin-top: calc(var(--overlap, 1) * -100svh);
+}
+
+/* Même mécanisme, un cran plus loin : les services remontent par-dessus la section Réalisations encore épinglée (desktop avec
+   mouvement, classe posée par realisations.js). Sans elle (mobile, mouvement réduit), les services suivent dans le flux. */
+html.real-anim .services {
+  position: relative;
+  z-index: 3;
+  margin-top: -100svh;
 }

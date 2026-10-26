@@ -70,6 +70,9 @@ export function initStage() {
             scrub: 1,
             anticipatePin: 1,
             invalidateOnRefresh: true,
+            // La scène est reconstruite au changement de largeur : son pin est alors recréé après ceux qui la suivent (Réalisations,
+            // chiffres clés). Sans priorité, il serait recalculé en dernier et les pins suivants partiraient d'une page trop courte.
+            refreshPriority: 1,
           },
         });
 

@@ -1,0 +1,151 @@
+/* Section Réalisations (retours-v2/docs/02-SECTION-REALISATIONS.md, capture d'état actif realisations-etat-actif-couleurs.png).
+   Fond olive. Desktop avec mouvement : deux colonnes dans une scène épinglée (realisations.js) ; liste de titres à gauche dans une
+   fenêtre aux bords fondus, pile de photos à droite qui déborde jusqu'au bord de l'écran. Mobile et mouvement réduit : cartes
+   (titre puis photo) obtenues en entrelaçant les mêmes éléments dans une grille. Proportions mesurées sur le design, en vw. */
+.realisations {
+  --pitch: 5.2vw; /* pas vertical des titres : 90 px à 1728 */
+  --center: 52svh; /* ligne centrale : le titre actif et la photo active y sont centrés */
+  --photo-w: 43.3vw;
+  --photo-h: calc(var(--photo-w) * 4 / 5); /* ratio 5 / 4 */
+  --gap: 2.2vw; /* espace entre deux photos */
+  --shift: 2.2vw; /* décalage du texte d'un titre actif */
+  --fs-real: clamp(1.75rem, 2.84vw, 3.4rem); /* 49 px : « Saint-Tropez, BHV » fait 24,4 vw sur le design et sur les frames (le doc dit 2,6 vw) */
+  position: relative;
+  background: var(--olive);
+  color: var(--white);
+}
+
+/* Voile de sortie : les services recouvrent la section, qui s'assombrit vers l'olive (équivalent d'une opacité de 1 à 0,6 sur le contenu). */
+.realisations__dim { display: none; }
+
+/* ---------- Cartes : mobile et mouvement réduit ---------- */
+.realisations__pin {
+  display: grid;
+  padding: var(--section-y) var(--gutter);
+}
+.realisations__label { margin-bottom: 2rem; }
+
+/* Les conteneurs disparaissent : les titres et les photos deviennent les éléments d'une même grille, une ligne chacun (--i). */
+.realisations__window,
+.realisations__list,
+.realisations__media,
+.realisations__photos { display: contents; }
+
+.real-title { grid-column: 1; grid-row: calc(var(--i) * 2 + 2); }
+.real-photo {
+  grid-column: 1;
+  grid-row: calc(var(--i) * 2 + 3);
+  margin-bottom: 2.75rem;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--radius-photo);
+}
+.real-photo a { display: block; height: 100%; }
+.real-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Sans mouvement le point et le soulignement restent visibles : l'état actif en version discrète. */
+.real-title__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-block: 0.25rem 1rem;
+}
+.real-title__dot {
+  flex: none;
+  width: 0.55rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--orange);
+}
+.real-title__text {
+  position: relative;
+  font-size: clamp(1.75rem, 7.5vw, 2.5rem);
+  font-weight: 300;
+  line-height: 1.2;
+}
+/* Soulignement : un trait dont les bords gauche et droit sont rognés par deux variables (0 à 100) que GSAP anime, ce qui permet de le
+   dessiner de gauche à droite puis de le retirer vers la droite sans changer d'origine. */
+.real-title__line {
+  --l: 0;
+  --r: 0;
+  position: absolute;
+  inset: auto 0 -0.04em;
+  height: 3px;
+  background: var(--orange);
+  clip-path: inset(0 calc(var(--r) * 1%) 0 calc(var(--l) * 1%));
+}
+
+/* Grand écran en mouvement réduit : les cartes gardent la marge des services et une largeur proche de celle des photos (749 px). */
+@media (min-width: 901px) {
+  .realisations__pin { padding-inline: var(--section-x); grid-template-columns: minmax(0, 46rem); }
+}
+
+/* ---------- Desktop avec mouvement : scène épinglée à deux colonnes ---------- */
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .realisations__pin {
+    position: relative;
+    display: block;
+    height: 100svh;
+    padding: 0;
+    overflow: clip;
+  }
+  .realisations__label { position: absolute; left: 9.5vw; top: calc(20svh - 0.6vw); margin: 0; } /* centre du label à 20 % de la hauteur */
+
+  /* Fenêtre de cinq titres centrée sur la ligne centrale, haut et bas fondus vers l'olive : les voisins immédiats du titre actif
+     restent à 100 %, le premier et le dernier sont pâles. overflow: clip et non hidden : le focus clavier ne peut pas la faire défiler. */
+  .realisations__window {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: calc(var(--center) - 2.5 * var(--pitch));
+    width: 56vw;
+    height: calc(5 * var(--pitch));
+    overflow: clip;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+  }
+  /* Le premier titre est dans la troisième case, donc au centre de la fenêtre : la liste n'a plus qu'à monter. */
+  .realisations__list { display: block; padding: calc(2 * var(--pitch)) 0 0 9.5vw; }
+  .real-title { display: flex; align-items: center; height: var(--pitch); grid-row: auto; }
+  /* Le padding droit réserve la place du décalage du texte (--shift) : le lien, donc son anneau de focus, englobe le point et le texte décalé. */
+  .real-title__link { display: inline-block; padding: 0 var(--shift) 0 0; }
+  .real-title__link:focus-visible { outline-offset: 0.2em; border-radius: 0.2em; }
+  .real-title__text { display: inline-block; font-size: var(--fs-real); }
+
+  /* État de départ de tous les titres : ni point ni soulignement. GSAP active celui qui passe sur la ligne centrale. */
+  .real-title__dot {
+    position: absolute;
+    left: 0;
+    top: calc(50% - 0.45vw);
+    width: 0.9vw;
+    transform: scale(0);
+  }
+  .real-title__line { --r: 100; }
+
+  .realisations__dim {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: var(--olive);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Pile de photos : bord gauche à 56,7 vw, elle déborde à droite (coins droits hors écran). */
+  .realisations__media {
+    display: block;
+    position: absolute;
+    left: 56.7vw;
+    right: 0;
+    top: calc(var(--center) - var(--photo-h) / 2);
+  }
+  .realisations__photos { display: block; }
+  .real-photo {
+    width: var(--photo-w);
+    margin: 0 0 var(--gap);
+    grid-row: auto;
+    aspect-ratio: 5 / 4;
+    border-radius: var(--radius-photo) 0 0 var(--radius-photo);
+  }
+}

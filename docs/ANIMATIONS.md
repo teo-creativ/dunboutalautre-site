@@ -6,9 +6,9 @@ Références : `references/frames/`, `references/menu/`, PDF dans `references/an
 
 - GSAP + ScrollTrigger + SplitText, Lenis branché sur ScrollTrigger (une seule boucle `gsap.ticker`, `lagSmoothing(0)`).
 - `ScrollTrigger.config({ ignoreMobileResize: true })` ; `ScrollTrigger.normalizeScroll` seulement si nécessaire.
-- Un fichier par animation dans `src/scripts/` : `intro.js`, `hero-circle.js`, `photos-scroll.js`, `approach.js`, `services.js`, `stats.js`, `footer-reveal.js`, `menu.js`, `cta.js`, `header-theme.js`.
+- Un fichier par animation dans `src/scripts/` : `intro.js`, `hero-circle.js`, `photos-scroll.js`, `approach.js`, `realisations.js`, `services.js`, `stats.js`, `footer-reveal.js`, `menu.js`, `cta.js`, `header-theme.js`.
 - Tout est réversible au scroll arrière (scrub), sans saut.
-- Ordre des sections dans le DOM : `hero` → `experience` (orange puis photos puis approche) → `services` → `stats` → `footer`.
+- Ordre des sections dans le DOM : `hero` → `experience` (orange puis photos puis approche) → `realisations` (V2) → `services` → `stats` → `footer`.
 
 ## 2. Chargement de la page (intro)
 
@@ -56,6 +56,8 @@ Frames : `home-animation-08` à `11`.
 
 ## 6. Transition vers les services (superposition) et survol
 
+> V2 : la section **Réalisations** (§6 bis) s'intercale. C'est elle qui remonte par-dessus « Notre approche » avec le mécanisme décrit ci-dessous, et les services remontent ensuite par-dessus elle, avec le même mécanisme et la même animation d'entrée.
+
 Frames : `home-transition-1` à `3`, `references/menu/services-rows-et-chiffres-cles.png`.
 - La section « Notre approche » reste **épinglée en arrière-plan** (pin sans espace ajouté) pendant que la section **Services (crème)** **remonte par-dessus** (superposition, `z-index` supérieur). Bord supérieur de la section crème droit.
 - Pendant la superposition, le contenu de la section précédente : `opacity: 1 → 0`, `scale: 1 → 0.92` (le texte « se réduit »), la photo s'assombrit un peu (`brightness`) et bouge légèrement (`yPercent: 0 → -8`, parallaxe).
@@ -66,6 +68,17 @@ Frames : `home-transition-1` à `3`, `references/menu/services-rows-et-chiffres-
   - **au repos** (aucune ligne survolée) : toutes les lignes sont à une opacité intermédiaire lisible (~0,85, couleur `--olive`) ;
   - sur tactile : toutes les lignes à 100 %, pas de survol.
 - Chaque ligne est un lien (`<a>`) vers la page de service (fictive pour l'instant). Les états de survol doivent exister aussi en `:focus-visible`.
+
+## 6 bis. Section Réalisations (V2)
+
+Source : `retours-v2/docs/02-SECTION-REALISATIONS.md`, `references/realisations-frames/` (mouvement), `references/design/realisations-etat-actif-couleurs.png` (couleurs et proportions). Données : `src/data/realisations.js`. Script : `src/scripts/realisations.js`.
+- **Entrée** : la section olive remonte par-dessus « Notre approche » (marge négative `--overlap` en CSS, comme les services avant elle). Pendant la montée, le label apparaît, la liste arrive et la pile de photos monte de 30 % de la hauteur de l'écran. Le premier titre devient actif à 55 % de la montée.
+- **Pin** (≈ 4,1 écrans) : liste de titres (gauche, marge 9,5 vw, fenêtre de 5 titres aux bords fondus) et pile de photos (droite, bord gauche à 56,7 vw, ratio 5/4, débord à droite) défilent dans **une seule timeline**, du même nombre de crans : quand le titre i est sur la ligne centrale (52 svh), la photo i est centrée. 0,7 écran par réalisation, tenue de 0,3 écran sur la dernière, puis 1 écran de superposition des services.
+- **Titre actif** : celui qui est le plus proche de la ligne centrale, lu sur la position lissée de la timeline (hystérésis de 0,08 cran). Point orange (scale 0 → 1, 0,35 s, `back.out(2)`), texte décalé de 2,2 vw (0,45 s), soulignement orange dessiné de gauche à droite (0,45 s). Il se retire en sens inverse : point qui rétrécit, texte qui revient, trait qui part vers la droite (0,35 s). Les tweens d'un titre sont interrompus explicitement (`killTweensOf`) à chaque changement, et le trait est animé via un objet simple recopié dans des variables CSS.
+- **Survol et focus** : mêmes états que le titre actif en aperçu. Au clavier, le focus amène le scroll à la réalisation du titre.
+- **Aimantation** (`SNAP`, désactivable) : 140 ms après la fin du scroll, la page se pose sur la réalisation la plus proche, avec une amorce dans le sens du geste (plus de 10 % d'un cran suffit). Faite avec `lenis.scrollTo` (0,5 s, `power2.inOut`), car le snap de ScrollTrigger se bat avec le lissage de Lenis. Aucune aimantation pendant la tenue et la superposition.
+- **Sortie** : un voile olive (opacité 0 → 0,4, équivalent à 1 → 0,6 sur le contenu) et la liste qui rétrécit de 4 % autour du dernier titre, pendant que les services remontent.
+- **< 900 px ou mouvement réduit** : pas de pin, les mêmes éléments s'entrelacent en cartes (titre puis photo 16/10) dans une grille ; point et soulignement visibles en permanence ; apparition en fondu et montée de 24 px (mobile avec mouvement).
 
 ## 7. Chiffres clés (cartes qui se superposent)
 

@@ -10,6 +10,7 @@ import { initMenu } from "./menu.js";
 import { initParallax } from "./parallax.js";
 import { initProcess } from "./process.js";
 import { initReducedMotion } from "./reduced-motion.js";
+import { initRealisations } from "./realisations.js";
 import { initReveal } from "./reveal.js";
 import { restoreScroll, rememberScroll } from "./scroll-memory.js";
 import { initServices } from "./services.js";
@@ -36,7 +37,7 @@ async function boot() {
   const groups = [
     [initCta, initMenu],
     [initStage],
-    [initServices, initStats],
+    [initRealisations, initServices, initStats],
     [initReveal, initMarquee, initProcess, initParallax, initFaq],
     [initReducedMotion, initFooterReveal, initHeaderTheme],
   ];

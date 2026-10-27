@@ -28,6 +28,11 @@ export function createMark(line) {
       gsap.killTweensOf(state);
       gsap.to(state, { l: 100, r: 0, duration, ease: "power2.in", onUpdate: paint, onComplete: reset });
     },
+    // Pose le dessin dans la timeline d'un élément, à l'instant `at` : il se dessine à l'avancée et se retire à la marche arrière (de
+    // droite à gauche), toujours calé sur le reste de la timeline. Une interruption repart de l'état en cours, sans saut.
+    into(tl, at, { duration = 0.5, ease = "power3.out" } = {}) {
+      tl.fromTo(state, { l: 0, r: 100 }, { l: 0, r: 0, duration, ease, onUpdate: paint }, at);
+    },
     // Sans animation : état initial (trait entier ou absent).
     set(on) {
       gsap.killTweensOf(state);

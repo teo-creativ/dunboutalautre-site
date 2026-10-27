@@ -42,8 +42,8 @@
   line-height: 1.2;
   text-align: left;
   color: var(--olive-muted); /* repos : 3,5:1 sur crème, suffisant pour un titre de cette taille (le sable de la frame fait 1,7:1) */
-  transition: color 0.35s;
 }
+/* Sans JavaScript, et avant que la timeline de l'univers ne pose sa couleur (universes.js : elle est animée là, pas en CSS). */
 .universe.is-active .universe__btn { color: var(--olive-deep); }
 .universe__btn:focus-visible { outline-offset: 0.15em; border-radius: 0.2em; }
 

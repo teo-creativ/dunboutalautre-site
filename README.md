@@ -1,18 +1,37 @@
-# D'un Bout À L'autre : prototype d'intégration V1
+# D'un Bout À L'autre : prototype d'intégration V2
 
-Accueil + landing Décors de Noël. Stack : Vite, JS vanilla, GSAP (ScrollTrigger, SplitText), Lenis.
+Accueil (`/`) et landing Décors de Noël (`/decoration-noel-entreprises-paris/`). Prototype codé à la main pour montrer la direction design et le niveau d'animation visé ; il ne remplace pas la future version Webflow.
+
+Stack : Vite (multi-pages), JavaScript ES vanilla, CSS natif, GSAP (ScrollTrigger, SplitText), Lenis. Aucun framework.
 
 ## Démarrer
-1. Ouvre ce dossier dans VS Code.
-2. `npm install` puis `npm run dev` (http://localhost:5173).
-3. Lance Claude Code à la racine, colle le contenu de `prompts/00-LANCEMENT.md`, puis suis `prompts/README.md`.
+1. `npm install`
+2. `npm run dev` (http://localhost:5173). La commande génère d'abord les images WebP responsives (`npm run images`).
+3. `npm run build` produit `dist/` sans avertissement, `npm run preview` le sert (http://localhost:4173).
 
-## Contenu du dossier
-- `CLAUDE.md`, `DESIGN.md` : règles et design system
-- `docs/` : animations, contenus exacts, points à valider, copywriting par page, arborescence
-- `references/` : frames des animations, menu, PDF sources, anciennes maquettes
-- `public/assets/` : logo, fonds, photos, logos clients
-- `prompts/` : prompts d'intégration (00 à 10)
+Les captures et les tests d'animation se font sur la build : `npm run build` puis `npm run preview`.
 
-## Build et démo
-`npm run build` produit `dist/` (Netlify ou Vercel : commande `npm run build`, dossier `dist`).
+## Déployer pour partager un lien
+Netlify ou Vercel : commande de build `npm run build`, dossier de publication `dist`. Aucune variable d'environnement. Le domaine `https://dunboutalautre.co` utilisé pour le canonical et Open Graph de la landing est supposé (`src/data/noel.js`).
+
+## Où est quoi
+| Besoin | Fichier |
+|---|---|
+| Règles de travail, stack | `CLAUDE.md` |
+| Design system, composants | `DESIGN.md` |
+| Animations, accueil et Noël V2 | `docs/ANIMATIONS.md` |
+| Textes exacts | `docs/CONTENU-ACCUEIL.md`, `docs/CONTENU-NOEL.md`, `retours-v2/docs/` |
+| Points à valider avec la cliente | `docs/POINTS-A-VALIDER.md` |
+| Retours du fondateur (V2), références image | `retours-v2/` (en cas de conflit, ce dossier prime) |
+| Contenu éditable | `src/data/` : `site.js` (coordonnées, liens, services, chiffres), `realisations.js`, `noel.js` (univers, étapes, avis, FAQ, SEO) |
+| Composants HTML (un fichier par bloc) | `src/components/`, injectés dans les pages par `vite-plugins/inject-components.js` avec `<!--@nom attr="valeur"-->` |
+| Animations (un fichier par animation) | `src/scripts/`, initialisées dans l'ordre par `main.js` ; une seule instance de Lenis, branchée sur ScrollTrigger (`core.js`) |
+| Styles (un fichier par composant) | `src/styles/`, importés par `main.css` ; couleurs et tailles dans `tokens.css`, aucune valeur hexadécimale en dur ailleurs |
+| Images | sources dans `public/assets/`, variantes WebP dans `public/assets/optimized/` (`scripts/optimize-images.js`) |
+
+## Points d'attention
+- Les liens vers les autres pages (services, réalisations, contact) sont fictifs (`#`) et centralisés dans `src/data/site.js` ; un clic dessus ne fait rien.
+- Les 4 avis de la page Noël sont fictifs (`fictif: true` dans `src/data/noel.js`) : à remplacer avant toute mise en ligne.
+- Sous 900 px et avec `prefers-reduced-motion`, il n'y a ni épinglage ni parallaxe : sections empilées, contenu visible, fondus courts.
+- Sans JavaScript, les deux pages restent lisibles et complètes (FAQ dépliée, avis visibles).
+- La vérification visuelle se fait avec Chrome piloté par le protocole de débogage (pas de Playwright, aucune dépendance ajoutée).

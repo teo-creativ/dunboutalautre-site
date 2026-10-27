@@ -15,6 +15,8 @@
   /* Dégradé de lisibilité sous le header (retours-v2/docs/01-CORRECTIFS-ACCUEIL.md §5) : même teinte que la section qui passe dessous. */
   --header-grad-cream: var(--cream);
   --header-grad-olive: var(--olive);
+  --header-grad-orange: var(--orange);
+  --header-grad-photo: rgb(0 0 0 / 0.6); /* sous le logo quand il passe sur une photo claire, avant que le voile (--veil) ne l'assombrisse */
 
   /* Dérivés des tokens ci-dessus (pas de nouveau gris : voir docs/POINTS-A-VALIDER.md, lignes 21 et 22).
      Contrastes mesurés : --olive-soft 4,8:1 sur crème et 5,2:1 sur blanc (texte courant, AA) ; --olive-muted 3,5:1 sur crème,

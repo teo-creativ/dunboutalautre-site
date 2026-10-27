@@ -1,7 +1,8 @@
 // Scène épinglée de l'accueil : hero, cercle orange, photos en perspective et photo qui grandit forment une seule
 // timeline pilotée par le scroll. Une unité de timeline vaut un écran de scroll, donc un seul pin, aucun espace vide
 // entre le hero et la section orange, et aucun flash au dégagement du pin.
-import { gsap, scrollTo } from "./core.js";
+import { gsap, ScrollTrigger, scrollTo } from "./core.js";
+import { setHeaderOverride } from "./header-theme.js";
 import { keepScroll, scrollRatio } from "./scroll-memory.js";
 import { addCircle } from "./hero-circle.js";
 import { addApproach } from "./approach.js";
@@ -83,6 +84,15 @@ export function initStage() {
         addApproach(tl, ctx);
         tl.set({}, {}, T.total); // fixe la durée : 1 unité de timeline = 1 écran de scroll
 
+        // Le logo passe sur le ciel clair de la photo qui grandit avant que le voile ne l'assombrisse (1,4:1 mesuré à mi-course) :
+        // le dégradé sombre du header couvre cet intervalle, puis le voile prend le relais (4,5:1).
+        const unit = () => stage.offsetHeight;
+        ScrollTrigger.create({
+          start: () => tl.scrollTrigger.start + (T.grow + T.growDur * 0.7) * unit(),
+          end: () => tl.scrollTrigger.start + (T.veil + T.veilDur) * unit(),
+          onToggle: (self) => setHeaderOverride(self.isActive ? { gradient: "photo" } : null),
+        });
+
         // Clavier : le CTA de la section orange vit dans la scène épinglée, invisible tant que le scroll n'est pas arrivé à son
         // entrée. Quand il reçoit le focus avant, on amène le scroll jusqu'à l'instant où il est visible.
         const cta = stage.querySelector(".experience__content .cta");
@@ -91,7 +101,10 @@ export function initStage() {
           if (window.scrollY < target) scrollTo(target, { immediate: true }); // instantané : une animation Lenis écraserait le saut natif du Tab suivant
         };
         cta.addEventListener("focus", onFocus);
-        return () => cta.removeEventListener("focus", onFocus);
+        return () => {
+          cta.removeEventListener("focus", onFocus);
+          setHeaderOverride(null);
+        };
       };
 
       // Le texte est découpé en lignes : quand la largeur change, les retours à la ligne aussi, donc on reconstruit tout.

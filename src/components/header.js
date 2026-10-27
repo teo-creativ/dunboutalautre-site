@@ -9,6 +9,8 @@ export default () => `<a class="skip-link" href="#main">Aller au contenu</a>
     <header class="header" id="header" data-theme="dark" data-gradient="off">
       <div class="header__grad header__grad--cream" aria-hidden="true"></div>
       <div class="header__grad header__grad--olive" aria-hidden="true"></div>
+      <div class="header__grad header__grad--orange" aria-hidden="true"></div>
+      <div class="header__grad header__grad--photo" aria-hidden="true"></div>
       <a class="header__logo" href="/" aria-label="${esc(site.name)}, accueil">${wordmark("header__logo-svg")}</a>
       <div class="header__actions">
         ${cta({ label: "Menu", tag: "button", className: "header__menu", attrs: 'aria-expanded="false" aria-controls="menu"' })}

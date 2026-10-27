@@ -1,7 +1,7 @@
 // Thème du header selon la section sous lui (ANIMATIONS.md §11) : logo crème et bouton on-olive sur les fonds sombres,
 // logo olive et bouton on-cream sur les fonds crème. Le thème sombre est le défaut ; seules les sections claires
 // se déclarent (data-header-theme="light").
-// Dégradé de lisibilité sous le logo (retours-v2 01 §5) : une section déclare data-header-gradient="cream | olive | off".
+// Dégradé de lisibilité sous le logo (retours-v2 01 §5) : une section déclare data-header-gradient="cream | olive | orange | photo | off".
 // Sans déclaration, rien (off). Quand plusieurs sections couvrent le trait du header (une section qui en recouvre une autre
 // épinglée), c'est la dernière dans le DOM qui l'emporte : elle est au-dessus.
 // Une scène épinglée dont les fonds changent sans que la page défile (la landing Noël : l'orange laisse place à la crème qui
@@ -39,7 +39,7 @@ export const unlockHeaderTheme = () => {
   render();
 };
 
-// state : { theme: "dark" | "light", gradient: "cream" | "olive" | "off" }, ou null pour rendre la main aux sections.
+// state : { theme: "dark" | "light", gradient: "cream" | "olive" | "orange" | "photo" | "off" }, ou null pour rendre la main aux sections.
 export const setHeaderOverride = (state) => {
   override = state;
   render();

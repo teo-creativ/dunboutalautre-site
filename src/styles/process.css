@@ -1,11 +1,12 @@
-/* Notre fonctionnement (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md §5, frame noel-page-15, canvas 1728 x 1251). Titre à gauche, timeline
-   verticale à droite : ligne de progression, points et cinq étapes. Tailles mesurées sur la frame : titres d'étapes 36 px, descriptions
-   18 px. Base : tout est affiché en entier (mobile, mouvement réduit, JavaScript absent). Avec la classe process--anim, posée par
-   src/scripts/process.js (desktop avec mouvement), la ligne se remplit au scroll et chaque étape passe de « pas atteinte » à
-   « atteinte » puis « courante ». */
+/* Notre fonctionnement (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md §5, frame noel-page-15, canvas 1728 x 1251, puis
+   retours-v3/docs/02-FONCTIONNEMENT-TIMELINE.md). Titre à gauche, timeline verticale à droite : ligne de progression, points et cinq
+   étapes. Tailles mesurées sur la frame : titres d'étapes 36 px, descriptions 18 px. Base : tout est affiché en entier, les étapes en
+   liste espacée d'au moins 96 px (mouvement réduit, JavaScript absent). Avec la classe process--anim, posée par src/scripts/process.js,
+   la section est une scène épinglée d'un écran : les étapes sont empilées dans la même zone et une seule est visible à la fois, la
+   ligne se remplit au scroll et chaque étape passe de « pas atteinte » à « atteinte » puis « courante ». */
 .process {
   --dot: clamp(0.9rem, 1.39vw, 1.6rem); /* 24 px */
-  --step-gap: 2.75rem;
+  --step-gap: 6rem; /* au moins 96 px entre deux étapes de la liste */
   padding: var(--section-y) var(--section-x);
   background: var(--cream);
   color: var(--olive);
@@ -74,9 +75,25 @@
 .process--anim .step.is-current .step__title { color: var(--olive-deep); }
 .process--anim .step.is-current .step__desc { color: var(--olive); }
 
+/* Scène épinglée : la section tient dans un écran. La timeline (ligne et points) occupe la hauteur qui reste ; chaque étape est
+   superposée aux autres sur toute cette hauteur. Son point est à son rang le long de la ligne (--i sur --n, régulièrement espacés), son
+   texte (le seul qui bouge, voir process.js) est au milieu de la hauteur, à côté de la ligne. */
+.process--anim {
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+  min-height: 0;
+  padding-block: calc(var(--header-grad-h) + 1rem) 1.5rem;
+  overflow: clip; /* les étapes arrivent de sous la section et repartent par le haut */
+}
+.process--anim .process__timeline { display: block; flex: 1; min-height: 0; margin-top: 1.5rem; }
+.process--anim .step { position: absolute; inset: 0; padding-left: 0; }
+.process--anim .step__dot { top: calc(var(--i) / (var(--n) - 1) * 100% - var(--dot) / 2); }
+.process--anim .step__body { position: absolute; left: 2.25rem; right: 0; top: 50%; transform: translateY(-50%); }
+
 @media (min-width: 901px) {
   .process {
-    --step-gap: clamp(0.75rem, min(4.4vw, calc((78svh - 33vw) / 4)), 6rem); /* 76 px à 1728 sur la frame, réduit pour que le bloc tienne dans l'écran */
+    --step-gap: clamp(6rem, 6vw, 7.5rem); /* 104 px à 1728 */
     --fs-step: clamp(1.4rem, 2.1vw, 2.5rem);
     display: grid;
     grid-template-columns: 40.1vw minmax(0, 1fr); /* la ligne est à 50 % de la largeur */
@@ -90,4 +107,8 @@
   .process__timeline { margin: 2.6vw 0 0; }
   .step { padding-left: 3.06vw; } /* 53 px entre le trait et le texte */
   .step__desc { max-width: 33vw; margin-top: 0.9vw; }
+
+  .process--anim { display: grid; padding-block: calc(var(--header-grad-h) + 1.5svh) 3svh; }
+  .process--anim .process__timeline { flex: none; height: min(64svh, 46vw); margin: 2.6vw 0 0; }
+  .process--anim .step__body { left: 3.06vw; }
 }

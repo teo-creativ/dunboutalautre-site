@@ -48,6 +48,7 @@
 .testi__main > .label { margin-bottom: 1.9vw; }
 
 .testi__slide,
+.testi__figure,
 .testi__quote { margin: 0; } /* <figure> et <blockquote> : marges du navigateur remises à zéro */
 .testi__quote p {
   max-width: 45.2vw; /* la citation s'arrête à 1559 px, la marge de la section */

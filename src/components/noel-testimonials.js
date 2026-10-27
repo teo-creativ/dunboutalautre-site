@@ -19,11 +19,13 @@ const { label, items } = noel.testimonials;
 
 const slides = items
   .map(
-    (t, i) => `<figure class="testi__slide" role="group" aria-roledescription="avis" aria-label="Avis ${i + 1} sur ${items.length}"${t.fictif ? ' data-fictif="true"' : ""}${i ? " hidden" : ""}>
+    (t, i) => `<div class="testi__slide" role="group" aria-roledescription="avis" aria-label="Avis ${i + 1} sur ${items.length}"${t.fictif ? ' data-fictif="true"' : ""}${i ? " hidden" : ""}>
               <p class="sr-only">Avis ${i + 1} sur ${items.length}</p>
-              <blockquote class="testi__quote"><p>${esc(t.quote)}</p></blockquote>
-              <figcaption class="testi__author"><span class="testi__name">${esc(t.name)}</span><span class="testi__role">${esc(t.role)}</span></figcaption>
-            </figure>`,
+              <figure class="testi__figure">
+                <blockquote class="testi__quote"><p>${esc(t.quote)}</p></blockquote>
+                <figcaption class="testi__author"><span class="testi__name">${esc(t.name)}</span><span class="testi__role">${esc(t.role)}</span></figcaption>
+              </figure>
+            </div>`,
   )
   .join("\n            ");
 

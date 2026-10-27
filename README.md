@@ -33,6 +33,6 @@ Netlify ou Vercel : commande de build `npm run build`, dossier de publication `d
 - Les liens vers les autres pages (services, réalisations, contact) sont fictifs (`#`) et centralisés dans `src/data/site.js` ; un clic dessus ne fait rien.
 - Les 4 avis de la page Noël sont fictifs (`fictif: true` dans `src/data/noel.js`) : à remplacer avant toute mise en ligne.
 - Avec `prefers-reduced-motion` (et sans JavaScript), il n'y a ni épinglage ni parallaxe : sections empilées, contenu visible, fondus courts.
-- Sous 900 px, les animations de l'accueil sont simplifiées (`docs/ANIMATIONS.md` §12). La page Noël garde sa mise en scène, allégée : flux vertical à 3 photos (450 vh) et « Notre fonctionnement » à 80 vh par étape.
+- Sous 900 px, les animations de l'accueil sont simplifiées (`docs/ANIMATIONS.md` §12). La page Noël garde sa mise en scène, allégée : flux vertical à 3 photos (450 vh), et « Notre fonctionnement » en une colonne, sans épinglage ni titre sticky.
 - Sans JavaScript, les deux pages restent lisibles et complètes (FAQ dépliée, avis visibles).
 - La vérification visuelle se fait avec Chrome piloté par le protocole de débogage (pas de Playwright, aucune dépendance ajoutée).

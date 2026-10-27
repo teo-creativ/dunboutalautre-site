@@ -1,4 +1,4 @@
-// Soulignement orange qui se dessine de gauche à droite et se retire vers la droite (réalisations, univers, étapes de la timeline).
+// Soulignement orange qui se dessine de gauche à droite et se retire vers la droite (réalisations, univers).
 // Le trait est un élément .uline (underline.css) dont deux variables CSS (--l et --r, en %) rognent les bords gauche et droit. Elles
 // sont animées par un objet simple recopié dans le style : GSAP perd la trace d'une variable CSS dont le tween est interrompu (son
 // cache n'est plus à jour, un set final restait sans effet), ce qui laissait un trait coincé après un scroll rapide.

@@ -2,7 +2,7 @@
 // et liste des cinq univers à droite. Chaque univers est un bouton (aria-expanded, aria-controls) suivi de son sous-titre dans une
 // région associée : src/scripts/universes.js en ouvre un seul à la fois (survol, focus, tap). Sans JavaScript, tous les sous-titres
 // sont affichés. Le balisage de l'univers ouvert par défaut porte déjà l'état actif (couleur), pour éviter tout saut à l'initialisation.
-// Pas de data-header-theme : la section est empilée dans la scène épinglée, le thème de l'en-tête est piloté par noel-stage.js.
+// La section suit la scène épinglée dans le flux de la page ; c'est le scroll qui la fait monter par-dessus l'orange (noel-stage.css).
 import { noel } from "../data/noel.js";
 import { esc, fr } from "./utils.js";
 import img from "./img.js";
@@ -31,7 +31,7 @@ const figure = photos
   .map((p, i) => img({ src: p.src, alt: p.alt, class: i === photoIndex(items[initial]) ? "" : "is-hidden", sizes: "(min-width: 901px) 36vw, 90vw" }))
   .join("");
 
-export default () => `<section id="univers" class="univers" aria-labelledby="univers-title">
+export default () => `<section id="univers" class="univers" data-header-theme="light" data-header-gradient="cream" aria-labelledby="univers-title">
         <div class="univers__inner">
           <div class="univers__body">
             <p class="label"><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>

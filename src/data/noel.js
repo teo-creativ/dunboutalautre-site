@@ -14,37 +14,51 @@ export const noel = {
     alt: "Salon aux boiseries dorées décoré de branches givrées, de bûches de bouleau et de bougies devant une cheminée",
   },
 
-  // Flux horizontal. Positions de départ en % du viewport (x et w : de la largeur, y et h : de la hauteur), mesurées sur la
-  // frame noel-page-07 (1728 x 849). speed : vitesse relative de défilement de droite à gauche (profondeur), mesurée sur les frames 09
-  // et 11 (portail 1,5, sapins 1,2, salon 1,15 ; le tableau du doc donnait 1,5 / 1,3 / 1,1).
+  // Flux vertical (retours-v3/docs/01-NOEL-SCROLL-VERTICAL.md §4) : les photos montent du bas, derrière le titre, et sortent par le haut.
+  // x et w : en vw, mesurés sur les frames noel-vertical-04 à 08 (1728 px de large) ; ratio : largeur sur hauteur du cadre, pour que la
+  // photo garde ses proportions à toutes les hauteurs d'écran. y : en svh, position de départ de la montée, sous le bord bas de l'écran
+  // (au moins 100) : plus elle est grande, plus la photo arrive tard. speed : svh montés par écran de scroll (100 = la vitesse de la page),
+  // la profondeur. Deux photos qui se recouvrent en largeur (plafond sous branches, sapins sous portail) ne doivent jamais se toucher :
+  // celle de derrière n'est pas plus rapide que celle de devant, et part au moins 6 svh sous elle, hauteur comprise, jusqu'à un écran de
+  // rapport 2,1. La profondeur vient donc des écarts entre colonnes. mobile : x, w et y sous 900 px, ou null (photo absente) ;
+  // trois photos seulement. Le salon, au centre, recouvre les deux autres en largeur : il passe donc devant (le plus rapide), les autres
+  // derrière, au moins 6 svh sous lui jusqu'à une tablette portrait (768 x 1024).
   flux: {
     photos: [
-      // Vignette : pas d'image propre. C'est la photo « Notre volonté » (le même plafond, en grand) qui rétrécit jusqu'à cette position
-      // et défile avec le flux, ce qui assure la continuité. noel-bw-eataly-plafond.jpg (sa moitié gauche) n'est pas utilisé.
-      { id: "plafond", thumb: true, x: -2, y: 61, w: 20, h: 39, speed: 1 },
       {
         id: "branches",
         src: "noel-v2/noel-bw-branches-givrees",
         alt: "Branches givrées, bûches de bouleau et bougies dans un salon baigné de lumière",
-        x: 15, y: -4, w: 16, h: 27, speed: 1.25,
-      },
-      {
-        id: "salon",
-        src: "noel-v2/noel-bw-salon-dore",
-        alt: "Salon aux boiseries sculptées et au grand miroir, avec des branches givrées devant la cheminée",
-        x: 47, y: 74, w: 17, h: 33, speed: 1.15,
+        x: 15, y: 100, w: 16, ratio: 0.75, speed: 90,
+        mobile: { x: 4, w: 42, y: 150 },
       },
       {
         id: "portail",
         src: "noel-v2/noel-bw-portail-couronne",
         alt: "Grille de fer noir entourée d'une grande couronne de sapin avec un nœud, dans une cour parisienne",
-        x: 78, y: -8, w: 21, h: 42, speed: 1.5,
+        x: 78, y: 112, w: 22, ratio: 0.726, speed: 100,
+        mobile: { x: 54, w: 42, y: 156 },
+      },
+      {
+        id: "plafond",
+        src: "noel-v2/noel-bw-eataly-plafond-large",
+        alt: "Plafond d'un restaurant recouvert de lierre, de fougères blanches et de suspensions en verre",
+        x: 0, y: 151, w: 20, ratio: 0.95, speed: 80,
+        mobile: null,
+      },
+      {
+        id: "salon",
+        src: "noel-v2/noel-bw-salon-dore",
+        alt: "Salon aux boiseries sculptées et au grand miroir, avec des branches givrées devant la cheminée",
+        x: 47, y: 200, w: 17, ratio: 0.75, speed: 108,
+        mobile: { x: 28, w: 44, y: 100 },
       },
       {
         id: "sapins",
         src: "noel-v2/noel-bw-sapins-verriere",
         alt: "Trois grands sapins décorés de guirlandes lumineuses et de lanternes, sous une grande verrière métallique",
-        x: 84, y: 66, w: 17, h: 38, speed: 1.2,
+        x: 84, y: 182, w: 16, ratio: 0.65, speed: 92,
+        mobile: null,
       },
     ],
   },

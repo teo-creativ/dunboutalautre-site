@@ -4,8 +4,9 @@
 // Dégradé de lisibilité sous le logo (retours-v2 01 §5) : une section déclare data-header-gradient="cream | olive | orange | photo | off".
 // Sans déclaration, rien (off). Quand plusieurs sections couvrent le trait du header (une section qui en recouvre une autre
 // épinglée), c'est la dernière dans le DOM qui l'emporte : elle est au-dessus.
-// Une scène épinglée dont les fonds changent sans que la page défile (la landing Noël : l'orange laisse place à la crème qui
-// arrive par la droite) pose un état à la main avec setHeaderOverride, qui prime sur les sections.
+// Une scène épinglée dont les fonds changent sans que la page défile (la scène de l'accueil : la photo qui grandit) pose un état à
+// la main avec setHeaderOverride, qui prime sur les sections. Sur la landing Noël, Nos univers monte par le scroll : elle se déclare
+// comme une section claire.
 import { ScrollTrigger } from "./core.js";
 
 const HEADER_CENTER = 55; // le trait de changement passe par le centre du header, à 1728 px de large

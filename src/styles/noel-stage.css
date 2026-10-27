@@ -1,8 +1,8 @@
-/* Landing Noël V2, première partie (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md §1 à §3, docs/05-NOEL-ANIMATIONS.md §A à §F) :
-   hero centré, « Notre volonté » (photo plein écran), flux horizontal de photos sur fond orange, puis la section Nos univers
-   (universes.css) qui arrive par la droite.
-   Base : sections empilées, sans épinglage (mobile, mouvement réduit, JavaScript absent). Desktop avec mouvement : html.nstage-anim,
-   posée par src/scripts/noel-stage.js, superpose les quatre couches dans un seul écran épinglé. */
+/* Landing Noël, première partie (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md §1 à §3, retours-v3/docs/01-NOEL-SCROLL-VERTICAL.md) :
+   hero centré, « Notre volonté » (photo plein écran), cercle orange qui grandit, puis le flux de photos qui montent sur fond orange, et
+   la section Nos univers (universes.css) qui monte par-dessus.
+   Base : sections empilées, sans épinglage (mouvement réduit, JavaScript absent). Avec mouvement : html.nstage-anim, posée par
+   src/scripts/noel-stage.js, superpose « Notre volonté » et le flux dans un seul écran épinglé (avec le hero sur ordinateur). */
 
 /* ---------- Hero (même fond et même intro que l'accueil, contenu centré) ---------- */
 .hero--noel .hero__title { max-width: 64vw; margin-top: 1.4vw; } /* « Décoration de Noël pour » puis « les entreprises à Paris. » */
@@ -28,10 +28,7 @@
   color: var(--white);
   text-align: center;
 }
-/* Le média est découpé et déplacé au scroll (clip-path) ; son contenu (photo et voile) est mis à l'échelle à l'intérieur, pour que la
-   photo rétrécisse en entier au lieu d'être rognée. L'origine des transformations est le coin haut gauche (noel-stage.js). */
 .volonte__media { position: absolute; inset: 0; z-index: -1; }
-.volonte__inner { position: absolute; inset: 0; transform-origin: 0 0; }
 .volonte__photo { width: 100%; height: 100%; object-fit: cover; }
 .volonte__veil { position: absolute; inset: 0; background: var(--veil); }
 
@@ -48,7 +45,7 @@
   line-height: 1.5;
 }
 
-/* ---------- Flux horizontal : titre et CTA fixes au centre, photos qui défilent derrière ---------- */
+/* ---------- Flux : titre et CTA fixes au centre, photos qui montent derrière ---------- */
 .flux {
   --focus: var(--white);
   position: relative;
@@ -62,6 +59,8 @@
   color: var(--white);
   text-align: center;
 }
+/* Le cercle n'existe qu'avec l'animation : sans elle, la section a déjà son fond orange. */
+.flux__circle { display: none; }
 /* Voile orange sous le logo (même hauteur et même dégradé que celui du header) : une photo qui passe sous le logo reste lisible. */
 .flux__top {
   position: absolute;
@@ -86,10 +85,10 @@
   line-height: 1.5;
 }
 
-/* Sans défilement : les quatre photos en grille. La vignette (hidden) ne sert qu'à porter une position. */
+/* Sans animation : les photos en grille simple. */
 .flux__photos {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1.5vw;
   width: 100%;
 }
@@ -107,38 +106,76 @@
   .volonte__content { max-width: none; gap: 1.5rem; }
   .flux__title { max-width: none; }
   .flux__content { gap: 1.75rem; }
-  .flux__photos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+  .flux__photos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+  .flux__photo[data-mobile="off"] { display: none; } /* trois photos seulement */
 }
 
-/* ---------- Desktop avec mouvement : une scène épinglée, quatre couches ---------- */
-html.nstage-anim .nstage {
-  position: relative;
-  isolation: isolate; /* les z-index internes ne passent pas au-dessus du reste de la page */
-  display: grid;
-  height: 100svh;
-  overflow: hidden;
+/* ---------- Avec mouvement : une scène épinglée ---------- */
+/* Ordinateur : le hero et le flux sont les couches d'un seul écran (le conteneur .nstage__flow s'efface de la mise en page). */
+@media (min-width: 901px) {
+  html.nstage-anim .nstage {
+    position: relative;
+    isolation: isolate; /* les z-index internes ne passent pas au-dessus du reste de la page */
+    display: grid;
+    height: 100svh;
+    overflow: hidden;
+  }
+  html.nstage-anim .nstage__flow { display: contents; }
+  html.nstage-anim .nstage > .hero,
+  html.nstage-anim .nstage__flow > * {
+    grid-area: 1 / 1;
+    height: 100%;
+    min-height: 0;
+  }
+  html.nstage-anim .nstage > .hero { z-index: 2; }
 }
-html.nstage-anim .nstage > * {
-  grid-area: 1 / 1;
-  height: 100%;
-  min-height: 0;
+/* Sous 900 px : le hero reste hors de la scène, qui commence à « Notre volonté ». */
+@media (max-width: 900px) {
+  html.nstage-anim .nstage__flow {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    height: 100svh;
+    overflow: hidden;
+  }
+  html.nstage-anim .nstage__flow > * {
+    grid-area: 1 / 1;
+    height: 100%;
+    min-height: 0;
+  }
 }
-/* De bas en haut : le flux orange (déjà en place sous le hero), le hero, la photo qui monte, les univers qui arrivent par la droite. */
-html.nstage-anim .nstage > .flux { z-index: 1; }
-html.nstage-anim .nstage > .hero { z-index: 2; }
-html.nstage-anim .nstage > .volonte { z-index: 3; }
-html.nstage-anim .nstage > .univers { z-index: 5; }
-/* Les couches empilées sur tout l'écran ne captent ni survol ni clic : sans cela elles masquent le CTA du hero, qui est dessous.
-   Le CTA du flux ne reprend les clics qu'à son entrée (noel-flux.js), les univers qu'à leur arrivée (noel-univers.js). */
-html.nstage-anim .nstage > .flux,
-html.nstage-anim .nstage > .volonte,
-html.nstage-anim .nstage > .univers { pointer-events: none; }
 
+/* De bas en haut : le hero, « Notre volonté », le flux (fond transparent : c'est le cercle qui apporte l'orange). Les couches empilées
+   sur tout l'écran ne captent ni survol ni clic : sans cela elles masquent le CTA du hero, qui est dessous. Le CTA du flux ne reprend
+   les clics qu'à son entrée (noel-flux.js). */
+html.nstage-anim .volonte { z-index: 3; pointer-events: none; }
 html.nstage-anim .flux {
+  z-index: 4;
   display: grid;
   place-items: center;
   padding: var(--gutter);
+  background: transparent;
+  pointer-events: none;
 }
+
+/* Cercle centré sur l'écran (50 %, 50 %, comme celui de l'accueil). À l'échelle 1, son diamètre est la diagonale de l'écran : il couvre
+   juste les coins, et l'orange est plein quand le cercle l'est. La première largeur sert de repli (1,42 > racine de 2). */
+html.nstage-anim .flux__circle {
+  display: block;
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: calc(max(100vw, 100svh) * 1.42);
+  width: hypot(100vw, 100svh);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--orange);
+  visibility: hidden; /* rendu visible par la timeline au début de sa phase (noel-flux.js) */
+}
+html.nstage-anim .flux__top { opacity: 0; } /* le voile n'apparaît qu'une fois l'orange plein */
+
+/* Photos : x et w en vw, y en svh, proportions par ratio. Elles montent par transform (noel-flux.js). */
 html.nstage-anim .flux__photos {
   position: absolute;
   inset: 0;
@@ -146,12 +183,34 @@ html.nstage-anim .flux__photos {
   display: block;
   width: auto;
 }
-/* Position de départ (frame 07) : x et w en vw, y et h en svh. Les photos défilent vers la gauche par transform (noel-flux.js). */
 html.nstage-anim .flux__photo {
   position: absolute;
   left: calc(var(--x) * 1vw);
   top: calc(var(--y) * 1svh);
   width: calc(var(--w) * 1vw);
-  height: calc(var(--h) * 1svh);
-  aspect-ratio: auto;
+  aspect-ratio: var(--ratio);
+}
+@media (max-width: 900px) {
+  /* Le titre occupe toute la largeur : une photo claire qui passe derrière rendrait le texte blanc illisible. Un halo orange, de la
+     couleur du fond, le garde net sans changer son dessin. */
+  html.nstage-anim .flux__title {
+    text-shadow: 0 0 0.45em color-mix(in srgb, var(--orange) 85%, transparent), 0 0 0.9em color-mix(in srgb, var(--orange) 60%, transparent);
+  }
+  html.nstage-anim .flux__photo {
+    left: calc(var(--mx) * 1vw);
+    top: calc(var(--my) * 1svh);
+    width: calc(var(--mw) * 1vw);
+  }
+}
+/* will-change seulement pendant la scène (classe posée par noel-stage.js sur la scène épinglée). */
+html.nstage-anim .is-live .flux__circle,
+html.nstage-anim .is-live .flux__photo { will-change: transform; }
+
+/* Nos univers : elle suit la scène dans la page, remontée d'un écran (la hauteur de la scène) : pendant le dernier écran de scroll de la
+   scène, c'est le scroll qui la fait monter par-dessus l'orange. Section opaque, plus haute qu'un écran. */
+html.nstage-anim .univers {
+  position: relative;
+  z-index: 5;
+  min-height: 100svh;
+  margin-top: -100svh;
 }

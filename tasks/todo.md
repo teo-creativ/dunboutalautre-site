@@ -133,7 +133,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - [x] Axe 0 violation dans tous les états ; Lighthouse sur la page ; poids relevés ; NR complète.
   - [x] Relevé des placeholders ; aucune relecture fondateur obligatoire.
 
-- [ ] **T16 : UI Design végétal sur mesure [NR]**
+- [x] **T16 : UI Design végétal sur mesure [NR]**
   - **Description :** page `/design-vegetal-sur-mesure-paris/` avec tous les types de section prêts.
   - **Critères :** hero, « Nos 5 créations » (offres, tuile placeholder), « Naturel, stabilisé ou artificiel ? » (3 cartes), branding végétal (intro), processus en 4 étapes, références (logos Ecocem et Limonetik en placeholder, Comet, Groupe Rocher et BHV présents) et citation `{ todo }`, galerie, FAQ de 6 questions, bandeau final ; textes de `docs/copywriting/03`.
   - **Vérification :** G1 à G5. **Dépendances :** T15. **Fichiers :** `design-vegetal-sur-mesure-paris/index.html`, `src/data/pages/design-vegetal.js` (+ registre, `vite.config.js`). **Taille :** S.

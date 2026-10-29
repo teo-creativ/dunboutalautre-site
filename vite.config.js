@@ -11,6 +11,7 @@ export default defineConfig({
         noel: resolve(__dirname, "decoration-noel-entreprises-paris/index.html"),
         terrasses: resolve(__dirname, "amenagement-terrasse-paris/index.html"),
         bureaux: resolve(__dirname, "vegetalisation-bureaux-paris/index.html"),
+        "design-vegetal": resolve(__dirname, "design-vegetal-sur-mesure-paris/index.html"),
       },
     },
   },

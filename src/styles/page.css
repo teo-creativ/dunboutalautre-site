@@ -97,3 +97,13 @@ body[data-page="page"] .nobr { white-space: nowrap; }
 /* ---------- Avis unique ----------
    src/scripts/testimonials.js montre toujours les flèches (nav.hidden = false) : avec un seul avis (citation à fournir), elles ne servent à rien. */
 body[data-page="page"] .testi[data-single] .testi__nav { display: none; }
+
+/* ---------- Offres : « Idéal pour » ----------
+   Deuxième ligne du panneau d'une offre (les « encarts » du copywriting), sous le texte que universes.js anime. */
+body[data-page="page"] .universe__use {
+  margin-top: 0.75rem;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--olive-soft);
+}
+body[data-page="page"] .universe__use-label { color: var(--olive-deep); font-weight: 500; }

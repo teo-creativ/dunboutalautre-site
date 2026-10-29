@@ -13,7 +13,7 @@ import { tag } from "./tag.js";
 
 const { label, photo, items, default: initial } = noel.univers; // valeurs par défaut : les univers de la landing Noël
 
-export const universSection = ({ label, titleHtml, photo, items, initial }) => {
+export const universSection = ({ label, titleHtml, photo, items, initial, useLabel = "Idéal pour" }) => {
 // Photos distinctes (une seule pour l'instant) : l'indice de la photo de chaque univers sert au fondu enchaîné.
 const photos = [...new Map(items.map((u) => u.photo ?? photo).filter(Boolean).map((p) => [p.src, p])).values()];
 const photoIndex = (u) => Math.max(0, photos.findIndex((p) => p.src === (u.photo ?? photo)?.src));
@@ -26,7 +26,7 @@ const list = items
                 <span class="universe__dot" aria-hidden="true"></span>
                 <span class="universe__text">${esc(u.title)}<span class="uline" aria-hidden="true"></span></span>
               </button>
-              <div class="universe__panel" id="universe-panel-${i}" role="region" aria-labelledby="universe-${i}"><p>${esc(fr(u.text))}</p></div>
+              <div class="universe__panel" id="universe-panel-${i}" role="region" aria-labelledby="universe-${i}"><p>${esc(fr(u.text))}</p>${u.use ? `<p class="universe__use"><span class="universe__use-label">${esc(useLabel)}</span> ${esc(fr(u.use))}</p>` : ""}</div>
             </li>`;
   })
   .join("\n            ");

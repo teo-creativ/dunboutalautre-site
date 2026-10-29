@@ -18,6 +18,31 @@ export const terrasses = {
       cta: "Demander un devis gratuit",
     },
     {
+      type: "process",
+      label: "NOTRE PROCESSUS DE CRÉATION",
+      title: "De votre idée à la pose, on travaille en collaboration.",
+      tag: "en collaboration",
+      steps: [
+        {
+          title: "Visite et analyse",
+          text: "On vient sur place pour prendre les mesures, évaluer l'exposition, identifier les contraintes techniques (charge, accès, réseau d'eau) et comprendre l'ambiance que vous voulez créer.",
+        },
+        {
+          title: "Proposition végétale",
+          text: "Plan d'aménagement avec sélection des végétaux, recommandations pour les contenants et les substrats, devis détaillé. On discute jusqu'à trouver le bon équilibre entre vos envies et les contraintes de l'espace.",
+        },
+        {
+          title: "Installation",
+          text: "On livre et on installe. Préparation des contenants, substrat, plantation, arrosage initial. Vous récupérez une terrasse prête à vivre.",
+        },
+        {
+          title: "Suivi saisonnier",
+          text: "Taille, remplacement des végétaux saisonniers, préparation hivernale, adaptation au printemps. Pour que votre terrasse reste belle toute l'année, pas seulement en juin.",
+        },
+      ],
+      more: { label: "Découvrir nos abonnements", to: "/entretien-abonnement-plantes-entreprise-paris/" },
+    },
+    {
       type: "faq",
       label: "FAQ",
       title: "Les questions qu'on nous pose fréquemment.",

@@ -60,7 +60,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1 à G5 ; HTML de Noël identique ; JSON-LD comparé au HTML par `check-site.js`.
   - **Dépendances :** T04. **Fichiers :** `src/components/noel-faq.js`, `src/components/sections/faq.js`, `src/components/seo.js`, `src/data/pages/terrasses.js`. **Taille :** M. Graphe : `noel-faq.js` n'a aucun dépendant dans le graphe (consommé par le placeholder HTML de Noël) ; `initFaq` est appelé par `main.js` seulement.
 
-- [ ] **T06 : UI Terrasses, processus [NR]**
+- [x] **T06 : UI Terrasses, processus [NR]**
   - **Description :** paramétrer `noel-process.js` et afficher les 4 étapes de la démarche Terrasses.
   - **Critères :** `noel-process.js` reçoit libellé, titre (avec tag), étapes ; l'id `fonctionnement` est unique ; la ligne et les pastilles se remplissent au scroll comme sur Noël ; contenu complet en mouvement réduit et sans JavaScript ; UI-C.
   - **Vérification :** G1 à G5 ; scroll de la page mesuré en CDP (pastilles et remplissage à trois positions).

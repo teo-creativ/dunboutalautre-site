@@ -91,3 +91,19 @@ Valeurs à compléter (`check-site.js --placeholders`) : 40 placeholder(s) dans 
 | Porte de non-régression (HTML octet pour octet, 16 captures) | identique | identique |
 
 **Instabilité réseau constatée.** Pendant cette séance, les polices Google (`fonts.googleapis.com`, feuille de style bloquante) ont par moments coupé la connexion (`ERR_CONNECTION_CLOSED`). Une première série Lighthouse sur la fiche a donné 96, 57 et 55 (LCP 5,3 s) pendant l'une de ces coupures ; la série suivante, réseau revenu, a donné 98 et 97 sur la fiche, 98 et 97 sur Contact, 96 et 97 sur l'accueil (même code). Les outils de `.baseline/` rechargent désormais la page (3 essais) et écartent ces coupures du compte d'erreurs de console. La dépendance de chargement aux polices Google existe déjà sur l'accueil et Noël (`head.js`) ; l'auto-hébergement des polices est une piste pour la mise en ligne, à décider.
+
+## Points F et T29 : audit des 13 pages (build finale, après T28)
+
+**Poids.** `main-*.css` 11,36 ko gzip (départ 8,86 ko, +2,50 ko, budget +6 ko) ; `main-*.js` 68,85 ko gzip (départ 67,30 ko, +1,55 ko, budget +4 ko).
+
+**Lighthouse desktop, polices Google bloquées (poids du site seul, 1 passe).** Performance 100 sur les 13 pages ; Accessibilité 96 partout, 97 sur Scénographie, 95 sur le Blog ; Bonnes pratiques 100 ; CLS 0 (0,023 sur Réalisations) ; LCP de 434 à 632 ms.
+
+**Lighthouse avec les polices Google (réseau réel de cet environnement).** Performance de 94 à 99 quand le réseau est stable (Terrasses 96-99, Bureaux 97, Design 98-99, Scénographie 97, Saisonnière 94-96, Entretien 97-98, Réalisations 98-99, fiche 97-98, Contact 97-98, Blog 98, article 97, accueil 95-97, Noël 95-98). Des passes isolées tombent à 52-69 quand `fonts.googleapis.com` coupe la connexion (`ERR_CONNECTION_CLOSED`), y compris sur l'accueil et Noël : bruit réseau, pas une régression.
+
+**Comparaison A/B de l'accueil et de Noël** (commit `ed795e5` construit à part contre la build courante, passes alternées, 4 par côté, polices bloquées) : Performance 100 des deux côtés, FCP 400 ms contre 398 ms (accueil) et 399 contre 400 ms (Noël), LCP 580 contre 582 ms (accueil) et 579 contre 578 ms (Noël). Le bundle commun a grossi de 2,50 ko (CSS) et 1,55 ko (JS) gzip : aucun effet mesurable. Critère « pas plus de 2 points sous le départ » : tenu (écart nul à conditions égales).
+
+**axe-core** (repos, menu ouvert, éléments ouverts ; états du formulaire pour Contact) : 0 violation propre sur les 11 pages neuves. Hérité du design, compté à part : texte orange `#fc4c00` sur blanc ou crème (3,0 à 3,4:1) et labels de colonnes du footer en gris sur olive (3,85:1). Sur Noël, un nœud existant : le texte du CTA `solid` de la carte d'aide de la FAQ (page validée, hors périmètre).
+
+**Audit transversal (`audit.mjs`)** : aux 6 largeurs 390, 768, 1024, 1440, 1728 et 1920 px, aucun défilement horizontal, un seul `h1`, console vide, sur les 13 pages ; sans JavaScript, contenu complet (de 424 caractères pour l'article modèle à 7 979 pour Bureaux ; bouton d'envoi du formulaire désactivé) ; en mouvement réduit, après parcours de la page, aucun élément masqué et aucune frise défilante.
+
+**Porte de non-régression** : HTML construit d'Accueil et de Noël identique octet pour octet (36 427 et 51 267 octets) et 16 captures sans écart, à chaque commit qui touche un fichier partagé.

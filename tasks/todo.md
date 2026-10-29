@@ -218,12 +218,12 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Critères :** H1 = titre réel ; auteur, date, temps de lecture, photo et corps en `{ todo }` ; lien vers la page de service liée ; « Demander un devis » en fin d'article ; meta description en `{ todo }` ; élément `article`, un seul `h1` ; UI-C.
   - **Vérification :** G1 à G5. **Dépendances :** T27. **Fichiers :** `blog/vegetaliser-bureaux-paris-guide/index.html`, `src/components/sections/article-body.js`, `src/styles/article.css`, `src/data/pages/blog.js` (+ registre, `vite.config.js`). **Taille :** M.
 
-- [ ] **Point F : 11 pages complètes, relecture du fondateur**
-  - [ ] G6 sur les 11 pages ; poids ; NR complète ; `check-site.js --placeholders` complet ; captures de toutes les pages présentées.
+- [x] **Point F : 11 pages complètes, relecture du fondateur**
+  - [x] G6 sur les 11 pages ; poids ; NR complète ; `check-site.js --placeholders` complet ; captures de toutes les pages présentées. *Relecture du fondateur différée : il n'a pas pu relire.*
 
 ## Phase 6 : mise en ligne
 
-- [ ] **T29 : Audit complet des 13 pages**
+- [x] **T29 : Audit complet des 13 pages**
   - **Description :** vérifier les critères globaux du SPEC (section 10) sur la build de prod.
   - **Critères :** Lighthouse desktop (Performance ≥ 85, Accessibilité ≥ 95, Bonnes pratiques ≥ 95) ; axe 0 violation dans tous les états ; aucun défilement horizontal à 390, 768, 1024, 1440, 1728 et 1920 px ; contenu complet sans JavaScript ; mouvement réduit ; console vide ; accueil et Noël à ≥ 85 et au plus 2 points sous leur départ ; liste des écarts à corriger.
   - **Vérification :** résultats dans `tasks/metrics.md` ; toute correction passe par ses portes. **Dépendances :** Point F. **Fichiers :** `tasks/metrics.md` (+ corrections). **Taille :** M.

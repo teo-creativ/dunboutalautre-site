@@ -9,6 +9,7 @@ export default defineConfig({
       input: {
         home: resolve(__dirname, "index.html"),
         noel: resolve(__dirname, "decoration-noel-entreprises-paris/index.html"),
+        terrasses: resolve(__dirname, "amenagement-terrasse-paris/index.html"),
       },
     },
   },

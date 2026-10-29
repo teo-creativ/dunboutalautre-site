@@ -36,7 +36,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1 ; `check-site.js` sur la build actuelle (accueil et Noël) : code 0 ; fixture négative dans le scratchpad (deux `h1`, un « — », un `[À compléter]` nu) : code 1 avec un message par défaut.
   - **Dépendances :** T00. **Fichiers :** `src/components/placeholder.js`, `scripts/check-site.js`, `.baseline/pages.mjs`. **Taille :** S. Fichiers neufs : pas de [NR].
 
-- [ ] **T02 : Terrasses, squelette, SEO et hero [NR]**
+- [x] **T02 : Terrasses, squelette, SEO et hero [NR]**
   - **Description :** première tranche verticale : `/amenagement-terrasse-paris/` sort des données (title, meta, hero) de bout en bout.
   - **Critères :** la page porte `<body data-page="page">`, `head`, `seo` (title et meta de l'arborescence, canonical `https://dunboutalautre.co/amenagement-terrasse-paris/`, Open Graph), `header`, `menu current`, `main` rendu par `page-sections`, `footer` ; le H1 et le sous-titre sont ceux de `docs/copywriting/05` ; le tag « votre espace extérieur » est une sous-chaîne exacte du titre ; le CTA « Demander un devis gratuit » pointe vers `#` ; l'intro se termine (classe `js` retirée) sans avertissement console ; contenu complet sans JavaScript.
   - **Vérification :** G1, G2, G3, G4 ; G5 à 1728 px (un H1 trop long non encore mis en forme est accepté, il l'est en T03).

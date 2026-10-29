@@ -166,7 +166,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1, G2, G3 ; page de test sans CTA : 0 avertissement console.
   - **Dépendances :** D1. **Fichiers :** `src/scripts/intro.js`. **Taille :** XS. Graphe : `initIntro` n'est appelé que par `main.js`. Si D1 = (b) ou (c), cette tâche est remplacée.
 
-- [ ] **T21 : UI Contact, page, hero compact et coordonnées [NR]**
+- [x] **T21 : UI Contact, page, hero compact et coordonnées [NR]**
   - **Description :** page `/contact/` avec le hero compact et les blocs d'information.
   - **Critères :** hero compact (« Parlons de votre projet. » et sous-titre de `docs/copywriting/10`, sans CTA ni ligne de positionnement) ; coordonnées directes en 4 cartes : téléphone, e-mail et adresse en `[À compléter]`, Instagram `@dunboutalautre.co` ; réassurance en frise de logos de la page (Eataly, ONF, Ambassade d'Italie en placeholder) ; intro terminée, console vide.
   - **Vérification :** G1 à G5. **Dépendances :** T20 (ou D1 autre). **Fichiers :** `contact/index.html`, `src/data/pages/contact.js`, `src/styles/page.css`, `src/components/sections/hero.js` (+ registre, `vite.config.js`). **Taille :** M.

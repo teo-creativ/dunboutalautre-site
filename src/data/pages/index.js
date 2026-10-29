@@ -6,8 +6,9 @@ import { designVegetal } from "./design-vegetal.js";
 import { scenographie } from "./scenographie.js";
 import { saisonniere } from "./saisonniere.js";
 import { entretien } from "./entretien.js";
+import { contact } from "./contact.js";
 
 // Domaine final supposé, comme pour la landing Noël (docs/POINTS-A-VALIDER.md).
 export const origin = "https://dunboutalautre.co";
 
-export const pages = { terrasses, bureaux, "design-vegetal": designVegetal, scenographie, saisonniere, entretien };
+export const pages = { terrasses, bureaux, "design-vegetal": designVegetal, scenographie, saisonniere, entretien, contact };

@@ -56,3 +56,9 @@ body[data-page="page"] .logos__empty { padding-inline: var(--section-x); font-si
 @media (max-width: 900px) {
   body[data-page="page"] .logos__empty { padding-inline: var(--gutter); }
 }
+
+/* Section sans titre (« RÉASSURANCE ») : le label tient lieu de titre, aligné comme l'en-tête des autres frises. */
+body[data-page="page"] .logos__inner > .label { margin-inline: var(--section-x); }
+@media (max-width: 900px) {
+  body[data-page="page"] .logos__inner > .label { margin-inline: var(--gutter); }
+}

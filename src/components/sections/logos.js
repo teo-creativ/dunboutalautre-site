@@ -24,10 +24,14 @@ export default ({ label, title, tag, items, empty, cta: button }, { index }) => 
     .join("\n          ");
   return `<section class="logos" data-header-theme="light" data-header-gradient="cream" aria-labelledby="${id}-title">
         <div class="logos__inner">
-          <div class="section-head" data-reveal="head">
+          ${
+            title
+              ? `<div class="section-head" data-reveal="head">
             <p class="label"><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>
             <h2 class="section-title logos__title" id="${id}-title">${titleHtml(title, tag)}</h2>
-          </div>
+          </div>`
+              : `<h2 class="label" id="${id}-title" data-reveal="up"><span class="label__dot" aria-hidden="true"></span>${esc(label)}</h2>`
+          }
           ${
             items.length
               ? `<ul class="logos__list" role="list">

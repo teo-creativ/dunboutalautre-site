@@ -107,3 +107,7 @@ body[data-page="page"] .universe__use {
   color: var(--olive-soft);
 }
 body[data-page="page"] .universe__use-label { color: var(--olive-deep); font-weight: 500; }
+
+/* ---------- Hero compact (Contact, Réalisations, Blog) ----------
+   Un titre court et un sous-titre, sans CTA : plus bas qu'un hero de page de service. */
+body[data-page="page"] .hero--compact { min-height: 60svh; }

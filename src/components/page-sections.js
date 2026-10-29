@@ -2,6 +2,7 @@
 // src/components/sections/. <!--@page-sections page="terrasses"--> dans <main>.
 import { pages } from "../data/pages/index.js";
 import ctaFinal from "./sections/cta-final.js";
+import articles from "./sections/articles.js";
 import cards from "./sections/cards.js";
 import faq from "./sections/faq.js";
 import figures from "./sections/figures.js";
@@ -16,7 +17,7 @@ import process from "./sections/process.js";
 import project from "./sections/project.js";
 import testimonials from "./sections/testimonials.js";
 
-const renderers = { hero, intro, offers, cards, figures, form, project, "filters-grid": filtersGrid, logos, testimonials, gallery, process, faq, "cta-final": ctaFinal };
+const renderers = { hero, intro, offers, cards, figures, form, project, articles, "filters-grid": filtersGrid, logos, testimonials, gallery, process, faq, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

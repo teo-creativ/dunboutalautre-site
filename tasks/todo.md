@@ -208,7 +208,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
 
 ## Phase 5 : Blog
 
-- [ ] **T27 : UI Blog, index [NR]**
+- [x] **T27 : UI Blog, index [NR]**
   - **Description :** page `/blog/` : hero compact, article mis en avant, grille des 4 articles de lancement, bandeau final.
   - **Critères :** H1 « Le blog de D'un Bout À L'autre » et sous-titre de `docs/copywriting/11` ; titres et URL des 4 articles du copywriting ; photo, date et extrait en `{ todo }` ; l'article 1 est en vedette ; pas de filtres ; bandeau « Vous avez un projet ? On en discute. » ; liens en `#` sauf l'article modèle ; UI-C.
   - **Vérification :** G1 à G5. **Dépendances :** T26. **Fichiers :** `blog/index.html`, `src/data/pages/blog.js`, `src/components/sections/articles.js`, `src/styles/articles.css` (+ registre, `vite.config.js`). **Taille :** M.

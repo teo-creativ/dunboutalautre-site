@@ -18,6 +18,7 @@ export default defineConfig({
         contact: resolve(__dirname, "contact/index.html"),
         realisations: resolve(__dirname, "realisations/index.html"),
         "floral-fashion-show": resolve(__dirname, "realisations/floral-fashion-show/index.html"),
+        blog: resolve(__dirname, "blog/index.html"),
       },
     },
   },

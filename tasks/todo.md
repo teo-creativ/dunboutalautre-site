@@ -203,8 +203,8 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Critères :** `/realisations/floral-fashion-show/` ; Avant : photo `[À compléter]` et besoin en `{ todo }` ; Projet : contraintes, proposition, matériaux et plantes, mission en `{ todo }` ; Après : photo `real-floral-fashion-show` avec `alt`, surface, durée, budget « à partir de » en `{ todo }` ; l'exemple « Siège social » n'est pas publié ; le rendu accepte un second objet projet sans erreur ; lien depuis la carte (via `href()`) ; UI-C.
   - **Vérification :** G1 à G5 ; appel du renderer avec un second projet fictif en Node (aucune sortie dans le dépôt). **Dépendances :** T25. **Fichiers :** `realisations/floral-fashion-show/index.html`, `src/components/sections/project.js`, `src/styles/project.css`, `src/data/pages/realisations.js` (+ registre, `vite.config.js`). **Taille :** M.
 
-- [ ] **Point E : Réalisations complètes**
-  - [ ] G6 ; poids ; NR complète ; compteur du menu (32) face aux 5 cartes noté (ligne 144).
+- [x] **Point E : Réalisations complètes**
+  - [x] G6 ; poids ; NR complète ; compteur du menu (32) face aux 5 cartes noté (ligne 144).
 
 ## Phase 5 : Blog
 

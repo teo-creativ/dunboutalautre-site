@@ -77,3 +77,17 @@ Valeurs à compléter (`check-site.js --placeholders`) : 40 placeholder(s) dans 
 | Formulaire (sonde CDP) | soumission vide : 7 erreurs, résumé et focus ; e-mail et téléphone invalides détectés puis corrigés à la volée ; confirmation exacte « Formulaire valide. Prototype : aucun message n'a été envoyé. » ; 0 requête réseau, 0 écriture de stockage, pas de navigation ; `?prestation=saisonniere` coche la prestation ; Espace coche une pilule | |
 | Console | vide, sans avertissement GSAP (garde de `intro.js`, hero sans CTA) | |
 | Porte de non-régression (HTML octet pour octet, 16 captures) | identique | identique |
+
+## Point E : Réalisations et fiche projet (après T26)
+
+| Mesure | Résultat | Seuil |
+|---|---|---|
+| Lighthouse desktop `/realisations/` (2 passes) | Performance 99 (98, 99) · Accessibilité 96 · Bonnes pratiques 100 · LCP 1073 ms · CLS 0,024 · TBT 19 ms | 85 · 95 · 95 |
+| Lighthouse desktop `/realisations/floral-fashion-show/` | Performance 98 (98, 97 en dernière série) · Accessibilité 96 · Bonnes pratiques 100 · LCP 1227 ms · CLS 0,006 | 85 · 95 · 95 |
+| axe-core (repos, menu ouvert, éléments ouverts) sur les deux pages | 0 violation propre | 0 |
+| `main-*.css` gzip | 11,06 ko (+2,20 ko depuis le départ) | ≤ 14,86 ko |
+| `main-*.js` gzip | 68,85 ko (+1,55 ko) | ≤ 71,30 ko |
+| Filtres (sonde CDP) | 7 boutons, « Tous » 5 cartes, Scénographie 2, Terrasses 0 avec message annoncé, clavier (Espace, Entrée), un seul bouton pressé | |
+| Porte de non-régression (HTML octet pour octet, 16 captures) | identique | identique |
+
+**Instabilité réseau constatée.** Pendant cette séance, les polices Google (`fonts.googleapis.com`, feuille de style bloquante) ont par moments coupé la connexion (`ERR_CONNECTION_CLOSED`). Une première série Lighthouse sur la fiche a donné 96, 57 et 55 (LCP 5,3 s) pendant l'une de ces coupures ; la série suivante, réseau revenu, a donné 98 et 97 sur la fiche, 98 et 97 sur Contact, 96 et 97 sur l'accueil (même code). Les outils de `.baseline/` rechargent désormais la page (3 essais) et écartent ces coupures du compte d'erreurs de console. La dépendance de chargement aux polices Google existe déjà sur l'accueil et Noël (`head.js`) ; l'auto-hébergement des polices est une piste pour la mise en ligne, à décider.

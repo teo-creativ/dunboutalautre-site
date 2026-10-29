@@ -1,0 +1,37 @@
+/* Frise de logos clients des pages secondaires : logos en niveaux de gris (DESIGN.md §5.9), `multiply` pour que les fonds blancs
+   disparaissent sur le crème. Statique par défaut : centrée, elle passe à la ligne. src/scripts/logos.js ajoute .is-marquee (ligne
+   unique qui défile). Clients sans logo : leur nom en texte et [À compléter]. */
+body[data-page="page"] .logos {
+  padding: var(--section-y) 0;
+  background: var(--cream);
+  color: var(--olive-deep);
+}
+body[data-page="page"] .logos__inner { display: flex; flex-direction: column; gap: 2.5rem; }
+body[data-page="page"] .logos__inner > .section-head,
+body[data-page="page"] .logos__inner > .logos__cta { padding-inline: var(--section-x); }
+body[data-page="page"] .logos__list {
+  --logo-h: clamp(2.25rem, 3.2vw, 3.75rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem clamp(2rem, 4vw, 5rem);
+  padding-inline: var(--section-x);
+}
+body[data-page="page"] .logo { display: flex; flex: none; align-items: center; justify-content: center; min-height: var(--logo-h); }
+body[data-page="page"] .logo__img {
+  width: auto;
+  height: var(--logo-h);
+  max-width: 12rem;
+  object-fit: contain;
+  filter: grayscale(1);
+  mix-blend-mode: multiply;
+}
+body[data-page="page"] .logo--missing { flex-direction: column; gap: 0.25rem; text-align: center; }
+body[data-page="page"] .logo__name { font-size: var(--fs-body); font-weight: 500; color: var(--olive-deep); }
+
+@media (max-width: 900px) {
+  body[data-page="page"] .logos__inner > .section-head,
+  body[data-page="page"] .logos__inner > .logos__cta,
+  body[data-page="page"] .logos__list { padding-inline: var(--gutter); }
+}

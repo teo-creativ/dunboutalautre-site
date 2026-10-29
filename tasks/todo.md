@@ -117,7 +117,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1 à G5 ; test CDP : flèches invisibles après l'initialisation.
   - **Dépendances :** T12. **Fichiers :** `src/components/noel-testimonials.js`, `src/components/sections/testimonials.js`, `src/styles/page.css`, `src/data/pages/bureaux.js`. **Taille :** S. Graphe : `initTestimonials` ← `main.js` ; `noel-testimonials.js` sans dépendant dans le graphe.
 
-- [ ] **T14 : UI Bureaux, frise de logos**
+- [x] **T14 : UI Bureaux, frise de logos**
   - **Description :** frise de logos du client en niveaux de gris, d'après `docs/copywriting/02` et l'arborescence.
   - **Critères :** `src/data/logos.js` (nom, fichier, largeur, hauteur) mesuré une fois avec `sharp` (déjà dans le projet) ; logos présents en `<img>` aux dimensions explicites, `alt` = nom du client ; logos manquants (Orixa Media pour Bureaux) en tuile nom + `[À compléter]` ; `filter: grayscale(1)` et `mix-blend-mode: multiply` ; UI-C.
   - **Vérification :** G1, G4, G5 ; aucun décalage de mise en page.

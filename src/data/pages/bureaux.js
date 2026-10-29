@@ -140,6 +140,21 @@ export const bureaux = {
       more: { label: "Découvrir nos abonnements", to: "/entretien-abonnement-plantes-entreprise-paris/" },
     },
     {
+      type: "logos",
+      label: "RÉFÉRENCES CLIENTS",
+      title: "Ils nous ont confié leurs espaces.",
+      tag: "leurs espaces",
+      items: [
+        { name: "Inato", logo: "inato" },
+        { name: "Kéobiz", logo: "keobiz" },
+        { name: "AtScale", logo: "atscale" },
+        { name: "Orixa Media" },
+        { name: "Witbe", logo: "witbe" },
+        { name: "Chez Simone", logo: "chez-simone" },
+      ],
+      cta: { label: "Voir toutes nos réalisations", to: "/realisations/" },
+    },
+    {
       type: "testimonials",
       items: [{ quote: todo("citation client"), name: todo("prénom et nom"), role: todo("poste, entreprise") }],
     },

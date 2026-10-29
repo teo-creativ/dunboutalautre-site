@@ -8,11 +8,12 @@ import figures from "./sections/figures.js";
 import gallery from "./sections/gallery.js";
 import hero from "./sections/hero.js";
 import intro from "./sections/intro.js";
+import logos from "./sections/logos.js";
 import offers from "./sections/offers.js";
 import process from "./sections/process.js";
 import testimonials from "./sections/testimonials.js";
 
-const renderers = { hero, intro, offers, cards, figures, testimonials, gallery, process, faq, "cta-final": ctaFinal };
+const renderers = { hero, intro, offers, cards, figures, logos, testimonials, gallery, process, faq, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

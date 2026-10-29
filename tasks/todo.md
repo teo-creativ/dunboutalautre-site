@@ -129,9 +129,9 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1 à G5 ; mesure CDP de la position à trois instants et de la vitesse ; poids JS relevé dans `tasks/metrics.md`.
   - **Dépendances :** T14. **Fichiers :** `src/scripts/logos.js`, `src/scripts/main.js`, `docs/ANIMATIONS.md`, `src/styles/logos.css`. **Taille :** M. Graphe : `main.js` `boot()` (25 arêtes) reçoit une nouvelle arête indirecte ; tâche séquentielle.
 
-- [ ] **Point B : Bureaux complète**
-  - [ ] Axe 0 violation dans tous les états ; Lighthouse sur la page ; poids relevés ; NR complète.
-  - [ ] Relevé des placeholders ; aucune relecture fondateur obligatoire.
+- [x] **Point B : Bureaux complète**
+  - [x] Axe 0 violation dans tous les états ; Lighthouse sur la page ; poids relevés ; NR complète.
+  - [x] Relevé des placeholders ; aucune relecture fondateur obligatoire.
 
 - [ ] **T16 : UI Design végétal sur mesure [NR]**
   - **Description :** page `/design-vegetal-sur-mesure-paris/` avec tous les types de section prêts.

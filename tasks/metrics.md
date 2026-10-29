@@ -38,3 +38,16 @@ Les mesures aux points de contrôle (A, C, F), à T29 et à T32 sont ajoutées c
 
 **Hérité du design, compté à part par `axe.mjs`.** Le texte orange (`#fc4c00`) sur blanc ou sur crème donne 3,0 à 3,4:1, sous les 4,5:1 du texte courant : bouton « Menu », texte des CTA `on-olive` et `on-orange`, labels de section (« • NOS STYLES D'AMÉNAGEMENT »). Même teinte et mêmes usages sur l'accueil et Noël, validés ; ils viennent de DESIGN.md §2, §5.2 et §5.3. Les pages neuves n'ajoutent pas d'autre usage. Décision de design à prendre par le fondateur (par exemple un texte olive foncé pour les labels et un orange plus sombre pour le texte des CTA) ; consigné dans `docs/POINTS-A-VALIDER.md` à T30.
 Noël, dans l'état « FAQ et offres au focus », a en plus des nœuds `color-contrast` en cours d'animation (texte d'un tag crème sur orange, panneau d'une offre) : existants, hors périmètre.
+
+## Point B : page Bureaux complète (après T15)
+
+| Mesure | Résultat | Seuil |
+|---|---|---|
+| Lighthouse desktop `/vegetalisation-bureaux-paris/` (médiane de 3) | Performance 97 (97, 95, 97) · Accessibilité 96 · Bonnes pratiques 100 · LCP 1214 ms · CLS 0,001 · TBT 0 ms | 85 · 95 · 95 |
+| axe-core (repos, menu ouvert, éléments ouverts) | 0 violation propre | 0 |
+| `main-*.css` gzip | 9,83 ko (+0,97 ko depuis le départ) | ≤ 14,86 ko |
+| `main-*.js` gzip | 67,80 ko (+0,50 ko, le défilement de la frise) | ≤ 71,30 ko |
+| Porte de non-régression (HTML octet pour octet, 16 captures) | identique | identique |
+| Frise de logos | 40,7 px/s (40 attendus), boucle sans à-coup sur 12 s, arrêt au survol et reprise, statique en mouvement réduit et à 390 px | |
+
+**Méthode d'axe, précisée.** Les audits tournent en mouvement réduit (`reducedMotion: "reduce"`) : contenu entièrement visible et immobile, donc le contraste mesuré est celui du texte et non celui d'un élément à mi-fondu (révélations, étapes estompées). Sont comptés à part, comme hérités du design validé : le texte orange `#fc4c00` sur blanc ou crème (3,0 à 3,4:1) et les labels de colonnes du footer en gris `#B7B7B7` sur olive (3,85:1, `docs/POINTS-A-VALIDER.md` ligne 80). Sur l'accueil et Noël, l'audit donne désormais lui aussi 0 violation propre (les violations « en cours d'animation » relevées au départ n'existaient qu'à mi-fondu).

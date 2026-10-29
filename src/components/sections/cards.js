@@ -1,7 +1,8 @@
 // Cartes de texte d'une page secondaire : label, titre (title tag compris), phrase d'introduction facultative, puis des cartes blanches
-// (titre, texte, et en option : logo du client, liste de faits « Durée : … », ligne « Idéal pour »). Aucune icône : le design n'en
+// (titre, texte, et en option : logo du client, liste de faits « Durée : … », lien, ligne « Idéal pour »). Aucune icône : le design n'en
 // fournit pas. Les valeurs peuvent être des todo(). Un `logo` null est un logo non fourni : [À compléter] ; absent, la carte n'en a pas.
 import { logos } from "../../data/logos.js";
+import { linkTo } from "../links.js";
 import { frText, placeholder, text } from "../placeholder.js";
 import { titleHtml } from "../title.js";
 import { esc, fr } from "../utils.js";
@@ -28,7 +29,7 @@ export default ({ label, title, tag, lead, items, useLabel = "Idéal pour" }, { 
     .map(
       (card) => `<li class="card" data-reveal="up" data-reveal-step="0.1">${logoOf(card)}
             <h3 class="card__title">${text(card.title)}</h3>
-            <p class="card__text">${frText(card.text)}</p>${factsOf(card)}${card.use ? `\n            <p class="card__use"><span class="card__use-label">${esc(useLabel)}</span> ${frText(card.use)}</p>` : ""}
+            <p class="card__text">${frText(card.text)}</p>${factsOf(card)}${card.link ? `\n            <p class="card__more"><a class="card__link" href="${esc(linkTo(card.link.to))}">${esc(fr(card.link.label))}</a></p>` : ""}${card.use ? `\n            <p class="card__use"><span class="card__use-label">${esc(useLabel)}</span> ${frText(card.use)}</p>` : ""}
           </li>`,
     )
     .join("\n          ");

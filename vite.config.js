@@ -13,6 +13,7 @@ export default defineConfig({
         bureaux: resolve(__dirname, "vegetalisation-bureaux-paris/index.html"),
         "design-vegetal": resolve(__dirname, "design-vegetal-sur-mesure-paris/index.html"),
         scenographie: resolve(__dirname, "scenographie-vegetale-evenementiel-paris/index.html"),
+        saisonniere: resolve(__dirname, "decoration-vegetale-saisonniere-paris/index.html"),
       },
     },
   },

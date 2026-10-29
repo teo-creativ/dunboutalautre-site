@@ -56,3 +56,15 @@ body[data-page="page"] .card__facts div { font-size: var(--fs-body); line-height
 body[data-page="page"] .card__facts dt { display: inline; color: var(--olive-deep); font-weight: 500; }
 body[data-page="page"] .card__facts dt::after { content: " :"; }
 body[data-page="page"] .card__facts dd { display: inline; margin: 0; }
+
+/* Lien dans une carte (par exemple vers la page de Noël) : souligné d'orange, comme les liens du footer. */
+body[data-page="page"] .card__more { margin-top: auto; padding-top: 0.5rem; }
+body[data-page="page"] .card__link {
+  color: var(--olive-deep);
+  font-size: var(--fs-body);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--orange);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}

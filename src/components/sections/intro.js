@@ -1,9 +1,11 @@
 // Bloc de texte d'une page secondaire : un ou plusieurs paragraphes, avec en option un label et un titre (title tag compris).
 // Sans label ni titre (l'intro de Terrasses n'a qu'un paragraphe), le bloc n'est pas une section nommée : un <div> suffit.
+import { cta } from "../cta.js";
+import { linkTo } from "../links.js";
 import { titleHtml } from "../title.js";
 import { esc, fr } from "../utils.js";
 
-export default ({ label, title, tag, paragraphs }, { index }) => {
+export default ({ label, title, tag, paragraphs, more }, { index }) => {
   const id = `intro-${index}`;
   const named = Boolean(label);
   const head = !named
@@ -18,7 +20,7 @@ export default ({ label, title, tag, paragraphs }, { index }) => {
   return `<${named ? "section" : "div"} class="intro" data-header-theme="light" data-header-gradient="cream"${named ? ` aria-labelledby="${id}-title"` : ""}>
         <div class="intro__inner">
           ${head}
-          ${body}
+          ${body}${more ? `\n          <div class="intro__more" data-reveal="up">${cta({ label: more.label, variant: "on-cream", href: linkTo(more.to) })}</div>` : ""}
         </div>
       </${named ? "section" : "div"}>`;
 };

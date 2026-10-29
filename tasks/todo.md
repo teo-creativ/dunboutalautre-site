@@ -143,7 +143,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Critères :** hero, types d'événement (offres, 4), références (Eataly, ONF, Ambassade d'Italie en placeholder), « Notre approche » (processus en 4 étapes), ateliers (3 cartes), galerie (photos Floral Fashion Show et plafond d'Eataly + placeholders), FAQ de 6 questions, bandeau final ; textes de `docs/copywriting/04`.
   - **Vérification :** G1 à G5. **Dépendances :** T16. **Fichiers :** `scenographie-vegetale-evenementiel-paris/index.html`, `src/data/pages/scenographie.js` (+ registre, `vite.config.js`). **Taille :** S.
 
-- [ ] **T18 : UI Décoration saisonnière [NR]**
+- [x] **T18 : UI Décoration saisonnière [NR]**
   - **Description :** page `/decoration-vegetale-saisonniere-paris/`.
   - **Critères :** hero, avantage principal (intro), occasions (offres, 4) avec lien vers la landing Noël (`href()` réel, Noël est `live`), « Un décor qui évolue » (intro), références (Eataly en placeholder ; Hôtel Cluny Square, Hôtel des Grands Boulevards, BHV, Botimyst présents), galerie (5 photos existantes et 1 placeholder), FAQ de 5 questions, bandeau final ; textes de `docs/copywriting/06`.
   - **Vérification :** G1 à G5 ; le lien vers Noël résout vers `/decoration-noel-entreprises-paris/`. **Dépendances :** T17. **Fichiers :** `decoration-vegetale-saisonniere-paris/index.html`, `src/data/pages/saisonniere.js` (+ registre, `vite.config.js`). **Taille :** S.

@@ -2,9 +2,10 @@
 // src/components/sections/. <!--@page-sections page="terrasses"--> dans <main>.
 import { pages } from "../data/pages/index.js";
 import ctaFinal from "./sections/cta-final.js";
+import faq from "./sections/faq.js";
 import hero from "./sections/hero.js";
 
-const renderers = { hero, "cta-final": ctaFinal };
+const renderers = { hero, faq, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

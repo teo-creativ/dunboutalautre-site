@@ -54,7 +54,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1, G2, G3.
   - **Dépendances :** T03. **Fichiers :** `src/data/site.js`. **Taille :** XS. Graphe : `site.js` a pour dépendants `cta.js`, `footer.js`, `header.js`, `menu.js`, `noel-seo.js`, `components/realisations.js`, `services-list.js`, `stats-cards.js` : G2 le prouve inchangé.
 
-- [ ] **T05 : UI Terrasses, FAQ [NR]**
+- [x] **T05 : UI Terrasses, FAQ [NR]**
   - **Description :** paramétrer `noel-faq.js` et afficher la FAQ de Terrasses, avec les données structurées.
   - **Critères :** `noel-faq.js` reçoit libellé, titre, questions, carte d'aide facultative (rendu par défaut = Noël) ; `sections/faq.js` l'appelle avec les 5 questions de `docs/copywriting/05` ; `seo.js` ajoute le JSON-LD FAQPage identique aux questions affichées et la feuille `<noscript>` qui affiche toutes les réponses ; carte d'aide absente si le copywriting n'en a pas ; l'id `faq` est unique ; UI-C (accordéon : première réponse ouverte, `aria-expanded`, `aria-controls`).
   - **Vérification :** G1 à G5 ; HTML de Noël identique ; JSON-LD comparé au HTML par `check-site.js`.

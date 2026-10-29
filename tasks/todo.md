@@ -228,7 +228,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Critères :** Lighthouse desktop (Performance ≥ 85, Accessibilité ≥ 95, Bonnes pratiques ≥ 95) ; axe 0 violation dans tous les états ; aucun défilement horizontal à 390, 768, 1024, 1440, 1728 et 1920 px ; contenu complet sans JavaScript ; mouvement réduit ; console vide ; accueil et Noël à ≥ 85 et au plus 2 points sous leur départ ; liste des écarts à corriger.
   - **Vérification :** résultats dans `tasks/metrics.md` ; toute correction passe par ses portes. **Dépendances :** Point F. **Fichiers :** `tasks/metrics.md` (+ corrections). **Taille :** M.
 
-- [ ] **T30 : Documentation**
+- [x] **T30 : Documentation**
   - **Description :** consigner écarts, microcopie et contenus manquants.
   - **Critères :** `POINTS-A-VALIDER.md` (lignes 145 et suivantes) : E1 à E6, AD3, messages du formulaire et des filtres à valider, catégories des 3 projets, logos manquants, contenus en placeholder par page ; `README.md` (lancer, builder, déployer sur Netlify ou Vercel, liste des pages) ; `.baseline/LISEZMOI.md`.
   - **Vérification :** relecture ; `check-site.js --placeholders` recoupé avec la liste. **Dépendances :** T29. **Fichiers :** `docs/POINTS-A-VALIDER.md`, `README.md`. **Taille :** S. Parallélisable avec T29 (fichiers distincts).

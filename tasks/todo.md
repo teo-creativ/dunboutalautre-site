@@ -123,7 +123,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1, G4, G5 ; aucun décalage de mise en page.
   - **Dépendances :** T13. **Fichiers :** `src/data/logos.js`, `src/components/sections/logos.js`, `src/styles/logos.css`, `src/data/pages/bureaux.js` (+ `main.css`). **Taille :** M.
 
-- [ ] **T15 : UI Frise de logos, défilement [NR]**
+- [x] **T15 : UI Frise de logos, défilement [NR]**
   - **Description :** marquee GSAP de la frise (décision du fondateur : DESIGN.md §5.9), statique en mouvement réduit.
   - **Critères :** `src/scripts/logos.js` (transform seulement, boucle sans à-coup, pause au survol et au focus, `ctx.revert()`) ; éléments dupliqués en `aria-hidden` ; `init` ajouté à `main.js` ; section documentée dans `docs/ANIMATIONS.md` ; en mouvement réduit la ligne est statique ; UI-C.
   - **Vérification :** G1 à G5 ; mesure CDP de la position à trois instants et de la vitesse ; poids JS relevé dans `tasks/metrics.md`.

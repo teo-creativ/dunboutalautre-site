@@ -151,6 +151,16 @@ Source : `retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md` §1 à §3 et `05-NOE
 - **CTA final** : inchangé (design et animation), sans lien téléphone.
 - **Mouvement réduit et sans JavaScript** : pas d'épinglage. Sections empilées : hero, photo avec texte, titre et CTA avec les photos en grille (cinq sur ordinateur, trois sous 900 px), puis les univers (photo au-dessus, accordéon sous 900 px), la timeline statique, les témoignages (un avis à la fois, flèches sous l'avis) et la FAQ en une colonne. **Mobile avec mouvement** : le même flux vertical (cercle, photos qui montent, univers qui montent), trois photos, hero hors de la scène ; le reste est empilé.
 
+## 11 ter. Frise de logos clients (pages secondaires)
+
+Source : DESIGN.md §5.9 (décision du fondateur : marquee GSAP, statique en mouvement réduit). `src/scripts/logos.js`.
+- **Défilement continu** vers la gauche, `ease: "none"`, boucle infinie, 40 px par seconde (constante `SPEED`). Seul `transform` est animé (`x` de la liste).
+- **Boucle sans à-coup** : la liste est dupliquée (copies en `aria-hidden`, assez pour couvrir la largeur du cadre plus un cycle) et translatée d'un cycle exact (du premier logo à la place de sa copie, écart compris).
+- **Cadre** : `.logos__frame` rogne et fond les bords (masque dégradé de 6 %). Sa hauteur est celle de la liste statique : aucun décalage de mise en page quand la liste passe sur une seule ligne.
+- **Arrêt** : au survol et au focus du cadre (la vitesse tombe à 0 en 0,5 s et revient de même) ; hors écran, la tween est en pause (`ScrollTrigger.onToggle`) et `will-change: transform` n'est posé que pendant le défilement.
+- **Refait** quand la largeur du cadre change (observateur de taille, 150 ms de délai).
+- **Statique** : sous 900 px, avec `prefers-reduced-motion: reduce`, ou sans JavaScript, la liste reste centrée et passe à la ligne ; les logos sont de simples images (`ul` de `li`). Nettoyage par `gsap.matchMedia` (les copies et le cadre sont retirés).
+
 ## 12. Responsive et mouvement réduit
 
 - `(max-width: 900px)` : cercle et photos simplifiés (cercle conservé, photos réduites à 2, pins ≤ 200 vh), menu en une colonne avec sous-liens en accordéon, chiffres clés en pile verticale, footer en révélation conservé si fluide, sinon statique.

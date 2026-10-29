@@ -35,3 +35,18 @@ body[data-page="page"] .logo__name { font-size: var(--fs-body); font-weight: 500
   body[data-page="page"] .logos__inner > .logos__cta,
   body[data-page="page"] .logos__list { padding-inline: var(--gutter); }
 }
+
+/* ---------- Défilement (src/scripts/logos.js) ----------
+   Une seule ligne dans un cadre qui rogne, bords fondus. La liste est translatée en JavaScript ; ses copies sont ajoutées par le script. */
+body[data-page="page"] .logos__frame {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+body[data-page="page"] .logos.is-marquee .logos__list {
+  position: relative;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: max-content;
+  height: 100%;
+  padding-inline: 0;
+}

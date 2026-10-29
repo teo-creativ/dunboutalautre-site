@@ -5,6 +5,7 @@ import { initFaq } from "./faq.js";
 import { initFooterReveal } from "./footer-reveal.js";
 import { initHeaderTheme } from "./header-theme.js";
 import { initIntro } from "./intro.js";
+import { initLogos } from "./logos.js";
 import { initMenu } from "./menu.js";
 import { initNoelStage } from "./noel-stage.js";
 import { initProcess } from "./process.js";
@@ -39,7 +40,7 @@ async function boot() {
     [initCta, initMenu],
     [initStage, initNoelStage],
     [initRealisations, initServices, initStats, initUniverses],
-    [initProcess, initTestimonials, initReveal, initFaq],
+    [initProcess, initTestimonials, initReveal, initFaq, initLogos],
     [initReducedMotion, initFooterReveal, initHeaderTheme],
   ];
   for (const group of groups) {

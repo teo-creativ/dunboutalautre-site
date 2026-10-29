@@ -19,6 +19,7 @@ export default defineConfig({
         realisations: resolve(__dirname, "realisations/index.html"),
         "floral-fashion-show": resolve(__dirname, "realisations/floral-fashion-show/index.html"),
         blog: resolve(__dirname, "blog/index.html"),
+        "article-bureaux": resolve(__dirname, "blog/vegetaliser-bureaux-paris-guide/index.html"),
       },
     },
   },

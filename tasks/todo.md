@@ -213,7 +213,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Critères :** H1 « Le blog de D'un Bout À L'autre » et sous-titre de `docs/copywriting/11` ; titres et URL des 4 articles du copywriting ; photo, date et extrait en `{ todo }` ; l'article 1 est en vedette ; pas de filtres ; bandeau « Vous avez un projet ? On en discute. » ; liens en `#` sauf l'article modèle ; UI-C.
   - **Vérification :** G1 à G5. **Dépendances :** T26. **Fichiers :** `blog/index.html`, `src/data/pages/blog.js`, `src/components/sections/articles.js`, `src/styles/articles.css` (+ registre, `vite.config.js`). **Taille :** M.
 
-- [ ] **T28 : UI Article modèle [NR]**
+- [x] **T28 : UI Article modèle [NR]**
   - **Description :** `/blog/vegetaliser-bureaux-paris-guide/`, modèle d'article.
   - **Critères :** H1 = titre réel ; auteur, date, temps de lecture, photo et corps en `{ todo }` ; lien vers la page de service liée ; « Demander un devis » en fin d'article ; meta description en `{ todo }` ; élément `article`, un seul `h1` ; UI-C.
   - **Vérification :** G1 à G5. **Dépendances :** T27. **Fichiers :** `blog/vegetaliser-bureaux-paris-guide/index.html`, `src/components/sections/article-body.js`, `src/styles/article.css`, `src/data/pages/blog.js` (+ registre, `vite.config.js`). **Taille :** M.

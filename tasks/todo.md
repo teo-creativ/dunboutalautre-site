@@ -66,7 +66,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1 à G5 ; scroll de la page mesuré en CDP (pastilles et remplissage à trois positions).
   - **Dépendances :** T05. **Fichiers :** `src/components/noel-process.js`, `src/components/sections/process.js`, `src/data/pages/terrasses.js`. **Taille :** S. Graphe : mêmes remarques que T05 (`initProcess` appelé par `main.js` seulement).
 
-- [ ] **T07 : UI Terrasses, offres (styles d'aménagement) [NR]**
+- [x] **T07 : UI Terrasses, offres (styles d'aménagement) [NR]**
   - **Description :** paramétrer `noel-univers.js` et afficher les 4 styles d'aménagement, avec une photo unique ou une tuile placeholder (E3).
   - **Critères :** `noel-univers.js` reçoit libellé, titre (avec tag), items, photo ou marqueur de tuile ; l'id `univers` est unique ; `universes.js` s'exécute sans erreur avec une photo et sans photo ; survol, focus et tap ouvrent un item à la fois ; `.placeholder-tile` ajouté (scopé) à `page.css` ; UI-C (items ouverts et fermés).
   - **Vérification :** G1 à G5 ; test CDP : survol et Tab sur chaque item, console vide.

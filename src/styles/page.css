@@ -44,3 +44,20 @@ body[data-page="page"] .more {
 @media (max-width: 900px) {
   body[data-page="page"] .more { padding-inline: var(--gutter); }
 }
+
+/* ---------- Tuile « Photo [À compléter] » ----------
+   Prend la place d'une photo qui n'existe pas encore (fond olive à 9 % sur crème, pointillé) ; dans la carte des offres elle la remplit. */
+body[data-page="page"] .placeholder-tile {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  border: 1px dashed var(--olive-muted);
+  border-radius: inherit;
+  background: var(--olive-tint);
+  color: var(--olive-deep);
+  font-size: var(--fs-body);
+  text-align: center;
+}
+body[data-page="page"] .univers__card .placeholder-tile { position: absolute; inset: 0; }

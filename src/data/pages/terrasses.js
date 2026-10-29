@@ -18,6 +18,32 @@ export const terrasses = {
       cta: "Demander un devis gratuit",
     },
     {
+      type: "offers",
+      label: "NOS STYLES D'AMÉNAGEMENT",
+      title: "Votre terrasse mérite un style d'aménagement qui lui ressemble.",
+      tag: "qui lui ressemble",
+      photo: { src: "photos/terrasse-graminees-sacre-coeur", alt: "Terrasse parisienne plantée de graminées, avec le Sacré-Cœur au loin" },
+      initial: 0,
+      items: [
+        {
+          title: "Méditerranéen",
+          text: "Olivier, lavande, agapanthes, romarin, pittosporum. Des couleurs douces, des matières naturelles, une ambiance chaleureuse. Pour ceux qui veulent se téléporter en Provence dès qu'ils ouvrent leur porte-fenêtre.",
+        },
+        {
+          title: "Tropical",
+          text: "Fougères arborescentes, bambous, palmiers, philodendrons, cannas. Une végétation dense et contrastée, qui fait voyager.",
+        },
+        {
+          title: "Épuré & contemporain",
+          text: "Des lignes nettes, une palette verte sobre, des végétaux structurants. Une composition simple mais rassurante.",
+        },
+        {
+          title: "Fleuri",
+          text: "Rosiers, lavandes, hortensias, cosmos. Pour ceux qui veulent une terrasse vivante, qui évolue au fil des saisons.",
+        },
+      ],
+    },
+    {
       type: "process",
       label: "NOTRE PROCESSUS DE CRÉATION",
       title: "De votre idée à la pose, on travaille en collaboration.",

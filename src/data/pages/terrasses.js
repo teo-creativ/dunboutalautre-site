@@ -50,6 +50,27 @@ export const terrasses = {
       ],
     },
     {
+      type: "cards",
+      label: "L'EXPERTISE DES TERRASSES PARISIENNES",
+      title: "Les spécificités des terrasses parisiennes",
+      tag: "terrasses parisiennes",
+      lead: "Aménager une terrasse à Paris, c'est devoir travailler avec des contraintes propres à la ville.",
+      items: [
+        {
+          title: "Poids et charges",
+          text: "Chaque dalle de terrasse a une charge maximale autorisée, souvent bien inférieure à ce qu'on imagine. On travaille avec des substrats allégés et des contenants adaptés pour rester dans les limites structurelles de votre immeuble, sans vous exposer à aucun risque.",
+        },
+        {
+          title: "Ensoleillement et vent",
+          text: "Selon l'orientation, l'étage et les bâtiments voisins, une terrasse peut être très ensoleillée, très ombragée, ou les deux selon les heures. On sélectionne les végétaux en fonction de votre exposition réelle.",
+        },
+        {
+          title: "Accès et logistique",
+          text: "Ascenseur, escalier, monte-charge : on gère la logistique d'approvisionnement de A à Z pour que vous n'ayez rien à coordonner.",
+        },
+      ],
+    },
+    {
       type: "process",
       label: "NOTRE PROCESSUS DE CRÉATION",
       title: "De votre idée à la pose, on travaille en collaboration.",

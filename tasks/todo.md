@@ -78,7 +78,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1, G4, G5.
   - **Dépendances :** T07. **Fichiers :** `src/components/sections/intro.js`, `src/styles/intro.css`, `src/data/pages/terrasses.js` (+ `main.css`). **Taille :** S.
 
-- [ ] **T09 : UI Terrasses, cartes**
+- [x] **T09 : UI Terrasses, cartes**
   - **Description :** composant de cartes de texte, utilisé pour « L'expertise des terrasses parisiennes » (3 blocs).
   - **Critères :** cartes titre et texte, ligne « Idéal pour » facultative ; 3 colonnes à partir de 1280 px, une colonne sous 900 px ; aucune icône inventée ; UI-C.
   - **Vérification :** G1, G4, G5.

@@ -1,5 +1,7 @@
 // Page Terrasses : tous les textes viennent de docs/copywriting/05-terrasses.md (premier jet, à retravailler avec la cliente), le title
 // et la meta de docs/arborescence-et-strategie.md. Une valeur inconnue est un todo(), jamais un texte inventé.
+import { todo } from "../../components/placeholder.js";
+
 export const terrasses = {
   id: "terrasses",
   path: "/amenagement-terrasse-paris/",
@@ -14,6 +16,13 @@ export const terrasses = {
       tag: "votre espace extérieur",
       lead: "Du choix des végétaux à l'installation, en passant par le suivi saisonnier : on s'occupe de tout. Appartement, hôtel, restaurant ou entreprise.",
       cta: "Demander un devis gratuit",
+    },
+    {
+      type: "cta-final",
+      title: "Votre terrasse mérite d'être aménagée.",
+      tag: "d'être aménagée",
+      cta: "Demander un devis",
+      phone: { label: "Téléphone :", value: todo("téléphone") },
     },
   ],
 };

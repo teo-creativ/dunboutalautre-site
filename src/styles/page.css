@@ -1,0 +1,35 @@
+/* Pages secondaires (services, contact, réalisations, blog). Même design system que l'accueil et Noël : tokens, title tags, labels, CTA.
+   Toute règle de ce fichier et des feuilles des composants de page est préfixée body[data-page="page"] : l'accueil (sans attribut) et
+   Noël (data-page="noel") ne peuvent pas être atteints. Les CSS existants (faq, process, testimonials, universes, cta-final) sont
+   réutilisés tels quels. */
+body[data-page="page"] { --pad-y: calc(var(--section-y) * 1.4); } /* lu par .cta-final (noel.css), défini pour Noël seulement */
+
+/* ---------- Hero ----------
+   Les titres du copywriting font 60 à 100 caractères (48 pour Noël, dont le hero est réglé à 64 vw en --fs-h1) : titre en --fs-h2,
+   borné en petit écran, sur une largeur un peu plus grande. */
+body[data-page="page"] .hero--page .hero__title {
+  max-width: 72vw;
+  font-size: min(var(--fs-h2), 8vw);
+  line-height: 1.4;
+}
+@media (max-width: 900px) {
+  body[data-page="page"] .hero--page .hero__title { max-width: none; }
+}
+
+/* ---------- Valeur à compléter ----------
+   Visible mais sobre : la couleur du texte voisin (le contraste est donc celui du texte), un pointillé dessous. */
+body[data-page="page"] .placeholder {
+  font-style: normal;
+  white-space: nowrap;
+  text-decoration: underline dashed;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+/* ---------- Bandeau final : téléphone ----------
+   Blanc sur orange (3,2:1) ne tient que le grand texte : la ligne reste à 24 px au moins, même en mobile où --fs-tagline descend à 13 px. */
+body[data-page="page"] .cta-final__phone {
+  font-size: max(var(--fs-tagline), 1.5rem);
+  font-weight: 400;
+  line-height: 1.3;
+}

@@ -42,7 +42,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1, G2, G3, G4 ; G5 à 1728 px (un H1 trop long non encore mis en forme est accepté, il l'est en T03).
   - **Dépendances :** T01. **Fichiers :** `amenagement-terrasse-paris/index.html`, `src/data/pages/terrasses.js`, `src/components/seo.js`, `src/components/page-sections.js`, `src/components/sections/hero.js` (+ `src/data/pages/index.js`, `vite.config.js`). **Taille :** M. Graphe : `vite.config.js` sans symbole ; fichiers neufs.
 
-- [ ] **T03 : UI Terrasses, feuille de page et bandeau final [NR]**
+- [x] **T03 : UI Terrasses, feuille de page et bandeau final [NR]**
   - **Description :** rendre le hero lisible avec les H1 longs, redéfinir `--pad-y`, styler les placeholders, ajouter le bandeau final.
   - **Critères :** `page.css` définit (scopé) `--pad-y`, `hero--page` (H1 en `--fs-h2`), le style `.placeholder` visible ; `sections/cta-final.js` reprend le balisage de `.cta-final` de Noël avec le titre du copywriting (« Votre terrasse mérite mieux qu'un bac en plastique. »), le CTA `on-orange` et le téléphone en `[À compléter]` ; H1 en 4 lignes au plus de 375 à 1728 px, sans chevauchement ni coupure ; bandeau final de même rendu que Noël ; UI-C.
   - **Vérification :** G1 à G5 ; contraste du placeholder mesuré (AA).

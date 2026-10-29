@@ -1,9 +1,10 @@
 // Corps d'une page secondaire : rend, dans l'ordre, les sections de src/data/pages/<page>.js. Un renderer par type de section, sous
 // src/components/sections/. <!--@page-sections page="terrasses"--> dans <main>.
 import { pages } from "../data/pages/index.js";
+import ctaFinal from "./sections/cta-final.js";
 import hero from "./sections/hero.js";
 
-const renderers = { hero };
+const renderers = { hero, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

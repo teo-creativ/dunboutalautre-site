@@ -177,7 +177,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1, G4, G5 ; axe 0 violation (repos).
   - **Dépendances :** T21. **Fichiers :** `src/components/sections/form.js`, `src/styles/form.css`, `src/data/pages/contact.js` (+ `main.css`). **Taille :** M.
 
-- [ ] **T23 : UI Contact, validation et envoi simulé [NR]**
+- [x] **T23 : UI Contact, validation et envoi simulé [NR]**
   - **Description :** validation côté client, confirmation sans envoi, préremplissage.
   - **Critères :** soumission vide : 7 erreurs, résumé, focus sur la première ; soumission valide : `SUBMIT_NOTICE` (« Formulaire valide. Prototype : aucun message n'a été envoyé. ») dans `role="status"`, lue depuis `data-notice` ; `// TODO` d'envoi réel dans le script ; `?prestation=` coche la prestation ; messages d'erreur en données ; `init` ajouté à `main.js` ; UI-C avec états erreur et succès.
   - **Vérification :** G1 à G5 ; CDP : 0 requête réseau et 0 écriture de stockage à la soumission ; axe 0 violation en états erreur et succès.

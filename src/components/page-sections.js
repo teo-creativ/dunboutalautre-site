@@ -4,12 +4,13 @@ import { pages } from "../data/pages/index.js";
 import ctaFinal from "./sections/cta-final.js";
 import cards from "./sections/cards.js";
 import faq from "./sections/faq.js";
+import gallery from "./sections/gallery.js";
 import hero from "./sections/hero.js";
 import intro from "./sections/intro.js";
 import offers from "./sections/offers.js";
 import process from "./sections/process.js";
 
-const renderers = { hero, intro, offers, cards, process, faq, "cta-final": ctaFinal };
+const renderers = { hero, intro, offers, cards, gallery, process, faq, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

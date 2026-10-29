@@ -1,0 +1,26 @@
+/* Galerie d'aperçu des pages secondaires : grille de photos arrondies (ratio 4/3) ou de tuiles « Photo [À compléter] », puis un bouton.
+   Trois colonnes sur ordinateur, deux sous 900 px. */
+body[data-page="page"] .gallery {
+  padding: var(--section-y) var(--section-x);
+  background: var(--cream);
+  color: var(--olive-deep);
+}
+body[data-page="page"] .gallery__inner { display: flex; flex-direction: column; gap: 2.5rem; }
+body[data-page="page"] .gallery__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+body[data-page="page"] .gallery__figure { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-photo); }
+body[data-page="page"] .gallery__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+body[data-page="page"] .gallery__figure .placeholder-tile { position: absolute; inset: 0; }
+body[data-page="page"] .gallery__caption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 0.75rem 1rem;
+  background: var(--veil);
+  color: var(--white);
+  font-size: var(--fs-body);
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  body[data-page="page"] .gallery { padding-inline: var(--gutter); }
+  body[data-page="page"] .gallery__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+}

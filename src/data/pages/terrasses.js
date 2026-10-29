@@ -96,6 +96,19 @@ export const terrasses = {
       more: { label: "Découvrir nos abonnements", to: "/entretien-abonnement-plantes-entreprise-paris/" },
     },
     {
+      type: "gallery",
+      label: "GALERIE APERÇU",
+      items: [
+        { photo: { src: "photos/terrasse-graminees-sacre-coeur", alt: "Graminées de plusieurs teintes sur une terrasse, avec les toits de Paris et le Sacré-Cœur au fond" } },
+        { photo: { src: "photos/terrasse-lavande-tour-eiffel", alt: "Brins de lavande en fleur sur une terrasse, avec la tour Eiffel floue à l'arrière-plan" } },
+        { photo: { src: "photos/terrasse-olivier-carex", alt: "Touffe de carex au pied d'un olivier en pot, sur un balcon parisien" } },
+        { photo: { src: "photos/terrasse-pot-manuka-balcon", alt: "Pot fleuri de manuka rose et d'iris violets sur un balcon à garde-corps blanc" } },
+        { photo: null },
+        { photo: null },
+      ],
+      cta: { label: "Voir tous nos projets", to: "/realisations/" },
+    },
+    {
       type: "faq",
       label: "FAQ",
       title: "Les questions qu'on nous pose fréquemment.",

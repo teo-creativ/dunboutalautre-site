@@ -84,7 +84,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1, G4, G5.
   - **Dépendances :** T08. **Fichiers :** `src/components/sections/cards.js`, `src/styles/cards.css`, `src/data/pages/terrasses.js` (+ `main.css`). **Taille :** S.
 
-- [ ] **T10 : UI Terrasses, galerie**
+- [x] **T10 : UI Terrasses, galerie**
   - **Description :** galerie d'aperçu de 6 tuiles : les 4 photos de terrasses existantes et 2 tuiles `Photo [À compléter]`, plus le bouton « Voir tous nos projets terrasses ».
   - **Critères :** images par le composant `img` (dimensions explicites, `loading="lazy"`, `alt` descriptifs en français) ; légendes en `{ todo }` ; bouton vers `href()` de Réalisations ; UI-C.
   - **Vérification :** G1, G4, G5 ; aucun décalage de mise en page mesuré (CLS).

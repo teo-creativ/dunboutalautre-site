@@ -99,7 +99,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
 
 ## Phase 2 : services
 
-- [ ] **T11 : UI Bureaux, page [NR]**
+- [x] **T11 : UI Bureaux, page [NR]**
   - **Description :** page `/vegetalisation-bureaux-paris/` avec les types de section déjà prêts.
   - **Critères :** hero, « Pourquoi végétaliser vos bureaux ? » (4 cartes), « Ce qu'on installe » (5 cartes avec « Idéal pour »), « Naturel, stabilisé ou artificiel ? » (3 cartes), démarche projet en 5 étapes, galerie de 4 tuiles placeholder, FAQ de 6 questions, bandeau final ; textes de `docs/copywriting/02` ; maillage de l'arborescence aux emplacements indiqués (liens en `#`) ; title et meta de l'arborescence.
   - **Vérification :** G1 à G5.

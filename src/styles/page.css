@@ -61,3 +61,35 @@ body[data-page="page"] .placeholder-tile {
   text-align: center;
 }
 body[data-page="page"] .univers__card .placeholder-tile { position: absolute; inset: 0; }
+
+/* ---------- Hero : lien secondaire ----------
+   « Voir nos réalisations » à côté du CTA. Ce n'est pas un .cta : intro.js ne l'anime pas, il apparaît donc en fondu à la même
+   cadence que le CTA (retard de 1,1 s, durée de 0,8 s) quand la classe js est retirée. Mouvement réduit : visible tout de suite. */
+body[data-page="page"] .hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 2.5rem;
+  margin-top: 1.8vw;
+}
+body[data-page="page"] .hero__actions .cta { margin-top: 0; }
+body[data-page="page"] .hero__link {
+  color: var(--cream);
+  font-size: var(--fs-cta);
+  text-decoration: underline;
+  text-decoration-color: var(--orange);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35em;
+}
+@media (max-width: 900px) {
+  body[data-page="page"] .hero__actions { margin-top: 1.75rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  body[data-page="page"] .hero__link { transition: opacity 0.8s ease 1.1s; }
+  html.js body[data-page="page"] .hero__link { opacity: 0; }
+}
+
+/* ---------- Title tag et ponctuation ----------
+   La ponctuation qui suit un tag reste sur sa ligne (voir src/components/title.js). */
+body[data-page="page"] .nobr { white-space: nowrap; }

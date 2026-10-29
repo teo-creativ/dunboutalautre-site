@@ -10,6 +10,7 @@ export default defineConfig({
         home: resolve(__dirname, "index.html"),
         noel: resolve(__dirname, "decoration-noel-entreprises-paris/index.html"),
         terrasses: resolve(__dirname, "amenagement-terrasse-paris/index.html"),
+        bureaux: resolve(__dirname, "vegetalisation-bureaux-paris/index.html"),
       },
     },
   },

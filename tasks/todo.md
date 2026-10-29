@@ -198,7 +198,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Critères :** boutons `aria-pressed`, zone `aria-live` annonçant le décompte ; « Tous les projets » : 5 ; Scénographie : 2 ; autres catégories : état vide avec message (microcopie en données) ; fondu court, aucun mouvement en mouvement réduit ; `init` ajouté à `main.js` ; UI-C avec états actif, vide.
   - **Vérification :** G1 à G5 ; CDP : filtre au clavier, décompte annoncé. **Dépendances :** T24. **Fichiers :** `src/scripts/realisations-filter.js`, `src/scripts/main.js`, `src/data/pages/realisations.js`. **Taille :** S. Graphe : `main.js` `boot()` : séquentielle.
 
-- [ ] **T26 : UI Fiche projet Floral Fashion Show [NR]**
+- [x] **T26 : UI Fiche projet Floral Fashion Show [NR]**
   - **Description :** une fiche pilotée par les données, parcours Avant, Projet, Après.
   - **Critères :** `/realisations/floral-fashion-show/` ; Avant : photo `[À compléter]` et besoin en `{ todo }` ; Projet : contraintes, proposition, matériaux et plantes, mission en `{ todo }` ; Après : photo `real-floral-fashion-show` avec `alt`, surface, durée, budget « à partir de » en `{ todo }` ; l'exemple « Siège social » n'est pas publié ; le rendu accepte un second objet projet sans erreur ; lien depuis la carte (via `href()`) ; UI-C.
   - **Vérification :** G1 à G5 ; appel du renderer avec un second projet fictif en Node (aucune sortie dans le dépôt). **Dépendances :** T25. **Fichiers :** `realisations/floral-fashion-show/index.html`, `src/components/sections/project.js`, `src/styles/project.css`, `src/data/pages/realisations.js` (+ registre, `vite.config.js`). **Taille :** M.

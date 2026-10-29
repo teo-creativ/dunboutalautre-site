@@ -8,8 +8,9 @@ import { saisonniere } from "./saisonniere.js";
 import { entretien } from "./entretien.js";
 import { contact } from "./contact.js";
 import { realisationsPage } from "./realisations.js";
+import { ficheFloralFashionShow } from "./fiche-floral-fashion-show.js";
 
 // Domaine final supposé, comme pour la landing Noël (docs/POINTS-A-VALIDER.md).
 export const origin = "https://dunboutalautre.co";
 
-export const pages = { terrasses, bureaux, "design-vegetal": designVegetal, scenographie, saisonniere, entretien, contact, "realisations": realisationsPage };
+export const pages = { terrasses, bureaux, "design-vegetal": designVegetal, scenographie, saisonniere, entretien, contact, "realisations": realisationsPage, "floral-fashion-show": ficheFloralFashionShow };

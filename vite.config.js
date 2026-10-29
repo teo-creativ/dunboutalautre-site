@@ -17,6 +17,7 @@ export default defineConfig({
         entretien: resolve(__dirname, "entretien-abonnement-plantes-entreprise-paris/index.html"),
         contact: resolve(__dirname, "contact/index.html"),
         realisations: resolve(__dirname, "realisations/index.html"),
+        "floral-fashion-show": resolve(__dirname, "realisations/floral-fashion-show/index.html"),
       },
     },
   },

@@ -13,9 +13,10 @@ import intro from "./sections/intro.js";
 import logos from "./sections/logos.js";
 import offers from "./sections/offers.js";
 import process from "./sections/process.js";
+import project from "./sections/project.js";
 import testimonials from "./sections/testimonials.js";
 
-const renderers = { hero, intro, offers, cards, figures, form, "filters-grid": filtersGrid, logos, testimonials, gallery, process, faq, "cta-final": ctaFinal };
+const renderers = { hero, intro, offers, cards, figures, form, project, "filters-grid": filtersGrid, logos, testimonials, gallery, process, faq, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

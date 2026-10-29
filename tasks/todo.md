@@ -105,7 +105,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1 à G5.
   - **Dépendances :** T10 et le Point A. **Fichiers :** `vegetalisation-bureaux-paris/index.html`, `src/data/pages/bureaux.js` (+ registre, `vite.config.js`). **Taille :** S.
 
-- [ ] **T12 : UI Bureaux, chiffres clés**
+- [x] **T12 : UI Bureaux, chiffres clés**
   - **Description :** 4 cartes de chiffres statiques (E1), sans `#stats` ni compteur.
   - **Critères :** « +X projets » en `{ todo }`, les 3 autres cartes du copywriting ; cartes blanches, rayon et ombre des tokens, légère rotation ; `initStats` ne fait rien (id absent) ; UI-C.
   - **Vérification :** G1, G4, G5.

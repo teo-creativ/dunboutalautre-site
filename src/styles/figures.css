@@ -1,0 +1,36 @@
+/* Chiffres clés des pages secondaires : cartes blanches légèrement inclinées (rayon, ombre et couleurs des tokens, comme les cartes de
+   chiffres de l'accueil), chiffre en orange, texte en olive. L'inclinaison passe par la propriété `rotate` : les révélations (GSAP)
+   animent `transform` et ne la touchent pas. Quatre colonnes, deux sous 900 px, une sous 560 px. */
+body[data-page="page"] .figures {
+  padding: var(--section-y) var(--section-x);
+  background: var(--cream);
+  color: var(--olive-deep);
+}
+body[data-page="page"] .figures__inner { display: flex; flex-direction: column; gap: 2.5rem; }
+body[data-page="page"] .figures__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+body[data-page="page"] .figure {
+  --card-rotate: 0deg;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: clamp(1.5rem, 2vw, 2.5rem);
+  border-radius: var(--radius-card);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+  rotate: var(--card-rotate);
+}
+body[data-page="page"] .figure:nth-child(1) { --card-rotate: -1.3deg; }
+body[data-page="page"] .figure:nth-child(2) { --card-rotate: 1deg; }
+body[data-page="page"] .figure:nth-child(3) { --card-rotate: -1.5deg; }
+body[data-page="page"] .figure:nth-child(4) { --card-rotate: 1.2deg; }
+/* Orange sur blanc : 3,4:1, il ne tient que le grand texte (24 px et plus), d'où --fs-menu-sub. */
+body[data-page="page"] .figure__head { font-size: var(--fs-menu-sub); font-weight: 300; line-height: 1.15; color: var(--orange); }
+body[data-page="page"] .figure__text { font-size: var(--fs-body); font-weight: 400; line-height: 1.6; color: var(--olive-soft); }
+
+@media (max-width: 900px) {
+  body[data-page="page"] .figures { padding-inline: var(--gutter); }
+  body[data-page="page"] .figures__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  body[data-page="page"] .figures__list { grid-template-columns: 1fr; }
+}

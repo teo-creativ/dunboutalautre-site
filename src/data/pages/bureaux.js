@@ -19,6 +19,16 @@ export const bureaux = {
       secondary: { label: "Voir nos réalisations", to: "/realisations/" },
     },
     {
+      type: "figures",
+      label: "CHIFFRES CLÉS",
+      items: [
+        { head: ["+", todo("nombre de projets"), " projets"], text: "de végétalisation de bureaux réalisés" },
+        { head: ["+10 ans"], text: "d'expérience à Paris et en Île-de-France" },
+        { head: ["Startups, grands groupes, hôtels, restaurants"], text: "tous types de locaux" },
+        { head: ["Paris & Île-de-France"], text: "zone d'intervention principale" },
+      ],
+    },
+    {
       type: "cards",
       label: "POURQUOI VÉGÉTALISER VOS BUREAUX ?",
       title: "Des plantes dans vos bureaux ? Ce n'est pas juste une question d'esthétique.",

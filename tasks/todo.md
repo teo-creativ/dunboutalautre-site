@@ -188,7 +188,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
 
 ## Phase 4 : Réalisations
 
-- [ ] **T24 : UI Réalisations, index [NR]**
+- [x] **T24 : UI Réalisations, index [NR]**
   - **Description :** page `/realisations/` : hero compact, grille de 5 cartes, bandeau final.
   - **Critères :** cartes issues de `src/data/realisations.js` (titres et photos de l'accueil, fichier non modifié) ; badge de catégorie seulement pour Floral Fashion Show et Eataly (Scénographie & événementiel), `[À compléter]` pour les trois autres ; titre et photo en un seul lien accessible (la photo en `tabindex="-1"` et `aria-hidden`) ; bandeau « Un projet en tête ? Parlons-en. » ; barre de filtres présente et masquée sans JavaScript ; UI-C.
   - **Vérification :** G1 à G5. **Dépendances :** T23. **Fichiers :** `realisations/index.html`, `src/data/pages/realisations.js`, `src/components/sections/filters-grid.js`, `src/styles/filters-grid.css` (+ registre, `vite.config.js`). **Taille :** M.

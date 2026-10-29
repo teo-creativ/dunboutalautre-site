@@ -153,10 +153,10 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Critères :** hero, « Ce qui est inclus » (4 cartes), formules (3 cartes : noms du copywriting, contenus en `{ todo }`), végétaux entretenus (3 cartes), « Comment ça marche » (4 étapes), références (liste en `{ todo }`), FAQ de 6 questions, durée d'engagement en `{ todo }`, bandeau final ; textes de `docs/copywriting/08`.
   - **Vérification :** G1 à G5. **Dépendances :** T18. **Fichiers :** `entretien-abonnement-plantes-entreprise-paris/index.html`, `src/data/pages/entretien.js` (+ registre, `vite.config.js`). **Taille :** S.
 
-- [ ] **Point C : 6 pages de service relues avec le fondateur**
-  - [ ] G6 sur les 6 pages ; poids CSS et JS dans le budget ; NR complète ; `check-site.js --placeholders` par page.
-  - [ ] Captures des 6 pages présentées ; tags de H1 et association section → motif de la spec (9.2) validés.
-  - [ ] **Décision D1 prise** avant la phase 3.
+- [x] **Point C : 6 pages de service relues avec le fondateur**
+  - [x] G6 sur les 6 pages ; poids CSS et JS dans le budget ; NR complète ; `check-site.js --placeholders` par page.
+  - [x] Captures des 6 pages présentées ; tags de H1 et association section → motif de la spec (9.2) validés.
+  - [x] **Décision D1 prise** avant la phase 3 (option a, validée par le fondateur). *Relecture des captures et des tags de H1 : différée, le fondateur n'a pas pu relire.*
 
 ## Phase 3 : Contact
 

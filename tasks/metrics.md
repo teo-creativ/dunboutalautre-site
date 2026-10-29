@@ -51,3 +51,17 @@ Noël, dans l'état « FAQ et offres au focus », a en plus des nœuds `color-co
 | Frise de logos | 40,7 px/s (40 attendus), boucle sans à-coup sur 12 s, arrêt au survol et reprise, statique en mouvement réduit et à 390 px | |
 
 **Méthode d'axe, précisée.** Les audits tournent en mouvement réduit (`reducedMotion: "reduce"`) : contenu entièrement visible et immobile, donc le contraste mesuré est celui du texte et non celui d'un élément à mi-fondu (révélations, étapes estompées). Sont comptés à part, comme hérités du design validé : le texte orange `#fc4c00` sur blanc ou crème (3,0 à 3,4:1) et les labels de colonnes du footer en gris `#B7B7B7` sur olive (3,85:1, `docs/POINTS-A-VALIDER.md` ligne 80). Sur l'accueil et Noël, l'audit donne désormais lui aussi 0 violation propre (les violations « en cours d'animation » relevées au départ n'existaient qu'à mi-fondu).
+
+## Point C : 6 pages de service (après T19)
+
+| Page | Performance | Accessibilité | Bonnes pratiques | LCP | CLS |
+|---|---|---|---|---|---|
+| Terrasses | 99 (3 passes, Point A) | 96 | 100 | 991 ms | 0,001 |
+| Bureaux | 97 (3 passes, Point B) | 96 | 100 | 1214 ms | 0,001 |
+| Design végétal | 97 (1 passe) | 96 | 100 | 1271 ms | 0,009 |
+| Scénographie | 97 (1 passe) | 97 | 100 | 1205 ms | 0,010 |
+| Décoration saisonnière | 94 (1 passe) | 96 | 100 | 1526 ms | 0,026 |
+| Entretien | 98 (1 passe) | 96 | 100 | 1124 ms | 0,004 |
+
+Seuils : Performance ≥ 85, Accessibilité ≥ 95, Bonnes pratiques ≥ 95 : tenus sur les 6 pages. axe-core : 0 violation propre sur les 6 pages (repos, menu ouvert, éléments ouverts). Poids : `main-*.css` 9,99 ko gzip (budget 14,86 ko), `main-*.js` 67,80 ko gzip (budget 71,30 ko). Porte de non-régression : HTML d'Accueil et de Noël identique octet pour octet, 16 captures à 0 écart. Largeurs 1728, 1280, 768 et 375 px : aucun défilement horizontal, console vide sur les 6 pages. Le H1 le plus long (Scénographie, 100 caractères) tient sur 4 lignes à 1728 px et sur 6 à 375 px.
+Valeurs à compléter (`check-site.js --placeholders`) : 40 placeholder(s) dans 6 page(s)..

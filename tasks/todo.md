@@ -160,7 +160,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
 
 ## Phase 3 : Contact
 
-- [ ] **T20 : Garde dans `intro.js` (selon D1, option a) [NR]**
+- [x] **T20 : Garde dans `intro.js` (selon D1, option a) [NR]**
   - **Description :** éviter l'avertissement GSAP quand le hero n'a ni CTA ni feuilles (E6).
   - **Critères :** garde d'une ligne autour des `gsap.set` et `.to` du CTA et des feuilles ; comportement avec CTA strictement inchangé ; diff de `intro.js` de 6 lignes au plus.
   - **Vérification :** G1, G2, G3 ; page de test sans CTA : 0 avertissement console.

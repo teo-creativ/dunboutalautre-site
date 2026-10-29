@@ -39,7 +39,7 @@ export function initIntro({ skip = false } = {}) {
   gsap.set(title, { autoAlpha: 1 });
   gsap.set(tags, { autoAlpha: 0, scale: 0.7, rotation: 0 });
   hideTags(tags);
-  gsap.set(cta, { autoAlpha: 0, y: 24 });
+  if (cta) gsap.set(cta, { autoAlpha: 0, y: 24 }); // pas de CTA dans le hero de Contact, Réalisations et Blog : rien à animer ni à signaler
   endIntro();
 
   const tl = gsap
@@ -57,8 +57,8 @@ export function initIntro({ skip = false } = {}) {
     .to(leaves, { opacity: 1, duration: 1.6, ease: "power2.out" }, 0)
     .to(split.words, { yPercent: 0, duration: 1.1, stagger: 0.07 }, 0.2)
     // Tag : il s'incline et grossit avec un léger rebond pendant que son fond se dessine de gauche à droite (pilule).
-    .to(tags, { autoAlpha: 1, scale: 1, rotation: tagRotation, duration: 0.7, ease: "back.out(1.6)", stagger: 0.12 }, 0.75)
-    .to(cta, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, 1.1);
+    .to(tags, { autoAlpha: 1, scale: 1, rotation: tagRotation, duration: 0.7, ease: "back.out(1.6)", stagger: 0.12 }, 0.75);
+  if (cta) tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, 1.1);
 
   tags.forEach((tag, i) => fillTag(tl, tag, 0.75 + i * 0.12));
   if (tagline) tl.to(tagline, { autoAlpha: 1, duration: 0.8, ease: "power2.out" }, 0.1);

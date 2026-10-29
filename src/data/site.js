@@ -3,15 +3,15 @@
 // mais pas `live: true` : `href()` renvoie alors "#" pour ne pas casser la démo.
 
 const services = [
-  { label: "Végétalisation de bureaux", path: "/vegetalisation-bureaux-paris", text: "Plantes, bacs, cloisons végétales, murs, espaces d'accueil… On installe le végétal là où vivent vos équipes." },
-  { label: "Design végétal sur mesure", path: "/design-vegetal-sur-mesure-paris", text: "Tableaux, logos, murs végétaux, structures, suspensions… Des créations uniques, fabriquées pour votre espace." },
-  { label: "Scénographie végétale", path: "/scenographie-vegetale-evenementiel-paris", text: "Lancements, soirées, salons, shootings. On transforme vos événements en décors végétaux sur mesure." },
-  { label: "Terrasses", path: "/amenagement-terrasse-paris", text: "Du balcon parisien à la grande terrasse d'hôtel ou de restaurant : des extérieurs où l'on a envie de rester." },
-  { label: "Décoration saisonnière", path: "/decoration-vegetale-saisonniere-paris", text: "Noël, printemps, événements internes, vitrines… Un décor qui change avec les saisons, sans rien gérer de votre côté." },
-  { label: "Entretien & abonnements", path: "/entretien-abonnement-plantes-entreprise-paris", text: "Entretien, remplacement, renouvellement des décors. Vos plantes restent belles toute l'année." },
+  { label: "Végétalisation de bureaux", path: "/vegetalisation-bureaux-paris/", text: "Plantes, bacs, cloisons végétales, murs, espaces d'accueil… On installe le végétal là où vivent vos équipes." },
+  { label: "Design végétal sur mesure", path: "/design-vegetal-sur-mesure-paris/", text: "Tableaux, logos, murs végétaux, structures, suspensions… Des créations uniques, fabriquées pour votre espace." },
+  { label: "Scénographie végétale", path: "/scenographie-vegetale-evenementiel-paris/", text: "Lancements, soirées, salons, shootings. On transforme vos événements en décors végétaux sur mesure." },
+  { label: "Terrasses", path: "/amenagement-terrasse-paris/", text: "Du balcon parisien à la grande terrasse d'hôtel ou de restaurant : des extérieurs où l'on a envie de rester." },
+  { label: "Décoration saisonnière", path: "/decoration-vegetale-saisonniere-paris/", text: "Noël, printemps, événements internes, vitrines… Un décor qui change avec les saisons, sans rien gérer de votre côté." },
+  { label: "Entretien & abonnements", path: "/entretien-abonnement-plantes-entreprise-paris/", text: "Entretien, remplacement, renouvellement des décors. Vos plantes restent belles toute l'année." },
 ];
 
-const contact = { path: "/contact" };
+const contact = { path: "/contact/" };
 
 export const site = {
   name: "D'un Bout À L'autre",
@@ -35,9 +35,9 @@ export const site = {
   nav: [
     { label: "Accueil", path: "/", live: true },
     { label: "Services", children: true }, // parent sans page propre : ouvre la liste des services
-    { label: "Réalisations", path: "/realisations", count: true },
+    { label: "Réalisations", path: "/realisations/", count: true },
     { label: "Contact", ...contact },
-    { label: "Blog", path: "/blog" },
+    { label: "Blog", path: "/blog/" },
   ],
   // Lignes de la section Services de l'accueil (6).
   services,

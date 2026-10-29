@@ -48,7 +48,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1 à G5 ; contraste du placeholder mesuré (AA).
   - **Dépendances :** T02. **Fichiers :** `src/styles/page.css`, `src/components/sections/cta-final.js`, `src/data/pages/terrasses.js` (+ `main.css`, `page-sections.js`). **Taille :** S.
 
-- [ ] **T04 : Chemins de `site.js` [NR]**
+- [x] **T04 : Chemins de `site.js` [NR]**
   - **Description :** donner un `/` final aux 9 chemins de navigation (6 services, Réalisations, Contact, Blog), comme Noël ; la fiche et l'article ne sont pas dans la navigation (écart de comptage avec le SPEC, qui parle de 11 chemins).
   - **Critères :** `href()` renvoie toujours `#` pour tout item non `live` ; `menu current="/amenagement-terrasse-paris/"` correspond au chemin de `site.js` ; le HTML construit d'Accueil et de Noël est identique.
   - **Vérification :** G1, G2, G3.

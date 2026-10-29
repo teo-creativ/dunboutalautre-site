@@ -50,3 +50,9 @@ body[data-page="page"] .logos.is-marquee .logos__list {
   height: 100%;
   padding-inline: 0;
 }
+
+/* Liste de clients à fournir : une ligne de texte à la place de la frise. */
+body[data-page="page"] .logos__empty { padding-inline: var(--section-x); font-size: var(--fs-body); line-height: 1.6; }
+@media (max-width: 900px) {
+  body[data-page="page"] .logos__empty { padding-inline: var(--gutter); }
+}

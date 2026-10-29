@@ -68,3 +68,6 @@ body[data-page="page"] .card__link {
   text-decoration-thickness: 2px;
   text-underline-offset: 0.3em;
 }
+
+/* Contenu d'une carte encore à définir avec la cliente (fréquence d'une formule) : même ton que le texte, [À compléter] souligné. */
+body[data-page="page"] .card__note { font-size: var(--fs-body); line-height: 1.6; color: var(--olive-soft); }

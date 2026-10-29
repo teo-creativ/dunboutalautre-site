@@ -3,10 +3,11 @@
 // (role region, aria-labelledby). Un seul panneau est ouvert à la fois, le premier d'emblée : les autres portent hidden. Sans
 // JavaScript, toutes les réponses sont affichées (feuille <noscript> de noel-seo.js). Le JSON-LD FAQPage vient des mêmes données.
 // faq() rend n'importe quelle FAQ (titre déjà balisé, carte d'aide facultative) : les pages secondaires l'appellent avec leurs données ;
-// l'export par défaut rend la FAQ de Noël, octet pour octet comme avant.
+// l'export par défaut rend la FAQ de Noël, octet pour octet comme avant. Une réponse peut être un todo() (texte à fournir).
 import { noel } from "../data/noel.js";
 import { esc, fr } from "./utils.js";
 import { cta } from "./cta.js";
+import { frText } from "./placeholder.js";
 import { tag } from "./tag.js";
 
 const { label, help, items } = noel.faq; // valeurs par défaut : la FAQ de la landing Noël
@@ -18,7 +19,7 @@ const renderList = (items) =>
     .map(
       ({ q, a }, i) => `<li class="faq__item" data-reveal="up" data-reveal-y="24" data-reveal-step="0.07">
             <h3 class="faq__q"><button class="faq__trigger" type="button" id="faq-q-${i}" aria-expanded="${i === 0}" aria-controls="faq-a-${i}"><span class="faq__q-text">${esc(fr(q))}</span><span class="faq__chev" aria-hidden="true">${chevron}</span></button></h3>
-            <div class="faq__panel" id="faq-a-${i}" role="region" aria-labelledby="faq-q-${i}"${i ? " hidden" : ""}><div class="faq__answer"><p>${esc(fr(a))}</p></div></div>
+            <div class="faq__panel" id="faq-a-${i}" role="region" aria-labelledby="faq-q-${i}"${i ? " hidden" : ""}><div class="faq__answer"><p>${frText(a)}</p></div></div>
           </li>`,
     )
     .join("\n          ");

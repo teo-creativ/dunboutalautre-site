@@ -148,7 +148,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Critères :** hero, avantage principal (intro), occasions (offres, 4) avec lien vers la landing Noël (`href()` réel, Noël est `live`), « Un décor qui évolue » (intro), références (Eataly en placeholder ; Hôtel Cluny Square, Hôtel des Grands Boulevards, BHV, Botimyst présents), galerie (5 photos existantes et 1 placeholder), FAQ de 5 questions, bandeau final ; textes de `docs/copywriting/06`.
   - **Vérification :** G1 à G5 ; le lien vers Noël résout vers `/decoration-noel-entreprises-paris/`. **Dépendances :** T17. **Fichiers :** `decoration-vegetale-saisonniere-paris/index.html`, `src/data/pages/saisonniere.js` (+ registre, `vite.config.js`). **Taille :** S.
 
-- [ ] **T19 : UI Entretien et abonnements [NR]**
+- [x] **T19 : UI Entretien et abonnements [NR]**
   - **Description :** page `/entretien-abonnement-plantes-entreprise-paris/`.
   - **Critères :** hero, « Ce qui est inclus » (4 cartes), formules (3 cartes : noms du copywriting, contenus en `{ todo }`), végétaux entretenus (3 cartes), « Comment ça marche » (4 étapes), références (liste en `{ todo }`), FAQ de 6 questions, durée d'engagement en `{ todo }`, bandeau final ; textes de `docs/copywriting/08`.
   - **Vérification :** G1 à G5. **Dépendances :** T18. **Fichiers :** `entretien-abonnement-plantes-entreprise-paris/index.html`, `src/data/pages/entretien.js` (+ registre, `vite.config.js`). **Taille :** S.

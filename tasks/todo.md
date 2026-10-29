@@ -30,7 +30,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
 
 ## Phase 1 : fondation, page pilote Terrasses
 
-- [ ] **T01 : Outils de contrôle**
+- [x] **T01 : Outils de contrôle**
   - **Description :** le marqueur de placeholder, le contrôle statique du site et le script de capture des pages neuves.
   - **Critères :** `placeholder.js` exporte `todo(label)` et `text(valeur)` (chaîne échappée avec `fr()`, marqueur rendu `<span class="placeholder" data-placeholder="libellé">[À compléter]</span>`) ; `check-site.js` contrôle sur `dist/` : un seul `h1`, ordre des titres, `title` et meta, `alt`, ids uniques, tirets longs dans le texte visible, `[À compléter]` sans attribut, tag égal à une sous-chaîne exacte du titre, liens `#` listés, option `--placeholders` (page, libellé, nombre) ; `.baseline/pages.mjs` (ignoré par git) capture une URL à 1728, 1440, 1280, 768 et 375 px et relève la console.
   - **Vérification :** G1 ; `check-site.js` sur la build actuelle (accueil et Noël) : code 0 ; fixture négative dans le scratchpad (deux `h1`, un « — », un `[À compléter]` nu) : code 1 avec un message par défaut.

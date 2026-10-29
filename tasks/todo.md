@@ -22,7 +22,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
 
 ## Phase 0 : départ
 
-- [ ] **T00 : Mesures de départ**
+- [x] **T00 : Mesures de départ**
   - **Description :** avant tout changement, mesurer l'accueil et Noël pour fixer les points de comparaison des budgets (SPEC critères 3 et 4).
   - **Critères :** `tasks/metrics.md` contient, pour l'accueil et Noël : Lighthouse desktop (Performance, Accessibilité, Bonnes pratiques, médiane de 3 passes), axe-core (repos, menu ouvert, FAQ ouverte pour Noël), poids gzip de `main-*.css` (8,86 ko attendu) et `main-*.js` (67,30 ko attendu), avertissements console ; budgets calculés : CSS ≤ départ + 6 ko, JS ≤ départ + 4 ko.
   - **Vérification :** deux passes Lighthouse à ±3 points ; chiffres de poids égaux à la sortie de `npm run build`.

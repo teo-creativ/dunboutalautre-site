@@ -11,6 +11,7 @@ import { initMenu } from "./menu.js";
 import { initNoelStage } from "./noel-stage.js";
 import { initProcess } from "./process.js";
 import { initReducedMotion } from "./reduced-motion.js";
+import { initRealisationsFilter } from "./realisations-filter.js";
 import { initRealisations } from "./realisations.js";
 import { initReveal } from "./reveal.js";
 import { restoreScroll, rememberScroll } from "./scroll-memory.js";
@@ -41,7 +42,7 @@ async function boot() {
     [initCta, initMenu],
     [initStage, initNoelStage],
     [initRealisations, initServices, initStats, initUniverses],
-    [initProcess, initTestimonials, initReveal, initFaq, initLogos, initContactForm],
+    [initProcess, initTestimonials, initReveal, initFaq, initLogos, initContactForm, initRealisationsFilter],
     [initReducedMotion, initFooterReveal, initHeaderTheme],
   ];
   for (const group of groups) {

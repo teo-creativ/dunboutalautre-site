@@ -193,7 +193,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Critères :** cartes issues de `src/data/realisations.js` (titres et photos de l'accueil, fichier non modifié) ; badge de catégorie seulement pour Floral Fashion Show et Eataly (Scénographie & événementiel), `[À compléter]` pour les trois autres ; titre et photo en un seul lien accessible (la photo en `tabindex="-1"` et `aria-hidden`) ; bandeau « Un projet en tête ? Parlons-en. » ; barre de filtres présente et masquée sans JavaScript ; UI-C.
   - **Vérification :** G1 à G5. **Dépendances :** T23. **Fichiers :** `realisations/index.html`, `src/data/pages/realisations.js`, `src/components/sections/filters-grid.js`, `src/styles/filters-grid.css` (+ registre, `vite.config.js`). **Taille :** M.
 
-- [ ] **T25 : UI Réalisations, filtres [NR]**
+- [x] **T25 : UI Réalisations, filtres [NR]**
   - **Description :** les 7 filtres du copywriting.
   - **Critères :** boutons `aria-pressed`, zone `aria-live` annonçant le décompte ; « Tous les projets » : 5 ; Scénographie : 2 ; autres catégories : état vide avec message (microcopie en données) ; fondu court, aucun mouvement en mouvement réduit ; `init` ajouté à `main.js` ; UI-C avec états actif, vide.
   - **Vérification :** G1 à G5 ; CDP : filtre au clavier, décompte annoncé. **Dépendances :** T24. **Fichiers :** `src/scripts/realisations-filter.js`, `src/scripts/main.js`, `src/data/pages/realisations.js`. **Taille :** S. Graphe : `main.js` `boot()` : séquentielle.

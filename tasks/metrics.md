@@ -24,3 +24,17 @@ Médiane de 3 passes. Seuil de non-régression des pages existantes (critère 4 
 
 ## Suivi
 Les mesures aux points de contrôle (A, C, F), à T29 et à T32 sont ajoutées ci-dessous.
+
+## Point A : page pilote Terrasses (2026-10-29, build de prod, après T10)
+
+| Mesure | Résultat | Seuil |
+|---|---|---|
+| Lighthouse desktop `/amenagement-terrasse-paris/` (médiane de 3) | Performance 99 (99, 99, 97) · Accessibilité 96 · Bonnes pratiques 100 · LCP 991 ms · CLS 0,001 · TBT 0 ms | 85 · 95 · 95 |
+| axe-core (repos, menu ouvert, FAQ et offres au focus) | 0 violation propre | 0 |
+| `main-*.css` gzip | 9,35 ko (départ 8,86 ko, +0,49 ko) | ≤ 14,86 ko |
+| `main-*.js` gzip | 67,30 ko (inchangé : aucun script ajouté) | ≤ 71,30 ko |
+| Porte de non-régression (HTML octet pour octet, 16 captures) | identique | identique |
+| Largeurs 1728, 1440, 1280, 768, 375 | aucun défilement horizontal, console vide, H1 en 3 lignes (5 à 375 px) | |
+
+**Hérité du design, compté à part par `axe.mjs`.** Le texte orange (`#fc4c00`) sur blanc ou sur crème donne 3,0 à 3,4:1, sous les 4,5:1 du texte courant : bouton « Menu », texte des CTA `on-olive` et `on-orange`, labels de section (« • NOS STYLES D'AMÉNAGEMENT »). Même teinte et mêmes usages sur l'accueil et Noël, validés ; ils viennent de DESIGN.md §2, §5.2 et §5.3. Les pages neuves n'ajoutent pas d'autre usage. Décision de design à prendre par le fondateur (par exemple un texte olive foncé pour les labels et un orange plus sombre pour le texte des CTA) ; consigné dans `docs/POINTS-A-VALIDER.md` à T30.
+Noël, dans l'état « FAQ et offres au focus », a en plus des nœuds `color-contrast` en cours d'animation (texte d'un tag crème sur orange, panneau d'une offre) : existants, hors périmètre.

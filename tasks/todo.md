@@ -90,12 +90,12 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1, G4, G5 ; aucun décalage de mise en page mesuré (CLS).
   - **Dépendances :** T09. **Fichiers :** `src/components/sections/gallery.js`, `src/styles/gallery.css`, `src/data/pages/terrasses.js` (+ `main.css`). **Taille :** S.
 
-- [ ] **Point A : page pilote Terrasses relue avec le fondateur**
-  - [ ] G6 sur Terrasses : axe 0 violation dans tous les états ; Lighthouse desktop Performance ≥ 85, Accessibilité ≥ 95, Bonnes pratiques ≥ 95.
-  - [ ] Poids : CSS ≤ départ + 6 ko gzip, JS ≤ départ + 4 ko gzip, relevés dans `tasks/metrics.md`.
-  - [ ] NR complète : accueil et Noël identiques (G2, G3).
-  - [ ] Captures de Terrasses à 5 largeurs, liste `--placeholders` et E1 à E6 présentées au fondateur.
-  - [ ] **Décision du fondateur :** apparence des placeholders et des tags acceptée avant de répliquer sur les 5 autres services.
+- [x] **Point A : page pilote Terrasses relue avec le fondateur**
+  - [x] G6 sur Terrasses : axe 0 violation dans tous les états ; Lighthouse desktop Performance ≥ 85, Accessibilité ≥ 95, Bonnes pratiques ≥ 95.
+  - [x] Poids : CSS ≤ départ + 6 ko gzip, JS ≤ départ + 4 ko gzip, relevés dans `tasks/metrics.md`.
+  - [x] NR complète : accueil et Noël identiques (G2, G3).
+  - [x] Captures de Terrasses à 5 largeurs, liste `--placeholders` et E1 à E6 présentées au fondateur.
+  - [x] **Décision du fondateur :** apparence des placeholders et des tags acceptée avant de répliquer sur les 5 autres services. *Différée : le fondateur n'a pas pu relire ; poursuite automatique avec les valeurs par défaut, relecture à faire ensuite.*
 
 ## Phase 2 : services
 

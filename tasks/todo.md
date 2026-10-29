@@ -171,7 +171,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Critères :** hero compact (« Parlons de votre projet. » et sous-titre de `docs/copywriting/10`, sans CTA ni ligne de positionnement) ; coordonnées directes en 4 cartes : téléphone, e-mail et adresse en `[À compléter]`, Instagram `@dunboutalautre.co` ; réassurance en frise de logos de la page (Eataly, ONF, Ambassade d'Italie en placeholder) ; intro terminée, console vide.
   - **Vérification :** G1 à G5. **Dépendances :** T20 (ou D1 autre). **Fichiers :** `contact/index.html`, `src/data/pages/contact.js`, `src/styles/page.css`, `src/components/sections/hero.js` (+ registre, `vite.config.js`). **Taille :** M.
 
-- [ ] **T22 : UI Contact, formulaire**
+- [x] **T22 : UI Contact, formulaire**
   - **Description :** le formulaire guidé, mis en forme, sans comportement.
   - **Critères :** les champs de la spec 9.3 (7 prestations en cases à cocher, 3 types de projet en pilules radios, lieu, surface, 3 tranches de budget, date, message, prénom, nom, e-mail, téléphone) ; `fieldset` et `legend`, une étiquette par champ, `autocomplete`, `aria-required` ; bouton « Envoyer ma demande » désactivé sans JavaScript ; une colonne sous 900 px ; UI-C.
   - **Vérification :** G1, G4, G5 ; axe 0 violation (repos).

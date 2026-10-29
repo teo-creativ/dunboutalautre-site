@@ -118,7 +118,7 @@ if (existsSync(registry)) {
   const normalize = (value) => flat(String(value).replace(/\\/g, "").replace(/\*+/g, ""));
   const arbo = normalize(readFileSync(ARBO, "utf8"));
   // Clés dont la valeur n'est pas du copywriting : chemins, noms de fichiers, variantes, descriptions d'images, microcopie.
-  const SKIP = new Set(["type", "id", "path", "slug", "file", "source", "photo", "src", "alt", "variant", "href", "to", "logo", "micro", "link", "dims"]);
+  const SKIP = new Set(["type", "id", "path", "slug", "file", "source", "photo", "src", "alt", "variant", "href", "to", "logo", "kind", "field", "key", "autocomplete", "micro", "link", "dims"]);
   const strings = (value, trail = []) => {
     if (typeof value === "string") return [{ value, trail }];
     if (Array.isArray(value)) return value.flatMap((v, i) => strings(v, [...trail, i]));

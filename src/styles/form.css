@@ -1,0 +1,92 @@
+/* Formulaire de devis des pages secondaires : panneau blanc (rayon et ombre des tokens) sur fond crème ; choix en pilules, champs
+   à bord olive (contraste de 3:1 au moins contre le blanc), erreurs repérées par le texte, un point orange et un bord orange épais
+   (jamais par la couleur seule). Une colonne sous 900 px ; texte des champs à 16 px au moins (pas de zoom sur téléphone). */
+body[data-page="page"] .contact {
+  padding: var(--section-y) var(--section-x);
+  background: var(--cream);
+  color: var(--olive-deep);
+}
+body[data-page="page"] .contact__inner { display: flex; flex-direction: column; gap: 2rem; max-width: 64rem; }
+
+body[data-page="page"] .form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: clamp(1.5rem, 3vw, 3.5rem);
+  border-radius: var(--radius-card);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+}
+body[data-page="page"] .form__group { min-width: 0; margin: 0; padding: 0; border: 0; }
+body[data-page="page"] .form__legend,
+body[data-page="page"] .form__label { display: block; margin-bottom: 0.6rem; padding: 0; font-size: var(--fs-body); font-weight: 500; line-height: 1.4; }
+body[data-page="page"] .form__optional { font-weight: 400; color: var(--olive-soft); }
+
+/* Pilules : l'entrée native reste dans le flux (focus, clavier, lecteur d'écran), invisible ; le texte porte l'état. */
+body[data-page="page"] .form__pills { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+body[data-page="page"] .pill { position: relative; display: inline-flex; }
+body[data-page="page"] .pill__input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+body[data-page="page"] .pill__text {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.4rem 1.1rem;
+  border: 1px solid var(--olive-muted);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+body[data-page="page"] .pill__input:checked + .pill__text { border-color: var(--olive); background: var(--olive); color: var(--cream); }
+body[data-page="page"] .pill__input:focus-visible + .pill__text { outline: 3px solid var(--orange); outline-offset: 3px; }
+@media (hover: hover) {
+  body[data-page="page"] .pill__input:not(:checked):hover + .pill__text { border-color: var(--olive); background: var(--olive-tint); }
+}
+
+body[data-page="page"] .form__control {
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--olive-muted);
+  border-radius: var(--radius-photo);
+  background: var(--white);
+  color: var(--olive-deep);
+  font: inherit;
+  font-size: max(1rem, var(--fs-body));
+  line-height: 1.4;
+}
+body[data-page="page"] .form__control:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+body[data-page="page"] textarea.form__control { resize: vertical; min-height: 9rem; }
+
+body[data-page="page"] .form__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1.5rem; }
+
+/* Erreurs */
+body[data-page="page"] .form__error { display: flex; gap: 0.5rem; margin-top: 0.5rem; font-size: var(--fs-body); font-weight: 500; line-height: 1.4; }
+body[data-page="page"] .form__error[hidden] { display: none; }
+body[data-page="page"] .form__error::before { content: ""; flex: none; width: 0.5em; height: 0.5em; margin-top: 0.45em; border-radius: 50%; background: var(--orange); }
+body[data-page="page"] [aria-invalid="true"],
+body[data-page="page"] [data-invalid="true"] .pill__text { border-width: 2px; border-color: var(--orange); }
+body[data-page="page"] .form__summary {
+  padding: 1.25rem 1.5rem;
+  border-left: 4px solid var(--orange);
+  border-radius: var(--radius-photo);
+  background: var(--olive-tint);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+}
+body[data-page="page"] .form__summary[hidden] { display: none; }
+body[data-page="page"] .form__summary p { margin-bottom: 0.5rem; font-weight: 500; }
+body[data-page="page"] .form__summary ul { display: grid; gap: 0.25rem; padding-left: 1.25rem; list-style: disc; }
+body[data-page="page"] .form__summary a { color: var(--olive-deep); text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 0.25em; }
+
+body[data-page="page"] .form__actions { display: flex; }
+body[data-page="page"] .form__submit[disabled] { opacity: 0.55; cursor: not-allowed; }
+body[data-page="page"] .form__status { font-size: var(--fs-body); font-weight: 500; line-height: 1.5; }
+body[data-page="page"] .form__status:empty { display: none; }
+body[data-page="page"] .form__status { padding: 1.25rem 1.5rem; border-left: 4px solid var(--olive); border-radius: var(--radius-photo); background: var(--olive-tint); }
+
+@media (max-width: 900px) {
+  body[data-page="page"] .contact { padding-inline: var(--gutter); }
+  body[data-page="page"] .form__grid { grid-template-columns: 1fr; }
+}

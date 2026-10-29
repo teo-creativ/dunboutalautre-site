@@ -138,7 +138,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Critères :** hero, « Nos 5 créations » (offres, tuile placeholder), « Naturel, stabilisé ou artificiel ? » (3 cartes), branding végétal (intro), processus en 4 étapes, références (logos Ecocem et Limonetik en placeholder, Comet, Groupe Rocher et BHV présents) et citation `{ todo }`, galerie, FAQ de 6 questions, bandeau final ; textes de `docs/copywriting/03`.
   - **Vérification :** G1 à G5. **Dépendances :** T15. **Fichiers :** `design-vegetal-sur-mesure-paris/index.html`, `src/data/pages/design-vegetal.js` (+ registre, `vite.config.js`). **Taille :** S.
 
-- [ ] **T17 : UI Scénographie et événementiel [NR]**
+- [x] **T17 : UI Scénographie et événementiel [NR]**
   - **Description :** page `/scenographie-vegetale-evenementiel-paris/`.
   - **Critères :** hero, types d'événement (offres, 4), références (Eataly, ONF, Ambassade d'Italie en placeholder), « Notre approche » (processus en 4 étapes), ateliers (3 cartes), galerie (photos Floral Fashion Show et plafond d'Eataly + placeholders), FAQ de 6 questions, bandeau final ; textes de `docs/copywriting/04`.
   - **Vérification :** G1 à G5. **Dépendances :** T16. **Fichiers :** `scenographie-vegetale-evenementiel-paris/index.html`, `src/data/pages/scenographie.js` (+ registre, `vite.config.js`). **Taille :** S.

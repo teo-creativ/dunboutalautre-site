@@ -37,3 +37,22 @@ body[data-page="page"] .card__use-label { color: var(--olive-deep); font-weight:
   body[data-page="page"] .cards { padding-inline: var(--gutter); }
   body[data-page="page"] .cards__list { grid-template-columns: 1fr; }
 }
+
+/* Logo du client en tête de carte (niveaux de gris, comme la frise) ; sans logo fourni, la mention [À compléter]. */
+body[data-page="page"] .card__logo {
+  align-self: flex-start;
+  width: auto;
+  height: clamp(2rem, 2.6vw, 3rem);
+  max-width: 10rem;
+  object-fit: contain;
+  filter: grayscale(1);
+  mix-blend-mode: multiply;
+}
+body[data-page="page"] .card__logo--missing { display: flex; align-items: center; height: clamp(2rem, 2.6vw, 3rem); font-size: var(--fs-body); }
+
+/* Liste de faits d'une carte (durée, participants, lieu) : termes en olive foncé, valeurs en olive doux. */
+body[data-page="page"] .card__facts { display: grid; gap: 0.4rem; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--grey-line); }
+body[data-page="page"] .card__facts div { font-size: var(--fs-body); line-height: 1.5; color: var(--olive-soft); }
+body[data-page="page"] .card__facts dt { display: inline; color: var(--olive-deep); font-weight: 500; }
+body[data-page="page"] .card__facts dt::after { content: " :"; }
+body[data-page="page"] .card__facts dd { display: inline; margin: 0; }

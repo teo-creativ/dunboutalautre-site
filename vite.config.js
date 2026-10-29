@@ -12,6 +12,7 @@ export default defineConfig({
         terrasses: resolve(__dirname, "amenagement-terrasse-paris/index.html"),
         bureaux: resolve(__dirname, "vegetalisation-bureaux-paris/index.html"),
         "design-vegetal": resolve(__dirname, "design-vegetal-sur-mesure-paris/index.html"),
+        scenographie: resolve(__dirname, "scenographie-vegetale-evenementiel-paris/index.html"),
       },
     },
   },

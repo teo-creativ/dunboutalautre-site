@@ -1,0 +1,14 @@
+/* Bloc de texte des pages secondaires (intro de Terrasses, « avantage principal », branding végétal) : texte courant en grand sur fond
+   crème, comme « Notre approche » mais plus petit, car les paragraphes du copywriting sont plus longs. */
+body[data-page="page"] .intro {
+  padding: var(--section-y) var(--section-x);
+  background: var(--cream);
+  color: var(--olive-deep);
+}
+body[data-page="page"] .intro__inner { display: flex; flex-direction: column; gap: 1.75rem; max-width: 62rem; }
+body[data-page="page"] .intro__title { max-width: none; }
+body[data-page="page"] .intro__text { font-size: var(--fs-menu-sub); font-weight: 300; line-height: 1.6; }
+
+@media (max-width: 900px) {
+  body[data-page="page"] .intro { padding-inline: var(--gutter); }
+}

@@ -18,6 +18,12 @@ export const terrasses = {
       cta: "Demander un devis gratuit",
     },
     {
+      type: "intro",
+      paragraphs: [
+        "Dans nos villes bétonnées, posséder une terrasse, c'est avoir la chance de répondre à l'appel du vert. Encore faut-il qu'elle soit pensée pour la ville : charge limitée, vent, accès compliqué. On s'occupe de tout, pour que votre terrasse devienne une vraie parenthèse végétale.",
+      ],
+    },
+    {
       type: "offers",
       label: "NOS STYLES D'AMÉNAGEMENT",
       title: "Votre terrasse mérite un style d'aménagement qui lui ressemble.",

@@ -72,7 +72,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1 à G5 ; test CDP : survol et Tab sur chaque item, console vide.
   - **Dépendances :** T06. **Fichiers :** `src/components/noel-univers.js`, `src/components/sections/offers.js`, `src/styles/page.css`, `src/data/pages/terrasses.js`. **Taille :** M. Graphe : `noel-univers.js` ambigu (composant et script du même nom) ; vrai dépendant : Noël seulement ; `initUniverses` ← `main.js`.
 
-- [ ] **T08 : UI Terrasses, introduction**
+- [x] **T08 : UI Terrasses, introduction**
   - **Description :** bloc de texte (label, titre, paragraphe) du copywriting.
   - **Critères :** texte « INTRO » de `docs/copywriting/05` repris tel quel ; largeur de lecture bornée ; `data-reveal` ; UI-C.
   - **Vérification :** G1, G4, G5.

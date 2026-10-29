@@ -3,8 +3,11 @@
 // polite pour annoncer le changement, boutons précédent et suivant, position « Avis 2 sur 4 » lue par les lecteurs d'écran dans
 // chaque avis. Sans JavaScript, les quatre avis sont affichés l'un sous l'autre (feuille <noscript> de noel-seo.js) et les flèches,
 // inutiles, restent cachées : src/scripts/testimonials.js les montre. Pas de lecture automatique.
+// testimonialsSection() rend n'importe quels avis pour les pages secondaires (valeurs possibles : todo()) ; un avis unique reçoit
+// data-single, que page.css utilise pour garder les flèches cachées. L'export par défaut rend ceux de Noël, octet pour octet comme avant.
 import { readFileSync } from "node:fs";
 import { noel } from "../data/noel.js";
+import { text } from "./placeholder.js";
 import { esc } from "./utils.js";
 
 // Icône de guillemets : SVG inline, couleur pilotée par currentColor (le fichier porte le hex de l'orange en dur).
@@ -15,21 +18,23 @@ const icon = readFileSync(new URL("../../public/assets/brand/icon-testimonial.sv
 const chevron = (direction) =>
   `<svg viewBox="0 0 10 16" width="10" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="${direction === "left" ? "M8 1.5 1.8 8 8 14.5" : "M2 1.5 8.2 8 2 14.5"}"/></svg>`;
 
-const { label, items } = noel.testimonials;
+const { label, items } = noel.testimonials; // valeurs par défaut : les avis de la landing Noël
+
+export const testimonialsSection = ({ label, items }) => {
 
 const slides = items
   .map(
     (t, i) => `<div class="testi__slide" role="group" aria-roledescription="avis" aria-label="Avis ${i + 1} sur ${items.length}"${t.fictif ? ' data-fictif="true"' : ""}${i ? " hidden" : ""}>
               <p class="sr-only">Avis ${i + 1} sur ${items.length}</p>
               <figure class="testi__figure">
-                <blockquote class="testi__quote"><p>${esc(t.quote)}</p></blockquote>
-                <figcaption class="testi__author"><span class="testi__name">${esc(t.name)}</span><span class="testi__role">${esc(t.role)}</span></figcaption>
+                <blockquote class="testi__quote"><p>${text(t.quote)}</p></blockquote>
+                <figcaption class="testi__author"><span class="testi__name">${text(t.name)}</span><span class="testi__role">${text(t.role)}</span></figcaption>
               </figure>
             </div>`,
   )
   .join("\n            ");
 
-export default () => `<section id="temoignages" class="testi" data-header-theme="light" data-header-gradient="cream" aria-roledescription="carousel" aria-labelledby="testi-label">
+return `<section id="temoignages" class="testi" data-header-theme="light" data-header-gradient="cream" aria-roledescription="carousel" aria-labelledby="testi-label"${items.length === 1 ? " data-single" : ""}>
         <div class="testi__inner">
           <div class="testi__side">
             ${icon}
@@ -46,3 +51,6 @@ export default () => `<section id="temoignages" class="testi" data-header-theme=
           </div>
         </div>
       </section>`;
+};
+
+export default () => testimonialsSection({ label, items });

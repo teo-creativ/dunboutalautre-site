@@ -10,8 +10,9 @@ import hero from "./sections/hero.js";
 import intro from "./sections/intro.js";
 import offers from "./sections/offers.js";
 import process from "./sections/process.js";
+import testimonials from "./sections/testimonials.js";
 
-const renderers = { hero, intro, offers, cards, figures, gallery, process, faq, "cta-final": ctaFinal };
+const renderers = { hero, intro, offers, cards, figures, testimonials, gallery, process, faq, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

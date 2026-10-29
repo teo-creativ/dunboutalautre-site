@@ -140,6 +140,10 @@ export const bureaux = {
       more: { label: "Découvrir nos abonnements", to: "/entretien-abonnement-plantes-entreprise-paris/" },
     },
     {
+      type: "testimonials",
+      items: [{ quote: todo("citation client"), name: todo("prénom et nom"), role: todo("poste, entreprise") }],
+    },
+    {
       type: "gallery",
       label: "GALERIE APERÇU",
       items: [{ photo: null }, { photo: null }, { photo: null }, { photo: null }],

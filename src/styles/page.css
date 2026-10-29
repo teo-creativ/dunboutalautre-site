@@ -93,3 +93,7 @@ body[data-page="page"] .hero__link {
 /* ---------- Title tag et ponctuation ----------
    La ponctuation qui suit un tag reste sur sa ligne (voir src/components/title.js). */
 body[data-page="page"] .nobr { white-space: nowrap; }
+
+/* ---------- Avis unique ----------
+   src/scripts/testimonials.js montre toujours les flèches (nav.hidden = false) : avec un seul avis (citation à fournir), elles ne servent à rien. */
+body[data-page="page"] .testi[data-single] .testi__nav { display: none; }

@@ -111,7 +111,7 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1, G4, G5.
   - **Dépendances :** T11. **Fichiers :** `src/components/sections/figures.js`, `src/styles/figures.css`, `src/data/pages/bureaux.js` (+ `main.css`). **Taille :** S.
 
-- [ ] **T13 : UI Bureaux, témoignages [NR]**
+- [x] **T13 : UI Bureaux, témoignages [NR]**
   - **Description :** paramétrer `noel-testimonials.js` et afficher l'emplacement de citation de Bureaux (E4).
   - **Critères :** `noel-testimonials.js` reçoit libellé et avis ; un avis unique en `{ todo }` sans attribut `data-fictif` ; les flèches restent masquées malgré `testimonials.js` (règle scopée dans `page.css`) ; aucune erreur console avec un `[À compléter]` ; l'id `temoignages` est unique ; UI-C.
   - **Vérification :** G1 à G5 ; test CDP : flèches invisibles après l'initialisation.

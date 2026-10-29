@@ -65,3 +65,15 @@ Noël, dans l'état « FAQ et offres au focus », a en plus des nœuds `color-co
 
 Seuils : Performance ≥ 85, Accessibilité ≥ 95, Bonnes pratiques ≥ 95 : tenus sur les 6 pages. axe-core : 0 violation propre sur les 6 pages (repos, menu ouvert, éléments ouverts). Poids : `main-*.css` 9,99 ko gzip (budget 14,86 ko), `main-*.js` 67,80 ko gzip (budget 71,30 ko). Porte de non-régression : HTML d'Accueil et de Noël identique octet pour octet, 16 captures à 0 écart. Largeurs 1728, 1280, 768 et 375 px : aucun défilement horizontal, console vide sur les 6 pages. Le H1 le plus long (Scénographie, 100 caractères) tient sur 4 lignes à 1728 px et sur 6 à 375 px.
 Valeurs à compléter (`check-site.js --placeholders`) : 40 placeholder(s) dans 6 page(s)..
+
+## Point D : page Contact (après T23)
+
+| Mesure | Résultat | Seuil |
+|---|---|---|
+| Lighthouse desktop `/contact/` (médiane de 3) | Performance 97 (97, 90, 98) · Accessibilité 96 · Bonnes pratiques 100 · LCP 1324 ms · CLS 0,006 · TBT 0 ms | 85 · 95 · 95 |
+| axe-core, 5 états (repos, menu ouvert, éléments ouverts, formulaire en erreur, formulaire envoyé) | 0 violation propre | 0 |
+| `main-*.css` gzip | 10,60 ko (+1,74 ko depuis le départ) | ≤ 14,86 ko |
+| `main-*.js` gzip | 68,67 ko (+1,37 ko : défilement de la frise et formulaire) | ≤ 71,30 ko |
+| Formulaire (sonde CDP) | soumission vide : 7 erreurs, résumé et focus ; e-mail et téléphone invalides détectés puis corrigés à la volée ; confirmation exacte « Formulaire valide. Prototype : aucun message n'a été envoyé. » ; 0 requête réseau, 0 écriture de stockage, pas de navigation ; `?prestation=saisonniere` coche la prestation ; Espace coche une pilule | |
+| Console | vide, sans avertissement GSAP (garde de `intro.js`, hero sans CTA) | |
+| Porte de non-régression (HTML octet pour octet, 16 captures) | identique | identique |

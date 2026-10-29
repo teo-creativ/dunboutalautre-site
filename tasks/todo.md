@@ -183,8 +183,8 @@ Chaque tâche = un commit en français (`feat:`, `fix:`, `docs:`), avec les trai
   - **Vérification :** G1 à G5 ; CDP : 0 requête réseau et 0 écriture de stockage à la soumission ; axe 0 violation en états erreur et succès.
   - **Dépendances :** T22. **Fichiers :** `src/scripts/contact-form.js`, `src/scripts/main.js`, `src/data/pages/contact.js`, `src/components/sections/form.js`. **Taille :** M. Graphe : `main.js` `boot()` : tâche séquentielle.
 
-- [ ] **Point D : Contact complète**
-  - [ ] G6 ; poids ; NR complète ; messages d'erreur listés dans `POINTS-A-VALIDER.md` pour validation.
+- [x] **Point D : Contact complète**
+  - [x] G6 ; poids ; NR complète ; messages d'erreur listés dans `POINTS-A-VALIDER.md` pour validation.
 
 ## Phase 4 : Réalisations
 

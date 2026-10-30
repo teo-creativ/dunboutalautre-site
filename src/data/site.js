@@ -55,3 +55,13 @@ export const site = {
 };
 
 export const href = (item) => (item.live ? item.path : "#");
+
+// Relecture : `npm run dev:liens` (vite --mode liens) rend cliquables toutes les pages qui existent, sans toucher à `live`. Réservé au
+// serveur de dev : au build, les composants sont chargés par un import natif de Node où import.meta.env n'existe pas, donc la build
+// garde les valeurs ci-dessus. Les pages légales (hors périmètre, aucune page) restent en « # ».
+export const previewLinks = import.meta.env?.DEV === true && import.meta.env.MODE === "liens";
+if (previewLinks) {
+  for (const item of [site.contact, ...site.nav, ...site.services, ...site.menuServices]) {
+    if (item.path) item.live = true;
+  }
+}

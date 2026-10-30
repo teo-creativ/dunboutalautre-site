@@ -9,6 +9,8 @@ Stack : Vite (multi-pages), JavaScript ES vanilla, CSS natif, GSAP (ScrollTrigge
 2. `npm run dev` (http://localhost:5173). La commande génère d'abord les images WebP responsives (`npm run images`).
 3. `npm run build` produit `dist/` sans avertissement, `npm run preview` le sert (http://localhost:4173).
 
+Relire les pages secondaires au clic : `npm run dev:liens`. Tant que `live` n'est pas passé à `true` (`src/data/site.js`), leurs liens valent `#` ; ce mode, réservé au serveur de dev, rend cliquables toutes les pages qui existent (menu, cartes, boutons, fiche projet, article). Les pages légales (hors périmètre) et Facebook restent en `#`. La build ignore ce mode : `dist/` est identique.
+
 Les captures et les tests d'animation se font sur la build : `npm run build` puis `npm run preview`.
 
 Contrôle du site construit : `node scripts/check-site.js` (un seul h1, titres, title et meta, `alt`, ids, tirets longs, textes des pages secondaires comparés au copywriting, JSON-LD, liens internes) ; `node scripts/check-site.js --placeholders` liste les valeurs à compléter, page par page ; `--links` exige en plus qu'aucun lien ne soit `#` (mise en ligne).

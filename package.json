@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:liens": "vite --mode liens",
     "build": "vite build",
     "preview": "vite preview",
     "images": "node scripts/optimize-images.js",
     "predev": "npm run images",
+    "predev:liens": "npm run images",
     "prebuild": "npm run images"
   },
   "dependencies": {

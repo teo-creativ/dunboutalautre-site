@@ -11,7 +11,8 @@ import { initMenu } from "./menu.js";
 import { initNoelStage } from "./noel-stage.js";
 import { initProcess } from "./process.js";
 import { initReducedMotion } from "./reduced-motion.js";
-import { initRealisationsFilter } from "./realisations-filter.js";
+import { initProjetsGrid } from "./projets-grid.js";
+import { initProjetsStage } from "./projets-stage.js";
 import { initRealisations } from "./realisations.js";
 import { initReveal } from "./reveal.js";
 import { restoreScroll, rememberScroll } from "./scroll-memory.js";
@@ -40,9 +41,9 @@ async function boot() {
   // Landing Noël : chaque module ne fait rien si ses éléments sont absents de la page.
   const groups = [
     [initCta, initMenu],
-    [initStage, initNoelStage],
+    [initStage, initNoelStage, initProjetsStage],
     [initRealisations, initServices, initStats, initUniverses],
-    [initProcess, initTestimonials, initReveal, initFaq, initLogos, initContactForm, initRealisationsFilter],
+    [initProcess, initTestimonials, initReveal, initFaq, initLogos, initContactForm, initProjetsGrid],
     [initReducedMotion, initFooterReveal, initHeaderTheme],
   ];
   for (const group of groups) {

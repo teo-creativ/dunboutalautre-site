@@ -47,6 +47,7 @@ const visibleText = (html) =>
   decode(html.replace(/<!--[\s\S]*?-->/g, "").replace(/<(script|style|noscript)[\s\S]*?<\/\1>/g, "").replace(/<[^>]+>/g, " "));
 
 const listing = [];
+const designReport = []; // textes acceptés sur la foi d'une maquette (page.designTexts), affichés en fin de contrôle
 const pages = pagesOf(DIST).map((file) => ({ file, name: relative(DIST, file).split("\\").join("/") }));
 
 for (const { file, name } of pages) {
@@ -118,7 +119,7 @@ if (existsSync(registry)) {
   const normalize = (value) => flat(String(value).replace(/\\/g, "").replace(/\*+/g, ""));
   const arbo = normalize(readFileSync(ARBO, "utf8"));
   // Clés dont la valeur n'est pas du copywriting : chemins, noms de fichiers, variantes, descriptions d'images, microcopie.
-  const SKIP = new Set(["type", "id", "path", "slug", "file", "source", "photo", "src", "alt", "variant", "href", "to", "logo", "kind", "field", "key", "autocomplete", "categories", "links", "micro", "link", "dims"]);
+  const SKIP = new Set(["type", "id", "path", "slug", "file", "source", "photo", "src", "alt", "variant", "href", "to", "logo", "kind", "field", "key", "autocomplete", "categories", "category", "links", "micro", "link", "dims", "designTexts", "pageSize"]);
   const strings = (value, trail = []) => {
     if (typeof value === "string") return [{ value, trail }];
     if (Array.isArray(value)) return value.flatMap((v, i) => strings(v, [...trail, i]));
@@ -130,7 +131,7 @@ if (existsSync(registry)) {
   const tagged = (value, found = []) => {
     if (Array.isArray(value)) value.forEach((v) => tagged(v, found));
     else if (value && typeof value === "object") {
-      if (typeof value.title === "string" && typeof value.tag === "string") found.push(value);
+      if (typeof (value.title ?? value.statement) === "string" && typeof value.tag === "string") found.push(value);
       Object.values(value).forEach((v) => tagged(v, found));
     }
     return found;
@@ -142,14 +143,35 @@ if (existsSync(registry)) {
     if (page.source && !copy) fail(label, `source introuvable : ${page.source}`);
     // Un tag est une sous-chaîne exacte de son titre : la phrase du copywriting n'est jamais modifiée.
     for (const section of tagged(page.sections ?? [])) {
-      if (!section.title.includes(section.tag)) fail(label, `tag « ${section.tag} » absent du titre « ${section.title.slice(0, 50)} »`);
+      const heading = section.title ?? section.statement;
+      if (!heading.includes(section.tag)) fail(label, `tag « ${section.tag} » absent du titre « ${heading.slice(0, 50)} »`);
     }
-    // Chaque texte est dans le copywriting de la page (ou, pour title et description, dans l'arborescence).
+    // Chaque texte est dans le copywriting de la page (ou, pour title et description, dans l'arborescence). Exception explicite : les
+    // textes pris sur une maquette (page.designTexts, ex. retours-v4 pour Réalisations) sont acceptés, comptés et affichés ; une exception
+    // qui ne correspond plus à aucun texte de la page est périmée et fait échouer le contrôle.
+    const design = new Map((page.designTexts ?? []).map((text) => [normalize(text), 0]));
     for (const { value, trail } of strings(page)) {
       const needle = normalize(value);
       if (needle.length < 3) continue;
-      if (!copy.includes(needle) && !arbo.includes(needle)) fail(label, `texte absent du copywriting (${trail.join(".")}) : « ${value.slice(0, 60)} »`);
+      if (design.has(needle)) design.set(needle, design.get(needle) + 1);
+      if (!copy.includes(needle) && !arbo.includes(needle) && !design.has(needle)) fail(label, `texte absent du copywriting (${trail.join(".")}) : « ${value.slice(0, 60)} »`);
     }
+    for (const [needle, uses] of design) if (!uses) fail(label, `exception de maquette sans texte correspondant : « ${needle.slice(0, 60)} »`);
+    const outside = [...design.keys()].filter((needle) => !copy.includes(needle) && !arbo.includes(needle));
+    if (design.size) designReport.push(`${id} : ${outside.length} texte(s) hors copywriting, pris sur la maquette : ${outside.map((text) => `« ${text} »`).join(", ")}`);
+  }
+
+  // Réalisations : le compteur du menu et du hero (site.realisationsCount) est celui de la grille, et les compteurs des filtres s'additionnent.
+  const { site } = await import(pathToFileURL(join(ROOT, "src", "data", "site.js")).href);
+  const grid = data.realisations?.sections.find((section) => section.type === "projets-grid");
+  if (grid) {
+    if (grid.items.length !== site.realisationsCount) fail("données realisations", `${grid.items.length} cartes pour realisationsCount = ${site.realisationsCount}`);
+    // Aucun état « vide » n'existe : un filtre sans carte afficherait une grille vide, la donnée doit donc toujours en avoir une.
+    for (const f of grid.filters.filter((f) => f.key !== "all")) {
+      if (!grid.items.some((item) => item.category === f.key)) fail("données realisations", `le filtre « ${f.label} » n'a aucune carte`);
+    }
+    const sum = grid.filters.filter((f) => f.key !== "all").reduce((n, f) => n + grid.items.filter((item) => item.category === f.key).length, 0);
+    if (sum !== grid.items.length) fail("données realisations", `les filtres couvrent ${sum} cartes sur ${grid.items.length} (catégorie inconnue ?)`);
   }
 }
 
@@ -173,4 +195,5 @@ if (errors.length) {
   errors.forEach((e) => console.log(`  - ${e}`));
   process.exit(1);
 }
+designReport.forEach((line) => console.log(`maquette : ${line}`));
 console.log(`check-site : ${pages.length} page(s), aucun écart.`);

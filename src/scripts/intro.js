@@ -32,13 +32,15 @@ export function initIntro({ skip = false } = {}) {
 
   // États de départ en styles inline, puis on retire la classe js : le CSS ne masque plus rien, GSAP a pris le relais.
   gsap.set(header, { autoAlpha: 0, y: 12 });
-  gsap.set(leaves, { opacity: 0 });
+  if (leaves) gsap.set(leaves, { opacity: 0 }); // pas de feuilles sur le hero orange de Réalisations
   if (tagline) gsap.set(tagline, { autoAlpha: 0 });
   if (rises.length) gsap.set(rises, { autoAlpha: 0, y: 20 }); // vide sur l'accueil : GSAP avertirait d'une cible absente
   gsap.set(split.words, { yPercent: 110 });
   gsap.set(title, { autoAlpha: 1 });
-  gsap.set(tags, { autoAlpha: 0, scale: 0.7, rotation: 0 });
-  hideTags(tags);
+  if (tags.length) {
+    gsap.set(tags, { autoAlpha: 0, scale: 0.7, rotation: 0 });
+    hideTags(tags); // le titre « Nos projets. » de Réalisations n'a pas de pastille
+  }
   if (cta) gsap.set(cta, { autoAlpha: 0, y: 24 }); // pas de CTA dans le hero de Contact, Réalisations et Blog : rien à animer ni à signaler
   endIntro();
 
@@ -47,17 +49,17 @@ export function initIntro({ skip = false } = {}) {
       defaults: { ease: "expo.out" },
       // Les styles inline de l'intro sont retirés : le CSS reprend (rotation des tags, survol des CTA).
       onComplete: () => {
-        gsap.set([...header, leaves, tagline, ...rises, split.words, title, tags, cta].filter(Boolean), {
+        gsap.set([...header, leaves, tagline, ...rises, split.words, title, ...tags, cta].filter(Boolean), {
           clearProps: "opacity,visibility,transform,clipPath",
         });
-        clearTags(tags);
+        if (tags.length) clearTags(tags);
       },
     })
     .to(header, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, 0)
-    .to(leaves, { opacity: 1, duration: 1.6, ease: "power2.out" }, 0)
-    .to(split.words, { yPercent: 0, duration: 1.1, stagger: 0.07 }, 0.2)
-    // Tag : il s'incline et grossit avec un léger rebond pendant que son fond se dessine de gauche à droite (pilule).
-    .to(tags, { autoAlpha: 1, scale: 1, rotation: tagRotation, duration: 0.7, ease: "back.out(1.6)", stagger: 0.12 }, 0.75);
+    .to(split.words, { yPercent: 0, duration: 1.1, stagger: 0.07 }, 0.2);
+  if (leaves) tl.to(leaves, { opacity: 1, duration: 1.6, ease: "power2.out" }, 0);
+  // Tag : il s'incline et grossit avec un léger rebond pendant que son fond se dessine de gauche à droite (pilule).
+  if (tags.length) tl.to(tags, { autoAlpha: 1, scale: 1, rotation: tagRotation, duration: 0.7, ease: "back.out(1.6)", stagger: 0.12 }, 0.75);
   if (cta) tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, 1.1);
 
   tags.forEach((tag, i) => fillTag(tl, tag, 0.75 + i * 0.12));

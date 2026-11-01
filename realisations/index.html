@@ -3,6 +3,8 @@
   <head>
     <!--@head-->
     <!--@seo page="realisations"-->
+    <!-- Sans JavaScript : toutes les cartes, ni filtres ni bouton « Voir plus » (rien ne les ferait fonctionner), grille sans dégradé. -->
+    <noscript><style>html body[data-page="page"] .pcard[hidden] { display: list-item; } html body[data-page="page"] .pfilters, html body[data-page="page"] .pmore { display: none; } html body[data-page="page"] .pgrid[data-collapsed] { mask-image: none; }</style></noscript>
   </head>
   <body data-page="page">
     <!--@header-->

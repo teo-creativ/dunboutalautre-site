@@ -7,7 +7,8 @@ import articles from "./sections/articles.js";
 import cards from "./sections/cards.js";
 import faq from "./sections/faq.js";
 import figures from "./sections/figures.js";
-import filtersGrid from "./sections/filters-grid.js";
+import projetsGrid from "./sections/projets-grid.js";
+import projetsHero from "./sections/projets-hero.js";
 import form from "./sections/form.js";
 import gallery from "./sections/gallery.js";
 import hero from "./sections/hero.js";
@@ -18,7 +19,7 @@ import process from "./sections/process.js";
 import project from "./sections/project.js";
 import testimonials from "./sections/testimonials.js";
 
-const renderers = { hero, intro, offers, cards, figures, form, project, articles, "article-body": articleBody, "filters-grid": filtersGrid, logos, testimonials, gallery, process, faq, "cta-final": ctaFinal };
+const renderers = { hero, intro, offers, cards, figures, form, project, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

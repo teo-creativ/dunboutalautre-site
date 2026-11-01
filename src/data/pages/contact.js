@@ -1,9 +1,10 @@
-// Page Contact & Devis : tous les textes viennent de docs/copywriting/10-contact-et-devis.md (premier jet, à retravailler avec la cliente),
-// le title et la meta de docs/arborescence-et-strategie.md. Téléphone, e-mail et adresse ne sont pas confirmés : todo() (docs/POINTS-A-VALIDER.md,
-// ligne 144). Instagram est connu (src/data/site.js). La microcopie fonctionnelle du formulaire (confirmation, messages d'erreur) n'est
-// pas du copywriting : elle est sous `micro`, à valider (docs/POINTS-A-VALIDER.md).
-import { site } from "../site.js";
-import { todo } from "../../components/placeholder.js";
+// Page Contact V4 (retours-v4/docs/03-CONTACT.md, contact-full.png et frames contact-01 à 10). Les textes viennent de
+// docs/copywriting/10-contact-et-devis.md ; ce que la maquette change est écrit ici et déclaré dans `designTexts` (scripts/check-site.js
+// les compte au lieu de les refuser) : l'étiquette CONTACT en majuscules et le libellé « Moins de 2 000 € » (espaces insécables, au lieu de
+// « Moins de 2000€ »). La maquette n'a ni sous-titre, ni champ Surface, ni cartes de coordonnées, ni frise de logos : ils ne sont plus rendus
+// (docs/POINTS-A-VALIDER.md). Les coordonnées du bloc photo ne sont pas dans ces données : le rendu les lit dans src/data/site.js.
+// La microcopie fonctionnelle (messages d'erreur, envoi, confirmation) n'est pas du copywriting : elle est sous `micro`, à valider.
+const NBSP = " ";
 
 // Confirmation affichée quand le formulaire est valide. Constante unique, à remplacer ici quand l'envoi sera réel : elle ne doit jamais
 // laisser croire qu'un message est parti tant que ce n'est pas vrai.
@@ -11,11 +12,11 @@ export const SUBMIT_NOTICE = "Formulaire valide. Prototype : aucun message n'a �
 
 const messages = {
   required: "Ce champ est obligatoire.",
-  checkbox: "Choisissez au moins une prestation.",
   radio: "Choisissez une option.",
   email: "Saisissez une adresse e-mail valide.",
   tel: "Saisissez un numéro de téléphone valide.",
-  summary: "Le formulaire contient des erreurs à corriger :",
+  summary: "Le formulaire contient des erreurs à corriger.",
+  failed: "L'envoi a échoué. Réessayez dans un instant.",
 };
 
 export const contact = {
@@ -25,31 +26,28 @@ export const contact = {
   title: "Contact & devis gratuit | D'un Bout À L'autre Paris",
   description:
     "Demandez un devis gratuit à D'un Bout À L'autre : végétalisation de bureaux, design végétal, événement, terrasse ou Noël à Paris. Réponse sous 48h.",
+  designTexts: ["CONTACT", `Moins de 2${NBSP}000${NBSP}€`],
   sections: [
     {
-      type: "hero",
-      compact: true,
-      title: "Parlons de votre projet.",
-      tag: "votre projet",
-      lead: "Remplissez le formulaire. On revient vers vous sous 48h pour comprendre votre besoin et vous proposer un premier échange gratuit.",
-    },
-    {
       type: "form",
-      label: "FORMULAIRE GUIDÉ",
+      label: "CONTACT",
+      heading: "Parlons de votre projet.",
+      tag: "votre projet",
       optionalLabel: "optionnel",
       submit: "Envoyer ma demande",
       groups: [
         {
           field: "prestation",
-          kind: "checkbox",
+          kind: "radio",
           legend: "Type de prestation",
+          selected: "bureaux", // « Végétalisation de bureaux » est cochée à l'ouverture (maquette)
           options: [
             { key: "bureaux", label: "Végétalisation de bureaux" },
             { key: "design-vegetal", label: "Design végétal sur mesure" },
-            { key: "scenographie", label: "Scénographie végétale & événementiel" },
             { key: "terrasse", label: "Terrasse" },
-            { key: "saisonniere", label: "Décoration saisonnière (Noël, printemps...)" },
+            { key: "scenographie", label: "Scénographie végétale & événementiel" },
             { key: "entretien", label: "Entretien & abonnement végétal" },
+            { key: "saisonniere", label: "Décoration saisonnière (Noël, printemps...)" },
             { key: "autre", label: "Autre" },
           ],
         },
@@ -64,20 +62,19 @@ export const contact = {
           ],
         },
         { field: "lieu", kind: "text", label: "Lieu d'intervention", optional: true, autocomplete: "street-address" },
-        { field: "surface", kind: "text", label: "Surface approximative", optional: true },
+        { field: "delai", kind: "text", label: "Date ou délai souhaité", optional: true },
         {
           field: "budget",
-          kind: "radio",
+          kind: "toggle", // puces désélectionnables : un second clic retire le choix
           legend: "Budget indicatif",
           optional: true,
           options: [
-            { key: "moins-2000", label: "Moins de 2000€" },
-            { key: "2000-5000", label: "2 000 à 5 000 €" },
-            { key: "plus-5000", label: "Plus de 5 000 €" },
+            { key: "moins-2000", label: `Moins de 2${NBSP}000${NBSP}€` },
+            { key: "2000-5000", label: `2${NBSP}000 à 5${NBSP}000${NBSP}€` },
+            { key: "plus-5000", label: `Plus de 5${NBSP}000${NBSP}€` },
           ],
         },
-        { field: "delai", kind: "text", label: "Date ou délai souhaité", optional: true },
-        { field: "message", kind: "textarea", label: "Message libre" },
+        { field: "message", kind: "textarea", label: "Message libre", optional: true },
         {
           kind: "fields",
           legend: "Vos coordonnées",
@@ -89,34 +86,15 @@ export const contact = {
           ],
         },
       ],
-      micro: { notice: SUBMIT_NOTICE, messages },
+      micro: { notice: SUBMIT_NOTICE, sending: "Envoi en cours...", messages },
     },
     {
-      type: "cards",
-      label: "COORDONNÉES DIRECTES",
-      items: [
-        { title: "Téléphone", text: todo("téléphone") },
-        { title: "Email", text: todo("e-mail") },
-        { title: "Adresse", text: todo("adresse") },
-        { title: "Instagram", link: { label: "@dunboutalautre.co", href: site.instagram.href } },
-      ],
-    },
-    {
-      type: "logos",
-      label: "RÉASSURANCE",
-      items: [
-        { name: "Eataly" },
-        { name: "Inato", logo: "inato" },
-        { name: "BHV", logo: "bhv-marais" },
-        { name: "Hôtel Cluny Square", logo: "hotel-cluny-square" },
-        { name: "Witbe", logo: "witbe" },
-        { name: "Yves Rocher", logo: "yves-rocher" },
-        { name: "Kéobiz", logo: "keobiz" },
-        { name: "AtScale", logo: "atscale" },
-        { name: "ONF" },
-        { name: "Ambassade d'Italie" },
-        { name: "Botimyst", logo: "botimyst" },
-      ],
+      type: "contact-coordonnees",
+      label: "CONTACT",
+      photo: {
+        src: "contact/contact-01",
+        alt: "Terrasse de restaurant : rangée de tables rondes et de chaises en rotin sous un mur de bambou orné d'un soleil orange et de plantes retombantes.",
+      },
     },
   ],
 };

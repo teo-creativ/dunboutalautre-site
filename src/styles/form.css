@@ -1,92 +1,180 @@
-/* Formulaire de devis des pages secondaires : panneau blanc (rayon et ombre des tokens) sur fond crème ; choix en pilules, champs
-   à bord olive (contraste de 3:1 au moins contre le blanc), erreurs repérées par le texte, un point orange et un bord orange épais
-   (jamais par la couleur seule). Une colonne sous 900 px ; texte des champs à 16 px au moins (pas de zoom sur téléphone). */
+/* Page Contact V4 : titre collé à gauche, formulaire à droite (retours-v4/docs/03-CONTACT.md, frames contact-01 à 03). Mesures de la maquette à
+   1728 px : contenu de 1390 px entre des marges de 169 px (--section-x), colonne du formulaire de 765 px (x 794 à 1559) ; légendes de 26 px,
+   pilules de 45 px de haut (texte de 18 px), 46 px entre deux groupes, filets de 54 px sous la légende, coordonnées en grille 2 x 2 (pas de 80 px).
+   Choix en pilules : contour orange, sélection pleine, survol à 10 %. Champs sans cadre : filet bas de sable, recouvert en orange (2 px, scaleX)
+   au focus ou en erreur ; une erreur est aussi dite par un texte et un point orange (jamais par la couleur seule). Sans JavaScript ou en
+   mouvement réduit, tout est visible. Les animations d'ouverture sont dans src/scripts/contact.js. Règles préfixées body[data-page="page"]. */
 body[data-page="page"] .contact {
-  padding: var(--section-y) var(--section-x);
-  background: var(--cream);
+  --pill-fs: var(--fs-body); /* 18 px : les pilules de la frame 01 mesurent 277, 282 et 118 px */
+  --legend-fs: clamp(1.0625rem, 1.49vw, 1.8rem); /* 25,7 px : « Type de prestation » fait 243 px sur la frame */
+  --field-fs: max(1rem, var(--fs-body)); /* jamais sous 16 px : pas de zoom automatique sur iPhone */
+  padding: 9.8vw var(--section-x) 10vw;
   color: var(--olive-deep);
 }
-body[data-page="page"] .contact__inner { display: flex; flex-direction: column; gap: 2rem; max-width: 64rem; }
+body[data-page="page"] .contact__grid { display: grid; grid-template-columns: minmax(0, 1fr) 44.27vw; align-items: start; }
 
-body[data-page="page"] .form {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: clamp(1.5rem, 3vw, 3.5rem);
-  border-radius: var(--radius-card);
-  background: var(--white);
-  box-shadow: var(--shadow-card);
+/* ---------- Colonne gauche : étiquette et titre, collés pendant que le formulaire défile (puis libérés à sa fin) ---------- */
+body[data-page="page"] .contact__side { position: sticky; top: 7.5rem; padding-right: 2vw; }
+body[data-page="page"] .contact__label { display: flex; }
+body[data-page="page"] .contact__title {
+  max-width: none;
+  margin: 1.1vw 0 0;
+  font-size: var(--fs-text-lg); /* 48 px : « Parlons de votre projet. » fait 565 px sur la frame 01 */
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--olive-deep);
 }
-body[data-page="page"] .form__group { min-width: 0; margin: 0; padding: 0; border: 0; }
-body[data-page="page"] .form__legend,
-body[data-page="page"] .form__label { display: block; margin-bottom: 0.6rem; padding: 0; font-size: var(--fs-body); font-weight: 500; line-height: 1.4; }
-body[data-page="page"] .form__optional { font-weight: 400; color: var(--olive-soft); }
 
-/* Pilules : l'entrée native reste dans le flux (focus, clavier, lecteur d'écran), invisible ; le texte porte l'état. */
-body[data-page="page"] .form__pills { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-body[data-page="page"] .pill { position: relative; display: inline-flex; }
+/* ---------- Formulaire ---------- */
+body[data-page="page"] .contact__main { margin-top: 2.5vw; }
+body[data-page="page"] .cform { display: flex; flex-direction: column; gap: 2.7vw; }
+body[data-page="page"] .cgroup { min-width: 0; margin: 0; padding: 0; border: 0; }
+body[data-page="page"] .cgroup__legend { display: block; padding: 0; font-size: var(--legend-fs); font-weight: 400; line-height: 1.2; color: var(--olive-deep); }
+body[data-page="page"] .cgroup__optional { font-size: max(0.875rem, 0.62em); color: var(--olive-soft); }
+
+/* Pilules : l'entrée native reste dans le flux (clavier, lecteur d'écran), invisible ; le texte porte l'état. Le budget, désélectionnable,
+   est un bouton à aria-pressed qui se présente de la même façon. */
+body[data-page="page"] .cpills { display: flex; flex-wrap: wrap; gap: 0.58vw 1.16vw; margin-top: 1.16vw; }
+body[data-page="page"] .pill { position: relative; display: inline-flex; margin: 0; padding: 0; border: 0; background: none; font: inherit; cursor: pointer; }
 body[data-page="page"] .pill__input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 body[data-page="page"] .pill__text {
   display: inline-flex;
   align-items: center;
-  min-height: 2.75rem;
-  padding: 0.4rem 1.1rem;
-  border: 1px solid var(--olive-muted);
+  min-height: 2.6vw; /* 45 px */
+  padding: 0.3rem 1.2vw;
+  border: 1px solid var(--orange);
   border-radius: var(--radius-pill);
-  font-size: var(--fs-body);
+  font-size: var(--pill-fs);
+  font-weight: 400;
   line-height: 1.3;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  color: var(--orange);
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.12s ease-out;
 }
-body[data-page="page"] .pill__input:checked + .pill__text { border-color: var(--olive); background: var(--olive); color: var(--cream); }
-body[data-page="page"] .pill__input:focus-visible + .pill__text { outline: 3px solid var(--orange); outline-offset: 3px; }
+body[data-page="page"] .pill__input:checked + .pill__text,
+body[data-page="page"] .pill[aria-pressed="true"] .pill__text { background: var(--orange); color: var(--cream); }
+body[data-page="page"] .pill__input:focus-visible + .pill__text,
+body[data-page="page"] .pill:focus-visible .pill__text { outline: 2px solid var(--orange); outline-offset: 3px; }
+body[data-page="page"] .pill--toggle:focus-visible { outline: none; }
+@media (prefers-reduced-motion: no-preference) {
+  body[data-page="page"] .pill:active .pill__text { transform: scale(0.97); } /* retour au toucher et au clic */
+}
 @media (hover: hover) {
-  body[data-page="page"] .pill__input:not(:checked):hover + .pill__text { border-color: var(--olive); background: var(--olive-tint); }
+  body[data-page="page"] .pill__input:not(:checked):hover + .pill__text,
+  body[data-page="page"] .pill--toggle[aria-pressed="false"]:hover .pill__text { background: color-mix(in srgb, var(--orange) 10%, transparent); }
 }
 
-body[data-page="page"] .form__control {
+/* Champs : un filet bas de sable (1 px) que l'orange recouvre au focus. L'orange s'étend de gauche à droite (scaleX), il ne change pas de hauteur. */
+body[data-page="page"] .cline { position: relative; margin-top: 0.7vw; border-bottom: 1px solid var(--sand); }
+body[data-page="page"] .cline::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+body[data-page="page"] .cline:focus-within::after,
+body[data-page="page"] [data-invalid] .cline::after { transform: scaleX(1); }
+body[data-page="page"] .cinput {
   display: block;
   width: 100%;
-  min-height: 3rem;
-  padding: 0.7rem 1rem;
-  border: 1px solid var(--olive-muted);
-  border-radius: var(--radius-photo);
-  background: var(--white);
+  height: 3.12vw; /* 54 px : la légende, ce vide, puis le filet à 82 px du centre de la légende (frame 01) */
+  margin: 0;
+  padding: 1.1vw 0.58vw 0.15vw;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--olive-deep);
   font: inherit;
-  font-size: max(1rem, var(--fs-body));
-  line-height: 1.4;
+  font-size: var(--field-fs);
+  line-height: 1.3;
+  outline: 2px solid transparent; /* le focus est le filet orange ; le contour reste pour le mode contraste forcé */
+  outline-offset: 2px;
+  appearance: none;
 }
-body[data-page="page"] .form__control:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
-body[data-page="page"] textarea.form__control { resize: vertical; min-height: 9rem; }
-
-body[data-page="page"] .form__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1.5rem; }
-
-/* Erreurs */
-body[data-page="page"] .form__error { display: flex; gap: 0.5rem; margin-top: 0.5rem; font-size: var(--fs-body); font-weight: 500; line-height: 1.4; }
-body[data-page="page"] .form__error[hidden] { display: none; }
-body[data-page="page"] .form__error::before { content: ""; flex: none; width: 0.5em; height: 0.5em; margin-top: 0.45em; border-radius: 50%; background: var(--orange); }
-body[data-page="page"] [aria-invalid="true"],
-body[data-page="page"] [data-invalid="true"] .pill__text { border-width: 2px; border-color: var(--orange); }
-body[data-page="page"] .form__summary {
-  padding: 1.25rem 1.5rem;
-  border-left: 4px solid var(--orange);
-  border-radius: var(--radius-photo);
-  background: var(--olive-tint);
-  font-size: var(--fs-body);
-  line-height: 1.5;
+body[data-page="page"] .cinput:-webkit-autofill {
+  -webkit-text-fill-color: var(--olive-deep);
+  box-shadow: 0 0 0 100px var(--cream) inset;
 }
-body[data-page="page"] .form__summary[hidden] { display: none; }
-body[data-page="page"] .form__summary p { margin-bottom: 0.5rem; font-weight: 500; }
-body[data-page="page"] .form__summary ul { display: grid; gap: 0.25rem; padding-left: 1.25rem; list-style: disc; }
-body[data-page="page"] .form__summary a { color: var(--olive-deep); text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 0.25em; }
+body[data-page="page"] .cinput--area { height: 8.9vw; min-height: 8.9vw; padding-top: 0.9vw; resize: none; overflow-y: auto; } /* 154 px, grandit avec le texte (contact-form.js) ; sans script, la zone défile */
 
-body[data-page="page"] .form__actions { display: flex; }
-body[data-page="page"] .form__submit[disabled] { opacity: 0.55; cursor: not-allowed; }
-body[data-page="page"] .form__status { font-size: var(--fs-body); font-weight: 500; line-height: 1.5; }
-body[data-page="page"] .form__status:empty { display: none; }
-body[data-page="page"] .form__status { padding: 1.25rem 1.5rem; border-left: 4px solid var(--olive); border-radius: var(--radius-photo); background: var(--olive-tint); }
+/* Coordonnées : libellé flottant. Au repos il tient la place du placeholder de la maquette ; au focus ou une fois rempli, il monte au-dessus
+   du texte (transform seulement). Il reste donc toujours visible, en olive (4,8:1) plutôt qu'en sable. */
+body[data-page="page"] .cgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5vw 1.2vw; margin-top: 0.7vw; }
+body[data-page="page"] .cfloat {
+  position: absolute;
+  left: 0.58vw;
+  top: 1.1vw;
+  font-size: var(--field-fs);
+  line-height: 1.3;
+  color: var(--olive-soft);
+  transform-origin: left top;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+body[data-page="page"] .cfield--float .cinput:focus + .cfloat,
+body[data-page="page"] .cfield--float .cinput:not(:placeholder-shown) + .cfloat { transform: translateY(-1.1vw) scale(0.82); }
+body[data-page="page"] .cfield--float .cline { margin-top: 0; }
+
+/* Erreurs : zone aria-live toujours présente (vide tant qu'il n'y a rien à dire). */
+body[data-page="page"] .cerror { display: flex; gap: 0.5rem; margin-top: 0.6rem; font-size: max(0.9375rem, 0.93vw); font-weight: 500; line-height: 1.4; color: var(--olive-deep); }
+body[data-page="page"] .cerror:empty { display: none; }
+body[data-page="page"] .cerror::before { content: ""; flex: none; width: 0.5em; height: 0.5em; margin-top: 0.45em; border-radius: 50%; background: var(--orange); }
+
+/* Champ piège : hors écran (pas display: none, que certains robots repèrent), invisible et inaccessible pour une personne. */
+body[data-page="page"] .cform__trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+body[data-page="page"] .cform__actions { margin-top: 1vw; }
+body[data-page="page"] .cform__submit[disabled] { opacity: 0.55; cursor: not-allowed; }
+body[data-page="page"] .cform__submit[aria-busy="true"] { opacity: 0.85; cursor: progress; }
+body[data-page="page"] .cform__summary { display: flex; gap: 0.5rem; font-size: max(0.9375rem, 0.93vw); font-weight: 500; line-height: 1.4; }
+body[data-page="page"] .cform__summary:empty { display: none; }
+body[data-page="page"] .cform__summary::before { content: ""; flex: none; width: 0.5em; height: 0.5em; margin-top: 0.45em; border-radius: 50%; background: var(--orange); }
+body[data-page="page"] .cform__summary:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+
+/* Confirmation : remplace le formulaire (le conteneur garde sa hauteur : la page ne saute pas). */
+body[data-page="page"] .cdone { display: flex; gap: 0.7rem; font-size: var(--fs-tagline); line-height: 1.4; }
+body[data-page="page"] .cdone::before { content: ""; flex: none; width: 0.4em; height: 0.4em; margin-top: 0.55em; border-radius: 50%; background: var(--orange); }
+body[data-page="page"] .cdone:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; }
+
+/* ---------- États de départ avant que GSAP ne prenne la main (la classe js est retirée au début de l'intro, voir intro.js) ----------
+   L'étiquette et les groupes du formulaire n'apparaissent qu'à leur tour (cascade d'ouverture, contact.js). Sans JavaScript ou en mouvement
+   réduit, rien n'est caché. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js body[data-page="page"] .contact__label,
+  html.js body[data-page="page"] .cform [data-cgroup] { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="page"] .contact__side { position: static; } /* doc : en mouvement réduit, pas de titre collé qui suit le défilement */
+  body[data-page="page"] .cline::after,
+  body[data-page="page"] .cfloat,
+  body[data-page="page"] .pill__text { transition: none; }
+}
 
 @media (max-width: 900px) {
-  body[data-page="page"] .contact { padding-inline: var(--gutter); }
-  body[data-page="page"] .form__grid { grid-template-columns: 1fr; }
+  body[data-page="page"] .contact { --pill-fs: 1rem; padding: 7rem var(--gutter) 4.5rem; }
+  body[data-page="page"] .contact__grid { grid-template-columns: 1fr; }
+  body[data-page="page"] .contact__side { position: static; padding-right: 0; }
+  body[data-page="page"] .contact__label { font-size: var(--fs-label); }
+  body[data-page="page"] .contact__title { margin-top: 0.9rem; }
+  body[data-page="page"] .contact__main { margin-top: 2.5rem; }
+  body[data-page="page"] .cform { gap: 2.25rem; }
+  body[data-page="page"] .cgroup__legend { font-size: 1.25rem; }
+  body[data-page="page"] .cpills { gap: 0.6rem 0.75rem; margin-top: 0.9rem; }
+  body[data-page="page"] .pill__text { min-height: 2.75rem; padding: 0.3rem 1.1rem; } /* cible de 44 px au moins */
+  body[data-page="page"] .cline { margin-top: 0.5rem; }
+  body[data-page="page"] .cinput { height: 3.25rem; padding: 1.2rem 0.5rem 0.2rem; }
+  body[data-page="page"] .cinput--area { height: 7.5rem; min-height: 7.5rem; padding-top: 0.75rem; }
+  body[data-page="page"] .cgrid { grid-template-columns: 1fr; gap: 1.25rem; }
+  body[data-page="page"] .cfloat { left: 0.5rem; top: 1.2rem; }
+  body[data-page="page"] .cfield--float .cinput:focus + .cfloat,
+  body[data-page="page"] .cfield--float .cinput:not(:placeholder-shown) + .cfloat { transform: translateY(-1.15rem) scale(0.82); }
+  body[data-page="page"] .cerror,
+  body[data-page="page"] .cform__summary { font-size: 0.9375rem; }
+  body[data-page="page"] .cform__actions { margin-top: 0.5rem; }
+  body[data-page="page"] .cdone { font-size: 1.25rem; }
 }

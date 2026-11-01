@@ -4,6 +4,7 @@
 // seules au redimensionnement et à l'arrivée des polices) et reveal.js (titre et cartes de « Découvrez nos projets »).
 // Mouvement réduit : rien n'est caché ni animé, la page est lisible telle quelle (fiche.css). Sous 900 px : parallaxe réduite de moitié, les
 // photos de la galerie se révèlent chacune à leur tour, sans décalage entre elles.
+import { afterIntro } from "./after-intro.js";
 import { gsap, ScrollTrigger, SplitText } from "./core.js";
 import { fillTag } from "./tag.js";
 
@@ -11,18 +12,6 @@ const RADIUS = 14; // --radius-photo
 const HIDDEN = `inset(100% 0% 0% 0% round ${RADIUS}px)`; // le cadre est entièrement rogné par le bas
 const SHOWN = `inset(0% 0% 0% 0% round ${RADIUS}px)`;
 const START = "top 85%"; // une révélation part quand le haut du bloc atteint 85 % de la hauteur de l'écran
-
-// Appelle `fn` quand l'intro commence (intro.js retire la classe js de <html> à ce moment) : le titre, lui, est animé par intro.js.
-const afterIntro = (fn) => {
-  const root = document.documentElement;
-  if (!root.classList.contains("js")) return fn();
-  const observer = new MutationObserver(() => {
-    if (root.classList.contains("js")) return;
-    observer.disconnect();
-    fn();
-  });
-  observer.observe(root, { attributes: true, attributeFilter: ["class"] });
-};
 
 // Révélation d'une photo : le cadre se découvre du bas vers le haut (clip-path) pendant que l'image, un peu agrandie, se pose (scale).
 const reveal = (figure, { duration = 1.2 } = {}) => {

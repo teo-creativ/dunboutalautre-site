@@ -1,0 +1,76 @@
+/* Bloc photo et coordonnées de la page Contact (retours-v4/docs/03-CONTACT.md §3, frames contact-04 à 10). Mesures de la maquette à 1728 px :
+   photo de 695 x 622 px collée au bord gauche de l'écran et arrondie à droite seulement, collée aussi au bas de la page (le footer commence
+   là), coordonnées à 110 px de la photo, centrées sur sa hauteur ; étiquette de 30 px, lignes de 58 px en Poppins léger, pas de 101 px.
+   La photo et les lignes sont animées par src/scripts/contact.js (photo scrubée, lignes sous masque). Sans animation, tout est visible. */
+body[data-page="page"] .coords {
+  display: grid;
+  grid-template-columns: 40.2vw minmax(0, 1fr);
+  align-items: center;
+  padding-right: var(--gutter);
+  color: var(--olive-deep);
+}
+body[data-page="page"] .coords__photo { min-width: 0; }
+body[data-page="page"] .coords__frame {
+  aspect-ratio: 695 / 622;
+  overflow: hidden;
+  border-radius: 0 var(--radius-photo) var(--radius-photo) 0;
+}
+body[data-page="page"] .coords__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+body[data-page="page"] .coords__body { min-width: 0; padding-left: 6.4vw; }
+body[data-page="page"] .coords__label {
+  margin: 0;
+  font-size: clamp(1.125rem, 1.74vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+body[data-page="page"] .coords__list { display: grid; gap: 1.7vw; margin: 2.1vw 0 0; padding: 0; list-style: none; }
+body[data-page="page"] .coords__item { display: flex; margin: 0; } /* le lien est un élément flex : pas de ligne de texte (interligne du corps) autour de lui */
+body[data-page="page"] .coords__link {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  font-size: clamp(1.25rem, 3.34vw, 4rem);
+  font-weight: 300;
+  line-height: 1.25;
+  color: var(--olive-deep);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+/* Ligne masquée pendant sa montée (overflow) : un peu de marge sous les jambages, compensée pour ne rien décaler. */
+body[data-page="page"] .coords__mask { display: block; overflow: hidden; padding-block: 0.08em; margin-block: -0.08em; }
+body[data-page="page"] .coords__text { display: flex; align-items: center; gap: 0.4em; } /* l'icône monte avec le texte, sous le même masque */
+body[data-page="page"] .coords__icon { flex: none; width: 0.66em; height: 0.66em; }
+
+/* Soulignement orange au survol et au focus clavier : une ligne qui se dessine (scaleX), en dehors du masque. */
+body[data-page="page"] .coords__link::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0.02em;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body[data-page="page"] .coords__link:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; }
+body[data-page="page"] .coords__link:focus-visible::after { transform: scaleX(1); }
+@media (hover: hover) {
+  body[data-page="page"] .coords__link:hover::after { transform: scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="page"] .coords__link::after { transition: none; }
+}
+
+@media (max-width: 900px) {
+  body[data-page="page"] .coords { grid-template-columns: 1fr; padding-right: 0; }
+  body[data-page="page"] .coords__photo { padding-right: var(--gutter); }
+  body[data-page="page"] .coords__frame { aspect-ratio: 4 / 3.4; }
+  body[data-page="page"] .coords__body { padding: 2.5rem var(--gutter) 3.5rem; }
+  body[data-page="page"] .coords__label { font-size: var(--fs-label); }
+  body[data-page="page"] .coords__list { gap: 1.1rem; margin-top: 1.25rem; }
+  body[data-page="page"] .coords__link { font-size: clamp(1.25rem, 6.5vw, 1.625rem); } /* 26 px (doc) : l'adresse e-mail tient sur une ligne à 390 px */
+}

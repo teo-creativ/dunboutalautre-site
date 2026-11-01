@@ -1,5 +1,6 @@
 import "../styles/main.css";
 import { ScrollTrigger, fontsLoaded, initCore } from "./core.js";
+import { initContact } from "./contact.js";
 import { initContactForm } from "./contact-form.js";
 import { initCta } from "./cta.js";
 import { initFaq } from "./faq.js";
@@ -44,7 +45,7 @@ async function boot() {
     [initCta, initMenu],
     [initStage, initNoelStage, initProjetsStage],
     [initRealisations, initServices, initStats, initUniverses],
-    [initProcess, initTestimonials, initReveal, initFaq, initLogos, initContactForm, initProjetsGrid, initFiche],
+    [initProcess, initTestimonials, initReveal, initFaq, initLogos, initContactForm, initContact, initProjetsGrid, initFiche],
     [initReducedMotion, initFooterReveal, initHeaderTheme],
   ];
   for (const group of groups) {

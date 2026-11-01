@@ -1,0 +1,134 @@
+/* Fiche projet V4 (retours-v4/docs/02-CASE-STUDY.md, case-study-full.png et frames case-study-01 à 07). Mesures de la maquette à 1728 px :
+   contenu de 1390 px entre des marges de 169 px (--section-x), photos de 1390 px, galerie de deux colonnes de 680 px (écart de 30 px). Toutes
+   les sections sont crème et se touchent (l'espacement est du padding) : le header olive ne retombe jamais en thème sombre entre deux blocs.
+   Les animations sont dans src/scripts/fiche.js. Règles préfixées body[data-page="page"] comme page.css. */
+body[data-page="page"] .fhead,
+body[data-page="page"] .ftext,
+body[data-page="page"] .fgallery,
+body[data-page="page"] .fothers,
+body[data-page="page"] .fphoto--solo {
+  /* Fil d'Ariane inactif et catégories des cartes : le sable de la maquette, 1,67:1 sur crème (docs/POINTS-A-VALIDER.md, ligne 163). */
+  --idle: var(--sand);
+  --gap-x: clamp(16px, 1.74vw, 2.2rem);
+  padding-inline: var(--section-x);
+  color: var(--olive-deep);
+}
+
+/* ---------- En-tête : fil d'Ariane, titre, 5 infos, filet ---------- */
+body[data-page="page"] .fhead { padding-top: var(--section-x); }
+body[data-page="page"] .fhead__crumbs ol { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1vw; margin: 0; padding: 0; list-style: none; } /* ol : numérotée par défaut (base.css ne remet à zéro que ul) */
+/* Lien de retour : 23 px de haut sans marge intérieure, sous les 24 px minimaux d'une cible (WCAG 2.5.8) ; le padding l'agrandit et la marge
+   négative annule son effet sur la mise en page. Le survol est doublé par le focus clavier. */
+body[data-page="page"] .fhead__back { --label-color: var(--idle); padding-block: 0.75rem; margin-block: -0.75rem; transition: color 0.25s ease; }
+body[data-page="page"] .fhead__back:focus-visible { --label-color: var(--orange); }
+@media (hover: hover) {
+  body[data-page="page"] .fhead__back:hover { --label-color: var(--orange); }
+}
+body[data-page="page"] .fhead__title {
+  max-width: none;
+  margin: 1.6vw 0 0;
+  font-size: var(--fs-text-lg); /* 48 px : « Floral Fashion Show » fait 468 px sur la frame 01 */
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--olive-deep);
+}
+body[data-page="page"] .fhead__infos { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; margin: 2.5vw 0 0; }
+body[data-page="page"] .fhead__info { margin: 0; }
+body[data-page="page"] .fhead__label { font-size: var(--fs-label-lg); font-weight: 400; line-height: 1.3; color: var(--olive-soft); }
+body[data-page="page"] .fhead__value { margin: 0; font-size: var(--fs-tagline); font-weight: 400; line-height: 1.3; color: var(--olive-deep); }
+body[data-page="page"] .fhead__rule { height: 1px; margin-top: 1.3vw; background: var(--sand); transform-origin: left center; }
+
+/* ---------- Photos : un cadre arrondi, une image plus haute que lui (la parallaxe la déplace sans jamais montrer de vide) ---------- */
+body[data-page="page"] .fphoto { margin: 0; }
+body[data-page="page"] .fphoto--solo { padding-top: 5.2vw; }
+body[data-page="page"] .fphoto--hero { padding-top: 2.1vw; }
+body[data-page="page"] .fphoto__frame {
+  position: relative;
+  aspect-ratio: var(--frame);
+  overflow: hidden;
+  border-radius: var(--radius-photo);
+}
+/* 115 % de la hauteur du cadre, centrée : 7,5 % de marge de chaque côté pour une parallaxe de 6 % de la hauteur de l'image. */
+body[data-page="page"] .fphoto__img {
+  position: absolute;
+  left: 0;
+  top: -7.5%;
+  width: 100%;
+  max-width: none;
+  height: 115%;
+  object-fit: cover;
+}
+
+/* ---------- Textes : titre à pastille, paragraphes centrés, mots clés orange ---------- */
+body[data-page="page"] .ftext { text-align: center; }
+body[data-page="page"] .ftext--intro { padding-top: 5.4vw; }
+body[data-page="page"] .ftext--defi { padding-top: 6vw; }
+body[data-page="page"] .ftext__title {
+  max-width: 42vw; /* « Le défi de la scénographie » puis « florale d'un défilé » */
+  margin-inline: auto;
+  font-size: var(--fs-text-lg);
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--olive-deep);
+}
+body[data-page="page"] .ftext__body { max-width: 37vw; margin: 1.7vw auto 0; }
+body[data-page="page"] .ftext__p {
+  font-size: clamp(0.9375rem, 0.93vw, 1.15rem); /* 16 px : 72 caractères par ligne sur la frame */
+  line-height: 1.5;
+  color: var(--olive-soft); /* le gris #8C8C8C de la maquette n'est pas un jeton (3,0:1) : le dérivé de l'olive tient 4,8:1 */
+}
+body[data-page="page"] .ftext__p + .ftext__p { margin-top: 1.5em; }
+body[data-page="page"] .kw { color: var(--orange); font-weight: 500; }
+
+/* ---------- Galerie : deux photos, puis une large ---------- */
+body[data-page="page"] .fgallery { padding-top: 4.6vw; }
+body[data-page="page"] .fgallery__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-x); }
+body[data-page="page"] .fphoto--wide { margin-top: 1.5vw; }
+
+/* ---------- Autres projets : titre, deux cartes de Réalisations, bouton ---------- */
+body[data-page="page"] .fothers { padding-top: 11vw; padding-bottom: 6.7vw; --gap-y: clamp(36px, 3.4vw, 4.4rem); }
+body[data-page="page"] .fothers__head { display: flex; flex-direction: column; gap: 1.5vw; }
+body[data-page="page"] .fothers__title { max-width: 34vw; } /* « Découvrez nos projets » puis « les plus iconiques. » */
+body[data-page="page"] .fothers__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-y) var(--gap-x); margin-top: 2.3vw; }
+body[data-page="page"] .fothers__more { display: flex; justify-content: center; margin-top: 3.4vw; }
+
+/* ---------- États de départ avant que GSAP ne prenne la main (la classe js est retirée à la fin de l'intro, voir intro.js) ----------
+   Ce qui est visible à l'ouverture de la page : sans cela il apparaîtrait une fraction de seconde avant son animation. Le reste est caché par
+   le script, hors écran. Sans JavaScript ou en mouvement réduit, tout reste visible. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js body[data-page="page"] .fhead__crumbs,
+  html.js body[data-page="page"] .fhead__info { opacity: 0; }
+  html.js body[data-page="page"] .fhead__rule { transform: scaleX(0); }
+  html.js body[data-page="page"] .fphoto--hero .fphoto__frame { clip-path: inset(100% 0 0 0 round var(--radius-photo)); }
+}
+
+@media (max-width: 900px) {
+  body[data-page="page"] .fhead,
+  body[data-page="page"] .ftext,
+  body[data-page="page"] .fgallery,
+  body[data-page="page"] .fothers,
+  body[data-page="page"] .fphoto--solo { padding-inline: var(--gutter); }
+  body[data-page="page"] .fhead { padding-top: 7rem; }
+  body[data-page="page"] .fhead__title { margin-top: 1.25rem; }
+  /* Les 5 infos en grille de deux colonnes. */
+  body[data-page="page"] .fhead__infos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1rem; margin-top: 1.75rem; }
+  body[data-page="page"] .fhead__label { font-size: 1rem; }
+  body[data-page="page"] .fhead__value { font-size: 1.0625rem; }
+  body[data-page="page"] .fhead__rule { margin-top: 1.5rem; }
+  body[data-page="page"] .fphoto--solo { padding-top: 3rem; }
+  body[data-page="page"] .fphoto--hero { padding-top: 1.5rem; }
+  body[data-page="page"] .ftext--intro { padding-top: 3.5rem; }
+  body[data-page="page"] .ftext--defi { padding-top: 3.5rem; }
+  body[data-page="page"] .ftext__title,
+  body[data-page="page"] .ftext__body { max-width: none; }
+  body[data-page="page"] .ftext__body { margin-top: 1rem; }
+  body[data-page="page"] .ftext__p { font-size: 1rem; }
+  body[data-page="page"] .fgallery { padding-top: 3rem; }
+  body[data-page="page"] .fgallery__row { grid-template-columns: 1fr; gap: 1rem; }
+  body[data-page="page"] .fphoto--wide { margin-top: 1rem; }
+  body[data-page="page"] .fothers { padding-top: 5rem; padding-bottom: 4rem; --gap-y: 2.5rem; }
+  body[data-page="page"] .fothers__head { gap: 1rem; }
+  body[data-page="page"] .fothers__title { max-width: none; }
+  body[data-page="page"] .fothers__list { grid-template-columns: 1fr; margin-top: 1.5rem; }
+  body[data-page="page"] .fothers__more { margin-top: 2.5rem; }
+}

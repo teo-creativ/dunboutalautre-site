@@ -9,6 +9,22 @@ import { linkTo } from "../links.js";
 import { frText } from "../placeholder.js";
 import { esc, fr } from "../utils.js";
 
+// Une carte de projet : photo, nom (lien accessible) et catégorie. Partagée avec la fiche projet (fiche-autres.js), qui l'habille de ses propres
+// attributs de révélation (`attrs`). `labelOf` donne le libellé d'une catégorie.
+export const projetCard = (item, labelOf, { hidden = false, attrs = "" } = {}) => {
+  const to = linkTo(item.to ?? "#none");
+  const todo = item.todo ? " data-todo" : "";
+  return `<li class="pcard" data-category="${esc(item.category)}"${todo}${attrs ? ` ${attrs}` : ""}${hidden ? " hidden" : ""}>
+              <article class="pcard__inner">
+                <a class="pcard__photo" href="${esc(to)}" tabindex="-1" aria-hidden="true">${img({ src: item.photo.src, alt: item.photo.alt, class: "pcard__img", sizes: "(min-width: 901px) 680px, 92vw" })}</a>
+                <div class="pcard__body">
+                  <h3 class="pcard__title"><a class="pcard__link" href="${esc(to)}">${frText(item.title)}</a></h3>
+                  <p class="pcard__category">${esc(fr(labelOf(item.category)))}</p>
+                </div>
+              </article>
+            </li>`;
+};
+
 export default ({ label, filters, items, pageSize, more, micro }, { index }) => {
   const id = `projets-${index}`;
   const labelOf = (key) => filters.find((f) => f.key === key)?.label;
@@ -21,21 +37,7 @@ export default ({ label, filters, items, pageSize, more, micro }, { index }) => 
     )
     .join("\n            ");
 
-  const cards = items
-    .map((item, i) => {
-      const to = linkTo(item.to ?? "#none");
-      const todo = item.todo ? " data-todo" : "";
-      return `<li class="pcard" data-category="${esc(item.category)}"${todo}${i >= pageSize ? " hidden" : ""}>
-              <article class="pcard__inner">
-                <a class="pcard__photo" href="${esc(to)}" tabindex="-1" aria-hidden="true">${img({ src: item.photo.src, alt: item.photo.alt, class: "pcard__img", sizes: "(min-width: 901px) 680px, 92vw" })}</a>
-                <div class="pcard__body">
-                  <h3 class="pcard__title"><a class="pcard__link" href="${esc(to)}">${frText(item.title)}</a></h3>
-                  <p class="pcard__category">${esc(fr(labelOf(item.category)))}</p>
-                </div>
-              </article>
-            </li>`;
-    })
-    .join("\n            ");
+  const cards = items.map((item, i) => projetCard(item, labelOf, { hidden: i >= pageSize })).join("\n            ");
 
   const button = cta({ label: more, variant: "solid", tag: "button", className: "pmore__btn" });
   return `<section class="projets" id="projets" data-header-theme="light" data-header-gradient="cream" aria-labelledby="${id}-title" data-page-size="${pageSize}" data-shown="${esc(micro.shown)}" data-shown-one="${esc(micro.shownOne)}" data-more="${esc(micro.more)}" data-more-one="${esc(micro.moreOne)}">

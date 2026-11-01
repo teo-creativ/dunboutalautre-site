@@ -119,7 +119,7 @@ if (existsSync(registry)) {
   const normalize = (value) => flat(String(value).replace(/\\/g, "").replace(/\*+/g, ""));
   const arbo = normalize(readFileSync(ARBO, "utf8"));
   // Clés dont la valeur n'est pas du copywriting : chemins, noms de fichiers, variantes, descriptions d'images, microcopie.
-  const SKIP = new Set(["type", "id", "path", "slug", "file", "source", "photo", "src", "alt", "variant", "href", "to", "logo", "kind", "field", "key", "autocomplete", "categories", "category", "links", "micro", "link", "dims", "designTexts", "pageSize"]);
+  const SKIP = new Set(["type", "id", "path", "slug", "file", "source", "photo", "src", "alt", "variant", "href", "to", "logo", "kind", "field", "key", "autocomplete", "categories", "category", "links", "micro", "link", "dims", "designTexts", "pageSize", "frame", "featured", "filter"]);
   const strings = (value, trail = []) => {
     if (typeof value === "string") return [{ value, trail }];
     if (Array.isArray(value)) return value.flatMap((v, i) => strings(v, [...trail, i]));
@@ -131,7 +131,7 @@ if (existsSync(registry)) {
   const tagged = (value, found = []) => {
     if (Array.isArray(value)) value.forEach((v) => tagged(v, found));
     else if (value && typeof value === "object") {
-      if (typeof (value.title ?? value.statement) === "string" && typeof value.tag === "string") found.push(value);
+      if (typeof (value.title ?? value.statement ?? value.heading) === "string" && typeof value.tag === "string") found.push(value);
       Object.values(value).forEach((v) => tagged(v, found));
     }
     return found;
@@ -143,7 +143,7 @@ if (existsSync(registry)) {
     if (page.source && !copy) fail(label, `source introuvable : ${page.source}`);
     // Un tag est une sous-chaîne exacte de son titre : la phrase du copywriting n'est jamais modifiée.
     for (const section of tagged(page.sections ?? [])) {
-      const heading = section.title ?? section.statement;
+      const heading = section.title ?? section.statement ?? section.heading;
       if (!heading.includes(section.tag)) fail(label, `tag « ${section.tag} » absent du titre « ${heading.slice(0, 50)} »`);
     }
     // Chaque texte est dans le copywriting de la page (ou, pour title et description, dans l'arborescence). Exception explicite : les

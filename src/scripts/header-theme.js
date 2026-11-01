@@ -62,26 +62,22 @@ export function initHeaderTheme() {
   if (!header || !buttons.length) return;
 
   // Le thème se déduit de l'ensemble des sections claires actives : deux sections claires voisines ne font pas clignoter.
-  const triggers = [...document.querySelectorAll('[data-header-theme="light"]')].map((section) =>
-    ScrollTrigger.create({
-      ...zone(section),
-      onToggle: () => {
-        current = triggers.some((t) => t.isActive) ? "light" : "dark";
-        render();
-      },
-    }),
-  );
-
+  // Les listes existent avant les déclencheurs : une page qui s'ouvre sur une section claire (la fiche projet) a son premier déclencheur déjà
+  // actif à sa création, donc son onToggle part avant que la liste ne soit remplie.
+  const triggers = [];
+  const gradients = [];
+  const updateTheme = () => {
+    current = triggers.some((t) => t.isActive) ? "light" : "dark";
+    render();
+  };
   // Dégradé : la dernière section active dans l'ordre du DOM donne sa couleur, aucune section active : off.
-  const gradients = [...document.querySelectorAll("[data-header-gradient]")].map((section) =>
-    ScrollTrigger.create({
-      ...zone(section),
-      onToggle: () => {
-        const active = gradients.filter((t) => t.isActive).at(-1);
-        zoneGradient = active ? active.trigger.dataset.headerGradient : "off";
-        render();
-      },
-    }),
-  );
-  render();
+  const updateGradient = () => {
+    const active = gradients.filter((t) => t.isActive).at(-1);
+    zoneGradient = active ? active.trigger.dataset.headerGradient : "off";
+    render();
+  };
+  document.querySelectorAll('[data-header-theme="light"]').forEach((section) => triggers.push(ScrollTrigger.create({ ...zone(section), onToggle: updateTheme })));
+  document.querySelectorAll("[data-header-gradient]").forEach((section) => gradients.push(ScrollTrigger.create({ ...zone(section), onToggle: updateGradient })));
+  updateTheme(); // état de départ, listes complètes : sections claires déjà actives comprises
+  updateGradient();
 }

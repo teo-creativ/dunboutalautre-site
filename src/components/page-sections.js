@@ -16,10 +16,14 @@ import intro from "./sections/intro.js";
 import logos from "./sections/logos.js";
 import offers from "./sections/offers.js";
 import process from "./sections/process.js";
-import project from "./sections/project.js";
+import ficheAutres from "./sections/fiche-autres.js";
+import ficheEntete from "./sections/fiche-entete.js";
+import ficheGalerie from "./sections/fiche-galerie.js";
+import fichePhoto from "./sections/fiche-photo.js";
+import ficheTexte from "./sections/fiche-texte.js";
 import testimonials from "./sections/testimonials.js";
 
-const renderers = { hero, intro, offers, cards, figures, form, project, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
+const renderers = { hero, intro, offers, cards, figures, form, "fiche-entete": ficheEntete, "fiche-photo": fichePhoto, "fiche-texte": ficheTexte, "fiche-galerie": ficheGalerie, "fiche-autres": ficheAutres, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

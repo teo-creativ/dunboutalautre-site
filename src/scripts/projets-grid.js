@@ -61,6 +61,16 @@ export function initProjetsGrid() {
     if (window.scrollY > max) scrollTo(max, { duration: 0.6 });
   };
 
+  // ?categorie=scenographie (lien de retour de la fiche projet) : le filtre est déjà choisi à l'ouverture, sans animation. Une valeur inconnue
+  // est ignorée. Avant le premier calcul des positions de ScrollTrigger (main.js), donc sans effet sur les déclencheurs qui suivent.
+  const wanted = new URLSearchParams(location.search).get("categorie");
+  if (wanted && wanted !== "all" && buttons.some((button) => button.dataset.filter === wanted)) {
+    key = wanted;
+    collapsed = hasMore();
+    buttons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.filter === key)));
+    apply();
+  }
+
   // ---------- Filtre ----------
   const onFilter = async (next) => {
     if (next === key) return;

@@ -26,11 +26,14 @@
 @import "./bureaux-chiffres.css";
 @import "./bureaux-installe.css";
 @import "./bureaux-matieres.css";
+@import "./bureaux-pourquoi.css";
+@import "./bureaux-galerie.css";
 @import "./intro.css";
 @import "./cards.css";
 @import "./gallery.css";
 @import "./figures.css";
 @import "./logos.css";
+@import "./bureaux-avis.css";
 @import "./form.css";
 @import "./coords.css";
 @import "./projets-hero.css";

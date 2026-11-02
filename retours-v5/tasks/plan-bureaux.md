@@ -49,17 +49,21 @@ Prompt 01 = T0 à T2 (un commit) ; prompt 02 = T3 ; prompt 03 = T4 et T5 ; promp
   - Vérification : captures par frame ; aucun flash au changement de fond.
   - Voile 0,45 (jeton `--veil`, mesuré sur les frames), 0,55 sous 900 px (`--veil-strong`). Contraste desktop des paragraphes de la photo 1 : à trancher (ligne 212).
 - [x] **Checkpoint 2** : `gate.mjs` (vert), `/design:review` (aucun Block ; 4 Fix corrigés, 1 à trancher), un commit. Reste : relecture de l'utilisateur dans le navigateur.
-- [ ] **T6 UI Pourquoi végétaliser** : 4 lignes à état actif
+- [x] **T6 UI Pourquoi végétaliser** : 4 lignes à état actif
   - Acceptation : frames 34 et 35 ; ligne active au survol, au focus et au passage au centre (`start: "top 55%"`), première active au départ ; transition 0,4 s sur `opacity` et `color` ; filets en `scaleX` ; mobile : tout lisible.
-- [ ] **T7 UI Fonctionnement (vérifié), logos et avis**
+  - Fait (lignes 218 à 220 de `docs/POINTS-A-VALIDER.md`) : titres de lignes à 48 px (le doc dit 44), colonne de 748 px ; lignes éteintes en sable comme la frame (2,1:1, à trancher), tout lisible sans JavaScript, en mouvement réduit et sous 900 px. Fichiers : `sections/bureaux-pourquoi.js`, `bureaux-pourquoi.js`, `bureaux-pourquoi.css`.
+- [x] **T7 UI Fonctionnement (vérifié), logos et avis**
   - Acceptation : timeline inchangée (frame 37) ; défilé de 6 logos en couleur (36 px, écart 90 px, masque de bords, pause au survol), `logos.css` des services intact ; avis Thunes (`fictif: true`) avec logo, 2 flèches visibles et inertes ; la galerie monte ensuite (frame 42).
   - Vérification : captures frames 37 à 39 et 41 ; page générée à une seule démarche.
-- [ ] **T8 UI Galerie « Vos bureaux deviennent vivant »**
+  - Fait (lignes 221 à 224 et 232) : logos à l'échelle propre à chacun (`shown` dans `data/logos.js`), avis épinglé un écran quand son bas touche le bas de l'écran (`bureaux-avis.js`), logo Thunes après le poste, flèches visibles et inertes (`aria-disabled`). Options ajoutées (sans effet sur les autres pages) : `color` pour `sections/logos.js`, `bx` pour `noel-testimonials.js`. Fichiers : `bureaux-avis.js`, `bureaux-avis.css`.
+- [x] **T8 UI Galerie « Vos bureaux deviennent vivant »**
   - Acceptation : frames 43 à 48 ; 4 photos à 4 vitesses et 2 profondeurs (scale 1 et 0,85), derrière le titre, sorties par le haut sans jamais cacher le bouton ; mobile : 3 photos ; mouvement réduit : grille statique ; la FAQ monte par-dessus.
-- [ ] **T9 UI FAQ et fin de page**
+  - Fait autrement (lignes 225 à 229) : les frames montrent les quatre photos au même rythme (écarts constants au pixel près) ; vitesses resserrées (54 à 70 svh par écran) calées sur la frame 45 ; tailles et positions mesurées (le doc se trompe sur 03 et 01) ; titre de 68 px ; 400vh au lieu de 450vh ; dégradé de header `orange`. Fichiers : `sections/bureaux-galerie.js`, `bureaux-galerie.js`, `bureaux-galerie.css`.
+- [x] **T9 UI FAQ et fin de page**
   - Acceptation : frames 49 à 53 ; 5 questions, la première ouverte ; `[À compléter]` pour la réponse 3 ; composant et footer inchangés ; JSON-LD FAQPage à 5 entrées.
   - Vérification : `check-site --placeholders` liste les manques.
-- [ ] **Checkpoint 3** : `gate.mjs`, `/design:review`, commit, relecture.
+  - Fait (lignes 230 et 231) : 5 questions dans l'ordre de la maquette ; JSON-LD à 4 réponses (le texte à compléter n'entre pas dans les données structurées) ; composant, footer et header inchangés ; la FAQ monte par-dessus la galerie.
+- [x] **Checkpoint 3** : `gate.mjs` (vert), `/design:review` (aucun Block ; 3 Fix corrigés, 1 à trancher), un commit. Reste : relecture de l'utilisateur dans le navigateur.
 - [ ] **T10 Revue V5** : non-régression, 5 largeurs (390, 768, 1440, 1728, 1920), mouvement réduit, sans JavaScript, raccords de header au pixel, Lighthouse et axe, points à valider mis à jour ; `live: true` seulement sur feu vert.
 
 ## Risques

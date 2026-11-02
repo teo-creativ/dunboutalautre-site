@@ -21,6 +21,16 @@ export const bureaux = {
     "Startups, grands groupes, restaurants, hôtels... Nous transformons tous types de locaux",
     "NOTRE FONCTIONNEMENT",
     "Des bacs sur mesure, fixes ou sur roulettes, pour structurer l'espace, créer un passage ou habiller un couloir. Le végétal transforme vos espaces.",
+    // Fin de page (frames 34 à 53) : paragraphe « Bien-être » sans la phrase sur les 15 % (absente de la maquette), clients, avis fictif de la
+    // première version (point 5 des points à valider V5), galerie.
+    "Les plantes en espace de travail réduisent le stress, améliorent la concentration et favorisent la créativité. Un cadre de travail agréable, c'est aussi moins d'absentéisme et plus d'engagement.",
+    "NOS CLIENTS",
+    "Thunes",
+    "D'un Bout À L'autre a su capter l'esprit de notre marque en apportant un équilibre végétal remarquable dans notre siège parisien. Les équipes sont ravies et l'entretien hebdomadaire est d'une discrétion absolue.",
+    "Hélène Mercier",
+    "Directrice Environnement de Travail & RSE,",
+    "Vos bureaux deviennent vivant.",
+    "Discutons de votre projet",
   ],
   sections: [
     {
@@ -122,15 +132,17 @@ export const bureaux = {
       ],
     },
     {
-      type: "cards",
+      // « Pourquoi végétaliser » (V5 §6, frames bureaux-34 et 35) : le titre porte sa pastille sur « vos bureaux » (sans point final sur la
+      // maquette), 4 lignes titre + paragraphe séparées par des filets. Plus de phrase d'introduction (absente de la maquette) ni de
+      // « gain de productivité de 15 % » (chiffre sans source, absent de la maquette) : voir docs/POINTS-A-VALIDER.md.
+      type: "bureaux-pourquoi",
       label: "POURQUOI VÉGÉTALISER VOS BUREAUX ?",
-      title: "Des plantes dans vos bureaux ? Ce n'est pas juste une question d'esthétique.",
-      tag: "pas juste une question d'esthétique",
-      lead: "Végétaliser vos bureaux, ce n'est pas un simple choix esthétique. C'est une décision qui touche directement la qualité de vie de vos équipes, l'image que vous renvoyez à vos clients, et l'attractivité de vos locaux pour les nouveaux talents.",
+      title: "Des plantes dans vos bureaux ? Ce n'est pas juste une question d'esthétique",
+      tag: "vos bureaux",
       items: [
         {
           title: "Bien-être des équipes",
-          text: "Les plantes en espace de travail réduisent le stress, améliorent la concentration et favorisent la créativité. Certaines études évoquent un gain de productivité pouvant atteindre 15 % dans les espaces végétalisés. Un cadre de travail agréable, c'est aussi moins d'absentéisme et plus d'engagement.",
+          text: "Les plantes en espace de travail réduisent le stress, améliorent la concentration et favorisent la créativité. Un cadre de travail agréable, c'est aussi moins d'absentéisme et plus d'engagement.",
         },
         {
           title: "Image de marque",
@@ -176,40 +188,86 @@ export const bureaux = {
       // Pas de lien « Découvrir nos abonnements » sous la timeline : l'image 37 de la maquette n'en montre pas (valeur par défaut validée).
     },
     {
+      // « Nos clients » (V5 §8, frames 38 et 39) : les 6 logos en couleur fournis avec la V5 (SVG, clés « -svg » de data/logos.js), dans le
+      // défilé des pages de services (scripts/logos.js). Pas de bouton sous le défilé : la maquette n'en montre pas.
       type: "logos",
-      label: "RÉFÉRENCES CLIENTS",
+      color: true,
+      label: "NOS CLIENTS",
       title: "Ils nous ont confié leurs espaces.",
       tag: "leurs espaces",
       items: [
-        { name: "Inato", logo: "inato" },
-        { name: "Kéobiz", logo: "keobiz" },
-        { name: "AtScale", logo: "atscale" },
-        { name: "Orixa Media" },
-        { name: "Witbe", logo: "witbe" },
-        { name: "Chez Simone", logo: "chez-simone" },
+        { name: "Thunes", logo: "thunes-svg" },
+        { name: "Chez Simone", logo: "chez-simone-svg" },
+        { name: "Inato", logo: "inato-svg" },
+        { name: "Eataly", logo: "eataly-svg" },
+        { name: "Kéobiz", logo: "keobiz-svg" },
+        { name: "Yves Rocher", logo: "yves-rocher-svg" },
       ],
-      cta: { label: "Voir toutes nos réalisations", to: "/realisations/" },
     },
     {
+      // Avis de la maquette (frames 36 et 41) : l'avis fictif de la première version, à remplacer avant la mise en ligne (`fictif`, point 5
+      // de retours-v5/docs/05-POINTS-A-VALIDER-V5.md). Un seul avis : pas d'autre avis inventé. `bx` : la page épingle le bloc pendant que la
+      // galerie monte par-dessus, montre les deux flèches (inertes avec un seul avis) et pose le logo du client après le poste.
       type: "testimonials",
-      items: [{ quote: todo("citation client"), name: todo("prénom et nom"), role: todo("poste, entreprise") }],
+      bx: true,
+      items: [
+        {
+          quote:
+            "D'un Bout À L'autre a su capter l'esprit de notre marque en apportant un équilibre végétal remarquable dans notre siège parisien. Les équipes sont ravies et l'entretien hebdomadaire est d'une discrétion absolue.",
+          name: "Hélène Mercier",
+          role: "Directrice Environnement de Travail & RSE,",
+          logo: "thunes-svg",
+          fictif: true,
+        },
+      ],
     },
     {
-      type: "gallery",
-      label: "GALERIE APERÇU",
-      items: [{ photo: null }, { photo: null }, { photo: null }, { photo: null }],
-      cta: { label: "Voir tous nos projets", to: "/realisations/" },
+      // Galerie « Vos bureaux deviennent vivant » (V5 §9, frames 43 à 48 et 54) : 4 photos qui montent derrière le titre et le bouton, fixes
+      // au centre. Position (x et w en vw, y de départ en svh sous le haut de l'écran), proportions et vitesse (svh montés par écran de
+      // scroll, 100 = la vitesse de la page) relevées sur les frames à 1728 x 1030 ; `mobile` : les trois photos gardées sous 900 px.
+      // Sur les frames les quatre photos gardent le même écart à chaque instant (même vitesse, comme un bloc qui défile) ; le doc 03 demande des
+      // vitesses différentes (rapide pour 04, lente pour 01). Les vitesses sont donc resserrées autour de celle de la page, et les départs en
+      // sont déduits pour que la frame 45 soit exacte au bout de 0,8 écran de scroll (docs/POINTS-A-VALIDER.md).
+      type: "bureaux-galerie",
+      label: "GALERIE",
+      title: "Vos bureaux deviennent vivant.",
+      tag: "vivant",
+      cta: "Discutons de votre projet",
+      photos: [
+        {
+          photo: "bureaux/galerie-01",
+          alt: "Mur végétal fourni où une enseigne lumineuse jaune en forme d'étoile côtoie de grandes lettres blanches.",
+          x: -11.2, y: 112.1, w: 31.9, ratio: 1.333, speed: 54,
+        },
+        {
+          photo: "bureaux/galerie-02",
+          alt: "Salle de réunion aux portes vitrées à cadre noir, avec une grande table en bois et des plantes suspendues sous la verrière.",
+          x: 11.1, y: 67.8, w: 17.4, ratio: 0.75, speed: 60,
+          mobile: { x: 6, y: 78, w: 36, speed: 60 },
+        },
+        {
+          photo: "bureaux/galerie-03",
+          alt: "Étagères en bois clair surmontées de plantes retombantes, avec une suspension noire au-dessus d'un coin de travail.",
+          x: 68.7, y: 136.2, w: 21.5, ratio: 0.75, speed: 64,
+          mobile: { x: 22, y: 142, w: 36, speed: 68 },
+        },
+        {
+          photo: "bureaux/galerie-04",
+          alt: "Mur végétal dense de feuillages variés, vu depuis un espace lumineux.",
+          x: 81.5, y: 83.2, w: 19.7, ratio: 0.75, speed: 70,
+          mobile: { x: 58, y: 104, w: 36, speed: 74 },
+        },
+      ],
     },
     {
+      // FAQ à 5 questions (V5 §10, frames 49 à 53) : les questions de la maquette, dans son ordre. La réponse « personnaliser » n'existe pas
+      // pour les bureaux (celle de Noël parle de décors de Noël) : [À compléter]. Les deux questions du copywriting qui ne sont plus sur la
+      // maquette (lumière naturelle, aperçu visuel) ne sont plus affichées.
       type: "faq",
       label: "FAQ",
       title: "Les questions qu'on nous pose fréquemment.",
       tag: "fréquemment",
       items: [
-        {
-          q: "Quelles plantes choisir pour des bureaux sans lumière naturelle ?",
-          a: "Les végétaux stabilisés et artificiels sont parfaitement adaptés aux espaces sans fenêtre ou avec peu de lumière. Pour les plantes naturelles, certaines espèces tolèrent bien la lumière artificielle. Lors de notre visite, nous évaluerons précisément l'apport lumineux de chaque zone pour vous conseiller la solution la plus adaptée.",
-        },
         {
           q: "Quel budget prévoir pour végétaliser des bureaux ?",
           a: "Le budget dépend de la surface, du type de végétaux choisis et de la complexité de l'installation. Nous intervenons sur des projets allant de quelques centaines d'euros pour une composition ponctuelle à plusieurs milliers pour une végétalisation complète de plateaux. Le devis est toujours gratuit et sans engagement.",
@@ -219,16 +277,16 @@ export const bureaux = {
           a: "Pour un projet standard (20 à 50 m² de bureaux), l'installation se fait généralement en une journée, parfois deux pour les projets plus importants. Nous planifions l'intervention pour minimiser la gêne dans vos locaux.",
         },
         {
+          q: "Peut-on personnaliser aux couleurs de notre marque ?",
+          a: todo("réponse sur la personnalisation aux couleurs de la marque"),
+        },
+        {
           q: "Qui s'occupe de l'entretien des plantes après la pose ?",
           a: "Si vous le souhaitez, c'est nous. Pour les plantes naturelles, nous proposons un abonnement avec des passages réguliers (fréquence à définir selon les besoins). En cas de problème sur un végétal, nous assurons le remplacement. Les végétaux stabilisés et artificiels ne nécessitent aucun entretien régulier.",
         },
         {
           q: "Intervenez-vous en dehors de Paris ?",
           a: "Nous intervenons principalement à Paris et en Île-de-France. Pour les projets d'envergure, nous nous déplaçons partout en France. N'hésitez pas à nous soumettre votre demande.",
-        },
-        {
-          q: "Peut-on avoir un aperçu visuel avant de valider le projet ?",
-          a: "Oui. Pour les projets importants, nous proposons en option la réalisation de photomontages ou de vues 3D, qui permettent de visualiser le rendu final avant de passer à l'installation.",
         },
       ],
     },

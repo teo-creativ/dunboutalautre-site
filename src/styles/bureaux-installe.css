@@ -170,7 +170,9 @@ html.bx-install-anim .install-card {
 /* Recouvrement : la section qui suit remonte d'un écran par une marge négative et passe par-dessus la dernière scène (comme Nos univers
    sur Noël). Opaque et d'au moins un écran de haut ; la classe est posée par le script, sur la section qui suit. */
 html.bx-install-anim .bx-overlap,
-html.bx-mat-anim .bx-overlap {
+html.bx-mat-anim .bx-overlap,
+html.bx-avis-anim .bx-overlap,
+html.bx-gal-anim .bx-overlap {
   position: relative;
   z-index: 2;
   min-height: 100svh;

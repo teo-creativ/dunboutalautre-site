@@ -1,0 +1,63 @@
+/* « Nos clients » et avis de la page Bureaux V5 (frames bureaux-36, 38, 39, 41 et 42, canvas 1728 x 1030). Le défilé de logos est celui des pages
+   de services (logos.css, scripts/logos.js : 40 px par seconde, bords fondus, pause au survol) ; ici seulement sa variante en couleur (.logos--color)
+   et celle de l'avis (section.testi[data-bx]). Le bloc d'avis reste celui de Noël (testimonials.css : mêmes tailles, mesurées sur la même
+   maquette). Règles préfixées body[data-page="page"] : l'accueil et Noël ne peuvent pas être atteints. Ce fichier vient après logos.css. */
+
+/* ---------- Logos en couleur, à l'échelle de la maquette ---------- */
+body[data-page="page"] .logos--color .section-title { max-width: none; } /* « Ils nous ont confié leurs espaces. » tient sur une ligne (776 px) */
+body[data-page="page"] .logos--color .logos__inner { gap: 3.9vw; } /* le titre est à 67 px de la rangée des logos (frame 38) */
+body[data-page="page"] .logos--color { padding-bottom: 2vw; } /* l'avis suit à 34 px de la rangée (frame 39) */
+body[data-page="page"] .logos--color .logos__list { column-gap: 6.94vw; } /* 120 px entre deux logos */
+body[data-page="page"] .logos--color .logo__img {
+  width: calc(var(--shown, 140) * 100vw / 1728); /* largeur relevée sur la frame, propre à chaque logo (data/logos.js) */
+  height: auto;
+  max-width: none;
+  filter: none; /* couleurs d'origine : ni niveaux de gris ni multiply */
+  mix-blend-mode: normal;
+}
+/* Le défilé (scripts/logos.js, ordinateur avec mouvement) donne à son cadre la hauteur de la liste statique : les six logos, 1 750 px au total,
+   passeraient sur deux lignes et le cadre ferait 145 px au lieu de 66. Avec JavaScript (scripting: enabled), la liste est donc déjà sur une seule
+   ligne quand elle est mesurée, y compris après un retour au mouvement ou un redimensionnement (html.js, lui, est retiré à la fin de l'intro) ;
+   sans JavaScript ou en mouvement réduit elle reste statique et passe à la ligne. */
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  body[data-page="page"] .logos--color .logos__list { flex-wrap: nowrap; justify-content: flex-start; }
+}
+@media (max-width: 900px) {
+  /* Liste statique qui passe à la ligne : une hauteur commune, comme les pages de services. */
+  body[data-page="page"] .logos--color .logos__inner { gap: 2.5rem; }
+  body[data-page="page"] .logos--color { padding-bottom: var(--section-y); }
+  body[data-page="page"] .logos--color .logos__list { column-gap: 2rem; }
+  body[data-page="page"] .logos--color .logo__img { width: auto; height: 2rem; max-width: 9rem; }
+}
+
+/* ---------- Avis : le bloc occupe l'écran, contenu centré (frame 41), et la galerie monte par-dessus ---------- */
+html.bx-avis-anim body[data-page="page"] .testi[data-bx] {
+  display: grid;
+  align-content: center;
+  min-height: 100svh;
+  padding-block: 0; /* le contenu est à 207 px du haut et 204 px du bas : centré */
+}
+
+/* Logo du client après le poste (frame 36 : « Directrice Environnement de Travail & RSE, » puis le logo, sur la même ligne, 100 px de large
+   sur 22 de haut : le SVG fait 300 x 67). */
+.testi__logo {
+  display: inline-block;
+  width: auto;
+  height: 0.93em;
+  margin-left: 0.15em;
+  vertical-align: -0.15em;
+}
+/* Le filet vertical dépasse de 13 px sous la ligne du poste (frame 36 : il finit à 826 px, le poste à 813). */
+body[data-page="page"] .testi[data-bx] .testi__main { padding-bottom: 0.75vw; }
+/* Le nom est à 40 px de la dernière ligne de la citation sur la frame (55 px dans le bloc de Noël). */
+body[data-page="page"] .testi[data-bx] .testi__author { margin-top: 2.3vw; }
+
+/* Un seul avis, flèches montrées par la maquette : elles ne font rien (aria-disabled), sans survol ni appui qui laisseraient croire au contraire. */
+.testi__arrow[aria-disabled="true"] { cursor: default; }
+.testi__arrow[aria-disabled="true"]:hover,
+.testi__arrow[aria-disabled="true"]:focus-visible,
+.testi__arrow[aria-disabled="true"]:active { transform: none; }
+
+@media (max-width: 900px) {
+  .testi__logo { height: 1.4em; }
+}

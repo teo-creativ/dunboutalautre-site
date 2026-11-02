@@ -1,0 +1,69 @@
+/* « Pourquoi végétaliser vos bureaux ? » de la page Bureaux V5 (frames bureaux-34 et 35, canvas 1728 x 1030). Quatre lignes : titre à gauche
+   (de 169 à 811 px), paragraphe à droite (de 811 à 1559 px), un filet fin de 1 px entre les lignes (pas de filet en haut ni en bas), 183 px de
+   pas. Mesures lues sur la frame, converties en vw. Règles préfixées body[data-page="page"] : l'accueil et Noël ne peuvent pas être atteints.
+   Par défaut (JavaScript absent, mouvement réduit, moins de 900 px) toutes les lignes sont lisibles : titres en olive foncé, paragraphes en
+   olive doux. L'état « éteint » (sable) et la ligne active (soulignée d'orange) n'existent que sous html.bx-why-anim, que le script pose
+   pour l'ordinateur avec mouvement (scripts/bureaux-pourquoi.js). */
+body[data-page="page"] .why {
+  padding: calc(var(--section-y) * 1.56) var(--section-x) calc(var(--section-y) * 1.4); /* l'étiquette est à 156 px du haut sur la frame 34 */
+  background: var(--cream);
+  color: var(--olive-deep);
+}
+body[data-page="page"] .why__title { max-width: 58vw; } /* la première ligne (« Des plantes dans vos bureaux ? Ce n'est ») mesure 961 px */
+body[data-page="page"] .why__list { margin-top: 2vw; padding: 0; list-style: none; } /* 35 px sous le titre */
+
+body[data-page="page"] .why-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 46.2fr) minmax(0, 53.8fr); /* 642 px puis 748 px */
+  padding-block: 1.85vw 3.36vw; /* la ligne fait 183 px : titre à 61 px du filet, paragraphe à 58 px */
+}
+/* Filet : 1 px entre deux lignes, couleur sable atténuée (218, 206, 196 sur la frame). L'élément se dessine en scaleX (script). */
+body[data-page="page"] .why-row__rule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: color-mix(in srgb, var(--sand) 60%, var(--cream));
+}
+
+body[data-page="page"] .why-row__title {
+  align-self: start;
+  padding-right: 2vw;
+  font-size: var(--fs-text-lg); /* 48 px : « Bien-être des équipes » mesure 520 px sur la frame (le doc dit 44 px) */
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--olive-deep);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 3px; /* trois pixels sur la frame */
+  text-underline-offset: 0.14em;
+}
+body[data-page="page"] .why-row__text {
+  align-self: start;
+  margin-top: 0.7vw;
+  font-size: var(--fs-body); /* 18 px, interligne de 27 px */
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--olive-soft); /* 4,8:1 : le gris de la frame ne passe pas l'AA (docs/POINTS-A-VALIDER.md ligne 81) */
+}
+/* Focus clavier : l'anneau de focus global (base.css) ; les lignes sont atteignables au clavier seulement avec le script. */
+body[data-page="page"] .why-row:focus-visible { outline-offset: 0.4vw; border-radius: 4px; }
+
+/* ---------- Ordinateur avec mouvement : une ligne active, les autres éteintes ---------- */
+html.bx-why-anim .why-row__title,
+html.bx-why-anim .why-row__text { transition: color 0.4s ease, text-decoration-color 0.4s ease; }
+html.bx-why-anim .why-row:not(.is-active) .why-row__title,
+html.bx-why-anim .why-row:not(.is-active) .why-row__text { color: color-mix(in srgb, var(--sand) 85%, var(--olive-deep)); }
+html.bx-why-anim .why-row.is-active .why-row__title { text-decoration-color: var(--orange); }
+
+/* ---------- Écrans étroits : une colonne, titre puis paragraphe, toutes les lignes lisibles (la ligne active n'est qu'un style) ---------- */
+@media (max-width: 900px) {
+  body[data-page="page"] .why { padding: 4.5rem var(--gutter) 4rem; }
+  body[data-page="page"] .why__title { max-width: none; }
+  body[data-page="page"] .why__list { margin-top: 2rem; }
+  body[data-page="page"] .why-row { grid-template-columns: 1fr; padding-block: 1.5rem 1.75rem; }
+  body[data-page="page"] .why-row__title { padding-right: 0; font-size: 1.75rem; }
+  body[data-page="page"] .why-row__text { margin-top: 0.75rem; }
+}

@@ -22,10 +22,12 @@ export const logos = {
   "yves-rocher": { name: "Yves Rocher", file: "yves-rocher.png", w: 420, h: 342 },
   // Logos en couleur d'origine fournis avec la V5 de la page Bureaux (retours-v5/assets/bureaux/logos), SVG gardés tels quels : dimensions
   // du viewBox. Ce sont d'autres fichiers que les PNG ci-dessus (clés en « -svg ») : les pages de services gardent les leurs.
-  "thunes-svg": { name: "Thunes", file: "thunes.svg", w: 300, h: 67 },
-  "chez-simone-svg": { name: "Chez Simone", file: "chez-simone.svg", w: 300, h: 124 },
-  "inato-svg": { name: "Inato", file: "inato.svg", w: 300, h: 102 },
-  "eataly-svg": { name: "Eataly", file: "eataly.svg", w: 300, h: 36 },
-  "keobiz-svg": { name: "Kéobiz", file: "keobiz.svg", w: 300, h: 76 },
-  "yves-rocher-svg": { name: "Yves Rocher", file: "yves-rocher.svg", w: 300, h: 28 },
+  // `shown` : largeur d'affichage en px à 1728 de large, relevée sur les frames bureaux-38 et 39 (les logos n'ont pas tous la même échelle :
+  // Chez Simone 159, Inato 120, Eataly 276, Kéobiz 158 ; Thunes et Yves Rocher, coupés par le masque, sont estimés à 140 et 300).
+  "thunes-svg": { name: "Thunes", file: "thunes.svg", w: 300, h: 67, shown: 140 },
+  "chez-simone-svg": { name: "Chez Simone", file: "chez-simone.svg", w: 300, h: 124, shown: 159 },
+  "inato-svg": { name: "Inato", file: "inato.svg", w: 300, h: 102, shown: 120 },
+  "eataly-svg": { name: "Eataly", file: "eataly.svg", w: 300, h: 36, shown: 276 },
+  "keobiz-svg": { name: "Kéobiz", file: "keobiz.svg", w: 300, h: 76, shown: 158 },
+  "yves-rocher-svg": { name: "Yves Rocher", file: "yves-rocher.svg", w: 300, h: 28, shown: 300 },
 };

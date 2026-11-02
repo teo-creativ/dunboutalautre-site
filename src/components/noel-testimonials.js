@@ -5,7 +5,11 @@
 // inutiles, restent cachées : src/scripts/testimonials.js les montre. Pas de lecture automatique.
 // testimonialsSection() rend n'importe quels avis pour les pages secondaires (valeurs possibles : todo()) ; un avis unique reçoit
 // data-single, que page.css utilise pour garder les flèches cachées. L'export par défaut rend ceux de Noël, octet pour octet comme avant.
+// `bx` (page Bureaux V5, frames 36 et 41) : le bloc porte data-bx="avis" (scripts/bureaux-avis.js l'épingle pendant que la galerie monte par-dessus),
+// ses flèches restent visibles même avec un seul avis, alors inertes (aria-disabled), et un avis peut porter le logo de son client (`logo`, clé de
+// src/data/logos.js) après le poste. Sans `bx`, aucune de ces sorties : le HTML de Noël et des autres pages ne change pas.
 import { readFileSync } from "node:fs";
+import { logos } from "../data/logos.js";
 import { noel } from "../data/noel.js";
 import { text } from "./placeholder.js";
 import { esc } from "./utils.js";
@@ -20,7 +24,14 @@ const chevron = (direction) =>
 
 const { label, items } = noel.testimonials; // valeurs par défaut : les avis de la landing Noël
 
-export const testimonialsSection = ({ label, items }) => {
+const logoOf = (t) => {
+  if (!t.logo) return "";
+  const file = logos[t.logo];
+  if (!file) throw new Error(`testimonials : logo « ${t.logo} » absent de src/data/logos.js`);
+  return ` <img class="testi__logo" src="/assets/logos-clients/${file.file}" width="${file.w}" height="${file.h}" alt="${esc(file.name)}" loading="lazy" />`;
+};
+
+export const testimonialsSection = ({ label, items, bx }) => {
 
 const slides = items
   .map(
@@ -28,19 +39,22 @@ const slides = items
               <p class="sr-only">Avis ${i + 1} sur ${items.length}</p>
               <figure class="testi__figure">
                 <blockquote class="testi__quote"><p>${text(t.quote)}</p></blockquote>
-                <figcaption class="testi__author"><span class="testi__name">${text(t.name)}</span><span class="testi__role">${text(t.role)}</span></figcaption>
+                <figcaption class="testi__author"><span class="testi__name">${text(t.name)}</span><span class="testi__role">${text(t.role)}${logoOf(t)}</span></figcaption>
               </figure>
             </div>`,
   )
   .join("\n            ");
 
-return `<section id="temoignages" class="testi" data-header-theme="light" data-header-gradient="cream" aria-roledescription="carousel" aria-labelledby="testi-label"${items.length === 1 ? " data-single" : ""}>
+// Un seul avis : les flèches ne servent à rien, la page les cache (data-single) sauf avec `bx`, où la maquette les montre : inertes.
+const inert = bx && items.length === 1 ? ' aria-disabled="true"' : "";
+
+return `<section id="temoignages" class="testi"${bx ? ' data-bx="avis"' : ""} data-header-theme="light" data-header-gradient="cream" aria-roledescription="carousel" aria-labelledby="testi-label"${items.length === 1 && !bx ? " data-single" : ""}>
         <div class="testi__inner">
           <div class="testi__side">
             ${icon}
             <div class="testi__nav" hidden>
-              <button class="testi__arrow testi__arrow--prev" type="button" aria-label="Avis précédent">${chevron("left")}</button>
-              <button class="testi__arrow testi__arrow--next" type="button" aria-label="Avis suivant">${chevron("right")}</button>
+              <button class="testi__arrow testi__arrow--prev" type="button" aria-label="Avis précédent"${inert}>${chevron("left")}</button>
+              <button class="testi__arrow testi__arrow--next" type="button" aria-label="Avis suivant"${inert}>${chevron("right")}</button>
             </div>
           </div>
           <div class="testi__main">

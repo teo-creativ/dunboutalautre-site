@@ -1,0 +1,98 @@
+/* Galerie « Vos bureaux deviennent vivant » de la page Bureaux V5 (frames bureaux-43 à 48 et 54, canvas 1728 x 1030). Fond orange ; au centre,
+   fixes : étiquette, titre à pastille crème et bouton ; derrière, quatre photos aux coins arrondis de 12 px. Position et taille de chaque photo en
+   variables posées par le rendu (x et w en vw, y en svh sous le haut de l'écran au début du pin, ratio ; mx, my, mw sous 900 px), mesurées sur les
+   frames. Sans animation (JavaScript absent, mouvement réduit) : le texte, puis les photos en grille. Avec : section épinglée de la hauteur de
+   l'écran, photos posées en absolu et montées par scripts/bureaux-galerie.js (html.bx-gal-anim). Règles préfixées body[data-page="page"] :
+   l'accueil et Noël ne peuvent pas être atteints. */
+body[data-page="page"] .gal {
+  --focus: var(--cream); /* anneau de focus visible sur l'orange (comme le CTA final) */
+  position: relative;
+  padding: calc(var(--section-y) * 1.6) var(--gutter);
+  background: var(--orange);
+  color: var(--white);
+  text-align: center;
+  overflow: clip; /* la photo de gauche sort de l'écran et celle de droite le déborde de 21 px (frames 44 à 54) */
+}
+
+/* ---------- Texte : étiquette, titre sur deux lignes (68 px, interligne de 98 px), bouton ---------- */
+body[data-page="page"] .gal__content {
+  position: relative;
+  z-index: 2; /* les photos passent derrière */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body[data-page="page"] .gal .label { --label-color: var(--white); }
+body[data-page="page"] .gal__title {
+  --title-color: var(--white);
+  max-width: 46vw; /* « Vos bureaux » puis « deviennent vivant. » (« Vos bureaux » mesure 421 px sur la frame : 68 px) */
+  margin-top: 1.62vw; /* 28 px sous l'étiquette */
+  font-size: var(--fs-h2); /* 68 px */
+  line-height: 1.47; /* 98 px entre les deux lignes */
+}
+/* Pastille crème de la frame : 241 px de large, 100 de haut (boîte englobante), inclinée de -2,4° (bord haut mesuré sur les frames 43, 45 et 47). */
+body[data-page="page"] .gal .tag { --tag-rotate: -2.4deg; padding: 0.11em 0.38em 0.17em; }
+body[data-page="page"] .gal__cta { margin-top: 1.45vw; } /* 25 px sous le titre */
+
+/* ---------- Photos : grille par défaut ---------- */
+body[data-page="page"] .gal__photos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: end;
+  gap: 1.5rem;
+  margin: 4rem auto 0;
+  padding: 0;
+  list-style: none;
+}
+body[data-page="page"] .gal__photo {
+  aspect-ratio: var(--ratio);
+  border-radius: 12px;
+  overflow: hidden;
+}
+body[data-page="page"] .gal__photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 900px) {
+  body[data-page="page"] .gal { padding-block: 4.5rem; }
+  body[data-page="page"] .gal__title { max-width: none; margin-top: 1.25rem; font-size: clamp(2.25rem, 9vw, 3.25rem); }
+  body[data-page="page"] .gal__cta { margin-top: 1.75rem; }
+  body[data-page="page"] .gal__photos { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 2.5rem; }
+}
+
+/* ---------- Avec mouvement : section épinglée, texte centré, photos posées en absolu ---------- */
+html.bx-gal-anim body[data-page="page"] .gal {
+  height: 100svh;
+  min-height: 100svh;
+  padding: 0;
+}
+html.bx-gal-anim body[data-page="page"] .gal__content {
+  position: absolute;
+  inset: 0;
+  justify-content: center; /* centre à 515 px sur les frames : étiquette à 368, titre à 455 et 553, bouton à 651 */
+}
+html.bx-gal-anim body[data-page="page"] .gal__photos {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  margin: 0;
+  pointer-events: none; /* aucune photo ne capte le survol ni le clic du bouton */
+}
+html.bx-gal-anim body[data-page="page"] .gal__photo {
+  position: absolute;
+  left: calc(var(--x) * 1vw);
+  top: calc(var(--y) * 1svh);
+  width: calc(var(--w) * 1vw);
+}
+@media (max-width: 900px) {
+  /* Trois photos plus petites. Le titre occupe toute la largeur : une photo claire qui passe derrière rendrait le texte blanc illisible. Un halo orange,
+     de la couleur du fond, le garde net sans changer son dessin (même solution que le flux de Noël). */
+  html.bx-gal-anim body[data-page="page"] .gal__photo[data-mobile="off"] { display: none; }
+  html.bx-gal-anim body[data-page="page"] .gal__photo {
+    left: calc(var(--mx) * 1vw);
+    top: calc(var(--my) * 1svh);
+    width: calc(var(--mw) * 1vw);
+  }
+  html.bx-gal-anim body[data-page="page"] .gal__title,
+  html.bx-gal-anim body[data-page="page"] .gal .label {
+    text-shadow: 0 0 0.45em color-mix(in srgb, var(--orange) 85%, transparent), 0 0 0.9em color-mix(in srgb, var(--orange) 60%, transparent);
+  }
+}

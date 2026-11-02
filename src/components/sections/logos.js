@@ -1,7 +1,8 @@
 // Frise de logos clients d'une page secondaire (« RÉFÉRENCES CLIENTS »), ou, tant que la liste est à fournir, une ligne `empty` en [À compléter] : label, titre (title tag compris), logos en niveaux de gris
 // (DESIGN.md §5.9) et bouton vers les réalisations. Chaque client est { name } avec { logo } (clé de src/data/logos.js) ; sans logo
 // fourni, son nom s'affiche en texte avec [À compléter]. src/scripts/logos.js en fait un défilement continu (sans JavaScript ou en
-// mouvement réduit : la liste reste statique et passe à la ligne).
+// mouvement réduit : la liste reste statique et passe à la ligne). `color` : logos dans leurs couleurs d'origine (page Bureaux V5, frames 38
+// et 39) au lieu des niveaux de gris des pages de services ; les autres pages ne le passent pas et leur HTML ne change pas.
 import { cta } from "../cta.js";
 import { logos } from "../../data/logos.js";
 import { linkTo } from "../links.js";
@@ -11,18 +12,18 @@ import { esc } from "../utils.js";
 
 const base = "/assets/logos-clients";
 
-export default ({ label, title, tag, items, empty, cta: button }, { index }) => {
+export default ({ label, title, tag, items, empty, color, cta: button }, { index }) => {
   const id = `logos-${index}`;
   const list = items
     .map(({ name, logo }) => {
       const file = logo && logos[logo];
       if (logo && !file) throw new Error(`logos : « ${logo} » absent de src/data/logos.js`);
       return file
-        ? `<li class="logo"><img class="logo__img" src="${base}/${file.file}" width="${file.w}" height="${file.h}" alt="${esc(file.name)}" loading="lazy" /></li>`
+        ? `<li class="logo"><img class="logo__img" src="${base}/${file.file}" width="${file.w}" height="${file.h}" alt="${esc(file.name)}" loading="lazy"${color && file.shown ? ` style="--shown: ${file.shown}"` : ""} /></li>`
         : `<li class="logo logo--missing"><span class="logo__name">${esc(name)}</span>${placeholder(`logo ${name}`)}</li>`;
     })
     .join("\n          ");
-  return `<section class="logos" data-header-theme="light" data-header-gradient="cream" aria-labelledby="${id}-title">
+  return `<section class="logos${color ? " logos--color" : ""}" data-header-theme="light" data-header-gradient="cream" aria-labelledby="${id}-title">
         <div class="logos__inner">
           ${
             title

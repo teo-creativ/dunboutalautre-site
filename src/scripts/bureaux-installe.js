@@ -11,7 +11,8 @@
 //  - Vague : y = 45 px * sin(2π e / 1,8) (descend puis revient, -15 à -27 px à l'arrivée comme sur la frame 17) ; inclinaison de la photo
 //    = -celle de la carte, de +2° au départ à -2° à l'arrivée, jusqu'à ±4° entre les deux (2,5 cycles).
 // Mobile et petits écrans (moins de 1100 px) : une carte à la fois au centre, vague réduite de moitié. Mouvement réduit : colonne, sans pin.
-import { gsap, ScrollTrigger } from "./core.js";
+import { gsap } from "./core.js";
+import { loadLater } from "./bureaux-images.js";
 
 const REF_W = 1728;
 const REF_H = 1030;
@@ -85,10 +86,9 @@ export function initBureauxInstalle() {
       const root = document.documentElement;
       const classes = conditions.wide ? ["bx-install-anim"] : ["bx-install-anim", "bx-install-solo"];
       root.classList.add(...classes);
-      // Les photos sont toutes chargées d'avance : celles des cartes 3 à 5 sont hors écran, à droite, et arriveraient sinon avec retard.
-      section.querySelectorAll("img").forEach((img) => {
-        img.loading = "eager";
-      });
+      // Les photos sont toutes chargées d'avance : celles des cartes 3 à 5 sont hors écran, à droite, et arriveraient sinon avec retard. Elles
+      // étaient demandées dès l'initialisation, avec le hero ; maintenant en priorité basse, une fois la page chargée (bureaux-images.js).
+      loadLater(section.querySelectorAll("img"));
 
       // Échelle de la scène : celle de la maquette (1728 x 1030), réduite pour que tout tienne dans l'écran.
       const scale = () => Math.min(document.documentElement.clientWidth / REF_W, window.innerHeight / REF_H);

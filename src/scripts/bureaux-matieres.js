@@ -10,7 +10,8 @@
 // l'écran. Les trois fonds sont empilés dans le même élément : la photo qui grandit est déjà le fond du slider (aucune coupure).
 // Slider : le rail est rigide (pas de 920 px entre titres ; le titre actif est centré à x = 909, centre du slider qui commence à 90 px ; les autres à 0,4) ; sur chaque glissement le
 // fond suivant monte de 0 à 1 d'opacité par-dessus le précédent, qui reste dessous (aucun flash), et le paragraphe change autour du fondu (SWAP).
-import { gsap, ScrollTrigger } from "./core.js";
+import { gsap } from "./core.js";
+import { loadLater } from "./bureaux-images.js";
 import { setHeaderOverride } from "./header-theme.js";
 
 const REF_W = 1728;
@@ -123,16 +124,8 @@ export function initBureauxMatieres() {
     ({ conditions }) => {
       const root = document.documentElement;
       root.classList.add("bx-mat-anim");
-      // Les trois fonds (1,2 Mo en 2000 px) sont chargés d'avance, pour qu'aucun flash n'apparaisse au changement de fond, mais en priorité basse
-      // et une fois la page chargée : la section est à plusieurs écrans du haut, la photo du hero et les polices passent avant.
-      const preload = () =>
-        section.querySelectorAll("img").forEach((img) => {
-          img.fetchPriority = "low";
-          img.loading = "eager";
-        });
-      const later = () => ("requestIdleCallback" in window ? requestIdleCallback(preload, { timeout: 3000 }) : setTimeout(preload, 1500));
-      if (document.readyState === "complete") later();
-      else window.addEventListener("load", later, { once: true });
+      // Les trois fonds (1,2 Mo en 2000 px) sont chargés d'avance : aucun flash au changement de fond (bureaux-images.js).
+      loadLater(section.querySelectorAll("img"));
 
       const s = { g: 0, v: 0, t1: 0, t2: 0, o: 0 };
       const scale = () => Math.min(document.documentElement.clientWidth / REF_W, window.innerHeight / REF_H);

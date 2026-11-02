@@ -10,6 +10,7 @@
 // Sous 900 px : trois photos plus petites (les autres portent data-mobile="off"). Mouvement réduit, JavaScript absent : texte, puis photos en
 // grille, rien d'épinglé.
 import { gsap } from "./core.js";
+import { loadLater } from "./bureaux-images.js";
 
 const PHOTOS = { wide: 3, solo: 2.5 }; // durée de la montée des photos, en écrans de scroll
 const OVERLAP = 1; // la FAQ monte par-dessus : le dernier écran du pin
@@ -35,16 +36,8 @@ export function initBureauxGalerie() {
       const visible = photos.filter((li) => li.dataset.mobile !== "off" || conditions.wide);
       root.classList.add("bx-gal-anim");
 
-      // Les quatre photos (850 Ko en 480 px) sont lues d'avance, une fois la page chargée et en priorité basse : le haut de page passe avant.
-      const preload = () =>
-        visible.forEach((li) => {
-          const image = li.querySelector("img");
-          image.fetchPriority = "low";
-          image.loading = "eager";
-        });
-      const later = () => ("requestIdleCallback" in window ? requestIdleCallback(preload, { timeout: 3000 }) : setTimeout(preload, 1500));
-      if (document.readyState === "complete") later();
-      else window.addEventListener("load", later, { once: true });
+      // Les photos (300 Ko en 480 px) sont lues d'avance (bureaux-images.js).
+      loadLater(visible.map((li) => li.querySelector("img")));
 
       // Distance de montée de chaque photo : sa vitesse (svh par écran de scroll) fois la durée de la montée, en écrans de scroll.
       const speed = (li) => Number((conditions.wide ? li.dataset.speed : li.dataset.speedMobile) ?? li.dataset.speed) / 100;

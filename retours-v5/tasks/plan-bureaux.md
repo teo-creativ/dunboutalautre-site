@@ -64,7 +64,8 @@ Prompt 01 = T0 à T2 (un commit) ; prompt 02 = T3 ; prompt 03 = T4 et T5 ; promp
   - Vérification : `check-site --placeholders` liste les manques.
   - Fait (lignes 230 et 231) : 5 questions dans l'ordre de la maquette ; JSON-LD à 4 réponses (le texte à compléter n'entre pas dans les données structurées) ; composant, footer et header inchangés ; la FAQ monte par-dessus la galerie.
 - [x] **Checkpoint 3** : `gate.mjs` (vert), `/design:review` (aucun Block ; 3 Fix corrigés, 1 à trancher), un commit. Reste : relecture de l'utilisateur dans le navigateur.
-- [ ] **T10 Revue V5** : non-régression, 5 largeurs (390, 768, 1440, 1728, 1920), mouvement réduit, sans JavaScript, raccords de header au pixel, Lighthouse et axe, points à valider mis à jour ; `live: true` seulement sur feu vert.
+- [x] **T10 Revue V5** : non-régression, 5 largeurs (390, 768, 1440, 1728, 1920), mouvement réduit, sans JavaScript, raccords de header au pixel, Lighthouse et axe, points à valider mis à jour ; `live: true` seulement sur feu vert.
+  - Fait (lignes 233 à 235) : `/agent-skills:review` et `/design:review` (aucun Critical ni Block), captures à 5 tailles, balayage du header, Lighthouse 91 / 96 / 100 / 92, axe sans autre règle que le contraste de marque, `live` non modifié. Restent à la cliente : avis fictif, lignes 212, 219, 225 et 227.
 
 ## Risques
 - Raccords de sections (blanc entre deux sections superposées, header qui clignote) : balayer `header.dataset.theme` à chaque scroll, pas seulement des captures.

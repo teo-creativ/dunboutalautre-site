@@ -20,7 +20,7 @@ const ratioOf = (src) => {
 };
 
 const vars = (p) =>
-  Object.entries({ x: p.x, y: p.y, w: p.w, ratio: p.ratio, ...(p.mobile && { mx: p.mobile.x, my: p.mobile.y, mw: p.mobile.w }) })
+  Object.entries({ x: p.x, y: p.y, w: p.w, ratio: p.ratio, ...(p.mobile && { mx: p.mobile.x, my: p.mobile.y, mw: p.mobile.w, mb: p.mobile.b }) })
     .map(([name, value]) => `--${name}: ${value}`)
     .join("; ");
 

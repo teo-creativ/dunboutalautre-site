@@ -97,7 +97,13 @@ body[data-page="page"] .pphoto__title {
   body[data-page="page"] .phero__title { font-size: min(var(--fs-h1), 10.5vw); }
   /* Sous 900 px le compteur reste dans le flux (à droite, il sortirait de l'écran) et trois photos seulement, plus petites. */
   body[data-page="page"] .phero__count { position: static; margin-left: 0.15em; }
-  body[data-page="page"] .phero__photo { left: calc(var(--mx) * 1vw); top: calc(var(--my) * 1svh); width: calc(var(--mw) * 1vw); }
+  /* Largeur en vw, plafonnée pour que le bas de la photo ne dépasse pas --mb (en svh) : sur un écran plus haut que large (tablette en portrait),
+     36 vw donnerait une photo qui recouvre le titre ; sur un téléphone en portrait le plafond n'est pas atteint. */
+  body[data-page="page"] .phero__photo {
+    left: calc(var(--mx) * 1vw);
+    top: calc(var(--my) * 1svh);
+    width: min(calc(var(--mw) * 1vw), calc((var(--mb) - var(--my)) * 1svh * var(--ratio)));
+  }
   body[data-page="page"] .phero__photo[data-mobile="off"] { display: none; }
   body[data-page="page"] .pphoto__content { max-width: none; gap: 1rem; margin-top: 0; }
   body[data-page="page"] .pphoto__title { margin-bottom: 0.75rem; font-size: min(var(--fs-h2), 8.4vw); }
@@ -115,7 +121,6 @@ html.pstage-anim body[data-page="page"] .pstage {
 html.pstage-anim body[data-page="page"] .pstage > * { grid-area: 1 / 1; height: 100%; min-height: 0; }
 /* Les couches empilées sur tout l'écran ne captent ni survol ni clic ; le CTA ne reprend les clics qu'à son entrée (projets-stage.js). */
 html.pstage-anim body[data-page="page"] .pphoto { z-index: 3; pointer-events: none; overflow: visible; padding: 0; }
-/* La largeur du texte (58 vw) est celle de la base : pas de marge intérieure sur ordinateur, sinon « projet avec la même passion. » passe sur 2 lignes. */
 
 /* La grande photo est dimensionnée en « cover » (au moins l'écran, avec le ratio de l'image) et centrée : le script la réduit en carte
    (scale) puis la rend à sa taille, pendant que le cadre (clip-path) s'ouvre. Aucune largeur ni hauteur n'est animée. */

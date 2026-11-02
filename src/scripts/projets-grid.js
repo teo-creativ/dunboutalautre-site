@@ -6,8 +6,16 @@
 // (filtre, limite), jamais déduit de ce qui est à l'écran. Mouvement réduit : mêmes états, sans animation.
 import { gsap, ScrollTrigger, reducedMotion, scrollTo } from "./core.js";
 
+// Flip arrive en `null` quand son chargement échoue (réseau coupé, site redéployé pendant la visite) : le filtre s'applique alors sans mouvement
+// (onFilter), et le prochain essai retente le chargement au lieu de garder l'échec en mémoire.
 let flipPromise;
-const loadFlip = () => (flipPromise ??= import("gsap/Flip").then(({ Flip }) => (gsap.registerPlugin(Flip), Flip)));
+const loadFlip = () =>
+  (flipPromise ??= import("gsap/Flip")
+    .then(({ Flip }) => (gsap.registerPlugin(Flip), Flip))
+    .catch(() => {
+      flipPromise = undefined;
+      return null;
+    }));
 
 export function initProjetsGrid() {
   const section = document.getElementById("projets");
@@ -91,6 +99,11 @@ export function initProjetsGrid() {
     }
     const Flip = await loadFlip();
     if (mine !== ticket) return; // un autre clic a pris le relais
+    if (!Flip) {
+      apply();
+      relayout();
+      return;
+    }
 
     const leaving = before.filter((card) => !after.includes(card));
     const entering = after.filter((card) => !before.includes(card));

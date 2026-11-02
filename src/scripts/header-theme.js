@@ -49,10 +49,16 @@ export const setHeaderOverride = (state) => {
 // Zone où une section est « sous le header » : de son bord haut qui passe par le centre du header jusqu'à son bord bas.
 // Une section épinglée (data-pin-length, en px, posé par son propre pin) reste à l'écran pendant tout son pin.
 // refreshPriority : calculé après les triggers épinglés, dont les espacements décalent les sections suivantes.
+// Deux sections déclarées côte à côte se touchent au pixel près : à cette position précise, ni la première (finie) ni la seconde (pas
+// commencée) n'est active, et le header retomberait en sombre pour un pixel de scroll. La première déborde donc d'un pixel sur la suivante.
+const overlapsNext = (section) => {
+  const next = section.nextElementSibling;
+  return next && (next.hasAttribute("data-header-theme") || next.hasAttribute("data-header-gradient")) ? 1 : 0;
+};
 const zone = (section) => ({
   trigger: section,
   start: `top ${HEADER_CENTER}px`,
-  end: () => `bottom+=${Number(section.dataset.pinLength) || 0} ${HEADER_CENTER}px`,
+  end: () => `bottom+=${(Number(section.dataset.pinLength) || 0) + overlapsNext(section)} ${HEADER_CENTER}px`,
   refreshPriority: -1,
 });
 

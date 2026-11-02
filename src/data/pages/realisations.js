@@ -61,25 +61,27 @@ export const realisationsPage = {
       type: "projets-hero",
       heading: "Nos projets.", // pas `title` : check-site y chercherait la pastille de la phrase (statement), qui est un autre texte
       // Photos du hero (frame 01, 1728 x 1030) : x et w en vw, y en svh, ratio largeur sur hauteur ; speed en svh par écran de scroll
-      // (100 = la vitesse de la page) : 02 rapide, 03 lente, 01 et 04 moyennes. mobile : x, y, w sous 900 px, ou null (3 photos seulement).
+      // (100 = la vitesse de la page) : 02 rapide, 03 lente, 01 et 04 moyennes. mobile : x, y, w sous 900 px, ou null (3 photos seulement) ;
+      // b : bas maximal de la photo en svh, la photo rétrécit plutôt que de toucher le titre (44 : au-dessus de lui) sur une tablette en
+      // portrait, où la largeur en vw donne des photos plus hautes que l'espace libre.
       photos: [
         {
           src: "projets/realisation-01",
           alt: "Arche de sapin ornée d'un grand nœud rouge devant une grille de fer noir",
           x: 7.93, y: 21.84, w: 17.36, ratio: 0.75, speed: 100,
-          mobile: { x: 5, y: 15, w: 36 },
+          mobile: { x: 5, y: 15, w: 36, b: 44 },
         },
         {
           src: "projets/realisation-02",
           alt: "Composition florale bleue, jaune et orange suspendue sur une façade, vue d'en bas",
           x: 82.64, y: 27.77, w: 19.68, ratio: 0.7506, speed: 118,
-          mobile: { x: 60, y: 21, w: 36 },
+          mobile: { x: 60, y: 21, w: 36, b: 44 },
         },
         {
           src: "projets/realisation-03",
           alt: "Mannequin devant des arches de roses roses et rouges lors du Floral Fashion Show",
           x: 0, y: 68.74, w: 20.72, ratio: 0.8627, speed: 84,
-          mobile: { x: 6, y: 66, w: 34 },
+          mobile: { x: 6, y: 66, w: 34, b: 98 },
         },
         {
           src: "projets/realisation-04",

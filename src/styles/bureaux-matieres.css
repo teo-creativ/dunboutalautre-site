@@ -1,0 +1,164 @@
+/* « Trois matières » de la page Bureaux V5 (frames bureaux-18 à 33, canvas 1728 x 1030). Mesures lues sur les frames, en px à 1728 de large
+   multipliées par --bx-u (échelle de la scène, posée par scripts/bureaux-matieres.js ; le repli suit la largeur). Sans animation (JavaScript
+   absent, mouvement réduit) : le texte sur l'orange, puis trois blocs empilés, chacun sur sa photo voilée. Règles préfixées
+   body[data-page="page"] : l'accueil et Noël ne peuvent pas être atteints. */
+body[data-page="page"] .mat {
+  --bx-u: calc(100vw / 1728);
+  display: grid;
+  background: var(--orange);
+  color: var(--white);
+  text-align: center;
+}
+
+/* ---------- Texte sur l'orange : étiquette, puis titre de 68 px sur deux lignes, centrés ---------- */
+body[data-page="page"] .mat__head {
+  grid-area: 1 / 1;
+  align-items: center;
+  padding: calc(var(--section-y) * 1.6) var(--gutter);
+}
+body[data-page="page"] .mat .section-title {
+  --title-color: var(--white);
+  max-width: 69vw; /* « Trois matières, un même objectif : » (1138 px sur la frame) puis « un espace qui vous ressemble. » */
+  font-size: var(--fs-h2);
+}
+/* Pastilles crème, texte orange : inclinaisons mesurées sur les frames (titre +0,85°, slides +1,27°, +1,28° et +0,57°). */
+body[data-page="page"] .mat .section-title .tag { --tag-rotate: 0.85deg; padding: 0.11em 0.38em 0.17em; }
+/* Les pastilles de la frame sont 16 px moins larges que celles de tag.css (marge de 0,38 em au lieu de 0,5) et un peu plus hautes. */
+body[data-page="page"] .mat-slide__title .tag { padding: 0.085em 0.45em 0.145em; }
+body[data-page="page"] .mat-slide:nth-child(1) .tag { --tag-rotate: 1.27deg; }
+body[data-page="page"] .mat-slide:nth-child(2) .tag { --tag-rotate: 1.28deg; }
+body[data-page="page"] .mat-slide:nth-child(3) .tag { --tag-rotate: 0.57deg; }
+
+/* ---------- Photos et slides : trois blocs, chaque slide sur sa photo ---------- */
+body[data-page="page"] .mat__photo,
+body[data-page="page"] .mat__slider { display: contents; }
+body[data-page="page"] .mat__veil { display: none; }
+body[data-page="page"] .mat__bg {
+  position: relative;
+  overflow: clip;
+  background: var(--olive-deep);
+}
+/* L'image dépasse de 0,7 % de chaque côté (la figure rogne) : fond-01.png a des coins transparents cuits (15 px sur 2000), qui laisseraient voir
+   l'orange aux quatre coins de l'écran une fois la photo en plein écran. À 0,7 % le coin est hors cadre pour tout rayon jusqu'à 13 px. */
+body[data-page="page"] .mat__bg-img {
+  position: absolute;
+  inset: -0.7%;
+  width: 101.4%;
+  max-width: none; /* base.css plafonne les images à 100 % de leur conteneur */
+  height: 101.4%;
+  object-fit: cover;
+}
+/* Voile du repli : le même que celui de la scène (--veil), sur chaque photo. */
+body[data-page="page"] .mat__bg::after { content: ""; position: absolute; inset: 0; background: var(--veil); }
+body[data-page="page"] .mat__bg:nth-of-type(1),
+body[data-page="page"] .mat-slide:nth-of-type(1) { grid-area: 2 / 1; }
+body[data-page="page"] .mat__bg:nth-of-type(2),
+body[data-page="page"] .mat-slide:nth-of-type(2) { grid-area: 3 / 1; }
+body[data-page="page"] .mat__bg:nth-of-type(3),
+body[data-page="page"] .mat-slide:nth-of-type(3) { grid-area: 4 / 1; }
+body[data-page="page"] .mat-slide {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  min-height: 85svh;
+  padding: 5rem var(--gutter);
+}
+body[data-page="page"] .mat-slide__title {
+  font-size: var(--fs-h2);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--white);
+}
+/* Paragraphe : 24 px sur 36 px, blanc ; en dessous de 900 px, 17 px (même règle que le texte du hero des autres pages). */
+body[data-page="page"] .mat-slide__text {
+  max-width: 34.5em;
+  font-size: max(1.0625rem, var(--fs-tagline));
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ---------- Avec mouvement : section épinglée, scène posée par le script ---------- */
+html.bx-mat-anim .mat {
+  display: block;
+  position: relative;
+  height: 100svh;
+  min-height: 100svh;
+  overflow: clip;
+}
+html.bx-mat-anim .mat__head {
+  position: absolute;
+  z-index: 1; /* la photo qui monte passe par-dessus */
+  top: calc(var(--bx-u) * 398);
+  left: 0;
+  right: 0;
+  padding: 0;
+}
+html.bx-mat-anim .mat .section-title {
+  margin-inline: auto;
+  max-width: calc(var(--bx-u) * 1192);
+  font-size: max(1.75rem, calc(var(--bx-u) * 68));
+}
+html.bx-mat-anim .mat__photo {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transform-origin: 50% 0; /* la photo grandit depuis son bord haut (frames 21 à 25) */
+}
+html.bx-mat-anim .mat__bg { position: absolute; inset: 0; grid-area: auto; background: transparent; }
+html.bx-mat-anim .mat__bg::after { display: none; }
+html.bx-mat-anim .mat__veil { display: block; position: absolute; inset: 0; background: var(--veil); opacity: 0; }
+html.bx-mat-anim .mat__slider {
+  display: block;
+  position: absolute;
+  inset: 0 0 0 calc(var(--bx-u) * 90); /* le texte des slides est centré à 909 px, pas à 864 */
+  z-index: 3;
+}
+html.bx-mat-anim .mat-slide { position: absolute; inset: 0; display: block; grid-area: auto; min-height: 0; padding: 0; }
+/* Titre sur une ligne : 68 px, centre à 497 px. Paragraphe : 24 px, 830 px de large (la frame casse « luminosité » / « et du volume » ...),
+   première ligne à 683 px. Les deux sont à l'opacité 0 tant que le script ne les a pas posés (opacité seule, jamais visibility). */
+html.bx-mat-anim .mat-slide__title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--bx-u) * 452);
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+  font-size: max(1.75rem, calc(var(--bx-u) * 68));
+}
+html.bx-mat-anim .mat-slide__text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--bx-u) * 665);
+  width: calc(var(--bx-u) * 830);
+  max-width: calc(100% - 2 * var(--gutter));
+  margin-inline: auto;
+  font-size: max(1rem, calc(var(--bx-u) * 24));
+}
+
+/* ---------- Écrans étroits (900 px et moins) : un seul titre à l'écran, texte réduit ---------- */
+@media (max-width: 900px) {
+  /* Pas de frame pour le mobile : le voile est celui qui tient 4,5:1 pour le paragraphe, même sous un pixel blanc (la frame desktop : 3,4:1). */
+  body[data-page="page"] .mat__bg::after,
+  html.bx-mat-anim .mat__veil { background: var(--veil-strong); }
+  html.bx-mat-anim .mat__head { top: 32svh; padding-inline: var(--gutter); }
+  html.bx-mat-anim .mat .section-title { max-width: none; font-size: var(--fs-text-lg); }
+  /* Titre sur une ligne : « Végétaux artificiels » avec sa pastille fait 327 px à 34 px, plus large qu'un écran de 320 px. */
+  html.bx-mat-anim .mat-slide__title { top: 30svh; font-size: min(var(--fs-h2), 9vw); }
+  html.bx-mat-anim .mat-slide__text {
+    top: calc(30svh + 7.5rem);
+    width: auto;
+    margin-inline: var(--gutter);
+    font-size: 1.0625rem;
+  }
+}
+@media (max-width: 900px) and (max-height: 700px) {
+  html.bx-mat-anim .mat-slide__title { top: 24svh; }
+  html.bx-mat-anim .mat-slide__text { top: calc(24svh + 6.5rem); font-size: 1rem; line-height: 1.4; }
+}

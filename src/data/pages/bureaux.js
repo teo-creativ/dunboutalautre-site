@@ -90,25 +90,34 @@ export const bureaux = {
       ],
     },
     {
-      type: "cards",
+      // « Trois matières » (V5 §4 et §5) : section orange, photo qui grandit jusqu'au plein écran, puis slider des 3 matières sur 3 fonds.
+      // Les lignes « Idéal pour » du copywriting (`use`) ne sont pas sur la maquette : retirées. Chaque slide : titre (pastille sur son
+      // deuxième mot), paragraphe, et le fond qui lui correspond (`photo`, `alt`).
+      type: "bureaux-matieres",
       label: "NATUREL, STABILISÉ OU ARTIFICIEL ?",
       title: "Trois matières, un même objectif : un espace qui vous ressemble.",
-      tag: "un espace qui vous ressemble",
+      tag: "vous ressemble",
       items: [
         {
           title: "Plantes naturelles",
+          tag: "naturelles",
           text: "De vraies plantes vivantes, sélectionnées en fonction de la luminosité et du volume de votre espace. Un entretien régulier est possible grâce à nos offres de suivi : vous ne vous occupez de rien.",
-          use: "open spaces lumineux, salles de réunion, halls d'accueil",
+          photo: "bureaux/fond-01",
+          alt: "Hall d'accueil avec portes vitrées à cadre noir et feuillages suspendus sous une verrière.",
         },
         {
           title: "Végétaux stabilisés",
+          tag: "stabilisés",
           text: "De vraies plantes dont la sève a été remplacée par de la glycérine végétale. Résultat : aucun arrosage, aucune luminosité requise, une durée de vie de plusieurs années. Elles gardent leur aspect naturel sans le moindre entretien.",
-          use: "couloirs, bureaux, espaces de représentation, zones sans fenêtre",
+          photo: "bureaux/fond-02",
+          alt: "Massif dense de feuillages verts installé dans un espace de bureau lumineux.",
         },
         {
           title: "Végétaux artificiels",
+          tag: "artificiels",
           text: "La solution la plus libre techniquement. Formes, couleurs, volumes : tout est possible. Robustesse maximale, aucune contrainte de pose ni d'emplacement.",
-          use: "grands volumes, espaces exigeants, installations sur mesure",
+          photo: "bureaux/fond-03",
+          alt: "Mur de feuillages retombants entre des cloisons en bois clair et des suspensions noires.",
         },
       ],
     },

@@ -138,7 +138,9 @@ export function initBureauxInstalle() {
           start: "top top",
           end: () => {
             const length = total * section.offsetHeight;
-            section.dataset.pinLength = length; // lu par le thème du header : la section reste à l'écran pendant son pin
+            // Lu par le thème du header : la zone dure tant que la section est seule à l'écran, donc sans le dernier écran du pin, où la
+            // section suivante (orange, header blanc) monte par-dessus : sinon le header garde son thème olive un écran de trop.
+            section.dataset.pinLength = (T.move + T.hold) * section.offsetHeight;
             return `+=${length}`;
           },
           pin: true,

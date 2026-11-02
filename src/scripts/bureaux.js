@@ -4,9 +4,11 @@
 import { initBureauxChiffres } from "./bureaux-chiffres.js";
 import { initBureauxHero } from "./bureaux-hero.js";
 import { initBureauxInstalle } from "./bureaux-installe.js";
+import { initBureauxMatieres } from "./bureaux-matieres.js";
 
 export function initBureaux() {
   initBureauxHero();
   initBureauxChiffres();
   initBureauxInstalle();
+  initBureauxMatieres();
 }

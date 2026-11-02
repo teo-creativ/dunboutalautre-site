@@ -40,13 +40,15 @@ Prompt 01 = T0 à T2 (un commit) ; prompt 02 = T3 ; prompt 03 = T4 et T5 ; promp
 - [x] **T3 UI Cartes horizontales** : 5 cartes, effet vague, pin
   - Acceptation : frames 06 à 19 ; 5 cartes à vitesses propres (1,00 / 1,08 / 0,96 / 1,06 / 1,0), vague ±40 px et ±2° ; cartes 4 et 5 immobiles au centre ~40vh ; l'orange monte par-dessus ; mobile : une carte à la fois ; mouvement réduit : colonne sans pin ; `data-pin-length` pour le header.
   - Vérification : captures aux positions des frames 06, 10, 14, 17, 19 ; mesures des positions ; console.
-- [ ] **T4 UI Trois matières : orange puis photo plein écran**
+- [x] **T4 UI Trois matières : orange puis photo plein écran**
   - Acceptation : frames 20 à 25 ; `clip-path: inset()` + `scale` de l'image 1,2 vers 1 (largeurs mesurées sur les frames : 852, 1144, 1390, 1616 px puis plein écran) ; titre qui s'estompe ; header blanc, puis gradient `photo`.
   - Vérification : captures par frame ; aucun `width` ni `height` animé.
-- [ ] **T5 UI Slider des 3 matières**
+  - Fait autrement (lignes 205 à 207 de `docs/POINTS-A-VALIDER.md`) : la frame montre l'image entière qui grandit (854, 1148, 1392, 1618, 1728 px), donc `scale` depuis le haut + `y`, le `clip-path` ne fait que les coins ; header `photo` avant le voile puis `off`. Fichiers : `sections/bureaux-matieres.js`, `bureaux-matieres.js`, `bureaux-matieres.css`.
+- [x] **T5 UI Slider des 3 matières**
   - Acceptation : frames 26 à 33 ; voile ~40 % constant ; rail de 3 titres qui glisse en `x`, opacité 0,4 pour l'inactif ; fondu enchaîné des 3 fonds (`opacity`, `scale` 1,06 vers 1) ; 3 paragraphes superposés dans le DOM ; `aria-roledescription="carousel"`, `h3` par slide ; fonds préchargés ; la crème « Pourquoi » monte par-dessus.
   - Vérification : captures par frame ; aucun flash au changement de fond.
-- [ ] **Checkpoint 2** : `gate.mjs`, `/design:review`, commit, relecture.
+  - Voile 0,45 (jeton `--veil`, mesuré sur les frames), 0,55 sous 900 px (`--veil-strong`). Contraste desktop des paragraphes de la photo 1 : à trancher (ligne 212).
+- [x] **Checkpoint 2** : `gate.mjs` (vert), `/design:review` (aucun Block ; 4 Fix corrigés, 1 à trancher), un commit. Reste : relecture de l'utilisateur dans le navigateur.
 - [ ] **T6 UI Pourquoi végétaliser** : 4 lignes à état actif
   - Acceptation : frames 34 et 35 ; ligne active au survol, au focus et au passage au centre (`start: "top 55%"`), première active au départ ; transition 0,4 s sur `opacity` et `color` ; filets en `scaleX` ; mobile : tout lisible.
 - [ ] **T7 UI Fonctionnement (vérifié), logos et avis**

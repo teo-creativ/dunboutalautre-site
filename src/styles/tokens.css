@@ -26,6 +26,7 @@
   --cream-soft: color-mix(in srgb, var(--cream) 75%, transparent); /* 4,7:1 sur olive : labels du menu (16 px en mobile) */
   --olive-tint: color-mix(in srgb, var(--olive) 9%, var(--cream));
   --veil: rgb(0 0 0 / 0.45); /* voile de la photo « Notre approche » : 0,4 mesuré sur les frames, 0,45 (spec) pour tenir 3:1 sous le pixel le plus clair */
+  --veil-strong: rgb(0 0 0 / 0.55); /* voile des écrans sans frame (mobile) : 4,8:1 sous le pixel blanc le plus clair, contre 3,4:1 à 0,45 (texte de 17 px à tenir à 4,5:1) */
   --shadow-card: 0 12px 40px color-mix(in srgb, var(--olive-deep) 10%, transparent);
 
   /* Typographie */

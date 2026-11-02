@@ -37,7 +37,7 @@ Prompt 01 = T0 à T2 (un commit) ; prompt 02 = T3 ; prompt 03 = T4 et T5 ; promp
   - Vérification : captures avant et après les compteurs ; mouvement réduit et sans JavaScript : valeurs finales ; `stats.js` non modifié.
   - Fichiers : `sections/bureaux-chiffres.js`, `bureaux-chiffres.js`, `bureaux-chiffres.css`.
 - [x] **Checkpoint 1** : `gate.mjs` complet (vert), `/design:review` (aucun Block), un commit. Reste : relecture de l'utilisateur dans le navigateur.
-- [ ] **T3 UI Cartes horizontales** : 5 cartes, effet vague, pin
+- [x] **T3 UI Cartes horizontales** : 5 cartes, effet vague, pin
   - Acceptation : frames 06 à 19 ; 5 cartes à vitesses propres (1,00 / 1,08 / 0,96 / 1,06 / 1,0), vague ±40 px et ±2° ; cartes 4 et 5 immobiles au centre ~40vh ; l'orange monte par-dessus ; mobile : une carte à la fois ; mouvement réduit : colonne sans pin ; `data-pin-length` pour le header.
   - Vérification : captures aux positions des frames 06, 10, 14, 17, 19 ; mesures des positions ; console.
 - [ ] **T4 UI Trois matières : orange puis photo plein écran**

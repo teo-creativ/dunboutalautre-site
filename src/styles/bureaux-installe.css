@@ -1,0 +1,177 @@
+/* « Ce qu'on installe dans vos bureaux » de la page Bureaux V5 (frames bureaux-06 à 19, canvas 1728 x 1030). Une carte = une photo et une carte
+   blanche de texte qui la chevauche, inclinées en sens opposés. Toutes les dimensions sont données en px à 1728 de large puis multipliées par
+   --bx-u (échelle de la scène : 1 à 1728 x 1030). scripts/bureaux-installe.js la recalcule (elle tient aussi compte de la hauteur de l'écran)
+   et pose html.bx-install-anim ; sans lui (JavaScript absent, mouvement réduit), --bx-u suit la largeur et les cartes s'empilent.
+   Règles préfixées body[data-page="page"] : l'accueil et Noël ne peuvent pas être atteints. */
+body[data-page="page"] .install {
+  --bx-u: calc(100vw / 1728);
+  --bx-cw: min(86vw, 26rem); /* largeur d'une carte quand elle est seule à l'écran */
+  padding: var(--section-y) var(--section-x);
+  background: var(--cream);
+  color: var(--olive-deep);
+}
+
+/* ---------- Titre : « Plantes, bacs, cloisons, murs : le » puis « végétal là où [vous en avez besoin]. » ----------
+   Sur la frame 06 la pastille est à sa place (pas relevée comme sur la frame 05) et 5 px plus à droite : elle vient de bureaux-titres.css. */
+body[data-page="page"] .install .section-title { max-width: 50vw; }
+body[data-page="page"] .install .tag { top: 0; margin-left: 0.05em; }
+
+/* ---------- Carte ---------- */
+body[data-page="page"] .install__track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+body[data-page="page"] .install-card {
+  display: flex;
+  align-items: center;
+  width: calc(var(--bx-u) * 640);
+  min-height: calc(var(--bx-u) * 334); /* empilées, les cartes grandissent avec leur texte (corps minimal sur les écrans étroits) */
+}
+/* Photo : 300 px de large (les PNG portent un rayon de 12 px sur 1000 px, soit 3,6 px ici : il disparaît sous le rayon de 14 px). */
+body[data-page="page"] .install-card__photo {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  width: calc(var(--bx-u) * 300);
+  height: auto;
+  border-radius: var(--radius-photo);
+  transform: rotate(2deg);
+}
+/* Carte blanche : 351 x 334 px, 11 px par-dessus la photo. Le texte déborde vers le bas si l'écran est étroit (corps de texte minimal) :
+   la carte grandit, elle ne rogne rien. */
+body[data-page="page"] .install-card__body {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  box-sizing: border-box;
+  width: calc(var(--bx-u) * 351);
+  min-height: calc(var(--bx-u) * 334);
+  margin-left: calc(var(--bx-u) * -11);
+  padding: calc(var(--bx-u) * 36) calc(var(--bx-u) * 10) calc(var(--bx-u) * 28) calc(var(--bx-u) * 16);
+  border-radius: var(--radius-card);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+  transform: rotate(-2deg);
+}
+body[data-page="page"] .install-card__title {
+  font-size: max(1.375rem, calc(var(--bx-u) * 32));
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--olive-deep);
+}
+/* Texte : 16 px sur 24,8 px d'interligne. Couleur de l'accueil (--olive-soft, 5,2:1) : le gris neutre des frames (3,1:1) ne tient pas
+   l'AA et n'a pas de jeton (docs/POINTS-A-VALIDER.md). */
+body[data-page="page"] .install-card__text {
+  margin-top: calc(var(--bx-u) * 11);
+  font-size: max(0.8125rem, calc(var(--bx-u) * 16));
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--olive-soft);
+}
+/* Mots-clés : petites capitales orange avec une puce, 37,5 px de pas. Orange sur blanc : 3,4:1 (texte de 16 px), comme les labels du site. */
+body[data-page="page"] .install-card__uses {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--bx-u) * 13);
+  margin-top: calc(var(--bx-u) * 19);
+  font-size: max(0.75rem, calc(var(--bx-u) * 16));
+  font-weight: 400;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+body[data-page="page"] .install-card__uses li { display: flex; align-items: center; gap: 0.7em; padding-left: 0.5em; }
+body[data-page="page"] .install-card__uses li::before {
+  content: "";
+  flex: none;
+  width: 0.55em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ---------- Une carte à la fois (moins de 1100 px) : photo au-dessus, carte blanche qui la chevauche ---------- */
+@media (max-width: 1099px) {
+  body[data-page="page"] .install { padding-inline: var(--gutter); }
+  body[data-page="page"] .install .section-title { max-width: none; }
+  body[data-page="page"] .install-card {
+    flex-direction: column;
+    align-items: stretch;
+    width: var(--bx-cw);
+    min-height: 0;
+  }
+  body[data-page="page"] .install-card__photo { width: 100%; height: min(24svh, 14rem); object-fit: cover; }
+  body[data-page="page"] .install-card__body {
+    width: 94%;
+    min-height: 0;
+    margin: -1.25rem 0 0 auto;
+    padding: 1.5rem 1.25rem 1.25rem;
+  }
+  body[data-page="page"] .install-card__title { font-size: 1.5rem; }
+  body[data-page="page"] .install-card__text { margin-top: 0.5rem; font-size: 0.9375rem; }
+  body[data-page="page"] .install-card__uses { gap: 0.5rem; margin-top: 0.875rem; font-size: 0.8125rem; }
+}
+
+/* Écrans courts (petits téléphones) : titre, photo et textes plus petits pour que le titre et la carte tiennent ensemble dans l'écran. */
+@media (max-width: 1099px) and (max-height: 700px) {
+  body[data-page="page"] .install-card__photo { height: min(14svh, 9rem); }
+  body[data-page="page"] .install-card__body { padding: 1.25rem 1rem 1rem; }
+  body[data-page="page"] .install-card__title { font-size: 1.3125rem; }
+  body[data-page="page"] .install-card__text { font-size: 0.875rem; line-height: 1.45; }
+  body[data-page="page"] .install-card__uses { gap: 0.3rem; margin-top: 0.6rem; font-size: 0.75rem; }
+  html.bx-install-anim .install__head { top: 5.25rem; gap: 0.6rem; }
+  html.bx-install-anim .install .section-title { font-size: 1.5rem; }
+}
+
+/* ---------- Avec mouvement : section épinglée, cartes posées par le script ---------- */
+html.bx-install-anim .install {
+  position: relative;
+  height: 100svh;
+  min-height: 100svh;
+  padding: 0;
+  overflow: clip;
+}
+html.bx-install-anim .install__head {
+  position: absolute;
+  z-index: 3; /* le titre reste au-dessus des cartes */
+  top: calc(var(--bx-u) * 168);
+  left: var(--section-x);
+  gap: calc(var(--bx-u) * 14);
+}
+html.bx-install-anim .install .section-title {
+  max-width: calc(var(--bx-u) * 864);
+  font-size: max(1.75rem, calc(var(--bx-u) * 48));
+}
+html.bx-install-anim .install__track {
+  position: absolute;
+  inset: 0;
+  display: block;
+  margin: 0;
+}
+/* Les cartes sont posées au bord gauche et à mi-hauteur de la zone des cartes (657 px sur la frame 06) ; GSAP les translate (x, y). */
+html.bx-install-anim .install-card {
+  position: absolute;
+  top: calc(var(--bx-u) * 657);
+  left: 0;
+  height: calc(var(--bx-u) * 334); /* hauteur fixe : la carte est centrée sur sa ligne même si son texte dépasse */
+  margin-top: calc(var(--bx-u) * -167);
+}
+@media (max-width: 1099px) {
+  html.bx-install-anim .install__head { top: 6.5rem; left: var(--gutter); gap: 1rem; }
+  html.bx-install-anim .install .section-title { max-width: none; font-size: var(--fs-text-lg); }
+  /* Les cartes sont empilées au centre de la zone sous le titre ; la translation x les amène une à une. */
+  html.bx-install-anim .install__track { display: grid; place-items: center; padding: var(--bx-head-bottom, 28svh) 0 1rem; }
+  html.bx-install-anim .install-card { position: relative; top: auto; left: auto; height: auto; margin: 0; grid-area: 1 / 1; }
+}
+
+/* Recouvrement : la section qui suit remonte d'un écran par une marge négative et passe par-dessus la dernière scène (comme Nos univers
+   sur Noël). Opaque et d'au moins un écran de haut ; la classe est posée par le script, sur la section qui suit. */
+html.bx-install-anim .bx-overlap {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  margin-top: -100svh;
+}

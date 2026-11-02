@@ -3,8 +3,10 @@
 // L'ordre est celui de la page ; les épinglages d'abord, car le thème du header se calcule après eux (main.js).
 import { initBureauxChiffres } from "./bureaux-chiffres.js";
 import { initBureauxHero } from "./bureaux-hero.js";
+import { initBureauxInstalle } from "./bureaux-installe.js";
 
 export function initBureaux() {
   initBureauxHero();
   initBureauxChiffres();
+  initBureauxInstalle();
 }

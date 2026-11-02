@@ -2,10 +2,6 @@
    couleurs sont ceux de l'accueil (stats.css) : cette section en réutilise les classes, sans html.stats-anim (elle n'est pas épinglée).
    Son recouvrement du hero est dans bureaux-hero.css. Ici, seulement les mesures que la frame 05 change, lues à 1728 x 1030. */
 
-/* Pastille « aux végétaux » : elle monte vers la droite (-2,3° mesurés), comme les autres pastilles orange de cette page. Sur la frame
-   elle est un peu plus haute (80 px de boîte englobante pour 74), 3 px plus large, et plus près du mot qui la précède (8 px). */
-body[data-page="page"] .stats--bx .tag { --tag-rotate: -2.3deg; padding: 0.1em 0.53em 0.16em; margin-left: -0.05em; position: relative; top: -0.1em; }
-
 /* Texte des cartes : 18 px (« d'expérience en végétalisation et en » mesure 323 px sur la frame, 310 px à 17,3 px), interligne de 29 px.
    Couleur : celle de l'accueil (--olive-soft, 5,2:1 sur blanc). Le gris neutre de la frame (3,1:1) ne tient pas l'AA et n'a pas de jeton :
    écart signalé dans docs/POINTS-A-VALIDER.md. */

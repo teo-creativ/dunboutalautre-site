@@ -20,6 +20,7 @@ export const bureaux = {
     "d'expérience en végétalisation et en décoration végétale",
     "Startups, grands groupes, restaurants, hôtels... Nous transformons tous types de locaux",
     "NOTRE FONCTIONNEMENT",
+    "Des bacs sur mesure, fixes ou sur roulettes, pour structurer l'espace, créer un passage ou habiller un couloir. Le végétal transforme vos espaces.",
   ],
   sections: [
     {
@@ -43,36 +44,48 @@ export const bureaux = {
       ],
     },
     {
-      type: "cards",
+      // « Ce qu'on installe » (V5 §3) : 5 cartes en défilement horizontal. Plus de phrase d'introduction (absente de la maquette) ; la
+      // dernière phrase de « Bacs » est celle de la maquette (avec sa faute « transforment » corrigée), et celle de « Murs végétaux »
+      // (renvoi vers Design végétal) n'est pas sur la maquette. `use` : les trois mots-clés, séparés par une virgule.
+      type: "bureaux-installe",
       label: "CE QU'ON INSTALLE DANS VOS BUREAUX",
       title: "Plantes, bacs, cloisons, murs : le végétal là où vous en avez besoin.",
-      tag: "le végétal là où vous en avez besoin",
-      lead: "Tous les espaces ne se ressemblent pas. On choisit avec vous la solution végétale la mieux adaptée à votre lieu : sa lumière, sa surface, son usage.",
+      tag: "vous en avez besoin",
       items: [
         {
           title: "Plantes",
           text: "Grandes plantes ou plantes de bureau, choisies selon la lumière et le volume de votre espace. Elles apportent de la vie, tout de suite.",
           use: "open spaces, salles de réunion, bureaux individuels",
+          photo: "bureaux/carte-01",
+          alt: "Palmier d'intérieur dans un grand pot, à côté d'une chaise couleur corail devant un mur violet.",
         },
         {
           title: "Bacs",
-          text: "Des bacs sur mesure, fixes ou sur roulettes, pour structurer l'espace, créer un passage ou habiller un couloir. Le végétal devient un élément d'aménagement à part entière.",
+          text: "Des bacs sur mesure, fixes ou sur roulettes, pour structurer l'espace, créer un passage ou habiller un couloir. Le végétal transforme vos espaces.",
           use: "couloirs, zones de passage, séparation d'espaces",
+          photo: "bureaux/carte-02",
+          alt: "Grand bac en pierre grise planté de graminées et d'un arbre, devant un immeuble parisien.",
         },
         {
           title: "Cloisons végétales",
           text: "Une séparation vivante ou stabilisée entre deux espaces : plus légère qu'une cloison classique, et plus belle aussi. Elle isole du regard sans fermer la pièce.",
           use: "open spaces, salles de réunion ouvertes, espaces de pause",
+          photo: "bureaux/carte-03",
+          alt: "Mur de mousse et de plantes colorées, à côté d'une paroi vitrée blanche.",
         },
         {
           title: "Murs végétaux",
-          text: "Un mur entier végétalisé, naturel, stabilisé ou artificiel. C'est souvent la pièce centrale d'un espace, celle dont on se souvient. Les murs sur mesure, les tableaux et les logos végétalisés sont présentés sur la page Design végétal sur mesure.",
+          text: "Un mur entier végétalisé, naturel, stabilisé ou artificiel. C'est souvent la pièce centrale d'un espace, celle dont on se souvient.",
           use: "halls, espaces de représentation, salles de réunion",
+          photo: "bureaux/carte-04",
+          alt: "Massif dense de feuillages verts installé dans un espace de bureau lumineux.",
         },
         {
           title: "Espaces d'accueil",
           text: "Votre accueil est la première chose que voient vos clients et vos candidats. Un décor végétal donne le ton dès l'entrée : accueillant, soigné, à votre image.",
           use: "réception, showroom, salle d'attente",
+          photo: "bureaux/carte-05",
+          alt: "Hall d'accueil avec portes vitrées à cadre noir et feuillages suspendus sous une verrière.",
         },
       ],
     },

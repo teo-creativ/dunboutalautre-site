@@ -4,7 +4,9 @@
 import { site } from "../data/site.js";
 import { esc } from "./utils.js";
 
-const card = ({ value, prefix, suffix, text }, i) => {
+// Exportée pour la section Chiffres clés de la page Bureaux (sections/bureaux-chiffres.js) : même carte, autres valeurs. L'export par
+// défaut (les cartes de l'accueil) ne change pas.
+export const card = ({ value, prefix, suffix, text }, i) => {
   const unit = suffix.trim();
   const isWord = /[a-z]/i.test(unit);
   return `<li class="stat-card stat-card--${i + 1}">

@@ -1,5 +1,7 @@
-// Page Végétalisation de bureaux : tous les textes viennent de docs/copywriting/02-vegetalisation-de-bureaux.md (premier jet, à retravailler
+// Page Végétalisation de bureaux : les textes viennent de docs/copywriting/02-vegetalisation-de-bureaux.md (premier jet, à retravailler
 // avec la cliente), le title et la meta de docs/arborescence-et-strategie.md. Une valeur inconnue est un todo(), jamais un texte inventé.
+// V5 (retours-v5, maquette de la cliente) : l'ordre des sections est celui de retours-v5/docs/01-ORDRE-DE-LA-PAGE.md ; les textes que la
+// maquette change sont listés dans `designTexts` (scripts/check-site.js les compte au lieu de les refuser).
 import { todo } from "../../components/placeholder.js";
 
 export const bureaux = {
@@ -9,48 +11,35 @@ export const bureaux = {
   title: "Végétalisation de bureaux à Paris | D'un Bout À L'autre",
   description:
     "D'un Bout À L'autre végétalise vos bureaux à Paris : plantes naturelles, stabilisées ou artificielles, bacs, cloisons et murs végétaux. Devis gratuit.",
+  // Textes pris sur la maquette V5 (frames bureaux-01 à 54), absents du copywriting 02. « +30 », « +10 ans » et « 100% » sont ceux du
+  // design, à confirmer avec la cliente (retours-v5/docs/05-POINTS-A-VALIDER-V5.md, point 6).
+  designTexts: [
+    "Végétalisation de bureaux à Paris : de la conception à l'entretien.",
+    "Nous concevons, fournissons, installons et entretenons le végétal de vos bureaux, selon vos contraintes et votre style.",
+    "Nous transformons vos bureaux grâce aux végétaux.",
+    "d'expérience en végétalisation et en décoration végétale",
+    "Startups, grands groupes, restaurants, hôtels... Nous transformons tous types de locaux",
+    "NOTRE FONCTIONNEMENT",
+  ],
   sections: [
     {
       type: "hero",
-      title: "Végétalisation de bureaux à Paris : on s'occupe de tout, de la conception à l'entretien.",
-      tag: "on s'occupe de tout",
-      lead: "Plantes naturelles, végétaux stabilisés ou artificiels : nous concevons, fournissons, installons et entretenons le végétal de vos bureaux, selon vos contraintes et votre style.",
-      cta: "Demander un devis gratuit",
-      secondary: { label: "Voir nos réalisations", to: "/realisations/" },
+      bx: true,
+      keywords: ["Plantes naturelles", "Végétaux stabilisés", "Végétaux artificiels"], // en capitales à l'écran (bureaux-hero.css)
+      title: "Végétalisation de bureaux à Paris : de la conception à l'entretien.",
+      tag: "la conception",
+      lead: "Nous concevons, fournissons, installons et entretenons le végétal de vos bureaux, selon vos contraintes et votre style.",
+      cta: "Demander un devis",
     },
     {
-      type: "figures",
+      type: "bureaux-chiffres",
       label: "CHIFFRES CLÉS",
+      title: "Nous transformons vos bureaux grâce aux végétaux.",
+      tag: "aux végétaux",
       items: [
-        { head: ["+", todo("nombre de projets"), " projets"], text: "de végétalisation de bureaux réalisés" },
-        { head: ["+10 ans"], text: "d'expérience à Paris et en Île-de-France" },
-        { head: ["Startups, grands groupes, hôtels, restaurants"], text: "tous types de locaux" },
-        { head: ["Paris & Île-de-France"], text: "zone d'intervention principale" },
-      ],
-    },
-    {
-      type: "cards",
-      label: "POURQUOI VÉGÉTALISER VOS BUREAUX ?",
-      title: "Des plantes dans vos bureaux ? Ce n'est pas juste une question d'esthétique.",
-      tag: "pas juste une question d'esthétique",
-      lead: "Végétaliser vos bureaux, ce n'est pas un simple choix esthétique. C'est une décision qui touche directement la qualité de vie de vos équipes, l'image que vous renvoyez à vos clients, et l'attractivité de vos locaux pour les nouveaux talents.",
-      items: [
-        {
-          title: "Bien-être des équipes",
-          text: "Les plantes en espace de travail réduisent le stress, améliorent la concentration et favorisent la créativité. Certaines études évoquent un gain de productivité pouvant atteindre 15 % dans les espaces végétalisés. Un cadre de travail agréable, c'est aussi moins d'absentéisme et plus d'engagement.",
-        },
-        {
-          title: "Image de marque",
-          text: "Vos locaux parlent de vous avant même que vous ayez prononcé un mot. Un hall d'accueil végétalisé, une salle de réunion soignée, un espace de vie pensé : ce sont des signaux forts envoyés à vos clients, partenaires et candidats dès leur arrivée.",
-        },
-        {
-          title: "Qualité de l'air",
-          text: "Certaines espèces végétales filtrent les composés organiques volatils (COV) présents dans les intérieurs et contribuent à réguler l'humidité ambiante. C'est un facteur souvent négligé dans les bureaux climatisés.",
-        },
-        {
-          title: "Attractivité des locaux",
-          text: "Dans un marché de l'emploi compétitif, un espace de travail agréable et inspirant est devenu un argument de recrutement. Un bureau végétalisé donne envie d'y travailler... et d'y rester.",
-        },
+        { prefix: "+", value: 30, suffix: "", text: "projets de végétalisation de bureaux réalisés" },
+        { prefix: "+", value: 10, suffix: " ans", text: "d'expérience en végétalisation et en décoration végétale" },
+        { prefix: "", value: 100, suffix: "%", text: "Startups, grands groupes, restaurants, hôtels... Nous transformons tous types de locaux" },
       ],
     },
     {
@@ -111,8 +100,33 @@ export const bureaux = {
       ],
     },
     {
+      type: "cards",
+      label: "POURQUOI VÉGÉTALISER VOS BUREAUX ?",
+      title: "Des plantes dans vos bureaux ? Ce n'est pas juste une question d'esthétique.",
+      tag: "pas juste une question d'esthétique",
+      lead: "Végétaliser vos bureaux, ce n'est pas un simple choix esthétique. C'est une décision qui touche directement la qualité de vie de vos équipes, l'image que vous renvoyez à vos clients, et l'attractivité de vos locaux pour les nouveaux talents.",
+      items: [
+        {
+          title: "Bien-être des équipes",
+          text: "Les plantes en espace de travail réduisent le stress, améliorent la concentration et favorisent la créativité. Certaines études évoquent un gain de productivité pouvant atteindre 15 % dans les espaces végétalisés. Un cadre de travail agréable, c'est aussi moins d'absentéisme et plus d'engagement.",
+        },
+        {
+          title: "Image de marque",
+          text: "Vos locaux parlent de vous avant même que vous ayez prononcé un mot. Un hall d'accueil végétalisé, une salle de réunion soignée, un espace de vie pensé : ce sont des signaux forts envoyés à vos clients, partenaires et candidats dès leur arrivée.",
+        },
+        {
+          title: "Qualité de l'air",
+          text: "Certaines espèces végétales filtrent les composés organiques volatils (COV) présents dans les intérieurs et contribuent à réguler l'humidité ambiante. C'est un facteur souvent négligé dans les bureaux climatisés.",
+        },
+        {
+          title: "Attractivité des locaux",
+          text: "Dans un marché de l'emploi compétitif, un espace de travail agréable et inspirant est devenu un argument de recrutement. Un bureau végétalisé donne envie d'y travailler... et d'y rester.",
+        },
+      ],
+    },
+    {
       type: "process",
-      label: "NOTRE DÉMARCHE PROJET",
+      label: "NOTRE FONCTIONNEMENT",
       title: "Notre démarche pour végétaliser vos bureaux.",
       tag: "végétaliser vos bureaux",
       steps: [
@@ -137,7 +151,7 @@ export const bureaux = {
           text: "Pour les plantes naturelles, nous proposons des passages d'entretien réguliers, sous forme d'abonnement (fréquence à définir selon vos besoins). En cas de problème sur un végétal, nous assurons son remplacement.",
         },
       ],
-      more: { label: "Découvrir nos abonnements", to: "/entretien-abonnement-plantes-entreprise-paris/" },
+      // Pas de lien « Découvrir nos abonnements » sous la timeline : l'image 37 de la maquette n'en montre pas (valeur par défaut validée).
     },
     {
       type: "logos",
@@ -196,12 +210,6 @@ export const bureaux = {
         },
       ],
     },
-    {
-      type: "cta-final",
-      title: "Parlons de votre projet",
-      tag: "votre projet",
-      cta: "Demander un devis",
-      phone: { label: "Téléphone :", value: todo("téléphone") },
-    },
+    // Pas de bandeau final : la maquette V5 enchaîne la FAQ et le footer (frames 49 à 53), qui porte déjà l'appel au devis.
   ],
 };

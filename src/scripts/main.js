@@ -31,6 +31,9 @@ const nextTask = () => (globalThis.scheduler?.yield ? scheduler.yield() : wait(0
 // Après le premier rendu : la première mise en page se fait hors de nos tâches (le hero est masqué par html.js, rien ne clignote).
 const afterFirstPaint = () => new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve)));
 const loaded = document.readyState === "complete" ? Promise.resolve() : new Promise((resolve) => addEventListener("load", resolve, { once: true }));
+// Page Végétalisation de bureaux : ses animations sont un chunk à part, chargé seulement quand la page porte [data-bx] (même principe que
+// Flip dans projets-grid.js). Il se télécharge pendant les polices et le premier rendu ; le bundle commun ne grossit pas.
+const bureaux = document.querySelector("[data-bx]") ? import("./bureaux.js") : null;
 
 async function boot() {
   rememberScroll();
@@ -38,12 +41,13 @@ async function boot() {
   await afterFirstPaint();
   initCore();
   const fontsOk = await fontsLoaded();
+  const bx = bureaux ? await bureaux : null;
 
   // Ordre utile : les pins avant ce qui dépend de leur position (header-theme : refreshPriority et data-pin-length).
   // Landing Noël : chaque module ne fait rien si ses éléments sont absents de la page.
   const groups = [
     [initCta, initMenu],
-    [initStage, initNoelStage, initProjetsStage],
+    [initStage, initNoelStage, initProjetsStage, ...(bx ? [bx.initBureaux] : [])],
     [initRealisations, initServices, initStats, initUniverses],
     [initProcess, initTestimonials, initReveal, initFaq, initLogos, initContactForm, initContact, initProjetsGrid, initFiche],
     [initReducedMotion, initFooterReveal, initHeaderTheme],

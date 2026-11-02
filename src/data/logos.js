@@ -20,4 +20,12 @@ export const logos = {
   upe: { name: "UPE", file: "upe.jpg", w: 311, h: 162 },
   witbe: { name: "Witbe", file: "witbe.png", w: 250, h: 250 },
   "yves-rocher": { name: "Yves Rocher", file: "yves-rocher.png", w: 420, h: 342 },
+  // Logos en couleur d'origine fournis avec la V5 de la page Bureaux (retours-v5/assets/bureaux/logos), SVG gardés tels quels : dimensions
+  // du viewBox. Ce sont d'autres fichiers que les PNG ci-dessus (clés en « -svg ») : les pages de services gardent les leurs.
+  "thunes-svg": { name: "Thunes", file: "thunes.svg", w: 300, h: 67 },
+  "chez-simone-svg": { name: "Chez Simone", file: "chez-simone.svg", w: 300, h: 124 },
+  "inato-svg": { name: "Inato", file: "inato.svg", w: 300, h: 102 },
+  "eataly-svg": { name: "Eataly", file: "eataly.svg", w: 300, h: 36 },
+  "keobiz-svg": { name: "Kéobiz", file: "keobiz.svg", w: 300, h: 76 },
+  "yves-rocher-svg": { name: "Yves Rocher", file: "yves-rocher.svg", w: 300, h: 28 },
 };

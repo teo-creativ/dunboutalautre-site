@@ -1,0 +1,32 @@
+/* Chiffres clés de la page Bureaux V5 (frames bureaux-03 à 05). La mise en page, les cartes (chevauchement, rotation, ombre), le fond et les
+   couleurs sont ceux de l'accueil (stats.css) : cette section en réutilise les classes, sans html.stats-anim (elle n'est pas épinglée).
+   Son recouvrement du hero est dans bureaux-hero.css. Ici, seulement les mesures que la frame 05 change, lues à 1728 x 1030. */
+
+/* Pastille « aux végétaux » : elle monte vers la droite (-2,3° mesurés), comme les autres pastilles orange de cette page. Sur la frame
+   elle est un peu plus haute (80 px de boîte englobante pour 74), 3 px plus large, et plus près du mot qui la précède (8 px). */
+body[data-page="page"] .stats--bx .tag { --tag-rotate: -2.3deg; padding: 0.1em 0.53em 0.16em; margin-left: -0.05em; position: relative; top: -0.1em; }
+
+/* Texte des cartes : 18 px (« d'expérience en végétalisation et en » mesure 323 px sur la frame, 310 px à 17,3 px), interligne de 29 px.
+   Couleur : celle de l'accueil (--olive-soft, 5,2:1 sur blanc). Le gris neutre de la frame (3,1:1) ne tient pas l'AA et n'a pas de jeton :
+   écart signalé dans docs/POINTS-A-VALIDER.md. */
+body[data-page="page"] .stats--bx .stat-card__text { font-size: var(--fs-body); line-height: 1.6; }
+
+@media (min-width: 901px) {
+  /* Cartes de 208 px : le chiffre est plus bas dans la carte (marge haute de 48 px) et plus près de son texte. */
+  body[data-page="page"] .stats--bx .stat-card { padding: 2.78vw 0.8vw 1.4vw 1.85vw; }
+  body[data-page="page"] .stats--bx .stat-card__text { margin-top: 0.35vw; }
+  /* Retours à la ligne de la frame : « projets de végétalisation » puis « de bureaux réalisés » (221 px sur la première ligne). */
+  body[data-page="page"] .stats--bx .stat-card--1 { --text-w: 13em; }
+  /* Le texte de la carte 3 (413 px) déborde un peu sur la marge droite de la carte, comme sur la frame : sa boîte a la largeur de
+     --text-w, au lieu d'être bornée par la largeur utile de la carte (401 px). */
+  body[data-page="page"] .stats--bx .stat-card__text { width: var(--text-w); max-width: none; }
+}
+
+/* Réglages fins mesurés sur la frame 05 (à 1728 x 1030, contenu centré dans l'écran) : l'ensemble est 3 px trop bas, le label 5 px
+   trop bas par rapport au titre, et le chiffre de la carte 3 est 9 px plus haut dans sa carte que sur la frame. */
+@media (min-width: 901px) {
+  html.bx-hero-anim .stats--bx { padding-bottom: calc(var(--section-y) + 0.35vw); }
+  body[data-page="page"] .stats--bx .stats__intro { gap: calc(0.6vw + 0.3vw); margin-top: -0.3vw; }
+  body[data-page="page"] .stats--bx .stat-card--3 { padding-top: calc(2.78vw - 0.5vw); }
+  body[data-page="page"] .stats--bx .stat-card--3 .stat-card__text { margin-top: calc(0.35vw + 0.5vw); }
+}

@@ -4,6 +4,7 @@ import { pages } from "../data/pages/index.js";
 import ctaFinal from "./sections/cta-final.js";
 import articleBody from "./sections/article-body.js";
 import articles from "./sections/articles.js";
+import bureauxChiffres from "./sections/bureaux-chiffres.js";
 import cards from "./sections/cards.js";
 import contactCoordonnees from "./sections/contact-coordonnees.js";
 import faq from "./sections/faq.js";
@@ -24,7 +25,7 @@ import fichePhoto from "./sections/fiche-photo.js";
 import ficheTexte from "./sections/fiche-texte.js";
 import testimonials from "./sections/testimonials.js";
 
-const renderers = { hero, intro, offers, cards, figures, form, "contact-coordonnees": contactCoordonnees, "fiche-entete": ficheEntete, "fiche-photo": fichePhoto, "fiche-texte": ficheTexte, "fiche-galerie": ficheGalerie, "fiche-autres": ficheAutres, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
+const renderers = { "bureaux-chiffres": bureauxChiffres, hero, intro, offers, cards, figures, form, "contact-coordonnees": contactCoordonnees, "fiche-entete": ficheEntete, "fiche-photo": fichePhoto, "fiche-texte": ficheTexte, "fiche-galerie": ficheGalerie, "fiche-autres": ficheAutres, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

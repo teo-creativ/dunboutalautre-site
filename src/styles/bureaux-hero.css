@@ -1,0 +1,52 @@
+/* Hero de la page Bureaux V5 (retours-v5/docs/02-SECTIONS-1-A-5.md §1, frames bureaux-01 à 04, canvas 1728 x 1030). Même fond olive, mêmes
+   feuilles et même intro que les autres hero (hero.css, noel-stage.css) : seules les mesures propres à cette maquette sont ici, lues sur
+   la frame 01 (largeurs d'encre comparées mot à mot à la police de la page).
+   Règles préfixées body[data-page="page"] : l'accueil et Noël ne peuvent pas être atteints. */
+
+/* Mots-clés : le corps (24 px) et la graisse de hero.css, en capitales (le texte des données est celui du copywriting). Les mots de la
+   frame sont 2,6 % plus larges (236 px contre 230) : 0,01 em d'interlettrage. */
+body[data-page="page"] .hero--bx .hero__tagline { text-transform: uppercase; letter-spacing: 0.01em; }
+
+/* Titre : 82 px à 1728 (« Végétalisation » mesure 583 px sur la frame, 484 px à 68 px), « Végétalisation de bureaux à Paris : » sur
+   toute la première ligne (1406 px), puis « de [la conception] à l'entretien. » avec un pas de 101 px entre les lignes. La pastille a le
+   corps du titre (« conception » : 372 px sur la frame), le fond de tag.css en hauteur et 0,3 em de marge de chaque côté (518 px de
+   large), inclinée de -1° (elle monte vers la droite) : mesuré sur les frames 01 et 02. L'intro (intro.js) lit --tag-rotate et retombe
+   donc sur cet angle. Ses marges verticales négatives l'empêchent d'agrandir sa ligne (110 px de haut pour 101 px de pas). */
+body[data-page="page"] .hero--bx .hero__title {
+  max-width: 84vw;
+  font-size: min(clamp(2.5rem, 4.75vw, 5.7rem), 8vw);
+  line-height: 1.24;
+}
+body[data-page="page"] .hero--bx .hero__title .tag { --tag-rotate: -1deg; padding: 0.06em 0.31em 0.12em; margin: -0.1em 0; }
+
+/* Paragraphe : 24 px sur 36 px d'interligne, deux lignes de 677 et 709 px sur la frame. */
+body[data-page="page"] .hero--bx .hero__lead {
+  max-width: 43vw;
+  font-size: clamp(1rem, 1.39vw, 1.65rem);
+  line-height: 1.5;
+}
+
+/* Espacements verticaux de la frame (le bloc est centré dans l'écran) : mots-clés, titre, paragraphe et bouton aux ordonnées mesurées
+   (298, 358, 594 et 688 px à 1728 x 1030). Sous 900 px, ceux de noel-stage.css. */
+@media (min-width: 901px) {
+  body[data-page="page"] .hero--bx .hero__inner { padding-top: 0.28vw; }
+  body[data-page="page"] .hero--bx .hero__title { margin-top: 1vw; }
+  body[data-page="page"] .hero--bx .hero__lead { margin-top: 2.2vw; }
+  body[data-page="page"] .hero--bx .hero__inner .cta { margin-top: 1.74vw; }
+}
+
+@media (max-width: 900px) {
+  body[data-page="page"] .hero--bx .hero__title { max-width: none; }
+  body[data-page="page"] .hero--bx .hero__lead { max-width: 30em; }
+}
+
+/* Sortie du hero (scripts/bureaux-hero.js, qui pose html.bx-hero-anim) : la section crème remonte d'un écran par une marge négative et
+   passe par-dessus le hero épinglé. Opaque et d'au moins un écran de haut, pour recouvrir tout le hero. Sans l'animation (mobile,
+   mouvement réduit, JavaScript absent), les sections restent empilées. */
+html.bx-hero-anim .stats--bx {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  margin-top: -100svh;
+  align-content: center;
+}

@@ -40,6 +40,17 @@ body[data-page="page"] .hero--bx .hero__lead {
   body[data-page="page"] .hero--bx .hero__lead { max-width: 30em; }
 }
 
+/* Variante « design » (V6, frames design-01 à 03, même canvas) : mêmes mots-clés, même titre de 82 px, mêmes entrées. Écarts mesurés sur la frame 01
+   (largeurs et ordonnées d'encre, comparées à la capture) : le titre est 14 px plus bas (pas de 103 px, inchangé), la pastille a 13 px de marge de
+   plus de chaque côté et se pose 4,5 px plus bas, le paragraphe tient sur deux lignes de 756 et 635 px (« uniques » finit la première) et monte de
+   3 px. La somme des marges est celle de Bureaux : le bloc, centré, ne bouge pas (mots-clés à 308 px, bouton à 712 px). */
+@media (min-width: 901px) {
+  body[data-page="page"] .hero--bx[data-bx-variant="design"] .hero__title { margin-top: 1.81vw; }
+  body[data-page="page"] .hero--bx[data-bx-variant="design"] .hero__title .tag { margin-inline: 0.18em 0.14em; position: relative; top: 0.055em; }
+  body[data-page="page"] .hero--bx[data-bx-variant="design"] .hero__lead { max-width: 46vw; margin-top: 1.21vw; }
+  body[data-page="page"] .hero--bx[data-bx-variant="design"] .hero__inner .cta { margin-top: 1.91vw; }
+}
+
 /* Sortie du hero (scripts/bureaux-hero.js, qui pose html.bx-hero-anim) : la section crème remonte d'un écran par une marge négative et
    passe par-dessus le hero épinglé. Opaque et d'au moins un écran de haut, pour recouvrir tout le hero. Sans l'animation (mobile,
    mouvement réduit, JavaScript absent), les sections restent empilées. */
@@ -49,4 +60,11 @@ html.bx-hero-anim .stats--bx {
   min-height: 100svh;
   margin-top: -100svh;
   align-content: center;
+}
+/* Même recouvrement pour une autre page (V6 : « Nos 5 créations » sous le hero de Design) : la section est marquée par le script. */
+html.bx-hero-anim .bx-hero-next {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  margin-top: -100svh;
 }

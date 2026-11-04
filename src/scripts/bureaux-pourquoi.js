@@ -65,18 +65,19 @@ export function initBureauxPourquoi() {
     });
 
     // Filets : de la gauche vers la droite, quand leur ligne entre. Le premier trait n'existe pas (les filets sont entre les lignes).
-    const rules = rows.map((row) => row.querySelector(".why-row__rule")).filter(Boolean);
+    const rules = rows.flatMap((row) => [...row.querySelectorAll(".why-row__rule")]);
     gsap.set(rules, { scaleX: 0, transformOrigin: "0% 50%" });
     // Entrée : le filet se dessine en 1 s ; au scroll arrière il se retire vite (0,4 s), comme les autres révélations (reveal.js).
+    // (un filet de plus sous la dernière ligne pour la page Design : il se dessine avec le filet de sa ligne.)
     rows.forEach((row) => {
-      const rule = row.querySelector(".why-row__rule");
-      if (!rule) return;
+      const own = [...row.querySelectorAll(".why-row__rule")];
+      if (!own.length) return;
       ScrollTrigger.create({
         trigger: row,
         start: RULE_START,
         end: "max",
-        onEnter: () => gsap.to(rule, { scaleX: 1, duration: 1, ease: "expo.out", overwrite: true }),
-        onLeaveBack: () => gsap.to(rule, { scaleX: 0, duration: 0.4, ease: "power2.in", overwrite: true }),
+        onEnter: () => gsap.to(own, { scaleX: 1, duration: 1, ease: "expo.out", overwrite: true }),
+        onLeaveBack: () => gsap.to(own, { scaleX: 0, duration: 0.4, ease: "power2.in", overwrite: true }),
       });
     });
 

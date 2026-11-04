@@ -13,13 +13,17 @@ const FADE_TO = 0.3; // opacité quand le crème a tout recouvert
 
 export function initBureauxHero() {
   const hero = document.querySelector('[data-bx="hero"]');
-  if (!hero || !document.querySelector('[data-bx="chiffres"]')) return;
+  const next = hero?.nextElementSibling; // la section qui monte par-dessus (lue avant le pin, qui insère un espaceur)
+  if (!hero || !next) return;
   const inner = hero.querySelector(".hero__inner");
 
   const mm = gsap.matchMedia();
   mm.add("(min-width: 901px) and (prefers-reduced-motion: no-preference)", () => {
     const root = document.documentElement;
     root.classList.add("bx-hero-anim"); // la section crème remonte d'un écran (bureaux-hero.css)
+    // Bureaux : la section est .stats--bx, que le CSS connaît. Autre page (Design, V6) : on la marque, la règle est la même (bx-hero-next).
+    const mark = !next.matches('[data-bx="chiffres"]');
+    if (mark) next.classList.add("bx-hero-next");
     gsap
       .timeline({
         defaults: { ease: "none" },
@@ -35,6 +39,9 @@ export function initBureauxHero() {
       })
       .fromTo(inner, { opacity: 1 }, { opacity: FADE_TO, duration: 1 - FADE_FROM }, FADE_FROM)
       .set({}, {}, 1); // fixe la durée de la timeline à 1 : l'estompage finit avec le pin
-    return () => root.classList.remove("bx-hero-anim");
+    return () => {
+      if (mark) next.classList.remove("bx-hero-next");
+      root.classList.remove("bx-hero-anim");
+    };
   });
 }

@@ -172,7 +172,8 @@ html.bx-install-anim .install-card {
 html.bx-install-anim .bx-overlap,
 html.bx-mat-anim .bx-overlap,
 html.bx-avis-anim .bx-overlap,
-html.bx-gal-anim .bx-overlap {
+html.bx-gal-anim .bx-overlap,
+html.bx-hold-anim .bx-overlap {
   position: relative;
   z-index: 2;
   min-height: 100svh;

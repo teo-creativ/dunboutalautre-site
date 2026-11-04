@@ -4,12 +4,14 @@
 // sur un rail et les fonds se fondent (scripts/bureaux-matieres.js). Sans animation (JavaScript absent, mouvement réduit) : le texte sur
 // l'orange, puis trois blocs empilés, chacun sur sa photo (bureaux-matieres.css). Les images sont lues en lazy ; le script les passe en
 // eager dès l'initialisation pour qu'elles soient chargées avant d'entrer à l'écran (aucun flash au changement de fond).
+// V6 (page Design) : la même section. `variant` : jeu de mesures propre à la page (data-bx-variant, scripts/bureaux-matieres.js) ; `tag` de
+// chaque slide est facultatif (Design : titres seuls, sans pastille).
 import img from "../img.js";
 import { frText } from "../placeholder.js";
 import { titleHtml } from "../title.js";
 import { esc } from "../utils.js";
 
-export default ({ label, title, tag, items }, { index }) => {
+export default ({ label, title, tag, items, variant }, { index }) => {
   const id = `bx-mat-${index}`;
   const photos = items
     .map(({ photo, alt }) => `<figure class="mat__bg">${img({ src: photo, alt, class: "mat__bg-img", sizes: "100vw" })}</figure>`)
@@ -22,7 +24,7 @@ export default ({ label, title, tag, items }, { index }) => {
           </div>`,
     )
     .join("\n          ");
-  return `<section class="mat" data-bx="matieres" data-header-gradient="orange" aria-labelledby="${id}-title">
+  return `<section class="mat" data-bx="matieres"${variant ? ` data-bx-variant="${esc(variant)}"` : ""} data-header-gradient="orange" aria-labelledby="${id}-title">
         <div class="mat__head section-head" data-reveal="head">
           <p class="label label--light label--lg"><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>
           <h2 class="section-title" id="${id}-title">${titleHtml(title, tag, "cream")}</h2>

@@ -67,3 +67,19 @@ html.bx-why-anim .why-row.is-active .why-row__title { text-decoration-color: var
   body[data-page="page"] .why-row__title { padding-right: 0; font-size: 1.75rem; }
   body[data-page="page"] .why-row__text { margin-top: 0.75rem; }
 }
+
+/* ---------- Variante « design » (V6, « Nos 5 créations », frames design-03 à 08, même canvas) ----------
+   Mêmes lignes que Bureaux (183 px de pas, titres de 48 px, colonnes à 169 et 811 px). Écarts mesurés sur les frames : l'étiquette est à 177 px du
+   haut de la section (frame 03) et non 166, un filet ferme la liste sous la dernière ligne (914 px sur la frame 05), 116 px le séparent du bas de
+   la section (la liste y est tenue un écran, scripts/bureaux-hold.js). */
+@media (min-width: 901px) {
+  body[data-page="page"] .why[data-bx-variant="design"] {
+    padding-top: calc(var(--section-y) * 1.56 + 0.64vw);
+    padding-bottom: 6.71vw;
+  }
+  body[data-page="page"] .why-row__rule--end { top: auto; bottom: 0; }
+  /* Pas de 183 px même pour une ligne dont le paragraphe tient sur deux lignes (« Suspensions végétales »), et la première ligne 2 px plus bas
+     (« Tableaux végétaux » à 440 px sur la frame 04, 438 mesurés). */
+  body[data-page="page"] .why[data-bx-variant="design"] .why__list { margin-top: calc(2vw + 2px); }
+  body[data-page="page"] .why[data-bx-variant="design"] .why-row { min-height: 10.59vw; }
+}

@@ -162,3 +162,33 @@ html.bx-mat-anim .mat-slide__text {
   html.bx-mat-anim .mat-slide__title { top: 24svh; }
   html.bx-mat-anim .mat-slide__text { top: calc(24svh + 6.5rem); font-size: 1rem; line-height: 1.4; }
 }
+
+/* ---------- Variante « design » (V6, frames design-09 à 24, même canvas 1728 x 1030) ----------
+   Mêmes tailles que Bureaux (titres de 68 px : « Naturel » mesure 235 px d'encre sur la frame 15, 234 à 67,5 px ; le doc dit environ 60 px, les frames
+   font foi), mêmes ordonnées du paragraphe. Écarts mesurés : le titre de la tête tient sur deux lignes (« Comment » finit la première, 1352 px) et
+   se pose 8 px plus bas sous l'étiquette ; les titres des slides ne sont pas centrés mais alignés à gauche (bord de la boîte à 767,5 px, le rail
+   est dans scripts/bureaux-matieres.js) ; le paragraphe de la troisième slide fait 865 px de large (lignes de 859 px sur la frame 21 ; les autres tiennent dans les 830 px de Bureaux). Sous 900 px : celles de Bureaux. */
+@media (min-width: 901px) {
+  body[data-page="page"] .mat[data-bx-variant="design"] .section-title { max-width: 83vw; }
+  /* La pastille « vraiment » est plus serrée entre « convient » et « ? » (16 et 13 px d'écart sur la frame 09, 29 et 29 avec les marges de tag.css). */
+  body[data-page="page"] .mat[data-bx-variant="design"] .section-title .tag { margin-inline: -0.07em -0.12em; }
+  html.bx-mat-anim .mat[data-bx-variant="design"] .mat__head { top: calc(var(--bx-u) * 399); }
+  html.bx-mat-anim .mat[data-bx-variant="design"] .section-title { max-width: calc(var(--bx-u) * 1440); margin-top: calc(var(--bx-u) * 8); }
+  html.bx-mat-anim .mat[data-bx-variant="design"] .mat-slide__title {
+    left: calc(var(--bx-u) * 677.5); /* le slider commence à 90 px : bord de la boîte à 767,5 px */
+    right: auto;
+    justify-content: flex-start;
+    top: calc(var(--bx-u) * 443);
+  }
+  html.bx-mat-anim .mat[data-bx-variant="design"] .mat-slide__text { top: calc(var(--bx-u) * 664); }
+  html.bx-mat-anim .mat[data-bx-variant="design"] .mat-slide:nth-child(3) .mat-slide__text { width: calc(var(--bx-u) * 865); }
+  /* La première photo (fond-01, 2000 x 1100) entre à la largeur de la photo, sans recadrage, ancrée en haut ; elle grossit ensuite de 20 % depuis
+     le haut au centre (profil « design » : ZOOM), ce qui la recadre sur l'écran. */
+  html.bx-mat-anim .mat[data-bx-variant="design"] .mat__bg:first-of-type .mat__bg-img {
+    inset: 0 0 auto 0;
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+    transform-origin: 50% 0;
+  }
+}

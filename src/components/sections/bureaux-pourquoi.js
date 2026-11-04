@@ -3,21 +3,24 @@
 // la ligne active (en olive, soulignée d'orange) et les lignes éteintes (en sable) ne sont qu'un état de style, posé par
 // scripts/bureaux-pourquoi.js avec mouvement sur ordinateur ; sans JavaScript, en mouvement réduit ou sous 900 px, toutes les lignes restent
 // lisibles (bureaux-pourquoi.css). Le filet est un élément à part (aria-hidden) : il se dessine en scaleX au scroll.
+// V6 (« Nos 5 créations » de Design) : la même liste. `variant` : mesures propres à la page (data-bx-variant) ; `hold` : la liste reste en
+// place un écran pendant que la section suivante monte par-dessus (data-bx-hold, scripts/bureaux-hold.js) ; `endRule` : un filet sous la dernière
+// ligne (frames design-05 à 08 ; Bureaux n'en a pas).
 import { frText } from "../placeholder.js";
 import { titleHtml } from "../title.js";
 import { esc } from "../utils.js";
 
-export default ({ label, title, tag, items }, { index }) => {
+export default ({ label, title, tag, items, variant, hold, endRule }, { index }) => {
   const id = `bx-why-${index}`;
   const rows = items
     .map(
       ({ title: name, text }, i) => `<li class="why-row" data-reveal="up" data-reveal-y="24" data-reveal-step="0.1">${i ? '\n            <span class="why-row__rule" aria-hidden="true"></span>' : ""}
             <h3 class="why-row__title">${esc(name)}</h3>
-            <p class="why-row__text">${frText(text)}</p>
+            <p class="why-row__text">${frText(text)}</p>${endRule && i === items.length - 1 ? '\n            <span class="why-row__rule why-row__rule--end" aria-hidden="true"></span>' : ""}
           </li>`,
     )
     .join("\n          ");
-  return `<section class="why" data-bx="pourquoi" data-header-theme="light" data-header-gradient="cream" aria-labelledby="${id}-title">
+  return `<section class="why" data-bx="pourquoi"${variant ? ` data-bx-variant="${esc(variant)}"` : ""}${hold ? " data-bx-hold" : ""} data-header-theme="light" data-header-gradient="cream" aria-labelledby="${id}-title">
         <div class="why__inner">
           <div class="section-head" data-reveal="head">
             <p class="label"><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>

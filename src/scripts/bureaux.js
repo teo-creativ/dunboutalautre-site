@@ -5,6 +5,7 @@ import { initBureauxAvis } from "./bureaux-avis.js";
 import { initBureauxChiffres } from "./bureaux-chiffres.js";
 import { initBureauxGalerie } from "./bureaux-galerie.js";
 import { initBureauxHero } from "./bureaux-hero.js";
+import { initBureauxHold } from "./bureaux-hold.js";
 import { initBureauxInstalle } from "./bureaux-installe.js";
 import { initBureauxMatieres } from "./bureaux-matieres.js";
 import { initBureauxPourquoi } from "./bureaux-pourquoi.js";
@@ -13,6 +14,7 @@ export function initBureaux() {
   initBureauxHero();
   initBureauxChiffres();
   initBureauxInstalle();
+  initBureauxHold(); // Design (V6) : tenue de « Nos 5 créations » sous l'orange, avant le pin des matières
   initBureauxMatieres();
   initBureauxPourquoi();
   initBureauxAvis();

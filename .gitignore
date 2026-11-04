@@ -4,3 +4,14 @@ dist
 public/assets/optimized
 graphify-out/
 .baseline/
+
+# Dossiers d'entrée des retours (V4 et suivants) : seuls leurs tasks/ sont suivis (spec et plan de chaque version)
+retours-v[4-9]/*
+!retours-v[4-9]/tasks/
+
+# Archives, secrets, bruit
+*.zip
+.env
+.env.*
+Thumbs.db
+*.log

@@ -111,3 +111,14 @@ body[data-page="page"] .universe__use-label { color: var(--olive-deep); font-wei
 /* ---------- Hero compact (Contact, Réalisations, Blog) ----------
    Un titre court et un sous-titre, sans CTA : plus bas qu'un hero de page de service. */
 body[data-page="page"] .hero--compact { min-height: 60svh; }
+
+/* ---------- Bandeau final : variante « design » (V6, frames design-41 à 44, 1728 x 1030) ----------
+   Même composant et même animation que Noël (titre révélé, bouton, feuille) ; les mesures de la maquette sont autres : titre de 48 px (interligne de 72 px)
+   cassé en trois lignes (« Vous avez un projet de tableau, » mesure 750 px, la boîte de 819 px empêche « de » de la rejoindre), retrait de 184 px à
+   gauche, un bandeau de 559 px de haut (120 px au-dessus du titre, 131 sous le bouton) au lieu de 80svh, 44 px entre le titre et le bouton. Sous 900 px :
+   celles de Noël. */
+@media (min-width: 901px) {
+  body[data-page="page"] .cta-final[data-bx-variant="design"] { min-height: 0; padding: 6.76vw var(--gutter) 7.58vw 10.65vw; }
+  body[data-page="page"] .cta-final[data-bx-variant="design"] .cta-final__inner { gap: 2.6vw; max-width: 47.4vw; }
+  body[data-page="page"] .cta-final[data-bx-variant="design"] .cta-final__title { font-size: var(--fs-text-lg); }
+}

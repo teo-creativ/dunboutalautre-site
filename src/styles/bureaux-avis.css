@@ -61,3 +61,11 @@ body[data-page="page"] .testi[data-bx] .testi__author { margin-top: 2.3vw; }
 @media (max-width: 900px) {
   .testi__logo { height: 1.4em; }
 }
+
+/* Variante « design » (V6, frame design-36) : le titre « Ils nous ont fait confiance pour [leurs créations végétales]. » tient sur deux lignes (« Ils nous
+   ont fait confiance » mesure 613 px sur la frame, la boîte de 691 px empêche « pour » de la rejoindre (714 px avec lui)) ; Bureaux garde sa ligne unique. */
+@media (min-width: 901px) {
+  body[data-page="page"] .logos--color[data-bx-variant="design"] .section-title { max-width: 40vw; }
+  /* Étiquette à 261 px de la rangée de logos sur la frame (265,7 mesurés avec l'espace de Bureaux). */
+  body[data-page="page"] .logos--color[data-bx-variant="design"] .logos__inner { gap: 3.63vw; }
+}

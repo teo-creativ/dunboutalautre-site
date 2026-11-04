@@ -12,7 +12,9 @@ const FADE_TO = 0.1; // opacité de l'avis quand l'orange a tout recouvert
 
 export function initBureauxAvis() {
   const section = document.querySelector('[data-bx="avis"]');
-  if (!section || !document.querySelector('[data-bx="galerie"]')) return;
+  // L'avis n'est épinglé que si la galerie le recouvre : c'est la section qui le suit (sur la page Design la galerie est avant l'avis, et la
+  // FAQ crème qui suit n'a rien à recouvrir).
+  if (!section || !section.nextElementSibling?.matches('[data-bx="galerie"]')) return;
 
   const mm = gsap.matchMedia();
   mm.add("(min-width: 901px) and (prefers-reduced-motion: no-preference)", () => {

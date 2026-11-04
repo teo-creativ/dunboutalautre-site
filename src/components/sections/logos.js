@@ -12,7 +12,7 @@ import { esc } from "../utils.js";
 
 const base = "/assets/logos-clients";
 
-export default ({ label, title, tag, items, empty, color, cta: button }, { index }) => {
+export default ({ label, title, tag, items, empty, color, cta: button, variant }, { index }) => {
   const id = `logos-${index}`;
   const list = items
     .map(({ name, logo }) => {
@@ -23,7 +23,7 @@ export default ({ label, title, tag, items, empty, color, cta: button }, { index
         : `<li class="logo logo--missing"><span class="logo__name">${esc(name)}</span>${placeholder(`logo ${name}`)}</li>`;
     })
     .join("\n          ");
-  return `<section class="logos${color ? " logos--color" : ""}" data-header-theme="light" data-header-gradient="cream" aria-labelledby="${id}-title">
+  return `<section class="logos${color ? " logos--color" : ""}"${variant ? ` data-bx-variant="${esc(variant)}"` : ""} data-header-theme="light" data-header-gradient="cream" aria-labelledby="${id}-title">
         <div class="logos__inner">
           ${
             title

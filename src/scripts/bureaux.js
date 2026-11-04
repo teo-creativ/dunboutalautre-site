@@ -2,6 +2,7 @@
 // Chargé par import() depuis main.js, seulement quand la page porte [data-bx] : le bundle commun ne grossit pas pour les autres pages.
 // L'ordre est celui de la page ; les épinglages d'abord, car le thème du header se calcule après eux (main.js).
 import { initBureauxAvis } from "./bureaux-avis.js";
+import { initBureauxBranding } from "./bureaux-branding.js";
 import { initBureauxChiffres } from "./bureaux-chiffres.js";
 import { initBureauxGalerie } from "./bureaux-galerie.js";
 import { initBureauxHero } from "./bureaux-hero.js";
@@ -19,4 +20,5 @@ export function initBureaux() {
   initBureauxPourquoi();
   initBureauxAvis();
   initBureauxGalerie();
+  initBureauxBranding(); // Design (V6) : la galerie suivie de la grande photo et du texte « Le branding végétal »
 }

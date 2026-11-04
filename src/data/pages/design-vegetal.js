@@ -2,8 +2,7 @@
 // avec la cliente), le title et la meta de docs/arborescence-et-strategie.md, les noms de clients de la même arborescence (la page de
 // copywriting n'en liste pas). Une valeur inconnue est un todo(), jamais un texte inventé.
 // V6 (retours-v6, maquette de la cliente) : l'ordre est celui de retours-v6/docs/00-RETOURS-V6.md ; les textes que la maquette change sont
-// listés dans `designTexts` (scripts/check-site.js les compte au lieu de les refuser). Les sections du bas de page (galerie, branding,
-// processus, clients, avis, FAQ, CTA) sont reprises au prompt 02, elles restent ici dans leur ordre cible.
+// listés dans `designTexts` (scripts/check-site.js les compte au lieu de les refuser).
 import { todo } from "../../components/placeholder.js";
 
 export const designVegetal = {
@@ -18,6 +17,16 @@ export const designVegetal = {
     "Design végétal sur mesure à Paris : tableaux, logos et suspensions.",
     "Nous concevons et fabriquons des créations végétales uniques pour vos bureaux, commerces, hôtels et événements.",
     "De vraies plantes dont la sève a été remplacée par de la glycérine végétale. Résultat : aucun arrosage, aucune luminosité requise, une durée de vie de plusieurs années. Elles gardent leur aspect naturel sans le moindre entretien.",
+    // Bas de page : bouton de la galerie, 5e étape du processus (celle de Bureaux), clients, avis fictif (Bureaux) et 3e question de la FAQ.
+    "Discutons de votre projet",
+    "Suivi et entretien",
+    "Pour les plantes naturelles, nous proposons des passages d'entretien réguliers, sous forme d'abonnement (fréquence à définir selon vos besoins). En cas de problème sur un végétal, nous assurons son remplacement.",
+    "NOS CLIENTS",
+    "Thunes",
+    "D'un Bout À L'autre a su capter l'esprit de notre marque en apportant un équilibre végétal remarquable dans notre siège parisien. Les équipes sont ravies et l'entretien hebdomadaire est d'une discrétion absolue.",
+    "Hélène Mercier",
+    "Directrice Environnement de Travail & RSE,",
+    "On peut installer un mur dans un espace sans lumière ?",
   ],
   sections: [
     {
@@ -92,22 +101,53 @@ export const designVegetal = {
         },
       ],
     },
-    // Galerie « logo reconstitué » (prompt 02 : bureaux-galerie) : l'aperçu actuel tient sa place en attendant.
     {
-      type: "gallery",
-      label: "GALERIE APERÇU",
-      items: [{ photo: null }, { photo: null }, { photo: null }, { photo: null }],
-      cta: { label: "Voir tous nos projets", to: "/realisations/" },
-    },
-    {
-      type: "intro",
-      label: "LE BRANDING VÉGÉTAL",
+      // « Logo reconstitué en végétaux » (V6 §4, frames 24 à 28) puis « Le branding végétal » (§5, frames 27 à 33) : une seule scène épinglée. La galerie de
+      // « Vos bureaux deviennent vivant » de Bureaux, sans étiquette : 4 photos qui montent derrière le titre et le bouton, fixes au centre. Position
+      // (x et w en vw, y de départ en svh sous le haut de l'écran), proportions et vitesse (svh montés par écran de scroll, 100 = la vitesse de la page)
+      // relevées sur les frames 24 à 27 à 1728 x 1030 (la frame 24 est 42 px avant le début du pin : départs de 42 px plus haut) : les trois dernières photos montent ensemble (la maquette les fait défiler d'un bloc, le doc 01
+      // demande des vitesses différentes : les frames priment), la première 13 % moins vite. `mobile` : les trois photos gardées sous 900 px. `grow` :
+      // la grande photo qui grandit jusqu'au plein écran, puis l'étiquette et le texte à deux pastilles (frame 31).
+      type: "bureaux-galerie",
+      variant: "design",
       title: "Votre logo ou identité de marque reconstitué en végétaux.",
-      tag: "reconstitué en végétaux",
-      paragraphs: [
-        "Nous reconstituons votre logo, vos initiales ou un élément de votre identité visuelle en végétaux stabilisés ou artificiels, sur un panneau mural ou directement fixé sur votre mur.",
-        "Le résultat est immédiatement reconnaissable, visuellement fort, et mémorable. C'est le genre de réalisation que vos clients remarquent dès l'entrée, et dont vos équipes sont fières.",
+      tag: "en végétaux",
+      cta: "Discutons de votre projet",
+      photos: [
+        {
+          photo: "design-vegetal/galerie-03",
+          alt: "Bureau Studapart : mur blanc au logo en relief au-dessus d'une table en bois et de chaises couleur terre cuite, sous des suspensions à rayons bleus et orange.",
+          x: 3.82, y: 25.4, w: 18.06, ratio: 0.879, speed: 118,
+          mobile: { x: 6, y: 78, w: 36, speed: 120 },
+        },
+        {
+          photo: "design-vegetal/galerie-01",
+          alt: "Lettre U en bois couronnée d'un bouquet de fleurs séchées rouges et roses, sur un mur beige.",
+          x: 80.32, y: 34.6, w: 19.68, ratio: 0.75, speed: 136,
+          mobile: { x: 22, y: 142, w: 36, speed: 125 },
+        },
+        {
+          photo: "design-vegetal/galerie-04",
+          alt: "Mur de feuillages variés reconstituant un logo blanc, avec une enseigne néon jaune et de grandes feuilles de monstera.",
+          x: -3.125, y: 75.4, w: 27.14, ratio: 1.333, speed: 136,
+        },
+        {
+          photo: "design-vegetal/galerie-02",
+          alt: "Pièce de bureau lumineuse aux grandes fenêtres, avec des fauteuils en bois sur un tapis kilim, un cactus et des plantes.",
+          x: 66.6, y: 87.9, w: 20.08, ratio: 0.75, speed: 136,
+          mobile: { x: 58, y: 104, w: 36, speed: 122 },
+        },
       ],
+      grow: {
+        photo: "design-vegetal/fond-04",
+        alt: "Grand palmier et plantes à feuilles rouges et vertes à côté de chaises cannées dorées et d'une table ronde noire.",
+        label: "LE BRANDING VÉGÉTAL",
+        text: "Nous reconstituons votre logo, vos initiales ou un élément de votre identité visuelle en végétaux stabilisés ou artificiels, sur un panneau mural ou directement fixé sur votre mur. Le résultat est immédiatement reconnaissable, visuellement fort, et mémorable.",
+        tags: [
+          { text: "votre identité visuelle", variant: "orange" },
+          { text: "mémorable", variant: "cream" },
+        ],
+      },
     },
     {
       type: "process",
@@ -131,25 +171,46 @@ export const designVegetal = {
           title: "Installation",
           text: "Pose sur site, fixations définitives, finitions. Pour les créations naturelles, on vous donne toutes les instructions d'entretien. Pour le stabilisé et l'artificiel, vous n'avez rien à faire, on vous laisse en profiter.",
         },
+        {
+          title: "Suivi et entretien",
+          text: "Pour les plantes naturelles, nous proposons des passages d'entretien réguliers, sous forme d'abonnement (fréquence à définir selon vos besoins). En cas de problème sur un végétal, nous assurons son remplacement.",
+        },
       ],
     },
     {
+      // « Nos clients » (V6 §7, frame 36) : les six logos en couleur de Bureaux (clés « -svg » de data/logos.js, pas de doublon), dans le défilé des
+      // pages de services. Pas de bouton sous le défilé : la maquette n'en montre pas.
       type: "logos",
-      label: "RÉFÉRENCES CLIENTS",
+      color: true,
+      variant: "design",
+      label: "NOS CLIENTS",
       title: "Ils nous ont fait confiance pour leurs créations végétales.",
       tag: "leurs créations végétales",
       items: [
-        { name: "Ecocem" },
-        { name: "Comet", logo: "comet" },
-        { name: "Groupe Rocher", logo: "groupe-rocher" },
-        { name: "Limonetik" },
-        { name: "BHV", logo: "bhv-marais" },
+        { name: "Thunes", logo: "thunes-svg" },
+        { name: "Chez Simone", logo: "chez-simone-svg" },
+        { name: "Inato", logo: "inato-svg" },
+        { name: "Eataly", logo: "eataly-svg" },
+        { name: "Kéobiz", logo: "keobiz-svg" },
+        { name: "Yves Rocher", logo: "yves-rocher-svg" },
       ],
-      cta: { label: "Voir toutes nos réalisations", to: "/realisations/" },
     },
     {
+      // Avis de la maquette (frames 36 et 37) : le même avis fictif que Bureaux, à remplacer avant la mise en ligne (`fictif`, point 4 des points à
+      // valider V6). Flèches visibles et inertes avec un seul avis, logo du client après le poste (`bx`). L'avis n'est pas épinglé ici : la FAQ qui
+      // le suit n'a rien à recouvrir.
       type: "testimonials",
-      items: [{ quote: todo("citation client"), name: todo("prénom et nom"), role: todo("poste, entreprise") }],
+      bx: true,
+      items: [
+        {
+          quote:
+            "D'un Bout À L'autre a su capter l'esprit de notre marque en apportant un équilibre végétal remarquable dans notre siège parisien. Les équipes sont ravies et l'entretien hebdomadaire est d'une discrétion absolue.",
+          name: "Hélène Mercier",
+          role: "Directrice Environnement de Travail & RSE,",
+          logo: "thunes-svg",
+          fictif: true,
+        },
+      ],
     },
     {
       type: "faq",
@@ -166,7 +227,7 @@ export const designVegetal = {
           a: "Entre 5 et 10 ans selon les conditions d'exposition. Il ne supporte pas la lumière directe du soleil ni l'humidité excessive. Dans un intérieur sec et sans lumière directe, il garde son aspect naturel pendant de nombreuses années sans aucune intervention.",
         },
         {
-          q: "On peut installer un mur végétal dans un espace sans lumière ?",
+          q: "On peut installer un mur dans un espace sans lumière ?",
           a: "Oui, c'est même l'un des grands avantages du stabilisé et de l'artificiel. Couloirs, bureaux en sous-sol, espaces uniquement en lumière artificielle : le mur végétal ne pose aucun problème.",
         },
         {
@@ -177,18 +238,15 @@ export const designVegetal = {
           q: "Vous faites vraiment des logos végétalisés sur mesure ?",
           a: "Oui. Transmettez-nous votre logo et les dimensions souhaitées, on vous propose une conception sur mesure.",
         },
-        {
-          q: "Peut-on suspendre des végétaux dans un lieu public ou lors d'un événement ?",
-          a: "Oui, c'est l'une de nos spécialités. On étudie le point d'accroche, le poids et les règles de sécurité du lieu avant de concevoir la suspension. Pour un événement, on gère aussi la pose et le démontage.",
-        },
       ],
     },
     {
       type: "cta-final",
+      variant: "design",
       title: "Vous avez un projet de tableau, de mur, de logo ou de suspension végétale ? Discutons-en.",
       tag: "Discutons-en",
       cta: "Demander un devis",
-      phone: { label: "Téléphone :", value: todo("téléphone") },
+      // Pas de ligne de téléphone : la maquette n'en montre pas (frames 41 à 44), les coordonnées sont dans le footer et le menu.
     },
   ],
 };

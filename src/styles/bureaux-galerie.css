@@ -96,3 +96,69 @@ html.bx-gal-anim body[data-page="page"] .gal__photo {
     text-shadow: 0 0 0.45em color-mix(in srgb, var(--orange) 85%, transparent), 0 0 0.9em color-mix(in srgb, var(--orange) 60%, transparent);
   }
 }
+
+/* ---------- Variante « design » (V6, frames design-24 à 33, même canvas 1728 x 1030) ----------
+   Même galerie que Bureaux, sans étiquette : le titre (68 px, pas de 102 px) tient sur deux lignes (« Votre logo ou identité de marque » fait 1 126 px). Puis,
+   dans la même section, la grande photo qui grandit et le texte « Le branding végétal » (scripts/bureaux-branding.js). Sans animation (JavaScript absent,
+   mouvement réduit) : le titre, les photos en grille, puis un bloc plein écran photo, voile et texte. */
+body[data-page="page"] .gal[data-bx-variant="design"] { padding-bottom: 0; }
+body[data-page="page"] .gal[data-bx-variant="design"] .gal__title { max-width: 72vw; margin-top: 0; line-height: 1.5; }
+
+body[data-page="page"] .gal__grow {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: 85svh;
+  margin: 4rem calc(var(--gutter) * -1) 0; /* la section a des marges latérales : la photo les déborde */
+  padding: var(--section-y) var(--gutter);
+  color: var(--white);
+  text-align: center;
+}
+body[data-page="page"] .gal__grow-photo { position: absolute; inset: 0; z-index: -2; margin: 0; overflow: clip; }
+body[data-page="page"] .gal__grow-photo img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+body[data-page="page"] .gal__grow-veil { position: absolute; inset: 0; z-index: -1; background: var(--veil); }
+body[data-page="page"] .gal__grow-text { display: flex; flex-direction: column; align-items: center; gap: 2.7vw; }
+/* Texte : 48 px, graisse 400 (« Nous reconstituons votre logo, vos initiales ou un » mesure 1 156 px sur la frame 31), interligne de 72 px, cinq
+   lignes (la boîte de 1 370 px les casse comme la frame). Pastilles inclinées de -1° (orange) et +1° (crème), mesurées sur la frame 31. */
+body[data-page="page"] .gal__grow-p { max-width: 79.3vw; font-size: var(--fs-text-lg); font-weight: 400; line-height: 1.5; }
+body[data-page="page"] .gal__grow-p .tag--orange { --tag-rotate: -1deg; }
+body[data-page="page"] .gal__grow-p .tag--cream { --tag-rotate: 1deg; }
+@media (max-width: 900px) {
+  body[data-page="page"] .gal__grow { min-height: 80svh; }
+  body[data-page="page"] .gal__grow-text { gap: 1.5rem; }
+  /* Pas de frame mobile : le voile qui tient 4,5:1 pour du texte de 22 px, même sous un pixel blanc (comme les matières). */
+  body[data-page="page"] .gal__grow-veil { background: var(--veil-strong); }
+  body[data-page="page"] .gal__grow-p { max-width: none; font-size: clamp(1.25rem, 5.6vw, 1.75rem); }
+}
+
+/* Avec mouvement : la couche couvre la section épinglée ; la photo est un cadre de la taille de l'écran, déplacé et mis à l'échelle depuis son bord
+   haut par le script ; le voile et le texte restent fixes. Le texte est à 315 px du haut (étiquette) et centré à 860 px (frame 31). */
+html.bx-gal-anim body[data-page="page"] .gal__grow {
+  position: absolute;
+  inset: 0;
+  z-index: 3; /* au-dessus du titre et du bouton, qu'elle recouvre */
+  display: block;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+html.bx-gal-anim body[data-page="page"] .gal__grow-photo { z-index: 0; transform-origin: 50% 0; }
+html.bx-gal-anim body[data-page="page"] .gal__grow-veil { z-index: 1; opacity: 0; }
+html.bx-gal-anim body[data-page="page"] .gal__grow-text { position: absolute; left: 0; right: 0.46vw; top: 18.23vw; z-index: 2; }
+@media (min-width: 901px) {
+  /* L'image entre à la largeur de la photo, ancrée en haut, puis grossit depuis 36 % de la hauteur (le script pose le grossissement). */
+  html.bx-gal-anim body[data-page="page"] .gal__grow-photo img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+    transform-origin: 50% 36%;
+  }
+}
+@media (max-width: 900px) {
+  html.bx-gal-anim body[data-page="page"] .gal__grow-text { top: 0; bottom: 0; right: 0; justify-content: center; padding-inline: var(--gutter); }
+}

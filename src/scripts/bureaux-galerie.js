@@ -18,7 +18,7 @@ const FADE = [0.41, 0.72]; // part de la montée de la FAQ où le texte s'estomp
 
 export function initBureauxGalerie() {
   const section = document.querySelector('[data-bx="galerie"]');
-  if (!section) return;
+  if (!section || section.querySelector(".gal__grow")) return; // une galerie suivie d'une grande photo (Design) a sa scène : bureaux-branding.js
   const content = section.querySelector(".gal__content");
   const photos = [...section.querySelectorAll(".gal__photo")];
   if (!content || !photos.length) return;

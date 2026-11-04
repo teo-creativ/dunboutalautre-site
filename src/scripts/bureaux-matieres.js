@@ -12,7 +12,7 @@
 // fond suivant monte de 0 à 1 d'opacité par-dessus le précédent, qui reste dessous (aucun flash), et le paragraphe change autour du fondu (SWAP).
 import { gsap } from "./core.js";
 import { loadLater } from "./bureaux-images.js";
-import { setHeaderOverride } from "./header-theme.js";
+import { claimHeader } from "./bureaux-header.js";
 
 const REF_W = 1728;
 const REF_H = 1030;
@@ -59,7 +59,7 @@ const PROFILES = {
     GROW_DX: [0, 0, 0, 0, 0],
     // L'image entre dans la photo à sa largeur (frames 10 à 12 : sa largeur est celle de la photo, le logo Studapart fait 0,37 de sa largeur), puis
     // grossit de 20 % en fin de croissance, ancrée en haut au centre (frame 13 : logo de 767 px).
-    ZOOM: { p: [0, 0.75, 1], v: [1, 1, 1.2] },
+    ZOOM: { p: [0, 0.75, 1], v: [1, 1, 1.2], ratio: 2000 / 1100 }, // ratio : largeur / hauteur de l'image (fond-01)
     RADIUS: 12,
     HEAD_FADE: [0.3, 0.7],
     VEIL_FROM: 0.25,
@@ -96,7 +96,7 @@ const PROFILES = {
 const clamp = (v, lo = 0, hi = 1) => Math.min(Math.max(v, lo), hi);
 const lerp = (a, b, t) => a + (b - a) * t;
 // quickSetter(..., "scale") ne pose rien : l'échelle passe par scaleX et scaleY.
-const scaleSetter = (el) => {
+export const scaleSetter = (el) => {
   const sx = gsap.quickSetter(el, "scaleX");
   const sy = gsap.quickSetter(el, "scaleY");
   return (v) => {
@@ -113,7 +113,7 @@ const railX = (nodes, d) => {
 };
 
 // Courbe monotone (Fritsch-Carlson) passant par les mesures : pas de dépassement entre deux frames.
-const monotone = (xs, ys) => {
+export const monotone = (xs, ys) => {
   const n = xs.length;
   const d = xs.slice(1).map((x, i) => (ys[i + 1] - ys[i]) / (x - xs[i]));
   const m = ys.map((_, i) => (i === 0 ? d[0] : i === n - 1 ? d[n - 2] : d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2));
@@ -160,7 +160,10 @@ export function initBureauxMatieres() {
   const topAt = monotone(GROW_P, GROW_TOP);
   const scaleAt = monotone(GROW_P, GROW_SCALE);
   const dxAt = monotone(GROW_P, GROW_DX);
-  const zoomAt = ZOOM ? monotone(ZOOM.p, ZOOM.v) : null;
+  // Zoom de l'image : 0 à 1 sur la courbe du profil, puis 1 à kEnd. kEnd est 1,2 sur la frame (1728 x 1030) ; sur un écran plus haut, l'image à la
+  // largeur de la photo ne couvrirait plus la hauteur (bord bas orange) : il monte alors jusqu'à la couvrir (ancrée en haut).
+  const zoomNorm = ZOOM ? monotone(ZOOM.p, ZOOM.v.map((v) => (v - 1) / (ZOOM.v.at(-1) - 1))) : null;
+  let kEnd = ZOOM ? ZOOM.v.at(-1) : 1;
 
   const set = {
     photoY: gsap.quickSetter(photo, "y", "px"),
@@ -237,18 +240,19 @@ export function initBureauxMatieres() {
           set.fig[k](bg[k]);
           if (k) set.figScale[k](ENTER_SCALE - (ENTER_SCALE - 1) * bg[k]); // le fond qui entre se pose de ENTER_SCALE à 1
         });
-        if (zoomAt && conditions.wide) set.figScale[0](zoomAt(s.g)); // Design : l'image de la première photo grossit en fin de croissance (ancrée en haut)
+        if (zoomNorm && conditions.wide) set.figScale[0](1 + (kEnd - 1) * zoomNorm(s.g)); // Design : l'image de la première photo grossit en fin de croissance (ancrée en haut)
 
         // ---------- Header : blanc sur l'orange (dégradé orange), puis dégradé photo ; olive quand le crème arrive ----------
         const wantPhoto = s.g >= HEADER_PHOTO && s.o < HEADER_RELEASE;
         const state = wantPhoto ? (s.v < VEIL_FROM ? "photo" : "off") : null;
         if (state !== headerState) {
           headerState = state;
-          setHeaderOverride(state ? { theme: "dark", gradient: state } : null);
+          claimHeader("matieres", state);
         }
       };
       const sync = () => {
         u = scale();
+        if (ZOOM) kEnd = Math.max(ZOOM.v.at(-1), ((window.innerHeight * ZOOM.ratio) / document.documentElement.clientWidth) * 1.005);
         section.style.setProperty("--bx-u", `${u}px`);
         render();
       };
@@ -299,7 +303,7 @@ export function initBureauxMatieres() {
 
       return () => {
         next?.classList.remove("bx-overlap");
-        setHeaderOverride(null);
+        claimHeader("matieres", null);
         root.classList.remove("bx-mat-anim");
         delete section.dataset.pinLength;
         section.style.removeProperty("--bx-u");

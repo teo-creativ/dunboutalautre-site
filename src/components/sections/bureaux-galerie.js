@@ -7,10 +7,29 @@
 // photos en grille (bureaux-galerie.css).
 import { cta } from "../cta.js";
 import img from "../img.js";
+import { tag as tagHtml } from "../tag.js";
 import { titleHtml } from "../title.js";
-import { esc } from "../utils.js";
+import { esc, fr } from "../utils.js";
 
-export default ({ label, title, tag, cta: button, photos }, { index }) => {
+// V6 (page Design, « logo reconstitué » puis « Le branding végétal », frames design-24 à 33) : la même galerie, sans étiquette (`label` facultatif),
+// suivie d'une grande photo qui grandit jusqu'au plein écran puis d'un texte à pastilles (`grow`, scripts/bureaux-branding.js : une seule scène
+// épinglée). `variant` : jeu de mesures propre à la page (data-bx-variant). Sans `grow` ni `label`, le HTML est celui de Bureaux.
+// Paragraphe à pastilles : chaque pastille est une sous-chaîne exacte du texte, la ponctuation qui la suit lui reste collée (comme titleHtml).
+const withTags = (text, tags) => {
+  let rest = text;
+  let html = "";
+  for (const { text: word, variant } of tags) {
+    const at = rest.indexOf(word);
+    if (at < 0) throw new Error(`bureaux-galerie : pastille « ${word} » absente du texte`);
+    const after = rest.slice(at + word.length);
+    const punctuation = after.match(/^[.,;:!?…)»]+/)?.[0] ?? "";
+    html += `${esc(fr(rest.slice(0, at)))}<span class="nobr">${tagHtml({ text: word, variant })}${esc(punctuation)}</span>`;
+    rest = after.slice(punctuation.length);
+  }
+  return html + esc(fr(rest));
+};
+
+export default ({ label, title, tag, cta: button, photos, variant, grow }, { index }) => {
   const id = `bx-gal-${index}`;
   const items = photos
     .map(({ photo, alt, x, y, w, ratio, speed, mobile }) => {
@@ -21,14 +40,25 @@ export default ({ label, title, tag, cta: button, photos }, { index }) => {
       return `<li class="gal__photo" style="${style}" data-speed="${speed}"${mobile ? ` data-speed-mobile="${mobile.speed}"` : ' data-mobile="off"'}>${img({ src: photo, alt, sizes: `(min-width: 901px) ${w}vw, ${mobile ? mobile.w : 40}vw` })}</li>`;
     })
     .join("\n          ");
-  return `<section class="gal" data-bx="galerie" data-header-gradient="orange" aria-labelledby="${id}-title">
+  const growHtml = grow
+    ? `
+        <div class="gal__grow">
+          <figure class="gal__grow-photo">${img({ src: grow.photo, alt: grow.alt, sizes: "100vw" })}</figure>
+          <div class="gal__grow-veil" aria-hidden="true"></div>
+          <div class="gal__grow-text">
+            <p class="label label--light"><span class="label__dot" aria-hidden="true"></span>${esc(grow.label)}</p>
+            <p class="gal__grow-p">${withTags(grow.text, grow.tags)}</p>
+          </div>
+        </div>`
+    : "";
+  return `<section class="gal" data-bx="galerie"${variant ? ` data-bx-variant="${esc(variant)}"` : ""} data-header-gradient="orange" aria-labelledby="${id}-title">
         <div class="gal__content">
-          <p class="label label--light"><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>
-          <h2 class="section-title gal__title" id="${id}-title">${titleHtml(title, tag, "cream")}</h2>
+          ${label ? `<p class="label label--light"><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>
+          ` : ""}<h2 class="section-title gal__title" id="${id}-title">${titleHtml(title, tag, "cream")}</h2>
           <div class="gal__cta">${cta({ label: button, variant: "on-orange" })}</div>
         </div>
         <ul class="gal__photos" role="list">
           ${items}
-        </ul>
+        </ul>${growHtml}
       </section>`;
 };

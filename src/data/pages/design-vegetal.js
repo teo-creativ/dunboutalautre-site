@@ -4,6 +4,7 @@
 // V6 (retours-v6, maquette de la cliente) : l'ordre est celui de retours-v6/docs/00-RETOURS-V6.md ; les textes que la maquette change sont
 // listés dans `designTexts` (scripts/check-site.js les compte au lieu de les refuser).
 import { todo } from "../../components/placeholder.js";
+import { avisFictif, clientsCouleur } from "../clients.js";
 
 export const designVegetal = {
   id: "design-vegetal",
@@ -186,14 +187,7 @@ export const designVegetal = {
       label: "NOS CLIENTS",
       title: "Ils nous ont fait confiance pour leurs créations végétales.",
       tag: "leurs créations végétales",
-      items: [
-        { name: "Thunes", logo: "thunes-svg" },
-        { name: "Chez Simone", logo: "chez-simone-svg" },
-        { name: "Inato", logo: "inato-svg" },
-        { name: "Eataly", logo: "eataly-svg" },
-        { name: "Kéobiz", logo: "keobiz-svg" },
-        { name: "Yves Rocher", logo: "yves-rocher-svg" },
-      ],
+      items: clientsCouleur,
     },
     {
       // Avis de la maquette (frames 36 et 37) : le même avis fictif que Bureaux, à remplacer avant la mise en ligne (`fictif`, point 4 des points à
@@ -201,16 +195,7 @@ export const designVegetal = {
       // le suit n'a rien à recouvrir.
       type: "testimonials",
       bx: true,
-      items: [
-        {
-          quote:
-            "D'un Bout À L'autre a su capter l'esprit de notre marque en apportant un équilibre végétal remarquable dans notre siège parisien. Les équipes sont ravies et l'entretien hebdomadaire est d'une discrétion absolue.",
-          name: "Hélène Mercier",
-          role: "Directrice Environnement de Travail & RSE,",
-          logo: "thunes-svg",
-          fictif: true,
-        },
-      ],
+      items: [avisFictif],
     },
     {
       type: "faq",

@@ -16,7 +16,7 @@
 import { gsap, SplitText } from "./core.js";
 import { loadLater } from "./bureaux-images.js";
 import { claimHeader } from "./bureaux-header.js";
-import { monotone, scaleSetter } from "./bureaux-matieres.js";
+import { MEDIA, addPhotoRise, clamp, monotone, scaleSetter } from "./bureaux-scene.js";
 import { fillTag } from "./tag.js";
 
 const REF_W = 1728;
@@ -33,6 +33,7 @@ const TEXT = 0.65; // durée de l'entrée du texte : étiquette, lignes, mots, p
 const HOLD = 0.55;
 const OVERLAP = 1; // la section crème monte par-dessus (frames 32 et 33), dernier écran du pin
 const VEIL_FROM = 0.25; // le header n'a plus besoin du dégradé « photo » quand le voile atteint cette part
+const COVERED = 0.66; // part de la croissance où le titre et le bouton sont recouverts et ont fini de s'estomper (écran 1,25 de la scène)
 const HEADER_PHOTO = 0.95;
 const HEADER_RELEASE = 0.94;
 const RADIUS = 12; // px à l'écran, jusqu'à 80 % de la croissance, puis il se résorbe
@@ -46,8 +47,6 @@ const ZOOM_END = 1.194; // grossissement de l'image en fin de croissance (frame 
 const zoomNorm = monotone([0, 0.55, 1], [0, 0, 1]);
 const ORIGIN_Y = 0.36; // le grossissement est ancré à 36 % de la hauteur (frame 30 : l'image est décalée de 72 px vers le haut)
 const IMG_RATIO = 2000 / 1132; // largeur / hauteur de fond-04
-
-const clamp = (v, lo = 0, hi = 1) => Math.min(Math.max(v, lo), hi);
 
 export function initBureauxBranding() {
   const section = document.querySelector('[data-bx="galerie"]');
@@ -72,10 +71,7 @@ export function initBureauxBranding() {
 
   const mm = gsap.matchMedia();
   mm.add(
-    {
-      wide: "(min-width: 901px) and (prefers-reduced-motion: no-preference)",
-      solo: "(max-width: 900px) and (prefers-reduced-motion: no-preference)",
-    },
+    MEDIA,
     ({ conditions }) => {
       const root = document.documentElement;
       const rise = conditions.wide ? RISE.wide : RISE.solo;
@@ -93,6 +89,7 @@ export function initBureauxBranding() {
       const s = { g: 0, v: 0, o: 0 };
       let kEnd = ZOOM_END;
       let headerState = null; // null : les sections décident ; "photo" : photo claire sous le logo ; "off" : le voile suffit
+      let covered = false; // le titre et le bouton sont sous la photo
 
       const render = () => {
         const h = window.innerHeight;
@@ -104,6 +101,11 @@ export function initBureauxBranding() {
         box.style.clipPath = s.g < 1 ? `inset(0 round ${(RADIUS / sc) * clamp((1 - s.g) / (1 - 0.8))}px)` : "none";
         if (conditions.wide) set.zoom(1 + (kEnd - 1) * zoomNorm(s.g));
         set.veil(s.v);
+        // Recouvert et invisible, le bouton ne doit plus recevoir le focus clavier (un anneau de focus que personne ne voit) : inerte tant que la photo le couvre.
+        if ((s.g >= COVERED) !== covered) {
+          covered = s.g >= COVERED;
+          content.toggleAttribute("inert", covered);
+        }
 
         // Header : blanc sur l'orange (dégradé orange), puis dégradé « photo » sur la photo claire, puis le voile suffit ; la main est rendue aux
         // sections quand la section crème atteint le header.
@@ -126,8 +128,6 @@ export function initBureauxBranding() {
       };
       sync();
 
-      // Distance de montée de chaque photo : sa vitesse (svh par écran de scroll, 100 = la vitesse de la page) fois la durée de la montée.
-      const speed = (li) => Number((conditions.wide ? li.dataset.speed : li.dataset.speedMobile) ?? li.dataset.speed) / 100;
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
@@ -155,14 +155,7 @@ export function initBureauxBranding() {
       });
 
       // Galerie : les photos montent (et dérivent un peu vers la droite) derrière le titre fixe.
-      visible.forEach((li) => {
-        tl.fromTo(
-          li,
-          { y: 0, x: 0 },
-          { y: () => -speed(li) * rise * section.offsetHeight, x: () => DRIFT * speed(li) * rise * section.offsetHeight, duration: rise },
-          0,
-        );
-      });
+      addPhotoRise(tl, visible, { wide: conditions.wide, rise, section, drift: DRIFT });
       // Le titre et le bouton s'estompent sous la grande photo (opacité seule : ils restent dans l'arbre d'accessibilité).
       tl.to(content, { opacity: 0, duration: FADE[1] - FADE[0] }, FADE[0]);
 
@@ -198,6 +191,7 @@ export function initBureauxBranding() {
       return () => {
         next?.classList.remove("bx-overlap");
         claimHeader("branding", null);
+        content.removeAttribute("inert");
         root.classList.remove("bx-gal-anim");
         delete section.dataset.pinLength;
         box.style.cssText = "";

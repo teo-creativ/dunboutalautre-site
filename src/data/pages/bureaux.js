@@ -3,6 +3,7 @@
 // V5 (retours-v5, maquette de la cliente) : l'ordre des sections est celui de retours-v5/docs/01-ORDRE-DE-LA-PAGE.md ; les textes que la
 // maquette change sont listés dans `designTexts` (scripts/check-site.js les compte au lieu de les refuser).
 import { todo } from "../../components/placeholder.js";
+import { avisFictif, clientsCouleur } from "../clients.js";
 
 export const bureaux = {
   id: "bureaux",
@@ -195,14 +196,7 @@ export const bureaux = {
       label: "NOS CLIENTS",
       title: "Ils nous ont confié leurs espaces.",
       tag: "leurs espaces",
-      items: [
-        { name: "Thunes", logo: "thunes-svg" },
-        { name: "Chez Simone", logo: "chez-simone-svg" },
-        { name: "Inato", logo: "inato-svg" },
-        { name: "Eataly", logo: "eataly-svg" },
-        { name: "Kéobiz", logo: "keobiz-svg" },
-        { name: "Yves Rocher", logo: "yves-rocher-svg" },
-      ],
+      items: clientsCouleur,
     },
     {
       // Avis de la maquette (frames 36 et 41) : l'avis fictif de la première version, à remplacer avant la mise en ligne (`fictif`, point 5
@@ -210,16 +204,7 @@ export const bureaux = {
       // galerie monte par-dessus, montre les deux flèches (inertes avec un seul avis) et pose le logo du client après le poste.
       type: "testimonials",
       bx: true,
-      items: [
-        {
-          quote:
-            "D'un Bout À L'autre a su capter l'esprit de notre marque en apportant un équilibre végétal remarquable dans notre siège parisien. Les équipes sont ravies et l'entretien hebdomadaire est d'une discrétion absolue.",
-          name: "Hélène Mercier",
-          role: "Directrice Environnement de Travail & RSE,",
-          logo: "thunes-svg",
-          fictif: true,
-        },
-      ],
+      items: [avisFictif],
     },
     {
       // Galerie « Vos bureaux deviennent vivant » (V5 §9, frames 43 à 48 et 54) : 4 photos qui montent derrière le titre et le bouton, fixes

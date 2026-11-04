@@ -11,6 +11,7 @@
 // grille, rien d'épinglé.
 import { gsap } from "./core.js";
 import { loadLater } from "./bureaux-images.js";
+import { MEDIA, addPhotoRise } from "./bureaux-scene.js";
 
 const PHOTOS = { wide: 3, solo: 2.5 }; // durée de la montée des photos, en écrans de scroll
 const OVERLAP = 1; // la FAQ monte par-dessus : le dernier écran du pin
@@ -25,10 +26,7 @@ export function initBureauxGalerie() {
 
   const mm = gsap.matchMedia();
   mm.add(
-    {
-      wide: "(min-width: 901px) and (prefers-reduced-motion: no-preference)",
-      solo: "(max-width: 900px) and (prefers-reduced-motion: no-preference)",
-    },
+    MEDIA,
     ({ conditions }) => {
       const root = document.documentElement;
       const rise = conditions.wide ? PHOTOS.wide : PHOTOS.solo;
@@ -39,8 +37,6 @@ export function initBureauxGalerie() {
       // Les photos (300 Ko en 480 px) sont lues d'avance (bureaux-images.js).
       loadLater(visible.map((li) => li.querySelector("img")));
 
-      // Distance de montée de chaque photo : sa vitesse (svh par écran de scroll) fois la durée de la montée, en écrans de scroll.
-      const speed = (li) => Number((conditions.wide ? li.dataset.speed : li.dataset.speedMobile) ?? li.dataset.speed) / 100;
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
@@ -63,9 +59,7 @@ export function initBureauxGalerie() {
           },
         },
       });
-      visible.forEach((li) => {
-        tl.fromTo(li, { y: 0 }, { y: () => -speed(li) * rise * section.offsetHeight, duration: rise }, 0);
-      });
+      addPhotoRise(tl, visible, { wide: conditions.wide, rise, section }); // chaque photo à sa vitesse (bureaux-scene.js)
       tl.to(content, { opacity: 0, duration: (FADE[1] - FADE[0]) * OVERLAP }, rise + FADE[0] * OVERLAP).set({}, {}, total);
 
       // Point d'accroche : la FAQ remonte d'un écran par-dessus la galerie.

@@ -12,6 +12,7 @@
 // fond suivant monte de 0 à 1 d'opacité par-dessus le précédent, qui reste dessous (aucun flash), et le paragraphe change autour du fondu (SWAP).
 import { gsap } from "./core.js";
 import { loadLater } from "./bureaux-images.js";
+import { MEDIA, clamp, lerp, monotone, scaleSetter } from "./bureaux-scene.js";
 import { claimHeader } from "./bureaux-header.js";
 
 const REF_W = 1728;
@@ -93,50 +94,12 @@ const PROFILES = {
   },
 };
 
-const clamp = (v, lo = 0, hi = 1) => Math.min(Math.max(v, lo), hi);
-const lerp = (a, b, t) => a + (b - a) * t;
-// quickSetter(..., "scale") ne pose rien : l'échelle passe par scaleX et scaleY.
-export const scaleSetter = (el) => {
-  const sx = gsap.quickSetter(el, "scaleX");
-  const sy = gsap.quickSetter(el, "scaleY");
-  return (v) => {
-    sx(v);
-    sy(v);
-  };
-};
 const glideEase = gsap.parseEase("power2.inOut"); // mouvement à l'écran : ease-in-out
 // Position (bord gauche de la boîte, px à 1728) d'un titre à la distance d du centre, par interpolation linéaire entre ses nodes [d, x].
 const railX = (nodes, d) => {
   if (d <= nodes[0][0]) return nodes[0][1];
   for (let i = 1; i < nodes.length; i++) if (d <= nodes[i][0]) return lerp(nodes[i - 1][1], nodes[i][1], (d - nodes[i - 1][0]) / (nodes[i][0] - nodes[i - 1][0]));
   return nodes.at(-1)[1];
-};
-
-// Courbe monotone (Fritsch-Carlson) passant par les mesures : pas de dépassement entre deux frames.
-export const monotone = (xs, ys) => {
-  const n = xs.length;
-  const d = xs.slice(1).map((x, i) => (ys[i + 1] - ys[i]) / (x - xs[i]));
-  const m = ys.map((_, i) => (i === 0 ? d[0] : i === n - 1 ? d[n - 2] : d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2));
-  d.forEach((di, i) => {
-    if (di === 0) return (m[i] = m[i + 1] = 0);
-    const a = m[i] / di;
-    const b = m[i + 1] / di;
-    const h = Math.hypot(a, b);
-    if (h > 3) {
-      m[i] = (3 / h) * a * di;
-      m[i + 1] = (3 / h) * b * di;
-    }
-  });
-  return (x) => {
-    const v = clamp(x, xs[0], xs[n - 1]);
-    let i = 0;
-    while (i < n - 2 && v > xs[i + 1]) i++;
-    const h = xs[i + 1] - xs[i];
-    const t = (v - xs[i]) / h;
-    const t2 = t * t;
-    const t3 = t2 * t;
-    return (2 * t3 - 3 * t2 + 1) * ys[i] + (t3 - 2 * t2 + t) * h * m[i] + (-2 * t3 + 3 * t2) * ys[i + 1] + (t3 - t2) * h * m[i + 1];
-  };
 };
 
 export function initBureauxMatieres() {
@@ -183,10 +146,7 @@ export function initBureauxMatieres() {
 
   const mm = gsap.matchMedia();
   mm.add(
-    {
-      wide: "(min-width: 901px) and (prefers-reduced-motion: no-preference)",
-      solo: "(max-width: 900px) and (prefers-reduced-motion: no-preference)",
-    },
+    MEDIA,
     ({ conditions }) => {
       const root = document.documentElement;
       root.classList.add("bx-mat-anim");

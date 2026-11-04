@@ -1,0 +1,67 @@
+# Preview GitHub Pages, à envoyer à la cliente : https://teo-creativ.github.io/dunboutalautre-site/
+# Déclenché à chaque push de feature/pages-secondaires, ou à la main (Actions > Preview GitHub Pages > Run workflow, une fois ce fichier sur la
+# branche par défaut). Rien n'est fusionné dans main : ce workflow ne publie que le dossier dist de la branche de travail.
+#
+# Trois variables de build, propres à la preview (le build normal et le dev local n'en lisent aucune, leur sortie reste identique) :
+#   VITE_BASE            préfixe des URL, le site est servi sous /dunboutalautre-site/ ;
+#   VITE_NOINDEX         ajoute <meta name="robots" content="noindex, nofollow"> aux pages et un robots.txt « Disallow: / » ;
+#   VITE_PREVIEW_LINKS   rend cliquables les liens vers les pages qui existent (menu, footer, cartes), sans toucher au drapeau `live` de site.js.
+name: Preview GitHub Pages
+
+on:
+  push:
+    branches: [feature/pages-secondaires]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un seul déploiement à la fois : un nouveau push attend la fin du précédent au lieu de l'interrompre en cours de publication.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # pas de .nvmrc ni d'engines dans package.json
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      # prebuild convertit les PNG de public/assets/images en WebP (public/assets/optimized n'est pas versionné), puis vite build.
+      - name: Construire la preview
+        run: npm run build
+        env:
+          VITE_BASE: /dunboutalautre-site/
+          VITE_NOINDEX: "1"
+          VITE_PREVIEW_LINKS: "1"
+
+      - name: Configurer Pages
+        uses: actions/configure-pages@v5
+
+      - name: Envoyer le dossier dist
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Déployer sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

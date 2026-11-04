@@ -2,6 +2,8 @@
 // Seules l'accueil et la landing Noël existent dans ce prototype. Les autres pages ont leur URL finale (`path`)
 // mais pas `live: true` : `href()` renvoie alors "#" pour ne pas casser la démo.
 
+import { withBase } from "./base.js";
+
 const services = [
   { label: "Végétalisation de bureaux", path: "/vegetalisation-bureaux-paris/", text: "Plantes, bacs, cloisons végétales, murs, espaces d'accueil… On installe le végétal là où vivent vos équipes." },
   { label: "Design végétal sur mesure", path: "/design-vegetal-sur-mesure-paris/", text: "Tableaux, logos, murs végétaux, structures, suspensions… Des créations uniques, fabriquées pour votre espace." },
@@ -54,12 +56,14 @@ export const site = {
   ],
 };
 
-export const href = (item) => (item.live ? item.path : "#");
+export const href = (item) => (item.live ? withBase(item.path) : "#");
 
 // Relecture : `npm run dev:liens` (vite --mode liens) rend cliquables toutes les pages qui existent, sans toucher à `live`. Réservé au
 // serveur de dev : au build, les composants sont chargés par un import natif de Node où import.meta.env n'existe pas, donc la build
-// garde les valeurs ci-dessus. Les pages légales (hors périmètre, aucune page) restent en « # ».
-export const previewLinks = import.meta.env?.DEV === true && import.meta.env.MODE === "liens";
+// garde les valeurs ci-dessus, sauf avec VITE_PREVIEW_LINKS=1 (build de preview, workflow GitHub Pages : même effet, `live` reste inchangé).
+// Les pages légales (hors périmètre, aucune page) restent en « # ».
+export const previewLinks =
+  (import.meta.env?.DEV === true && import.meta.env.MODE === "liens") || (typeof process !== "undefined" && process.env?.VITE_PREVIEW_LINKS === "1");
 if (previewLinks) {
   for (const item of [site.contact, ...site.nav, ...site.services, ...site.menuServices]) {
     if (item.path) item.live = true;

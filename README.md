@@ -16,7 +16,18 @@ Les captures et les tests d'animation se font sur la build : `npm run build` pui
 Contrôle du site construit : `node scripts/check-site.js` (un seul h1, titres, title et meta, `alt`, ids, tirets longs, textes des pages secondaires comparés au copywriting, JSON-LD, liens internes) ; `node scripts/check-site.js --placeholders` liste les valeurs à compléter, page par page ; `--links` exige en plus qu'aucun lien ne soit `#` (mise en ligne).
 
 ## Déployer pour partager un lien
-Netlify ou Vercel : commande de build `npm run build`, dossier de publication `dist`. Aucune variable d'environnement. Le domaine `https://dunboutalautre.co` utilisé pour le canonical et Open Graph de la landing est supposé (`src/data/noel.js`).
+Netlify ou Vercel : commande de build `npm run build`, dossier de publication `dist`. Aucune variable d'environnement n'est nécessaire. Le domaine `https://dunboutalautre.co` utilisé pour le canonical et Open Graph de la landing est supposé (`src/data/noel.js`).
+
+### Preview GitHub Pages (`https://teo-creativ.github.io/dunboutalautre-site/`)
+Le workflow `.github/workflows/preview.yml` construit et publie `dist` à chaque push de `feature/pages-secondaires` (ou à la main : onglet Actions, « Preview GitHub Pages », Run workflow). Il ne touche pas à `main`. Trois variables de build, lues seulement par ce workflow ; sans elles, le build et le dev local sont strictement ceux d'avant :
+
+| Variable | Effet |
+|---|---|
+| `VITE_BASE=/dunboutalautre-site/` | Préfixe toutes les URL (liens internes, images, scripts, CSS). Valeur par défaut : `/`. |
+| `VITE_NOINDEX=1` | Ajoute `<meta name="robots" content="noindex, nofollow">` à chaque page et un `robots.txt` « Disallow: / ». |
+| `VITE_PREVIEW_LINKS=1` | Rend cliquables les liens vers les pages qui existent (menu, footer, cartes), sans changer `live` dans `src/data/site.js`. |
+
+Essai en local de la preview : `VITE_BASE=/dunboutalautre-site/ VITE_NOINDEX=1 VITE_PREVIEW_LINKS=1 npm run build`, puis `VITE_BASE=/dunboutalautre-site/ npm run preview` et `http://localhost:4173/dunboutalautre-site/`. Le `robots.txt` d'un site de projet GitHub Pages n'est pas lu par les moteurs (il n'est pas à la racine du domaine) : la balise `noindex` est la vraie protection. Le canonical et Open Graph pointent toujours vers `https://dunboutalautre.co`.
 
 ## Où est quoi
 | Besoin | Fichier |

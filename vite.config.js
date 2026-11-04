@@ -1,9 +1,20 @@
 import { defineConfig } from "vite";
 import { resolve } from "node:path";
 import injectComponents from "./vite-plugins/inject-components.js";
+import { base } from "./src/data/base.js";
 
+// Preview non indexée (VITE_NOINDEX=1, workflow GitHub Pages) : robots.txt à la racine du site construit. Rien dans le build normal.
+const previewRobots = {
+  name: "preview-robots",
+  generateBundle() {
+    this.emitFile({ type: "asset", fileName: "robots.txt", source: "User-agent: *\nDisallow: /\n" });
+  },
+};
+
+// base : VITE_BASE ("/dunboutalautre-site/" sur GitHub Pages), "/" par défaut.
 export default defineConfig({
-  plugins: [injectComponents()],
+  base,
+  plugins: [injectComponents(), ...(process.env.VITE_NOINDEX === "1" ? [previewRobots] : [])],
   build: {
     rollupOptions: {
       input: {

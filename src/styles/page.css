@@ -119,17 +119,19 @@ body[data-page="page"] .hero--compact { min-height: 60svh; }
    celles de Noël. */
 @media (min-width: 901px) {
   body[data-page="page"] .cta-final[data-bx-variant="design"],
-  body[data-page="page"] .cta-final[data-bx-variant="v7"] { min-height: 0; padding: 6.76vw var(--gutter) 7.58vw 10.65vw; }
+  body[data-page="page"] .cta-final:is([data-bx-variant="v7"], [data-bx-variant="terrasses"]) { min-height: 0; padding: 6.76vw var(--gutter) 7.58vw 10.65vw; }
   body[data-page="page"] .cta-final[data-bx-variant="design"] .cta-final__inner,
-  body[data-page="page"] .cta-final[data-bx-variant="v7"] .cta-final__inner { gap: 2.6vw; max-width: 47.4vw; }
+  body[data-page="page"] .cta-final:is([data-bx-variant="v7"], [data-bx-variant="terrasses"]) .cta-final__inner { gap: 2.6vw; max-width: 47.4vw; }
   body[data-page="page"] .cta-final[data-bx-variant="design"] .cta-final__title,
-  body[data-page="page"] .cta-final[data-bx-variant="v7"] .cta-final__title { font-size: var(--fs-text-lg); }
+  body[data-page="page"] .cta-final:is([data-bx-variant="v7"], [data-bx-variant="terrasses"]) .cta-final__title { font-size: var(--fs-text-lg); }
 }
 
 /* Variante « v7 » (Scénographie, frames scenographie-11 à 13) : le même bandeau que Design (titre de 48 px, retrait de 184 px, 44 px entre le titre et le bouton),
    en deux lignes (« Votre prochain événement » mesure 643 px) : 559 px de haut (orange de 277 à 836 sur la frame 12), le contenu centré. */
 @media (min-width: 901px) {
-  body[data-page="page"] .cta-final[data-bx-variant="v7"] { min-height: 54.3svh; padding-top: 7.57vw; } /* contenu 7 px plus bas : titre à 449 px sur la frame */
+  body[data-page="page"] .cta-final:is([data-bx-variant="v7"], [data-bx-variant="terrasses"]) { min-height: 54.3svh; padding-top: 7.57vw; } /* contenu 7 px plus bas : titre à 449 px sur la frame */
+  /* Terrasses (frame 34) : « Votre terrasse [mérite] » (529 px) puis « d'être aménagée. », « d'être » ne tient pas sur la première ligne : 36 vw au lieu de 47,4. */
+  body[data-page="page"] .cta-final[data-bx-variant="terrasses"] .cta-final__inner { max-width: 36vw; gap: 1.39vw; } /* 30 px entre le texte et le bouton (51 sur Scénographie) */
   /* Pastille « mérite » (frame 12) : 232 x 69 px (203 par défaut), presque droite, qui dépasse de 21 px à gauche du texte et touche presque « un » (8 px). */
-  body[data-page="page"] .cta-final[data-bx-variant="v7"] .tag { --tag-rotate: -0.5deg; padding-inline: 0.8em; margin-inline: -0.44em -0.08em; }
+  body[data-page="page"] .cta-final:is([data-bx-variant="v7"], [data-bx-variant="terrasses"]) .tag { --tag-rotate: -0.5deg; padding-inline: 0.8em; margin-inline: -0.44em -0.08em; }
 }

@@ -14,6 +14,7 @@ import { gsap } from "./core.js";
 import { loadLater } from "./bureaux-images.js";
 import { MEDIA, clamp, lerp, monotone, scaleSetter } from "./bureaux-scene.js";
 import { claimHeader } from "./bureaux-header.js";
+import { createBand } from "./bureaux-bande.js";
 
 const REF_W = 1728;
 const REF_H = 1030;
@@ -94,6 +95,22 @@ const PROFILES = {
   },
 };
 
+// Terrasses (V7, frames terrasses-17 à 28) : la bande de photos (scripts/bureaux-bande.js) précède la croissance de la photo, sur le crème. La photo part de la taille de
+// la frame 17 (702 x 441 px, centrée, bord haut à 138 px : le cadre a le rapport de son image, voir bureaux-matieres.css) puis grandit en gardant son bord haut jusqu'à la
+// frame 18 (1 200 x 753 px) avant de monter au plein écran (frame 19). Le texte du slider a les mesures de Bureaux (titres à 50 % de la hauteur sur les frames 21 à 27).
+// PHASE.pre : montée des rangées (0,69 écran), puis fondu et recentrage de l'olivier (0,4 écran).
+PROFILES.terrasses = {
+  ...PROFILES.bureaux,
+  BAND: true,
+  PHASE: { pre: 1.1, grow: 1.0, veil: 0.3, hold1: 0.2, glide: 1, hold2: 0.2, hold3: 0.3, overlap: 1 },
+  GROW_P: [0, 0.5, 1],
+  GROW_TOP: [138, 138, 0], // px à 1030 de haut : bord haut du cadre
+  GROW_SCALE: [0.406, 0.699, 1], // largeur du cadre / largeur de l'écran (frame 18 : 1 208 x 760 px)
+  GROW_DX: [0, -20, 0], // px à 1728 : à la frame 18 le cadre est centré à 844 px, pas à 864
+  INACTIVE: 0.5,
+  TITLE_DY: [0, 24, 18],
+};
+
 const glideEase = gsap.parseEase("power2.inOut"); // mouvement à l'écran : ease-in-out
 // Position (bord gauche de la boîte, px à 1728) d'un titre à la distance d du centre, par interpolation linéaire entre ses nodes [d, x].
 const railX = (nodes, d) => {
@@ -117,7 +134,7 @@ export function initBureauxMatieres() {
   if (figures.length !== 3 || slides.length !== 3) return; // la scène est écrite pour trois matières
 
   // Profil de la section (data-bx-variant) : les noms sont ceux des constantes de V5, le reste du code n'a pas changé.
-  const { PHASE, GROW_P, GROW_TOP, GROW_SCALE, GROW_DX, ZOOM, RAIL, TEXT_OFF, RADIUS, HEAD_FADE, VEIL_FROM, RISE, PITCH, ENTER_SCALE, INACTIVE, TITLE_DY, GLIDE, SWAP, HEADER_PHOTO, HEADER_RELEASE } =
+  const { PHASE, BAND, GROW_P, GROW_TOP, GROW_SCALE, GROW_DX, ZOOM, RAIL, TEXT_OFF, RADIUS, HEAD_FADE, VEIL_FROM, RISE, PITCH, ENTER_SCALE, INACTIVE, TITLE_DY, GLIDE, SWAP, HEADER_PHOTO, HEADER_RELEASE } =
     PROFILES[section.dataset.bxVariant] ?? PROFILES.bureaux;
   const TOTAL = PHASE.pre + PHASE.grow + PHASE.veil + PHASE.hold1 + PHASE.glide + PHASE.hold2 + PHASE.glide + PHASE.hold3 + PHASE.overlap;
   const topAt = monotone(GROW_P, GROW_TOP);
@@ -133,7 +150,7 @@ export function initBureauxMatieres() {
     photoX: gsap.quickSetter(photo, "x", "px"),
     photoScale: scaleSetter(photo),
     veil: gsap.quickSetter(veil, "opacity"),
-    head: gsap.quickSetter(head, "opacity"),
+    head: head ? gsap.quickSetter(head, "opacity") : () => {}, // Terrasses : la bande remplace le texte sur l'orange
     fig: figures.map((f) => gsap.quickSetter(f, "opacity")),
     figScale: figures.map((f) => scaleSetter(f.querySelector("img"))),
     titleX: slides.map((s) => gsap.quickSetter(s.title, "x", "px")),
@@ -148,12 +165,21 @@ export function initBureauxMatieres() {
   mm.add(
     MEDIA,
     ({ conditions }) => {
+      // Terrasses : sous 900 px la bande et les trois fonds restent empilés, sans épinglage (le relais de la bande est écrit pour l'ordinateur).
+      if (BAND && !conditions.wide) return;
       const root = document.documentElement;
       root.classList.add("bx-mat-anim");
       // Les trois fonds (1,2 Mo en 2000 px) sont chargés d'avance : aucun flash au changement de fond (bureaux-images.js).
       loadLater(section.querySelectorAll("img"));
 
-      const s = { g: 0, v: 0, t1: 0, t2: 0, o: 0 };
+      const s = { b: 0, g: 0, v: 0, t1: 0, t2: 0, o: 0 };
+      // Rectangle de départ de la photo (g = 0), en px : le relais de la bande s'y arrête.
+      const target = () => {
+        const vw = document.documentElement.clientWidth;
+        const w = scaleAt(0) * vw;
+        return { left: (vw - w) / 2 + (dxAt(0) * vw) / REF_W, top: (topAt(0) / REF_H) * window.innerHeight, w };
+      };
+      const bandCtl = BAND ? createBand(section, { target }) : null;
       const scale = () => Math.min(document.documentElement.clientWidth / REF_W, window.innerHeight / REF_H);
       let u = scale();
       let headerState = null; // null : les sections décident ; "photo" : photo claire sous le logo ; "off" : le voile suffit
@@ -161,10 +187,22 @@ export function initBureauxMatieres() {
       const render = () => {
         // ---------- La photo : monte et grandit, puis c'est le fond du slider ----------
         const h = window.innerHeight;
-        const sc = scaleAt(s.g);
-        set.photoY((topAt(s.g) / REF_H) * h);
-        set.photoScale(sc);
-        set.photoX((dxAt(s.g) * document.documentElement.clientWidth) / REF_W);
+        // Terrasses : tant que la bande défile (s.b < 1), le cadre de la photo suit le rectangle que la bande lui donne ; il est invisible avant le relais.
+        const vw = document.documentElement.clientWidth;
+        const rect = bandCtl ? bandCtl.render(s.b) : null;
+        let sc;
+        if (rect && s.b < 1) {
+          sc = rect.w / vw;
+          set.photoY(rect.top);
+          set.photoScale(sc);
+          set.photoX(rect.left - (vw - rect.w) / 2);
+        } else {
+          sc = scaleAt(s.g);
+          set.photoY((topAt(s.g) / REF_H) * h);
+          set.photoScale(sc);
+          set.photoX((dxAt(s.g) * vw) / REF_W);
+        }
+        if (bandCtl) photo.style.opacity = rect ? "" : "0";
         const growing = s.g < 1;
         photo.style.clipPath = growing ? `inset(0 round ${(RADIUS / sc) * clamp((1 - s.g) / (1 - 0.8))}px)` : "none";
         set.head(1 - clamp((s.g - HEAD_FADE[0]) / (HEAD_FADE[1] - HEAD_FADE[0])));
@@ -214,6 +252,7 @@ export function initBureauxMatieres() {
         u = scale();
         if (ZOOM) kEnd = Math.max(ZOOM.v.at(-1), ((window.innerHeight * ZOOM.ratio) / document.documentElement.clientWidth) * 1.005);
         section.style.setProperty("--bx-u", `${u}px`);
+        bandCtl?.sync();
         render();
       };
       sync();
@@ -245,6 +284,7 @@ export function initBureauxMatieres() {
         tl.to(s, { ...vars, duration }, at);
         at += duration;
       };
+      if (bandCtl) tl.to(s, { b: 1, duration: PHASE.pre }, 0); // Terrasses : la phase de la bande
       at = PHASE.pre;
       phase({ g: 1 }, PHASE.grow);
       phase({ v: 1 }, PHASE.veil);
@@ -264,11 +304,12 @@ export function initBureauxMatieres() {
       return () => {
         next?.classList.remove("bx-overlap");
         claimHeader("matieres", null);
+        bandCtl?.destroy();
         root.classList.remove("bx-mat-anim");
         delete section.dataset.pinLength;
         section.style.removeProperty("--bx-u");
         photo.style.cssText = "";
-        gsap.set([head, veil, ...figures, ...figures.map((f) => f.querySelector("img")), ...slides.flatMap((x) => [x.title, x.text])], { clearProps: "transform,opacity" });
+        gsap.set([...(head ? [head] : []), veil, ...figures, ...figures.map((f) => f.querySelector("img")), ...slides.flatMap((x) => [x.title, x.text])], { clearProps: "transform,opacity" });
       };
     },
   );

@@ -1,0 +1,77 @@
+/* Section « styles » (V7 : « Nos styles d'aménagement » de Terrasses, frames terrasses-06 à 09 et zoom 07, canvas 1728 x 1030 ; Décoration, frame 08 et son zoom).
+   Image de 622 x 702 px à 169 px du bord, étiquette, titre de 48 px (pas de 72 px) et liste à droite (colonne de 898 à 1559 px). Titres des styles de 36 px, pas de
+   73 px quand ils sont fermés ; l'entrée active a sa puce orange (décalée de 26 px vers la droite), son titre souligné et sa description de 16 px sur deux lignes
+   (60 px de plus). Mesures lues sur le zoom 07 (1700 px de large, converties en 1728). Sans animation (JavaScript absent, mouvement réduit, moins de 900 px) : la
+   liste est entière, chaque description visible, aucune entrée active. Avec mouvement : la section est épinglée et l'entrée active avance avec le scroll
+   (scripts/bureaux-styles.js, html.bx-sty-anim). Règles préfixées body[data-page="page"] : l'accueil et Noël ne peuvent pas être atteints. */
+body[data-page="page"] .sty {
+  background: var(--cream);
+  color: var(--olive-deep);
+  padding: var(--section-y) var(--section-x);
+}
+body[data-page="page"] .sty__inner {
+  display: grid;
+  grid-template-columns: 36.1vw minmax(0, 1fr);
+  column-gap: 6.1vw; /* 106 px entre l'image et le texte */
+  align-items: start;
+}
+body[data-page="page"] .sty__photo { position: relative; margin: 0; aspect-ratio: 624 / 709; overflow: clip; border-radius: var(--radius-photo); background: var(--sand); }
+body[data-page="page"] .sty__img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+body[data-page="page"] .sty__img.is-hidden { opacity: 0; }
+body[data-page="page"] .sty__body { padding-top: 0.46vw; } /* l'étiquette est 6 px sous le haut de l'image (frame 07), le titre 11 px */
+body[data-page="page"] .sty__body .section-head { gap: 0.78vw; }
+body[data-page="page"] .sty__title { max-width: 36.5vw; }
+/* Pastille de 183 x 73 px qui monte vers la droite (-2,3°), un peu plus haute que celle de tag.css, 10 px plus à gauche (frame 07). */
+body[data-page="page"] .sty__title .tag { --tag-rotate: -2.3deg; padding: 0.1em 0.52em 0.17em; margin-left: -0.09em; } /* « Votre terrasse [mérite] un » puis « style d'aménagement qui » et « lui ressemble. » */
+body[data-page="page"] .sty__list { margin: 5.7vw 0 0; padding: 0; list-style: none; } /* 111 px entre le titre et la première entrée */
+
+body[data-page="page"] .sty-row { position: relative; padding-block: calc(0.77vw + var(--act, 0) * 0.87vw) calc(0.77vw + var(--act, 0) * 0.7vw); } /* pas de 72 px ; l'entrée active gagne 14 px au-dessus et 11 px sous sa description (frame 07 : 86 px avant, 135 px après) */
+body[data-page="page"] .sty-row__title { font-size: clamp(1.4rem, 2.08vw, 2.5rem); font-weight: 300; line-height: 1.2; color: var(--olive-deep); }
+body[data-page="page"] .sty-row__text {
+  max-width: 29.5vw; /* les lignes de la frame font 484 et 490 px */
+  margin-top: 0.25rem;
+  font-size: clamp(0.875rem, 0.93vw, 1.1rem);
+  line-height: 1.5;
+  color: var(--olive-soft); /* 4,8:1 : le gris de la frame ne passe pas l'AA (docs/POINTS-A-VALIDER.md ligne 81) */
+}
+
+/* ---------- Avec mouvement : une entrée active, les autres éteintes (sable) et fermées ---------- */
+html.bx-sty-anim body[data-page="page"] .sty { height: 100svh; min-height: 100svh; padding-block: 0; overflow: clip; }
+html.bx-sty-anim body[data-page="page"] .sty__inner { height: 100%; align-content: center; padding-top: 1.39vw; } /* l'image est centrée 12 px sous le milieu de l'écran (frame 07 : de 160 à 868 px) */
+html.bx-sty-anim body[data-page="page"] .sty__photo { max-height: calc(100svh - 9rem); } /* écran large et court : l'image garde sa place sans être rognée par la section */
+html.bx-sty-anim body[data-page="page"] .sty-row__title {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.14em;
+  transition: color 0.4s ease, text-decoration-color 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.bx-sty-anim body[data-page="page"] .sty-row:not(.is-active) .sty-row__title { color: color-mix(in srgb, var(--sand) 85%, var(--olive-deep)); }
+html.bx-sty-anim body[data-page="page"] .sty-row.is-active .sty-row__title { text-decoration-color: var(--orange); transform: translateX(1.5vw); }
+html.bx-sty-anim body[data-page="page"] .sty-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(0.77vw + var(--act, 0) * 0.87vw + clamp(1.4rem, 2.08vw, 2.5rem) * 0.6 - 0.35vw);
+  width: 0.7vw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--orange);
+  transform: scale(0);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+html.bx-sty-anim body[data-page="page"] .sty-row.is-active::before { transform: scale(1); }
+/* La description est ouverte et fermée par le script (hauteur et opacité, comme les offres de Noël) ; sans lui elle est visible. */
+html.bx-sty-anim body[data-page="page"] .sty-row__text { overflow: clip; }
+body[data-page="page"] .sty-row:focus-visible { outline-offset: 0.4vw; border-radius: 4px; }
+
+@media (max-width: 900px) {
+  body[data-page="page"] .sty { padding: 4.5rem var(--gutter) 4rem; }
+  body[data-page="page"] .sty__inner { grid-template-columns: 1fr; row-gap: 2rem; }
+  body[data-page="page"] .sty__photo { max-width: 28rem; }
+  body[data-page="page"] .sty__title { max-width: none; }
+  body[data-page="page"] .sty__list { margin-top: 1.5rem; }
+  body[data-page="page"] .sty-row { padding-block: 1rem; }
+  body[data-page="page"] .sty-row__title { font-size: 1.5rem; }
+  body[data-page="page"] .sty-row__text { max-width: none; font-size: 1rem; }
+}

@@ -8,7 +8,9 @@ import bureauxChiffres from "./sections/bureaux-chiffres.js";
 import bureauxInstalle from "./sections/bureaux-installe.js";
 import bureauxGalerie from "./sections/bureaux-galerie.js";
 import bureauxMatieres from "./sections/bureaux-matieres.js";
+import bureauxPhotoTexte from "./sections/bureaux-photo-texte.js";
 import bureauxPourquoi from "./sections/bureaux-pourquoi.js";
+import bureauxStyles from "./sections/bureaux-styles.js";
 import cards from "./sections/cards.js";
 import contactCoordonnees from "./sections/contact-coordonnees.js";
 import faq from "./sections/faq.js";
@@ -29,7 +31,7 @@ import fichePhoto from "./sections/fiche-photo.js";
 import ficheTexte from "./sections/fiche-texte.js";
 import testimonials from "./sections/testimonials.js";
 
-const renderers = { "bureaux-chiffres": bureauxChiffres, "bureaux-galerie": bureauxGalerie, "bureaux-installe": bureauxInstalle, "bureaux-matieres": bureauxMatieres, "bureaux-pourquoi": bureauxPourquoi, hero, intro, offers, cards, figures, form, "contact-coordonnees": contactCoordonnees, "fiche-entete": ficheEntete, "fiche-photo": fichePhoto, "fiche-texte": ficheTexte, "fiche-galerie": ficheGalerie, "fiche-autres": ficheAutres, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
+const renderers = { "bureaux-chiffres": bureauxChiffres, "bureaux-galerie": bureauxGalerie, "bureaux-installe": bureauxInstalle, "bureaux-matieres": bureauxMatieres, "bureaux-photo-texte": bureauxPhotoTexte, "bureaux-pourquoi": bureauxPourquoi, "bureaux-styles": bureauxStyles, hero, intro, offers, cards, figures, form, "contact-coordonnees": contactCoordonnees, "fiche-entete": ficheEntete, "fiche-photo": fichePhoto, "fiche-texte": ficheTexte, "fiche-galerie": ficheGalerie, "fiche-autres": ficheAutres, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

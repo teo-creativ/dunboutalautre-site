@@ -7,28 +7,13 @@
 // photos en grille (bureaux-galerie.css).
 import { cta } from "../cta.js";
 import img from "../img.js";
-import { tag as tagHtml } from "../tag.js";
+import { withTags } from "../tags-text.js";
 import { titleHtml } from "../title.js";
 import { esc, fr } from "../utils.js";
 
 // V6 (page Design, « logo reconstitué » puis « Le branding végétal », frames design-24 à 33) : la même galerie, sans étiquette (`label` facultatif),
 // suivie d'une grande photo qui grandit jusqu'au plein écran puis d'un texte à pastilles (`grow`, scripts/bureaux-branding.js : une seule scène
 // épinglée). `variant` : jeu de mesures propre à la page (data-bx-variant). Sans `grow` ni `label`, le HTML est celui de Bureaux.
-// Paragraphe à pastilles : chaque pastille est une sous-chaîne exacte du texte, la ponctuation qui la suit lui reste collée (comme titleHtml).
-const withTags = (text, tags) => {
-  let rest = text;
-  let html = "";
-  for (const { text: word, variant } of tags) {
-    const at = rest.indexOf(word);
-    if (at < 0) throw new Error(`bureaux-galerie : pastille « ${word} » absente du texte`);
-    const after = rest.slice(at + word.length);
-    const punctuation = after.match(/^[.,;:!?…)»]+/)?.[0] ?? "";
-    html += `${esc(fr(rest.slice(0, at)))}<span class="nobr">${tagHtml({ text: word, variant })}${esc(punctuation)}</span>`;
-    rest = after.slice(punctuation.length);
-  }
-  return html + esc(fr(rest));
-};
-
 export default ({ label, title, tag, cta: button, photos, variant, grow }, { index }) => {
   const id = `bx-gal-${index}`;
   const items = photos

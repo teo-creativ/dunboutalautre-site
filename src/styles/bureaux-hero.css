@@ -82,3 +82,14 @@ html.bx-hero-anim .bx-hero-next {
   body[data-page="page"] .hero--bx[data-bx-variant="scenographie"] .hero__lead { max-width: 35vw; margin-top: 0.98vw; }
   body[data-page="page"] .hero--bx[data-bx-variant="scenographie"] .hero__inner .cta { margin-top: 2.08vw; }
 }
+
+/* Variante « terrasses » (V7, frames terrasses-01 à 03, canvas 1728 x 1030) : mêmes mots-clés, titre de 82 px et pastille inclinée de -1° que Bureaux. Mesures prises
+   sur la frame 01 : le titre se coupe après « à » puis après « de » (« Aménagement de terrasse à » mesure 1 176 px, « Paris : [votre espace extérieur] , de » 1 195 px et « la »
+   n'y tient pas : 72 vw) ; le paragraphe se coupe après « en passant » (583 px : 36 vw) ; le bloc est un peu sous le centre (mots-clés à 262 px, bouton de 769 à 818 px). */
+@media (min-width: 901px) {
+  body[data-page="page"] .hero--bx[data-bx-variant="terrasses"] .hero__inner { padding-top: 2.95vw; }
+  body[data-page="page"] .hero--bx[data-bx-variant="terrasses"] .hero__title { max-width: 72vw; margin-top: 1.52vw; }
+  body[data-page="page"] .hero--bx[data-bx-variant="terrasses"] .hero__title .tag { padding-inline: 0.195em; } /* pastille de 796 px (815 avec les 0,31 em de Bureaux) */
+  body[data-page="page"] .hero--bx[data-bx-variant="terrasses"] .hero__lead { max-width: 36vw; margin-top: 1.39vw; }
+  body[data-page="page"] .hero--bx[data-bx-variant="terrasses"] .hero__inner .cta { margin-top: 2.66vw; }
+}

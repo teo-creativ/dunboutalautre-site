@@ -1,0 +1,64 @@
+/* Bande de photos « Les spécificités des terrasses parisiennes » (V7, frames terrasses-08 à 20, canvas 1728 x 1030), première moitié de la scène de Terrasses
+   (scripts/bureaux-matieres.js, profil « terrasses », qui appelle scripts/bureaux-bande.js) : étiquette, titre de 48 px, phrase de 20 px centrés sur le crème,
+   puis deux rangées de photos de 360 px de haut (frame 10 : la 1re de 444 à 804 px, la 2e de 819 à 1179 px) qui défilent en sens opposé, la 1re vers la droite, la
+   2e vers la gauche. Code d'inspiration : retours-v7/references/terrasses-relume-marquee.pdf, porté en CSS natif : une rangée est un cadre qui rogne, son rail contient
+   le jeu de photos répété trois fois (deux copies masquées aux lecteurs d'écran) et une animation linéaire le décale d'un jeu exact en boucle, sans saut. Seul `transform`
+   est animé. En mouvement réduit : rien ne défile, la première copie reste visible. Les photos ont la hauteur de la rangée et le rapport de leur image (--r) ; la largeur d'un
+   jeu (--set) se déduit de la somme des rapports (--sum) et du nombre de photos (--n). Règles préfixées body[data-page="page"]. */
+body[data-page="page"] .mat__band {
+  --band-h: 20.83vw; /* 360 px */
+  --band-gap: 1.16vw; /* 20 px entre deux photos d'une rangée */
+  --band-dur: 60s;
+  color: var(--olive-deep);
+  text-align: center;
+}
+body[data-page="page"] .band__content { display: flex; flex-direction: column; align-items: center; padding: 7vw 0 5rem; }
+body[data-page="page"] .band__head { display: flex; flex-direction: column; align-items: center; gap: 1.1vw; padding-inline: var(--gutter); }
+/* Le titre est olive sur le crème (la section Trois matières met les siens en blanc) : sélecteur plus précis que celui de bureaux-matieres.css, y compris sous html.bx-mat-anim. */
+body[data-page="page"] .mat .band__head .section-title.band__title { --title-color: var(--olive-deep); max-width: none; margin-inline: 0; font-size: var(--fs-text-lg); line-height: 1.6; }
+@media (min-width: 901px) {
+  body[data-page="page"] .mat .band__head .section-title.band__title { max-width: 33vw; } /* « Les spécificités des » puis « terrasses [parisiennes]. » */
+}
+body[data-page="page"] .mat .band__title .tag { --tag-rotate: -2.5deg; padding: 0.1em 0.55em 0.16em; } /* frame 10 : la pastille (286 x 78 px) monte vers la droite */
+body[data-page="page"] .band__lead { max-width: 25em; margin-top: 0.93vw; font-size: var(--fs-body); line-height: 1.5; color: var(--olive-soft); }
+body[data-page="page"] .band__rows { display: grid; gap: 0.87vw; width: 100%; margin-top: 3.4vw; }
+body[data-page="page"] .band__row { overflow: clip; --set: calc(var(--sum) * var(--band-h) + var(--n) * var(--band-gap)); }
+body[data-page="page"] .band__track {
+  display: flex;
+  gap: var(--band-gap);
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: band-right var(--band-dur) linear infinite;
+}
+body[data-page="page"] .band__row--left .band__track { animation-name: band-left; animation-delay: calc(var(--band-dur) * -0.1); }
+body[data-page="page"] .band__item {
+  flex: none;
+  height: var(--band-h);
+  aspect-ratio: var(--r);
+  overflow: clip;
+  border-radius: var(--radius-photo);
+  opacity: var(--band-fade, 1);
+}
+body[data-page="page"] .band__item img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+/* Le script fige les rangées quand la photo de l'olivier prend le relais, et la masque pendant que la photo agrandie la remplace. */
+body[data-page="page"] .mat__band.is-paused .band__track { animation-play-state: paused; }
+/* Une rangée qui défile plus de 5 s se met en pause au survol (WCAG 2.2.2). */
+@media (hover: hover) {
+  body[data-page="page"] .band__row:hover .band__track { animation-play-state: paused; }
+}
+body[data-page="page"] .band__item.is-taken { visibility: hidden; }
+@keyframes band-right { from { transform: translateX(calc(-1 * var(--set))); } to { transform: translateX(0); } }
+@keyframes band-left { from { transform: translateX(0); } to { transform: translateX(calc(-1 * var(--set))); } }
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="page"] .band__track { animation: none; transform: none; }
+}
+
+@media (max-width: 900px) {
+  body[data-page="page"] .mat__band { --band-h: 30vw; --band-gap: 3vw; }
+  body[data-page="page"] .band__content { padding: 4.5rem 0 3rem; }
+  body[data-page="page"] .band__head { gap: 1rem; }
+    body[data-page="page"] .band__lead { margin-top: 1rem; }
+  body[data-page="page"] .band__rows { gap: 3vw; margin-top: 2rem; }
+}

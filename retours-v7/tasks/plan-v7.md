@@ -37,16 +37,16 @@ Sans JavaScript, mouvement réduit, ordinateur, mobile ; 390, 768, 1280 puis 172
   - Acceptation : frames 07 à 09 ; étape active, ligne qui se remplit ; ni lien sous la timeline. Fichiers : données.
 - [x] **S5 FAQ et CTA UI** : 5 questions, première ouverte ; CTA « mérite », sans téléphone ; footer.
   - Acceptation : frames 09 à 13 ; animation du CTA inchangée. Fichiers : données, `cta-final.js` (téléphone facultatif déjà géré).
-- [ ] **Checkpoint 1** : `gate.mjs` complet, captures de Bureaux et Design identiques, HTML des 9 autres pages identique à `dist-before`, `/design:review`, commit, push, workflow vert, page et une image en 200 sur la preview.
+- [x] **Checkpoint 1** : `gate.mjs` complet, captures de Bureaux et Design identiques, HTML des 9 autres pages identique à `dist-before`, `/design:review`, commit, push, workflow vert, page et une image en 200 sur la preview.
 
 ### Briques et page Terrasses (prompt 02, un commit)
-- [ ] **T0 Données et images** : textes V7, 14 images rognées dans `public/assets/images/terrasses/`.
-- [ ] **P Texte sur photo UI** : photo qui monte sur le hero, voile, surtitre, texte, pastilles orange et crème (frames Terrasses 02 à 06). Fichiers : `bureaux-photo-texte.js` (section et script), `bureaux-header.js` (`ORDER`), CSS.
+- [x] **T0 Données et images** : textes V7, 8 images rognées sur 11 livrées dans `public/assets/images/terrasses/`.
+- [x] **P Texte sur photo UI** : photo qui monte sur le hero, voile, surtitre, texte, pastilles orange et crème (frames Terrasses 02 à 06). Fichiers : `bureaux-photo-texte.js` (section et script), `bureaux-header.js` (`ORDER`), CSS.
   - Acceptation : header blanc de la photo au crème ; mobile et mouvement réduit lisibles.
-- [ ] **W Styles UI** : image à gauche, liste, entrée active pilotée par le scroll, `image` par entrée (une seule fournie). Fichiers : `bureaux-styles.js`, CSS. Acceptation : frames 06 à 09 et zoom 07 ; pas de saut de hauteur ni de texte coupé.
-- [ ] **B Bande de photos UI** : 2 rangées en sens opposé (CSS natif, `translateX`), puis une seule image qui grandit (frames 08 à 20). Acceptation : boucle sans saut, rangées arrêtées en mouvement réduit, pas de défilement horizontal. Fichiers : `bureaux-bande.js`, CSS.
-- [ ] **T1 Photo qui grandit et slider de 3 contraintes UI** : profil « terrasses » de `bureaux-matieres`, sans pastille (frames 17 à 28). Le profil Bureaux reste le défaut.
-- [ ] **T2 Processus, FAQ, CTA UI** (frames 28 à 35).
+- [x] **W Styles UI** : image à gauche, liste, entrée active pilotée par le scroll, `image` par entrée (une seule fournie). Fichiers : `bureaux-styles.js`, CSS. Acceptation : frames 06 à 09 et zoom 07 ; pas de saut de hauteur ni de texte coupé.
+- [x] **B Bande de photos UI** : 2 rangées en sens opposé (CSS natif, `translateX`), puis une seule image qui grandit (frames 08 à 20). Acceptation : boucle sans saut, rangées arrêtées en mouvement réduit, pas de défilement horizontal. Fichiers : `bureaux-bande.js`, CSS.
+- [x] **T1 Photo qui grandit et slider de 3 contraintes UI** : profil « terrasses » de `bureaux-matieres`, sans pastille (frames 17 à 28). Le profil Bureaux reste le défaut.
+- [x] **T2 Processus, FAQ, CTA UI** (frames 28 à 35).
 - [ ] **Checkpoint 2** : comme le checkpoint 1.
 
 ### Page Décoration (prompt 03, un commit)

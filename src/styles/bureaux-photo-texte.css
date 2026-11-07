@@ -1,0 +1,32 @@
+/* Texte sur photo plein écran (V7 : « Le branding végétal » de Terrasses, frames terrasses-02 à 06, canvas 1728 x 1030). La section fait un écran : la photo
+   (cadre de la taille de l'écran), le voile (--veil), puis une étiquette et un paragraphe de 48 px à deux pastilles, centrés. Mesures lues sur la frame 04 :
+   étiquette à 327 px, cinq lignes à 414, 486, 558, 630 et 702 px (interligne de 72 px), la plus large (« avoir la chance de répondre [à l'appel du vert]. Encore
+   faut-il ») fait 1 422 px, donc 83 vw. Le texte monte avec la photo : aucune animation propre (le hero reste en place, scripts/bureaux-hero.js ; la section est
+   tenue un écran, scripts/bureaux-hold.js). Règles préfixées body[data-page="page"] : l'accueil et Noël ne peuvent pas être atteints. */
+body[data-page="page"] .ptx {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  padding: var(--section-y) var(--gutter);
+  overflow: clip;
+  color: var(--white);
+  text-align: center;
+}
+body[data-page="page"] .ptx__photo { position: absolute; inset: 0; z-index: -2; margin: 0; }
+body[data-page="page"] .ptx__photo img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+body[data-page="page"] .ptx__veil { position: absolute; inset: 0; z-index: -1; background: var(--veil); }
+body[data-page="page"] .ptx__text { display: flex; flex-direction: column; align-items: center; gap: 2.3vw; }
+body[data-page="page"] .ptx__p { max-width: 83vw; font-size: var(--fs-text-lg); font-weight: 400; line-height: 1.5; }
+/* Pastilles inclinées de -1° (orange) et +1° (crème) comme celles du texte « Le branding végétal » de Design. */
+body[data-page="page"] .ptx__p .tag--orange { --tag-rotate: -1deg; }
+body[data-page="page"] .ptx__p .tag--cream { --tag-rotate: 1deg; }
+
+@media (max-width: 900px) {
+  body[data-page="page"] .ptx { min-height: 85svh; }
+  body[data-page="page"] .ptx__text { gap: 1.5rem; }
+  /* Pas de frame mobile : le voile qui tient 4,5:1 pour du texte de 22 px, même sous un pixel blanc (comme les matières). */
+  body[data-page="page"] .ptx__veil { background: var(--veil-strong); }
+  body[data-page="page"] .ptx__p { max-width: none; font-size: clamp(1.25rem, 5.6vw, 1.75rem); }
+}

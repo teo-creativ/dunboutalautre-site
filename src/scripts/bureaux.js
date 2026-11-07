@@ -10,12 +10,14 @@ import { initBureauxHold } from "./bureaux-hold.js";
 import { initBureauxInstalle } from "./bureaux-installe.js";
 import { initBureauxMatieres } from "./bureaux-matieres.js";
 import { initBureauxPourquoi } from "./bureaux-pourquoi.js";
+import { initBureauxStyles } from "./bureaux-styles.js";
 
 export function initBureaux() {
   initBureauxHero();
   initBureauxChiffres();
   initBureauxInstalle();
   initBureauxHold(); // Design (V6) : tenue de « Nos 5 créations » sous l'orange, avant le pin des matières
+  initBureauxStyles(); // Terrasses et Décoration (V7) : « Nos styles d'aménagement », épinglée, avant la scène suivante
   initBureauxMatieres();
   initBureauxPourquoi();
   initBureauxAvis();

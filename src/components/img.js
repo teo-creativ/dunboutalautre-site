@@ -15,3 +15,10 @@ export default ({ src, alt = "", sizes = "100vw", class: className, loading = "l
 
   return `<img${className ? ` class="${className}"` : ""} src="${base}/${src}-${largest}.webp" srcset="${srcset}" sizes="${sizes}" width="${largest}" height="${height}" alt="${alt}" loading="${loading}" decoding="async"${fetchpriority ? ` fetchpriority="${fetchpriority}"` : ""} />`;
 };
+
+// Dimensions d'origine d'une photo du manifeste (largeur et hauteur en px) : une photo en dépend pour sa mise en page (rapport largeur sur hauteur).
+export const imgSize = (src) => {
+  const entry = JSON.parse(readFileSync(manifestUrl, "utf8"))[src];
+  if (!entry) throw new Error(`imgSize : « ${src} » absent du manifeste (lancer npm run images)`);
+  return { w: entry.w, h: entry.h };
+};

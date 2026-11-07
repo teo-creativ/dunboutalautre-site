@@ -1,6 +1,8 @@
-// Page Terrasses : tous les textes viennent de docs/copywriting/05-terrasses.md (premier jet, à retravailler avec la cliente), le title
-// et la meta de docs/arborescence-et-strategie.md. Une valeur inconnue est un todo(), jamais un texte inventé.
-import { todo } from "../../components/placeholder.js";
+// Page Terrasses : les textes viennent de docs/copywriting/05-terrasses.md (premier jet, à retravailler avec la cliente), le title et la meta de
+// docs/arborescence-et-strategie.md. Une valeur inconnue est un todo(), jamais un texte inventé.
+// V7 (retours-v7, maquette de la cliente) : l'ordre des sections est celui de retours-v7/docs/02-TERRASSES.md ; les textes que la maquette change
+// sont listés dans `designTexts` (scripts/check-site.js les compte au lieu de les refuser). `proposition: true` : texte proposé par le fondateur
+// (doc 02), à valider ; il n'est pas dans le copywriting.
 
 export const terrasses = {
   id: "terrasses",
@@ -9,31 +11,78 @@ export const terrasses = {
   title: "Aménagement de terrasse à Paris | D'un Bout À L'autre",
   description:
     "D'un Bout À L'autre aménage votre terrasse à Paris : conception, plantation et suivi, pour appartements, hôtels, restaurants et entreprises. Devis gratuit.",
+  // Textes pris sur la maquette V7 (frames terrasses-01 à 35) ou proposés par le fondateur, absents du copywriting 05 ou modifiés par rapport à lui.
+  designTexts: [
+    "Appartement",
+    "Hôtel",
+    "Restaurant",
+    "Entreprise.",
+    "Du choix des végétaux à l'installation, en passant par le suivi saisonnier : on s'occupe de tout.",
+    "Demander un devis",
+    "Le branding végétal",
+    "Dans nos villes bétonnées, posséder une terrasse, c'est avoir la chance de répondre à l'appel du vert. Encore faut-il qu'elle soit pensée pour la ville : charge limitée, vent, accès compliqué. On s'occupe de tout, pour que votre terrasse devienne une vraie parenthèse végétale.",
+    "à l'appel du vert",
+    "une vraie parenthèse végétale",
+    "Nos styles d'aménagement",
+    "Votre terrasse mérite un style d'aménagement qui lui ressemble.",
+    "mérite",
+    "Oliviers, lavande, romarin, graminées. Une végétation sobre et parfumée, qui supporte le soleil et le vent.",
+    "Peu d'espèces, de grands volumes, des contenants sobres. Un jardin graphique qui laisse respirer l'espace.",
+    "Vivaces, grimpantes et floraisons qui se succèdent. Une terrasse colorée qui change au fil des mois.",
+    "L'expertise des terrasses parisiennes",
+    "Les spécificités des terrasses parisiennes.",
+    "parisiennes",
+    "Aménager une terrasse à Paris, c'est devoir travailler avec des contraintes propres à la ville.",
+    "Les trois contraintes",
+    "NOTRE PROCESSUS DE CRÉATION",
+    "De votre idée à la pose, on travaille en collaboration.",
+    "en collaboration",
+    "Les questions qu'on nous pose fréquemment.",
+    "fréquemment",
+    "Ma terrasse peut supporter quel poids ?",
+    "La charge maximale dépend de la structure de votre immeuble. En règle générale, on recommande de ne pas dépasser 150 à 200 kg/m². On travaille avec des substrats allégés et des contenants adaptés pour rester dans ces limites.",
+    "Quelles plantes pour une terrasse très ensoleillée ?",
+    "Votre terrasse mérite d'être aménagée.",
+  ],
   sections: [
     {
+      // Hero de Bureaux et Design : mots-clés en capitales à l'écran (le point final de « Entreprise. » est sur la maquette), titre à pastille.
       type: "hero",
+      bx: true,
+      variant: "terrasses",
+      keywords: ["Appartement", "Hôtel", "Restaurant", "Entreprise."],
       title: "Aménagement de terrasse à Paris : votre espace extérieur, de la conception au suivi.",
       tag: "votre espace extérieur",
-      lead: "Du choix des végétaux à l'installation, en passant par le suivi saisonnier : on s'occupe de tout. Appartement, hôtel, restaurant ou entreprise.",
-      cta: "Demander un devis gratuit",
+      lead: "Du choix des végétaux à l'installation, en passant par le suivi saisonnier : on s'occupe de tout.",
+      cta: "Demander un devis",
     },
     {
-      type: "intro",
-      paragraphs: [
-        "Dans nos villes bétonnées, posséder une terrasse, c'est avoir la chance de répondre à l'appel du vert. Encore faut-il qu'elle soit pensée pour la ville : charge limitée, vent, accès compliqué. On s'occupe de tout, pour que votre terrasse devienne une vraie parenthèse végétale.",
+      // « Le branding végétal » (frames 02 à 06) : l'intitulé semble sorti d'un autre projet (le texte parle de la ville, pas de branding),
+      // reproduit tel quel (point 3 des points à valider V7). La photo monte sur le hero, le texte est tenu avec elle un écran.
+      type: "bureaux-photo-texte",
+      label: "Le branding végétal",
+      photo: "terrasses/amenagement-01",
+      alt: "Olivier dans un grand pot en pierre sur une terrasse parisienne, devant un immeuble aux fenêtres à volets et un canapé crème.",
+      text: "Dans nos villes bétonnées, posséder une terrasse, c'est avoir la chance de répondre à l'appel du vert. Encore faut-il qu'elle soit pensée pour la ville : charge limitée, vent, accès compliqué. On s'occupe de tout, pour que votre terrasse devienne une vraie parenthèse végétale.",
+      tags: [
+        { text: "à l'appel du vert", variant: "orange" },
+        { text: "une vraie parenthèse végétale", variant: "cream" },
       ],
     },
     {
-      type: "offers",
-      label: "NOS STYLES D'AMÉNAGEMENT",
+      // « Nos styles d'aménagement » (frames 06 à 09) : une seule image fournie pour l'instant (`photo`), la structure accepte une `photo` par entrée
+      // (point 4 des points à valider V7). Seule la description du Tropical vient du copywriting : les trois autres sont les propositions du doc 02.
+      type: "bureaux-styles",
+      label: "Nos styles d'aménagement",
       title: "Votre terrasse mérite un style d'aménagement qui lui ressemble.",
-      tag: "qui lui ressemble",
-      photo: { src: "photos/terrasse-graminees-sacre-coeur", alt: "Terrasse parisienne plantée de graminées, avec le Sacré-Cœur au loin" },
-      initial: 0,
+      tag: "mérite",
+      photo: "terrasses/style-01",
+      alt: "Palmier dans un pot en pierre devant la balustrade d'un balcon, à côté d'un canapé aux coussins crème.",
       items: [
         {
           title: "Méditerranéen",
-          text: "Olivier, lavande, agapanthes, romarin, pittosporum. Des couleurs douces, des matières naturelles, une ambiance chaleureuse. Pour ceux qui veulent se téléporter en Provence dès qu'ils ouvrent leur porte-fenêtre.",
+          text: "Oliviers, lavande, romarin, graminées. Une végétation sobre et parfumée, qui supporte le soleil et le vent.",
+          proposition: true,
         },
         {
           title: "Tropical",
@@ -41,37 +90,69 @@ export const terrasses = {
         },
         {
           title: "Épuré & contemporain",
-          text: "Des lignes nettes, une palette verte sobre, des végétaux structurants. Une composition simple mais rassurante.",
+          text: "Peu d'espèces, de grands volumes, des contenants sobres. Un jardin graphique qui laisse respirer l'espace.",
+          proposition: true,
         },
         {
           title: "Fleuri",
-          text: "Rosiers, lavandes, hortensias, cosmos. Pour ceux qui veulent une terrasse vivante, qui évolue au fil des saisons.",
+          text: "Vivaces, grimpantes et floraisons qui se succèdent. Une terrasse colorée qui change au fil des mois.",
+          proposition: true,
         },
       ],
     },
     {
-      type: "cards",
-      label: "L'EXPERTISE DES TERRASSES PARISIENNES",
-      title: "Les spécificités des terrasses parisiennes",
-      tag: "terrasses parisiennes",
-      lead: "Aménager une terrasse à Paris, c'est devoir travailler avec des contraintes propres à la ville.",
+      // « Les spécificités des terrasses parisiennes » (frames 08 à 20) puis la photo qui grandit et le slider des trois contraintes (frames 17 à 28) :
+      // une seule scène épinglée (scripts/bureaux-matieres.js, profil « terrasses », bande dans scripts/bureaux-bande.js). Deux rangées de photos en
+      // sens opposé (la 1re vers la droite, la 2e vers la gauche, comme sur les frames 10 à 13) ; la photo de l'olivier (`hero`) est le premier fond du
+      // slider. L'ordre des rangées est celui des frames : la 2e rangée reprend la photo des graminées après l'olivier (le doc n'en cite que trois).
+      // Titres du slider sans pastille (comme Design).
+      type: "bureaux-matieres",
+      variant: "terrasses",
+      sliderLabel: "Les trois contraintes",
+      band: {
+        label: "L'expertise des terrasses parisiennes",
+        title: "Les spécificités des terrasses parisiennes.",
+        tag: "parisiennes",
+        lead: "Aménager une terrasse à Paris, c'est devoir travailler avec des contraintes propres à la ville.",
+        rows: [
+          [
+            { photo: "terrasses/gallery-05", alt: "Brins de lavande en fleur au premier plan, avec la tour Eiffel floue au loin." },
+            { photo: "terrasses/gallery-03", alt: "Graminées de plusieurs teintes sur une terrasse, avec Montmartre et le Sacré-Cœur au fond." },
+            { photo: "terrasses/gallery-02", alt: "Branches de pin au premier plan, avec la tour Eiffel au loin." },
+            { photo: "terrasses/gallery-06", alt: "Palmier devant la balustrade d'un balcon, à côté d'un canapé crème." },
+          ],
+          [
+            { photo: "terrasses/gallery-01", alt: "Plante verte à longues feuilles sur un balcon, avec les toits de l'Hôtel de Ville de Paris derrière." },
+            { photo: "terrasses/gallery-04", alt: "Fleurs de jasmin blanc devant un ciel nuageux et la tour Eiffel." },
+            { photo: "terrasses/bg-01", alt: "Olivier dans un pot en pierre sur une terrasse, avec un fauteuil crème et une grande baie vitrée.", hero: true },
+            { photo: "terrasses/gallery-03", alt: "Graminées de plusieurs teintes sur une terrasse, avec Montmartre et le Sacré-Cœur au fond." },
+          ],
+        ],
+      },
       items: [
         {
           title: "Poids et charges",
           text: "Chaque dalle de terrasse a une charge maximale autorisée, souvent bien inférieure à ce qu'on imagine. On travaille avec des substrats allégés et des contenants adaptés pour rester dans les limites structurelles de votre immeuble, sans vous exposer à aucun risque.",
+          photo: "terrasses/bg-01",
+          alt: "Olivier dans un pot en pierre sur une terrasse, avec un fauteuil crème et une grande baie vitrée.",
         },
         {
           title: "Ensoleillement et vent",
           text: "Selon l'orientation, l'étage et les bâtiments voisins, une terrasse peut être très ensoleillée, très ombragée, ou les deux selon les heures. On sélectionne les végétaux en fonction de votre exposition réelle.",
+          photo: "terrasses/bg-02",
+          alt: "Graminées au premier plan, avec Montmartre et le Sacré-Cœur dans la brume au loin.",
         },
         {
           title: "Accès et logistique",
           text: "Ascenseur, escalier, monte-charge : on gère la logistique d'approvisionnement de A à Z pour que vous n'ayez rien à coordonner.",
+          photo: "terrasses/bg-03",
+          alt: "Lavande en fleur au premier plan, avec la tour Eiffel et les toits de Paris flous au loin.",
         },
       ],
     },
     {
       type: "process",
+      variant: "v7",
       label: "NOTRE PROCESSUS DE CRÉATION",
       title: "De votre idée à la pose, on travaille en collaboration.",
       tag: "en collaboration",
@@ -93,33 +174,24 @@ export const terrasses = {
           text: "Taille, remplacement des végétaux saisonniers, préparation hivernale, adaptation au printemps. Pour que votre terrasse reste belle toute l'année, pas seulement en juin.",
         },
       ],
-      more: { label: "Découvrir nos abonnements", to: "/entretien-abonnement-plantes-entreprise-paris/" },
+      // Pas de lien « Découvrir nos abonnements » sous la timeline : la maquette n'en montre pas.
     },
     {
-      type: "gallery",
-      label: "GALERIE APERÇU",
-      items: [
-        { photo: { src: "photos/terrasse-graminees-sacre-coeur", alt: "Graminées de plusieurs teintes sur une terrasse, avec les toits de Paris et le Sacré-Cœur au fond" } },
-        { photo: { src: "photos/terrasse-lavande-tour-eiffel", alt: "Brins de lavande en fleur sur une terrasse, avec la tour Eiffel floue à l'arrière-plan" } },
-        { photo: { src: "photos/terrasse-olivier-carex", alt: "Touffe de carex au pied d'un olivier en pot, sur un balcon parisien" } },
-        { photo: { src: "photos/terrasse-pot-manuka-balcon", alt: "Pot fleuri de manuka rose et d'iris violets sur un balcon à garde-corps blanc" } },
-        { photo: null },
-        { photo: null },
-      ],
-      cta: { label: "Voir tous nos projets", to: "/realisations/" },
-    },
-    {
+      // FAQ à 5 questions (frames 31 à 33). Les réponses sont celles du copywriting (valeur par défaut retenue pour le point 6 des points à valider V7,
+      // comme sur Scénographie) ; la première perd sa dernière phrase, comme sur la maquette. La question sur les plantes ne parle que du soleil sur la
+      // maquette : la réponse du copywriting couvre aussi l'ombre.
       type: "faq",
+      variant: "v7",
       label: "FAQ",
       title: "Les questions qu'on nous pose fréquemment.",
       tag: "fréquemment",
       items: [
         {
           q: "Ma terrasse peut supporter quel poids ?",
-          a: "La charge maximale dépend de la structure de votre immeuble. En règle générale, on recommande de ne pas dépasser 150 à 200 kg/m². On travaille avec des substrats allégés et des contenants adaptés pour rester dans ces limites. En cas de doute, un bureau d'études peut être consulté.",
+          a: "La charge maximale dépend de la structure de votre immeuble. En règle générale, on recommande de ne pas dépasser 150 à 200 kg/m². On travaille avec des substrats allégés et des contenants adaptés pour rester dans ces limites.",
         },
         {
-          q: "Quelles plantes pour une terrasse très ensoleillée / peu ensoleillée ?",
+          q: "Quelles plantes pour une terrasse très ensoleillée ?",
           a: "Ensoleillée : lavande, agapanthes, graminées, olivier, rosiers. Ombragée : fougères, hostas, hortensias, buis. On adapte toujours la sélection à votre exposition réelle, évaluée lors de la visite.",
         },
         {
@@ -137,11 +209,12 @@ export const terrasses = {
       ],
     },
     {
+      // Bandeau final (frames 33 à 35) : « mérite » porte la pastille ; pas de ligne de téléphone (les coordonnées sont dans le footer et le menu).
       type: "cta-final",
+      variant: "terrasses",
       title: "Votre terrasse mérite d'être aménagée.",
-      tag: "d'être aménagée",
+      tag: "mérite",
       cta: "Demander un devis",
-      phone: { label: "Téléphone :", value: todo("téléphone") },
     },
   ],
 };

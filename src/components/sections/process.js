@@ -6,8 +6,8 @@ import { linkTo } from "../links.js";
 import { processSection } from "../noel-process.js";
 import { titleHtml } from "../title.js";
 
-export default ({ label, title, tag, steps, more }) =>
-  processSection({ label, titleHtml: titleHtml(title, tag), steps }) +
+export default ({ label, title, tag, steps, more, variant }) =>
+  processSection({ label, titleHtml: titleHtml(title, tag), steps, variant }) +
   (more
     ? `\n      <div class="more" data-header-theme="light" data-header-gradient="cream">${cta({ label: more.label, variant: "on-cream", href: linkTo(more.to) })}</div>`
     : "");

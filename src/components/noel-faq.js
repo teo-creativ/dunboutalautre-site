@@ -3,7 +3,7 @@
 // (role region, aria-labelledby). Un seul panneau est ouvert à la fois, le premier d'emblée : les autres portent hidden. Sans
 // JavaScript, toutes les réponses sont affichées (feuille <noscript> de noel-seo.js). Le JSON-LD FAQPage vient des mêmes données.
 // faq() rend n'importe quelle FAQ (titre déjà balisé, carte d'aide facultative) : les pages secondaires l'appellent avec leurs données ;
-// l'export par défaut rend la FAQ de Noël, octet pour octet comme avant. Une réponse peut être un todo() (texte à fournir).
+// l'export par défaut rend la FAQ de Noël, octet pour octet comme avant. `variant` : jeu de mesures propre à une page (data-bx-variant, V7). Une réponse peut être un todo() (texte à fournir).
 import { noel } from "../data/noel.js";
 import { esc, fr } from "./utils.js";
 import { cta } from "./cta.js";
@@ -24,7 +24,7 @@ const renderList = (items) =>
     )
     .join("\n          ");
 
-export const faq = ({ label, titleHtml, help, items }) => `<section id="faq" class="faq" data-header-theme="light" data-header-gradient="cream" aria-labelledby="faq-title">
+export const faq = ({ label, titleHtml, help, items, variant }) => `<section id="faq" class="faq"${variant ? ` data-bx-variant="${esc(variant)}"` : ""} data-header-theme="light" data-header-gradient="cream" aria-labelledby="faq-title">
         <div class="faq__inner">
           <div class="faq__intro">
             <div class="faq__head" data-reveal="head">

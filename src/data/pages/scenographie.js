@@ -1,33 +1,68 @@
-// Page Scénographie végétale & événementiel : tous les textes viennent de docs/copywriting/04-scenographie-vegetale-et-evenementiel.md
-// (premier jet, à retravailler avec la cliente), le title et la meta de docs/arborescence-et-strategie.md. Une valeur inconnue est un
-// todo(), jamais un texte inventé. Les clients sans logo fourni (Eataly, ONF, Ambassade d'Italie) ont `logo: null` : [À compléter].
-import { todo } from "../../components/placeholder.js";
+// Page Scénographie végétale & événementiel : les textes viennent de docs/copywriting/04-scenographie-vegetale-et-evenementiel.md (premier jet,
+// à retravailler avec la cliente), le title et la meta de docs/arborescence-et-strategie.md. Une valeur inconnue est un todo(), jamais un texte inventé.
+// V7 (retours-v7, maquette de la cliente) : l'ordre est celui de retours-v7/docs/01-SCENOGRAPHIE.md ; les textes que la maquette change sont
+// listés dans `designTexts` (scripts/check-site.js les compte au lieu de les refuser). Les ateliers végétaux auront leur propre page : ils ne
+// figurent plus ici (ni liste, ni cartes, ni galerie, ni question de FAQ), et aucun lien ne mène à cette page future.
 
 export const scenographie = {
   id: "scenographie",
   path: "/scenographie-vegetale-evenementiel-paris/",
   source: "04-scenographie-vegetale-et-evenementiel.md",
   title: "Scénographie végétale & événementiel | D'un Bout À L'autre",
+  // Sans « ateliers » : la page Ateliers végétaux n'existe pas encore (retours-v7/docs/01-SCENOGRAPHIE.md).
   description:
-    "Scénographie végétale pour vos événements d'entreprise à Paris : lancements, soirées, salons, shootings, ateliers. Conception, fabrication, installation.",
+    "Scénographie végétale pour vos événements d'entreprise à Paris : lancements, soirées, salons, shootings. Conception, fabrication, installation.",
+  // Textes pris sur la maquette V7 (frames scenographie-01 à 13), absents du copywriting 04 ou modifiés par rapport à lui.
+  designTexts: [
+    "Scénographie végétale pour vos événements d'entreprise à Paris : lancements, soirées, salons, shootings. Conception, fabrication, installation.",
+    "Lancements",
+    "Soirées",
+    "Salons",
+    "Shootings",
+    "Scénographie végétale à Paris : on transforme vos événements en décors sur mesure.",
+    "Nous concevons, fabriquons, installons et démontons votre décor végétal.",
+    "Parlons de votre événement",
+    "NOS 3 CRÉATIONS",
+    "Un décor végétal pour chacun de vos événements.",
+    "Lancement de produit, conférence, salon professionnel, inauguration, showroom : nous habillons vos événements professionnels avec des décors en accord avec votre identité de marque.",
+    "NOS RÉALISATIONS",
+    "Voir plus de réalisations",
+    "NOTRE PROCESSUS DE CRÉATION",
+    "De votre idée à la pose, on travaille en collaboration.",
+    "en collaboration",
+    "Les questions qu'on nous pose fréquemment.",
+    "fréquemment",
+    "Quels sont les budgets minimum pour un événement ?",
+    "Faites-vous aussi des mariages ?",
+    "Pour un événement d'entreprise standard, comptez idéalement 2 à 3 semaines de préparation. Pour les scénographies de grande envergure, 2 à 3 mois sont préférables pour avoir le temps de concevoir, de fabriquer et de commander les végétaux adaptés.",
+    "Votre prochain événement mérite un décor à la hauteur.",
+  ],
   sections: [
     {
+      // Hero de Bureaux et Design (V5, V6) : mots-clés en capitales à l'écran, titre à pastille, il reste en place et s'estompe sous la liste.
       type: "hero",
-      title: "Scénographie végétale et événementiel à Paris : on transforme vos événements en décors sur mesure.",
-      tag: "décors sur mesure",
-      lead: "Lancements, soirées, salons, shootings : nous concevons, fabriquons, installons et démontons votre décor végétal.",
+      bx: true,
+      variant: "scenographie",
+      keywords: ["Lancements", "Soirées", "Salons", "Shootings"],
+      title: "Scénographie végétale à Paris : on transforme vos événements en décors sur mesure.",
+      tag: "vos événements",
+      lead: "Nous concevons, fabriquons, installons et démontons votre décor végétal.",
       cta: "Parlons de votre événement",
     },
     {
-      type: "cards",
-      label: "POUR QUEL TYPE D'ÉVÉNEMENT ?",
+      // « Nos créations » (frames 03 à 05) : la liste à ligne active de Bureaux et Design, sans tenue. La frame montre une 4e ligne « Ateliers
+      // végétaux » : retirée (point 2 des points à valider V7), il reste trois entrées, donc « NOS 3 CRÉATIONS ». La 1re ligne perd sa seconde phrase,
+      // absente de la maquette.
+      type: "bureaux-pourquoi",
+      variant: "scenographie",
+      endRule: true,
+      label: "NOS 3 CRÉATIONS",
       title: "Un décor végétal pour chacun de vos événements.",
-      tag: "chacun de vos événements",
-      lead: "Nous transformons vos événements en décors végétaux sur mesure.",
+      tag: "vos événements",
       items: [
         {
           title: "Événements d'entreprise",
-          text: "Lancement de produit, conférence, salon professionnel, inauguration, showroom : nous habillons vos événements professionnels avec des décors en accord avec votre identité de marque. Des compositions de table à l'installation scénographique complète, nous nous adaptons à la taille et à l'ambiance de chaque événement.",
+          text: "Lancement de produit, conférence, salon professionnel, inauguration, showroom : nous habillons vos événements professionnels avec des décors en accord avec votre identité de marque.",
         },
         {
           title: "Soirées et cocktails",
@@ -37,50 +72,25 @@ export const scenographie = {
           title: "Photocalls et shootings",
           text: "Photocall, shooting photo : un décor pensé pour être photographié. Fonds végétaux, structures, compositions suspendues : ils font toujours leur effet à l'image, et sur les réseaux.",
         },
-        {
-          title: "Ateliers végétaux",
-          text: "Terrarium, bouquet, atelier sur mesure : une animation créative pour vos équipes ou vos invités. Les formats sont détaillés plus bas, dans la section Ateliers.",
-        },
       ],
     },
     {
-      type: "cards",
-      label: "NOS RÉFÉRENCES",
-      title: "Ils nous ont fait confiance pour leurs événements.",
+      // « Nos réalisations » (frames 05 à 07) : deux cartes de la page Réalisations, reprises par leur titre (une seule source :
+      // src/data/pages/realisations.js), et le bouton vers la liste.
+      type: "fiche-autres",
+      variant: "v7",
+      label: "NOS RÉALISATIONS",
+      heading: "Ils nous ont fait confiance pour leurs événements.",
       tag: "leurs événements",
-      lead: "Nous avons eu la chance de travailler sur des projets d'exception avec des clients qui nous ont fait confiance pour des événements exigeants. En voici quelques-uns dont nous sommes particulièrement fiers.",
-      items: [
-        {
-          logo: null,
-          title: "Eataly Paris",
-          text: "Façade entièrement fleurie pour le printemps et l'été, plafond végétalisé pour la période de Noël, décoration de la press day. Des projets de scénographie de grande échelle, réalisés à plusieurs reprises avec les équipes d'Eataly au BHV Marais.",
-        },
-        {
-          logo: "bhv-marais",
-          title: "BHV Marais",
-          text: "Décoration de la terrasse du soleil du Marais, scénographie du réveillon du Nouvel An. Des interventions visuellement fortes dans l'un des lieux les plus fréquentés de Paris.",
-        },
-        {
-          logo: null,
-          title: "Ambassade d'Italie",
-          text: "Décoration florale pour des événements officiels et décoration de Noël, des projets qui demandent rigueur, élégance et respect du protocole.",
-        },
-        {
-          logo: null,
-          title: "ONF",
-          text: "Reconstitution d'un décor forestier complet dans le Pavillon du Climat à Paris. Un projet de scénographie immersive hors norme, alliant technique et sens artistique.",
-        },
-        {
-          title: "Floral Fashion Show",
-          text: "Scénographie florale complète pour un défilé de mode, habillage de podium, arches et compositions florales suspendues, ambiance végétale totale.",
-        },
-      ],
+      featured: ["Façade Végétalisée Atelier DGE", "Décor Saint Tropez"],
+      more: { label: "Voir plus de réalisations", to: "/realisations/" },
     },
     {
       type: "process",
-      label: "NOTRE APPROCHE",
-      title: "Conception, fabrication, installation, démontage : on s'occupe de tout.",
-      tag: "on s'occupe de tout",
+      variant: "v7",
+      label: "NOTRE PROCESSUS DE CRÉATION",
+      title: "De votre idée à la pose, on travaille en collaboration.",
+      tag: "en collaboration",
       steps: [
         {
           title: "Consultation",
@@ -101,66 +111,18 @@ export const scenographie = {
       ],
     },
     {
-      type: "cards",
-      label: "LES ATELIERS VÉGÉTAUX",
-      title: "Animez vos équipes avec un atelier végétal.",
-      tag: "un atelier végétal",
-      lead: "Créer quelque chose de ses mains, en groupe, autour du végétal, c'est à la fois simple et puissant. Nos ateliers végétaux sont conçus pour ça : offrir un moment de détente et de lien social, loin des écrans et des réunions. Que vous soyez une startup de 15 personnes, une grande entreprise cherchant une animation originale pour son séminaire ou même une famille voulant découvrir ce que l'on peut faire des plantes, nous adaptons le format et le contenu à votre groupe.",
-      items: [
-        {
-          title: "Atelier Terrarium",
-          text: "Chaque participant crée son propre écosystème miniature en bocal. Après une courte introduction sur les plantes et leurs besoins, chacun compose son terrarium à sa façon, avec les végétaux et les éléments décoratifs mis à disposition. On repart avec sa création, prête à vivre sur un bureau ou une étagère.",
-          facts: [
-            { label: "Durée", value: "2h environ" },
-            { label: "Participants", value: "10 à 80 personnes" },
-            { label: "Lieu", value: "dans vos locaux ou à Paris" },
-            { label: "Ce qu'on repart avec", value: "son terrarium personnalisé, prêt à vivre" },
-          ],
-        },
-        {
-          title: "Atelier Bouquet",
-          text: "Initiation aux techniques de composition florale guidée par notre équipe. Chaque participant apprend à sélectionner ses fleurs, à les composer et à conditionner son bouquet. On repart avec sa création, ficelée et prête à offrir.",
-          facts: [
-            { label: "Durée", value: "1h30 à 2h" },
-            { label: "Participants", value: "8 à 50 personnes" },
-            { label: "Lieu", value: "dans vos locaux ou à Paris" },
-            { label: "Ce qu'on repart avec", value: "son bouquet ou sa composition florale" },
-          ],
-        },
-        {
-          title: "Atelier sur mesure",
-          text: "Séminaire, onboarding, journée d'équipe, événement CSE : on conçoit un atelier végétal taillé pour votre groupe. Thème, durée, nombre de participants, lieu : tout est défini ensemble. On peut aussi combiner plusieurs ateliers sur une même journée pour un programme complet.",
-          facts: [
-            { label: "Durée", value: "selon le programme défini ensemble" },
-            { label: "Participants", value: "15 à 150 personnes" },
-            { label: "Lieu", value: "dans vos locaux (toute France) ou à Paris" },
-            { label: "Formules", value: "demi-journée, journée, soirée" },
-          ],
-        },
-      ],
-    },
-    {
-      type: "gallery",
-      label: "GALERIE",
-      items: [
-        { photo: { src: "photos/event-floral-fashion-show-ailes", alt: "Femme entre deux grandes ailes végétales en herbes de la pampa" } },
-        { photo: { src: "photos/event-floral-fashion-show-roses", alt: "Mannequin devant des arches de roses roses et rouges lors du Floral Fashion Show" } },
-        { photo: { src: "photos/noel-eataly-plafond-vegetalise", alt: "Plafond d'un restaurant recouvert de lierre, de fougères blanches et de suspensions en verre" } },
-        { photo: null },
-        { photo: null },
-        { photo: null },
-      ],
-      cta: { label: "Voir toutes nos réalisations événementielles", to: "/realisations/" },
-    },
-    {
+      // FAQ à 5 questions (frames 09 à 13), dans l'ordre de la maquette. Les réponses sont celles du copywriting (valeur par défaut retenue
+      // pour le point 6 des points à valider V7) ; la première perd sa dernière phrase, comme sur la frame 10. La question sur les ateliers
+      // (copywriting) n'est plus affichée.
       type: "faq",
+      variant: "v7",
       label: "FAQ",
-      title: "Les questions les plus fréquentes sur la scénographie et l'événementiel.",
-      tag: "les plus fréquentes",
+      title: "Les questions qu'on nous pose fréquemment.",
+      tag: "fréquemment",
       items: [
         {
           q: "Quel délai prévoir pour organiser un décor végétal ?",
-          a: "Pour un événement d'entreprise standard, comptez idéalement 2 à 3 semaines de préparation. Pour les scénographies de grande envergure, 2 à 3 mois sont préférables pour avoir le temps de concevoir, de fabriquer et de commander les végétaux adaptés. On peut cependant intervenir sur des délais plus courts pour des projets simples.",
+          a: "Pour un événement d'entreprise standard, comptez idéalement 2 à 3 semaines de préparation. Pour les scénographies de grande envergure, 2 à 3 mois sont préférables pour avoir le temps de concevoir, de fabriquer et de commander les végétaux adaptés.",
         },
         {
           q: "Proposez-vous le démontage après l'événement ?",
@@ -171,25 +133,23 @@ export const scenographie = {
           a: "Oui. Nous intervenons dans toute l'Île-de-France et en dehors pour les projets d'envergure. N'hésitez pas à nous contacter même si votre lieu de réception est en région.",
         },
         {
-          q: "Quels sont les budgets minimum pour un événement d'entreprise ?",
+          q: "Quels sont les budgets minimum pour un événement ?",
           a: "Nos prestations événementielles commencent à quelques centaines d'euros pour un décor simple (compositions de table, quelques arrangements) et peuvent aller jusqu'à plusieurs milliers pour une scénographie complète. Contactez-nous avec votre brief pour recevoir un devis adapté.",
         },
         {
-          q: "Combien de personnes minimum pour un atelier ?",
-          a: "À partir de 8 pour l'atelier bouquet, 10 pour le terrarium. Pour les formats sur mesure, contactez-nous selon votre configuration.",
-        },
-        {
-          q: "Faites-vous aussi des mariages et des événements privés ?",
+          q: "Faites-vous aussi des mariages ?",
           a: "Oui, sur demande. Notre activité se concentre sur les entreprises, mais nous créons aussi des décors pour des événements privés : mariages, anniversaires, enterrements de vie de jeune fille. Contactez-nous avec votre projet.",
         },
       ],
     },
     {
+      // Bandeau final (frames 11 à 13) : « mérite » porte la pastille ; pas de ligne de téléphone, la frame 12 n'en montre pas (les coordonnées
+      // sont dans le footer et le menu).
       type: "cta-final",
+      variant: "v7",
       title: "Votre prochain événement mérite un décor à la hauteur.",
-      tag: "un décor à la hauteur",
+      tag: "mérite",
       cta: "Demander un devis",
-      phone: { label: "Téléphone :", value: todo("téléphone") },
     },
   ],
 };

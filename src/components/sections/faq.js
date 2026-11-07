@@ -3,4 +3,4 @@
 import { faq } from "../noel-faq.js";
 import { titleHtml } from "../title.js";
 
-export default ({ label, title, tag, items }) => faq({ label, titleHtml: titleHtml(title, tag), help: null, items });
+export default ({ label, title, tag, items, variant }) => faq({ label, titleHtml: titleHtml(title, tag), help: null, items, variant });

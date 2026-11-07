@@ -132,3 +132,18 @@ body[data-page="page"] .fothers__more { display: flex; justify-content: center; 
   body[data-page="page"] .fothers__list { grid-template-columns: 1fr; margin-top: 1.5rem; }
   body[data-page="page"] .fothers__more { margin-top: 2.5rem; }
 }
+
+/* Variante « v7 » (Scénographie et Décoration, frames scenographie-05 à 07) : le titre est plus large que sur la fiche projet, « Ils nous ont fait
+   confiance » (615 px) tient sur la première ligne, « pour » passe à la suivante. */
+@media (min-width: 901px) {
+  body[data-page="page"] .fothers[data-bx-variant="v7"] { padding-top: 6.9vw; } /* 240 px entre le filet de la liste et l'étiquette (frame 05), 308 avec les 11 vw de la fiche */
+  body[data-page="page"] .fothers[data-bx-variant="v7"] .fothers__title { max-width: 38vw; }
+  /* Étiquette de 23 px (« NOS RÉALISATIONS » mesure 213 px sur la frame 06, 184 à 20 px), pastille droite à 26 px du mot (frame 06). */
+  body[data-page="page"] .fothers[data-bx-variant="v7"] .label { font-size: var(--fs-label-lg); }
+  body[data-page="page"] .fothers[data-bx-variant="v7"] .tag { --tag-rotate: 0deg; margin-left: 0.29em; }
+  /* Cartes de 680 x 392 px (frame 06 : 392 px de photo, légende 9 px plus bas, bouton 55 px sous la légende) au lieu de 680 x 370. */
+  body[data-page="page"] .fothers[data-bx-variant="v7"] .fothers__list { margin-top: 1.7vw; }
+  body[data-page="page"] .fothers[data-bx-variant="v7"] .pcard__photo { aspect-ratio: 680 / 392; }
+  body[data-page="page"] .fothers[data-bx-variant="v7"] .pcard__body { padding-top: 0.19rem; }
+  body[data-page="page"] .fothers[data-bx-variant="v7"] .fothers__more { margin-top: 3.38vw; }
+}

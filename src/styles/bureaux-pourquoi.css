@@ -83,3 +83,14 @@ html.bx-why-anim .why-row.is-active .why-row__title { text-decoration-color: var
   body[data-page="page"] .why[data-bx-variant="design"] .why__list { margin-top: calc(2vw + 2px); }
   body[data-page="page"] .why[data-bx-variant="design"] .why-row { min-height: 10.59vw; }
 }
+
+/* Variante « scenographie » (V7, frames scenographie-03 à 05) : mêmes lignes que Bureaux et Design (183 px de pas, titres de 48 px). Seul le titre est
+   plus étroit : « Un décor végétal pour » puis « chacun de [vos événements]. » (662 px pour la seconde ligne, 531 pour la première, et « … pour chacun »
+   n'y tient pas), donc 39 vw. */
+@media (min-width: 901px) {
+  body[data-page="page"] .why[data-bx-variant="scenographie"] { padding-top: calc(var(--section-y) * 1.56 + 0.52vw); } /* étiquette à 163 px du haut du crème (frame 03) */
+  body[data-page="page"] .why[data-bx-variant="scenographie"] .why__list { margin-top: calc(2vw + 4px); }
+  body[data-page="page"] .why[data-bx-variant="scenographie"] .why__title { max-width: 39vw; }
+  /* La pastille de la frame 04 est droite (368 x 70 px, bord haut à 274 px sur toute sa longueur) et à 26 px du mot qui la précède. */
+  body[data-page="page"] .why[data-bx-variant="scenographie"] .tag { --tag-rotate: 0deg; margin-left: 0.29em; }
+}

@@ -80,3 +80,11 @@
   .step { padding-left: 3.06vw; } /* 53 px entre le trait et le texte */
   .step__desc { max-width: 33vw; margin-top: 0.9vw; }
 }
+
+/* Variante « v7 » (frames scenographie-08, terrasses-29, entretien-24) : « De votre idée à la pose, on » (630 px) tient sur la première ligne, puis
+   « travaille [en collaboration]. ». Le composant de Bureaux et Design garde ses 30 vw. */
+@media (min-width: 901px) {
+  .process[data-bx-variant="v7"] .process__head { top: max(14.4svh, 6.5rem); gap: 1vw; } /* étiquette à 146 px du haut quand le titre tient (frame 08), 206 px pour le composant de Noël, plancher de 104 px sous le header sur un écran court ; 7 px de plus entre l'étiquette et le titre */
+  .process[data-bx-variant="v7"] .process__title { max-width: 38vw; }
+  .process[data-bx-variant="v7"] .tag { --tag-rotate: -2.3deg; padding: 0.08em 0.5em 0.14em; } /* frame 08 : la pastille monte vers la droite, 79 px de haut (75 par défaut) */
+}

@@ -3,13 +3,13 @@
 // (puce orange, titre souligné, description) avance avec le scroll et, si elle a sa propre image, l'image change en fondu. Chaque entrée porte son
 // titre, sa description et, facultatif, `photo` et `alt` (sinon l'image de la section) ; `proposition: true` signale un texte proposé, à valider.
 // Toutes les entrées et leurs descriptions sont dans le DOM : sans animation (JavaScript absent, mouvement réduit, moins de 900 px) la liste est
-// entière, chaque description visible.
+// entière, chaque description visible. `overlap` (Décoration) : la section suivante (la galerie orange) monte par-dessus pendant un dernier écran d'épinglage ; `variant` : jeu de mesures propre à la page (data-bx-variant).
 import img from "../img.js";
 import { frText } from "../placeholder.js";
 import { titleHtml } from "../title.js";
 import { esc } from "../utils.js";
 
-export default ({ label, title, tag, photo, alt, items, initial = 0 }, { index }) => {
+export default ({ label, title, tag, photo, alt, items, initial = 0, overlap = false, variant }, { index }) => {
   const id = `sty-${index}`;
   // Images distinctes (dans l'ordre des entrées) : le numéro de celle d'une entrée sert au fondu enchaîné.
   const photos = [...new Map(items.map((item) => [item.photo ?? photo, item.photo ? item.alt : alt])).entries()];
@@ -25,7 +25,7 @@ export default ({ label, title, tag, photo, alt, items, initial = 0 }, { index }
             </li>`,
     )
     .join("\n            ");
-  return `<section class="sty" data-bx="styles" data-initial="${initial}" data-header-theme="light" data-header-gradient="cream" aria-labelledby="${id}-title">
+  return `<section class="sty" data-bx="styles" data-initial="${initial}"${overlap ? " data-overlap" : ""}${variant ? ` data-bx-variant="${esc(variant)}"` : ""} data-header-theme="light" data-header-gradient="cream" aria-labelledby="${id}-title">
         <div class="sty__inner">
           <figure class="sty__photo">
           ${figures}

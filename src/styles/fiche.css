@@ -133,6 +133,8 @@ body[data-page="page"] .fothers__more { display: flex; justify-content: center; 
   body[data-page="page"] .fothers__more { margin-top: 2.5rem; }
 }
 
+/* Fond crème propre à la section (Décoration : elle monte par-dessus la galerie orange, un fond transparent la laisserait voir ; sur Scénographie le corps de page est déjà crème). */
+body[data-page="page"] .fothers[data-bx-variant="v7"] { background: var(--cream); }
 /* Variante « v7 » (Scénographie et Décoration, frames scenographie-05 à 07) : le titre est plus large que sur la fiche projet, « Ils nous ont fait
    confiance » (615 px) tient sur la première ligne, « pour » passe à la suivante. */
 @media (min-width: 901px) {

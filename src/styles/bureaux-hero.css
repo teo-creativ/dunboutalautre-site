@@ -69,18 +69,21 @@ html.bx-hero-anim .bx-hero-next {
   margin-top: -100svh;
 }
 
-/* Variante « scenographie » (V7, frames scenographie-01 à 03, canvas 1728 x 1030) : mêmes mots-clés et même titre de 82 px. Mesures prises sur la
+/* Variantes « scenographie » et « saisonniere » (V7, frames scenographie-01 à 03 ; Décoration : frame decoration-01, même bloc : mots-clés à 312 px, bouton de 793 à 842 px, paragraphe coupé après « et ») : la 2e n'en change que le titre et la pastille (droite, de la largeur du texte). Détail de la 1re : frames scenographie-01 à 03, canvas 1728 x 1030) : mêmes mots-clés et même titre de 82 px. Mesures prises sur la
    frame 01 (encre comparée à la capture) : le titre passe à la ligne après les deux-points (« Scénographie végétale à Paris : » mesure 1 282 px,
    « … : on » n'y tient pas) et « en » ouvre la troisième ligne ; le paragraphe se coupe après « installons et » ; le bloc n'est pas centré dans
    l'écran (mots-clés à 312 px, bouton de 793 à 842 px). La pastille de la frame est en Playfair droit (632 px de large pour « vos événements »,
    sans inclinaison, bord haut à 459 px sur toute sa longueur) : seul l'italique est chargé (head.js), donc on garde l'italique du design system et on
    reprend la boîte de la frame par un padding plus large (docs/POINTS-A-VALIDER.md, section V7). */
 @media (min-width: 901px) {
-  body[data-page="page"] .hero--bx[data-bx-variant="scenographie"] .hero__inner { padding-top: 7.25vw; }
-  body[data-page="page"] .hero--bx[data-bx-variant="scenographie"] .hero__title { max-width: 76vw; margin-top: 1.17vw; }
+  body[data-page="page"] .hero--bx:is([data-bx-variant="scenographie"], [data-bx-variant="saisonniere"]) .hero__inner { padding-top: 7.25vw; }
+  body[data-page="page"] .hero--bx:is([data-bx-variant="scenographie"], [data-bx-variant="saisonniere"]) .hero__title { margin-top: 1.17vw; }
+  body[data-page="page"] .hero--bx[data-bx-variant="scenographie"] .hero__title { max-width: 76vw; }
+  body[data-page="page"] .hero--bx[data-bx-variant="saisonniere"] .hero__title { max-width: 70vw; } /* « Décoration saisonnière pour » (1 150 px) puis « entreprises : [un décor végétal] » (frame 01) ; « qui » n'y tient pas */
+  body[data-page="page"] .hero--bx[data-bx-variant="saisonniere"] .hero__title .tag { --tag-rotate: 0deg; } /* pastille droite de 619 px, bord haut à 460 px sur toute sa longueur */
   body[data-page="page"] .hero--bx[data-bx-variant="scenographie"] .hero__title .tag { --tag-rotate: 0deg; padding-inline: 0.555em; }
-  body[data-page="page"] .hero--bx[data-bx-variant="scenographie"] .hero__lead { max-width: 35vw; margin-top: 0.98vw; }
-  body[data-page="page"] .hero--bx[data-bx-variant="scenographie"] .hero__inner .cta { margin-top: 2.08vw; }
+  body[data-page="page"] .hero--bx:is([data-bx-variant="scenographie"], [data-bx-variant="saisonniere"]) .hero__lead { max-width: 35vw; margin-top: 0.98vw; }
+  body[data-page="page"] .hero--bx:is([data-bx-variant="scenographie"], [data-bx-variant="saisonniere"]) .hero__inner .cta { margin-top: 2.08vw; }
 }
 
 /* Variante « terrasses » (V7, frames terrasses-01 à 03, canvas 1728 x 1030) : mêmes mots-clés, titre de 82 px et pastille inclinée de -1° que Bureaux. Mesures prises

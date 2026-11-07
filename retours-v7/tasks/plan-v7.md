@@ -47,10 +47,10 @@ Sans JavaScript, mouvement réduit, ordinateur, mobile ; 390, 768, 1280 puis 172
 - [x] **B Bande de photos UI** : 2 rangées en sens opposé (CSS natif, `translateX`), puis une seule image qui grandit (frames 08 à 20). Acceptation : boucle sans saut, rangées arrêtées en mouvement réduit, pas de défilement horizontal. Fichiers : `bureaux-bande.js`, CSS.
 - [x] **T1 Photo qui grandit et slider de 3 contraintes UI** : profil « terrasses » de `bureaux-matieres`, sans pastille (frames 17 à 28). Le profil Bureaux reste le défaut.
 - [x] **T2 Processus, FAQ, CTA UI** (frames 28 à 35).
-- [ ] **Checkpoint 2** : comme le checkpoint 1.
+- [x] **Checkpoint 2** : comme le checkpoint 1.
 
 ### Page Décoration (prompt 03, un commit)
-- [ ] **D0 Données et images** (6 images) ; **D1 Texte sur photo** (P) ; **D2 Styles** (W, entrée Printemps active) ; **D3 Galerie orange UI** (`bureaux-galerie.js`, bouton avec lien vers Entretien par `linkTo`, jamais couvert par une photo) ; **D4 Réalisations, FAQ (4), CTA UI**.
+- [x] **D0 Données et images** (6 images) ; **D1 Texte sur photo** (P) ; **D2 Styles** (W, entrée Printemps active) ; **D3 Galerie orange UI** (`bureaux-galerie.js`, bouton avec lien vers Entretien par `linkTo`, jamais couvert par une photo) ; **D4 Réalisations, FAQ (4), CTA UI**.
 - [ ] **Checkpoint 3** : comme le checkpoint 1.
 
 ### Briques et page Entretien (prompt 04, un commit)

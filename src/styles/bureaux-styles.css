@@ -75,3 +75,12 @@ body[data-page="page"] .sty-row:focus-visible { outline-offset: 0.4vw; border-ra
   body[data-page="page"] .sty-row__title { font-size: 1.5rem; }
   body[data-page="page"] .sty-row__text { max-width: none; font-size: 1rem; }
 }
+
+/* Variante « saisonniere » (Décoration, frame decoration-08 et son zoom) : mêmes mesures que Terrasses, sauf : la pastille du titre est droite (354 x 70 px, bord haut à 320 px
+   sur toute sa longueur) ; la description de l'entrée active est 11 px plus bas sous son titre (56 px entre le haut du titre et la 1re ligne, 45 par défaut), et prend
+   ces 11 px sur la marge sous elle. Le composant de Terrasses est inchangé. */
+@media (min-width: 901px) {
+  body[data-page="page"] .sty[data-bx-variant="saisonniere"] .sty__title .tag { --tag-rotate: 0deg; padding-inline: 0.36em; }
+  body[data-page="page"] .sty[data-bx-variant="saisonniere"] .sty-row__text { margin-top: 0.875rem; }
+  body[data-page="page"] .sty[data-bx-variant="saisonniere"] .sty-row { padding-bottom: calc(0.77vw + var(--act, 0) * 0.03vw); }
+}

@@ -30,3 +30,12 @@ body[data-page="page"] .ptx__p .tag--cream { --tag-rotate: 1deg; }
   body[data-page="page"] .ptx__veil { background: var(--veil-strong); }
   body[data-page="page"] .ptx__p { max-width: none; font-size: clamp(1.25rem, 5.6vw, 1.75rem); }
 }
+
+/* Variante « saisonniere » (Décoration, frames decoration-04 à 06) : « Notre volonté ». Les cinq lignes de la frame 05 mesurent 1 265, 1 252, 1 316, 1 234 et 1 260 px (« avec » ne tient
+   pas à la fin de la première) : 79 vw, comme le texte du branding de Design ; les deux pastilles sont droites (446 x 70 px et 279 x 70 px). */
+@media (min-width: 901px) {
+  body[data-page="page"] .ptx[data-bx-variant="saisonniere"] .ptx__p { max-width: 79.3vw; }
+  body[data-page="page"] .ptx[data-bx-variant="saisonniere"] .ptx__p .tag { --tag-rotate: 0deg; }
+  /* Étiquette de 23 px (« NOTRE VOLONTÉ » mesure 187 px sur la frame 05, 160 à 20 px). Même écart sur la frame terrasses-04 : à reporter sur Terrasses si vous le validez. */
+  body[data-page="page"] .ptx[data-bx-variant="saisonniere"] .label { font-size: var(--fs-label-lg); }
+}

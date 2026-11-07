@@ -11,6 +11,7 @@ import { gsap, ScrollTrigger } from "./core.js";
 const PRE = 0.25; // écrans avant la première bascule
 const STEP = 0.55; // écrans par entrée
 const POST = 0.35; // écrans de tenue de la dernière entrée
+const OVERLAP = 1; // data-overlap : la section suivante monte par-dessus pendant un dernier écran (Décoration, frame 08), sans fondu : la liste reste entière
 
 export function initBureauxStyles() {
   const section = document.querySelector('[data-bx="styles"]');
@@ -18,7 +19,8 @@ export function initBureauxStyles() {
   const rows = [...section.querySelectorAll(".sty-row")];
   const photos = [...section.querySelectorAll(".sty__img")];
   if (rows.length < 2) return;
-  const total = PRE + rows.length * STEP + POST;
+  const overlap = section.hasAttribute("data-overlap");
+  const total = PRE + rows.length * STEP + POST + (overlap ? OVERLAP : 0);
 
   const mm = gsap.matchMedia();
   mm.add("(min-width: 901px) and (prefers-reduced-motion: no-preference)", () => {
@@ -67,17 +69,24 @@ export function initBureauxStyles() {
       start: "top top",
       end: () => {
         const length = total * section.offsetHeight;
-        section.dataset.pinLength = length; // lu par le thème du header : la section reste à l'écran pendant tout son épinglage
+        // Lu par le thème du header : la section reste à l'écran tant qu'elle est seule (sans le dernier écran du recouvrement).
+        section.dataset.pinLength = length - (overlap ? OVERLAP * section.offsetHeight : 0);
         return `+=${length}`;
       },
       pin: true,
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
+        // Recouverte par la section suivante (dernier écran), la liste n'est plus atteignable : un focus y serait invisible.
+        if (overlap) section.toggleAttribute("inert", self.progress * total > total - OVERLAP * 0.9);
         scrolled = Math.min(rows.length - 1, Math.max(0, Math.floor((self.progress * total - PRE) / STEP)));
         show();
       },
     });
+
+    // Point d'accroche : la section suivante remonte d'un écran par-dessus (bureaux-installe.css).
+    const next = overlap ? (section.closest(".pin-spacer") ?? section).nextElementSibling : null;
+    next?.classList.add("bx-overlap");
 
     const listeners = rows.map((row, i) => {
       row.tabIndex = 0; // atteignable au clavier : le focus active l'entrée (anneau de focus-visible, base.css)
@@ -93,6 +102,8 @@ export function initBureauxStyles() {
     });
 
     return () => {
+      next?.classList.remove("bx-overlap");
+      section.removeAttribute("inert");
       trigger.kill();
       listeners.forEach((off) => off());
       items.forEach(({ row, tl }) => {

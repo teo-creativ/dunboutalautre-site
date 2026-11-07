@@ -162,3 +162,15 @@ html.bx-gal-anim body[data-page="page"] .gal__grow-text { position: absolute; le
 @media (max-width: 900px) {
   html.bx-gal-anim body[data-page="page"] .gal__grow-text { top: 0; bottom: 0; right: 0; justify-content: center; padding-inline: var(--gutter); }
 }
+
+/* ---------- Variante « saisonniere » (V7, Décoration, frames decoration-09 à 14, même canvas 1728 x 1030) ----------
+   Même galerie que Bureaux, sans étiquette. Le titre (68 px, interligne de 102 px) tient sur deux lignes (« Vous recevez [vos clients] dans un » mesure 1 115 px sur la
+   frame 11, « espace » n'y tient pas : 66 vw). Les photos sont devant l'orange et derrière le texte (frames 11 et 12 : le « V » et « l'année. » passent par-dessus
+   les photos), le bouton n'est jamais couvert (z-index du contenu). Position, taille et vitesse des photos : données de la page. */
+@media (min-width: 901px) {
+  body[data-page="page"] .gal[data-bx-variant="saisonniere"] .gal__title { max-width: 66vw; margin-top: 0; line-height: 1.5; }
+  /* Pastille droite (frame 11 : 499 x 92 px, bord haut à 427 px sur toute sa longueur). */
+  body[data-page="page"] .gal[data-bx-variant="saisonniere"] .tag { --tag-rotate: 0deg; padding: 0.05em 0.45em 0.11em; }
+  /* Sans étiquette, le bloc (titre et bouton) est centré 46 px sous le milieu de l'écran (frame 11 : titre à 427 px, bouton de 650 à 697 px). */
+  html.bx-gal-anim body[data-page="page"] .gal[data-bx-variant="saisonniere"] .gal__content { padding-top: 5.3vw; }
+}

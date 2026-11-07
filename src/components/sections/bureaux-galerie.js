@@ -6,11 +6,13 @@
 // est lue en 800 px et non en 480 (elle serait agrandie d'un sixième). Sans animation (mouvement réduit, JavaScript absent) : le texte, puis les
 // photos en grille (bureaux-galerie.css).
 import { cta } from "../cta.js";
+import { linkTo } from "../links.js";
 import img from "../img.js";
 import { withTags } from "../tags-text.js";
 import { titleHtml } from "../title.js";
 import { esc, fr } from "../utils.js";
 
+// V7 (Décoration) : `cta` peut être { label, to } pour un bouton qui mène à une autre page (linkTo) ; une chaîne garde le bouton vers le contact.
 // V6 (page Design, « logo reconstitué » puis « Le branding végétal », frames design-24 à 33) : la même galerie, sans étiquette (`label` facultatif),
 // suivie d'une grande photo qui grandit jusqu'au plein écran puis d'un texte à pastilles (`grow`, scripts/bureaux-branding.js : une seule scène
 // épinglée). `variant` : jeu de mesures propre à la page (data-bx-variant). Sans `grow` ni `label`, le HTML est celui de Bureaux.
@@ -40,7 +42,7 @@ export default ({ label, title, tag, cta: button, photos, variant, grow }, { ind
         <div class="gal__content">
           ${label ? `<p class="label label--light"><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>
           ` : ""}<h2 class="section-title gal__title" id="${id}-title">${titleHtml(title, tag, "cream")}</h2>
-          <div class="gal__cta">${cta({ label: button, variant: "on-orange" })}</div>
+          <div class="gal__cta">${typeof button === "string" ? cta({ label: button, variant: "on-orange" }) : cta({ label: button.label, variant: "on-orange", href: linkTo(button.to) })}</div>
         </div>
         <ul class="gal__photos" role="list">
           ${items}

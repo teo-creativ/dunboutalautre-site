@@ -105,9 +105,15 @@
 /* Variante « v7 » (frame scenographie-10, ordinateur seulement) : la pastille du titre monte vers la droite (-2,3°, comme sur la page Bureaux) ; cartes fermées de
    119 px (115 par défaut), titre 5 px plus bas par rapport aux cartes et 5 px plus loin de l'étiquette. */
 @media (min-width: 901px) {
-  .faq[data-bx-variant="v7"] .tag { --tag-rotate: -2.3deg; padding: 0.08em 0.5em 0.14em; }
-  .faq[data-bx-variant="v7"] .faq__trigger { padding-block: 2.3vw; }
-  .faq[data-bx-variant="v7"] .faq__trigger[aria-expanded="true"] { padding-bottom: var(--faq-pad); }
-  .faq[data-bx-variant="v7"] .faq__intro { padding-top: 0.3vw; }
-  .faq[data-bx-variant="v7"] .faq__head { gap: 0.9vw; }
+  .faq[data-bx-variant^="v7"] .tag { --tag-rotate: -2.3deg; padding: 0.08em 0.5em 0.14em; }
+  .faq[data-bx-variant^="v7"] .faq__trigger { padding-block: 2.3vw; }
+  .faq[data-bx-variant^="v7"] .faq__trigger[aria-expanded="true"] { padding-bottom: var(--faq-pad); }
+  .faq[data-bx-variant^="v7"] .faq__intro { padding-top: 0.3vw; }
+  .faq[data-bx-variant^="v7"] .faq__head { gap: 0.9vw; }
+}
+
+/* Variante « v7e » (Entretien, frames entretien-28 à 30 et zoom 30) : celle de « v7 » (le préfixe v7 la sélectionne), avec 32 px (et non 21) entre la carte ouverte et la suivante : 157 à 337 px puis 369 px sur la frame 30. */
+@media (min-width: 901px) {
+  .faq[data-bx-variant="v7e"] .faq__item:has(.faq__trigger[aria-expanded="true"]) { margin-bottom: 0.64vw; }
+  .faq[data-bx-variant="v7e"] { padding-bottom: 4.75vw; } /* le footer commence à 82 px de la dernière carte sur la frame 31 (121 px par défaut) : pas de CTA entre la FAQ et le footer */
 }

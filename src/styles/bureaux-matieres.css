@@ -206,3 +206,20 @@ body[data-page="page"] .mat[data-bx-variant="terrasses"] .mat__band { min-width:
   html.bx-mat-anim .mat[data-bx-variant="terrasses"] .mat__bg:first-of-type .mat__bg-img { inset: 0; width: 100%; height: 100%; }
   html.bx-mat-anim .mat[data-bx-variant="terrasses"] .mat__bg:nth-of-type(n + 2) { inset: 0 0 auto 0; height: 100svh; }
 }
+
+/* ---------- Variante « entretien » (V7, frames entretien-09 à 24, même canvas 1728 x 1030) ----------
+   Tailles de Bureaux (titres de 68 px, paragraphe de 24 px). Écarts mesurés sur la frame 10 (encre comparée à la capture) : le titre tient sur une ligne (« Chaque installation a
+   [ses besoins]. » : 1 135 px) et se pose 31 px plus bas sous l'étiquette (étiquette à 397 px, titre de 464 à 566 px) ; la tête est 1 px plus bas que celle de Bureaux. */
+@media (min-width: 901px) {
+  html.bx-mat-anim .mat[data-bx-variant="entretien"] .mat__head { top: calc(var(--bx-u) * 399); }
+  html.bx-mat-anim .mat[data-bx-variant="entretien"] .section-title { margin-top: calc(var(--bx-u) * 31); }
+}
+/* Largeur du paragraphe de chaque slide (frames 16, 19 et 22 : lignes de 519 et 370 px, de 669, 679 et 313 px, de 723 et 686 px) : chaque largeur est comprise entre la plus longue ligne et celle qu'un mot de plus
+   ferait dépasser. Les décalages horizontaux du texte et des titres sont dans le profil (scripts/bureaux-matieres.js). */
+@media (min-width: 901px) {
+  html.bx-mat-anim .mat[data-bx-variant="entretien"] .mat-slide:nth-child(1) .mat-slide__text { width: calc(var(--bx-u) * 556); }
+  html.bx-mat-anim .mat[data-bx-variant="entretien"] .mat-slide:nth-child(2) .mat-slide__text { width: calc(var(--bx-u) * 710); }
+  html.bx-mat-anim .mat[data-bx-variant="entretien"] .mat-slide:nth-child(3) .mat-slide__text { width: calc(var(--bx-u) * 760); }
+}
+/* Les trois fonds sont l'image entière à la largeur de l'écran (frames 14, 19 et 22 : 2 000 px ramenés à 1 728 px) : pas de débord de 0,7 % (les coins noirs cuits de bg-01 sont refaits à la préparation de l'image). */
+body[data-page="page"] .mat[data-bx-variant="entretien"] .mat__bg-img { inset: 0; width: 100%; height: 100%; }

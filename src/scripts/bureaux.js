@@ -4,6 +4,7 @@
 import { initBureauxAvis } from "./bureaux-avis.js";
 import { initBureauxBranding } from "./bureaux-branding.js";
 import { initBureauxChiffres } from "./bureaux-chiffres.js";
+import { initBureauxFormules } from "./bureaux-formules.js";
 import { initBureauxGalerie } from "./bureaux-galerie.js";
 import { initBureauxHero } from "./bureaux-hero.js";
 import { initBureauxHold } from "./bureaux-hold.js";
@@ -18,6 +19,7 @@ export function initBureaux() {
   initBureauxInstalle();
   initBureauxHold(); // Design (V6) : tenue de « Nos 5 créations » sous l'orange, avant le pin des matières
   initBureauxStyles(); // Terrasses et Décoration (V7) : « Nos styles d'aménagement », épinglée, avant la scène suivante
+  initBureauxFormules(); // Entretien (V7) : les formules épinglées et le disque orange, avant la scène des matières qui le prolonge
   initBureauxMatieres();
   initBureauxPourquoi();
   initBureauxAvis();

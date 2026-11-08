@@ -51,11 +51,11 @@ Sans JavaScript, mouvement réduit, ordinateur, mobile ; 390, 768, 1280 puis 172
 
 ### Page Décoration (prompt 03, un commit)
 - [x] **D0 Données et images** (6 images) ; **D1 Texte sur photo** (P) ; **D2 Styles** (W, entrée Printemps active) ; **D3 Galerie orange UI** (`bureaux-galerie.js`, bouton avec lien vers Entretien par `linkTo`, jamais couvert par une photo) ; **D4 Réalisations, FAQ (4), CTA UI**.
-- [ ] **Checkpoint 3** : comme le checkpoint 1.
+- [x] **Checkpoint 3** : comme le checkpoint 1.
 
 ### Briques et page Entretien (prompt 04, un commit)
-- [ ] **E0 Données** ; **E1 Liste active** (4 entrées) ; **F Formules UI** (3 cartes, Confort orange, de même hauteur, empilées sous 900 px) ; **C Cercle orange UI** (disque depuis le centre, fonction paramétrable, `clip-path`, mouvement réduit : simple fond, header lisible pendant la transition) ; **E2 Photo et slider avec pastilles UI** (profil « entretien », frames 09 à 24) ; **E3 Fonctionnement, clients, FAQ (5), footer sans CTA UI**.
-- [ ] **Checkpoint 4** : comme le checkpoint 1.
+- [x] **E0 Données** ; **E1 Liste active** (4 entrées) ; **F Formules UI** (3 cartes, Confort orange, de même hauteur, empilées sous 900 px) ; **C Cercle orange UI** (disque depuis le centre, fonction paramétrable, `clip-path`, mouvement réduit : simple fond, header lisible pendant la transition) ; **E2 Photo et slider avec pastilles UI** (profil « entretien », frames 09 à 24) ; **E3 Fonctionnement, clients, FAQ (5), footer sans CTA UI**.
+- [x] **Checkpoint 4** : comme le checkpoint 1.
 
 ### Revue (prompt 05)
 - [ ] **R Revue V7** : `gate.mjs`, captures des 6 pages (1728, 1280, 768, 390), Bureaux et Design avant/après, axe, mouvement réduit, sans JS, poids, liste des propositions et écarts dans `docs/POINTS-A-VALIDER.md`, dernier push.

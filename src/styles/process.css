@@ -88,3 +88,12 @@
   .process[data-bx-variant="v7"] .process__title { max-width: 38vw; }
   .process[data-bx-variant="v7"] .tag { --tag-rotate: -2.3deg; padding: 0.08em 0.5em 0.14em; } /* frame 08 : la pastille monte vers la droite, 79 px de haut (75 par défaut) */
 }
+
+/* Variante « entretien » (frames entretien-24 à 27, zoom 26) : le composant de Noël tel quel (étiquette à 206 px, frame 25), sauf le titre : « Un suivi [simple], » (386 px) puis
+   « en quatre étapes. » (420 px) ; « en » ne tient pas à la fin de la première ligne : 25 vw. Étiquette sans interlettrage (269 px sur la frame, 277 avec 0,02 em). */
+@media (min-width: 901px) {
+  .process[data-bx-variant="entretien"] .process__title { max-width: 25vw; }
+  .process[data-bx-variant="entretien"] .label { letter-spacing: 0; }
+  .process[data-bx-variant="entretien"] .process__head { top: calc(20svh - 3px); } /* étiquette à 206 px (209 avec les 20 svh de Noël) */
+  .process[data-bx-variant="entretien"] .tag { --tag-rotate: -1.9deg; } /* la pastille monte vers la droite (-1,88° sur la frame 25) */
+}

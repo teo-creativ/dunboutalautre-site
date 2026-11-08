@@ -69,3 +69,11 @@ body[data-page="page"] .testi[data-bx] .testi__author { margin-top: 2.3vw; }
   /* Étiquette à 261 px de la rangée de logos sur la frame (265,7 mesurés avec l'espace de Bureaux). */
   body[data-page="page"] .logos--color[data-bx-variant="design"] .logos__inner { gap: 3.63vw; }
 }
+
+/* Variante « entretien » (frames entretien-27 à 29, même canvas) : mêmes logos que Bureaux. Mesures de la frame 28 : l'étiquette est à 242 px de la rangée de logos (180 avec les 67 px de Bureaux), la rangée
+   à 253 px de l'étiquette de la FAQ (200 avec les 34 px de Bureaux ; 23 px de plus relevés sur le rendu, la rangée mesurant 66 px de haut sur la frame) ; étiquette sans interlettrage (145 px sur la frame). */
+@media (min-width: 901px) {
+  body[data-page="page"] .logos--color[data-bx-variant="entretien"] .logos__inner { gap: 7.47vw; }
+  body[data-page="page"] .logos--color[data-bx-variant="entretien"] { padding-bottom: 6.36vw; }
+  body[data-page="page"] .logos--color[data-bx-variant="entretien"] .label { letter-spacing: 0; }
+}

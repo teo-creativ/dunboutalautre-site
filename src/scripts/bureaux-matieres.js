@@ -111,6 +111,31 @@ PROFILES.terrasses = {
   TITLE_DY: [0, 24, 18],
 };
 
+// Entretien (V7, frames entretien-10 à 24) : « Quels végétaux entretient-on ? » arrive sur l'orange que le disque des formules a posé (scripts/bureaux-formules.js), puis la photo monte
+// et grandit comme sur Bureaux, titres à pastille et paragraphes aux mesures de Bureaux. Croissance de la photo : frames 11 à 14 (p = 0,25 ; 0,5 ; 0,75 ; 1),
+// bord haut à 743, 545, 247 puis 0 px, largeur 1 164, 1 510, 1 632 puis 1 728 px, centre à x = 878,5 sur la frame 11 (14,5 px à droite) puis 863,5 et 862,5 px.
+// Rythme : les frames sont espacées de 410 px de scroll (0,4 écran) : la photo atteint 743 px (p = 0,25) à la frame 11, soit 0,8 écran après le début du pin, et p = 1 à la frame 14 :
+// texte seul 0,39 écran, croissance 1,59 écran (Bureaux : 0,35 et 1,25). Le voile s'installe plus lentement (0,45 de voile sur la frame 15, 410 px après la fin de la croissance, et complet sur la 16 : 0,7 écran) et le premier
+// glissement commence 0,85 écran après la fin de la croissance (frame 17 : titres à 60 % de leur course, frame 18 : fond à 50 %) ; pause de 0,23 écran avant le second (frame 20 : titres à 50 %, frame 21 : fond à 40 %), puis 0,24 écran
+// avant que le crème ne monte (frame 23 : bord haut à 764 px, soit 266 px de recouvrement, frame 24 : 528 px).
+// HEAD_IN : le titre n'est pas là au début du pin (frame 09 : écran tout orange, le disque vient de finir) mais sur la frame 10 : il apparaît en fondu pendant les premiers 0,25 écran.
+PROFILES.entretien = {
+  ...PROFILES.bureaux,
+  PHASE: { pre: 0.39, grow: 1.59, veil: 0.7, hold1: 0.15, glide: 1, hold2: 0.23, hold3: 0.24, overlap: 1 },
+  HEAD_IN: 0.25,
+  GROW_P: [0, 0.25, 0.5, 0.75, 1],
+  GROW_TOP: [1030, 743, 545, 247, 0],
+  GROW_SCALE: [0.6736, 0.6736, 0.8738, 0.9444, 1],
+  GROW_DX: [14.5, 14.5, -0.5, -1.5, 0],
+  // Texte du slide (frames 16, 19 et 22, mesures du premier mot blanc et des lignes du paragraphe comparées au rendu de Bureaux) : le texte n'apparaît qu'aux deux tiers du voile (frame 15 : voile à 45 %,
+  // pas de texte ; frame 16 : texte entier), les titres ne sont pas centrés au même point (centres à 909, 853 et 864 px : décalages de +3, -53 et -45 px), plus ou moins hauts que ceux de Bureaux (-11, +1 et -11 px, soit
+  // TITLE_DY de -11, 20 et 4), et les paragraphes sont centrés à 877, 863 et 862 px, 2, 20 et 10 px plus bas (largeurs de chaque slide : bureaux-matieres.css).
+  VEIL_FROM: 0.62,
+  TITLE_DX: [3, -53, -45],
+  TITLE_DY: [-10, 20, 4],
+  TEXT_OFF: { x: [-32, -45.5, -47], y: [3, 20, 10] },
+};
+
 const glideEase = gsap.parseEase("power2.inOut"); // mouvement à l'écran : ease-in-out
 // Position (bord gauche de la boîte, px à 1728) d'un titre à la distance d du centre, par interpolation linéaire entre ses nodes [d, x].
 const railX = (nodes, d) => {
@@ -134,7 +159,7 @@ export function initBureauxMatieres() {
   if (figures.length !== 3 || slides.length !== 3) return; // la scène est écrite pour trois matières
 
   // Profil de la section (data-bx-variant) : les noms sont ceux des constantes de V5, le reste du code n'a pas changé.
-  const { PHASE, BAND, GROW_P, GROW_TOP, GROW_SCALE, GROW_DX, ZOOM, RAIL, TEXT_OFF, RADIUS, HEAD_FADE, VEIL_FROM, RISE, PITCH, ENTER_SCALE, INACTIVE, TITLE_DY, GLIDE, SWAP, HEADER_PHOTO, HEADER_RELEASE } =
+  const { PHASE, BAND, HEAD_IN, TITLE_DX, GROW_P, GROW_TOP, GROW_SCALE, GROW_DX, ZOOM, RAIL, TEXT_OFF, RADIUS, HEAD_FADE, VEIL_FROM, RISE, PITCH, ENTER_SCALE, INACTIVE, TITLE_DY, GLIDE, SWAP, HEADER_PHOTO, HEADER_RELEASE } =
     PROFILES[section.dataset.bxVariant] ?? PROFILES.bureaux;
   const TOTAL = PHASE.pre + PHASE.grow + PHASE.veil + PHASE.hold1 + PHASE.glide + PHASE.hold2 + PHASE.glide + PHASE.hold3 + PHASE.overlap;
   const topAt = monotone(GROW_P, GROW_TOP);
@@ -172,7 +197,7 @@ export function initBureauxMatieres() {
       // Les trois fonds (1,2 Mo en 2000 px) sont chargés d'avance : aucun flash au changement de fond (bureaux-images.js).
       loadLater(section.querySelectorAll("img"));
 
-      const s = { b: 0, g: 0, v: 0, t1: 0, t2: 0, o: 0 };
+      const s = { b: 0, g: 0, v: 0, t1: 0, t2: 0, o: 0, h: HEAD_IN && conditions.wide ? 0 : 1 }; // h : entrée du titre (Entretien)
       // Rectangle de départ de la photo (g = 0), en px : le relais de la bande s'y arrête.
       const target = () => {
         const vw = document.documentElement.clientWidth;
@@ -205,7 +230,7 @@ export function initBureauxMatieres() {
         if (bandCtl) photo.style.opacity = rect ? "" : "0";
         const growing = s.g < 1;
         photo.style.clipPath = growing ? `inset(0 round ${(RADIUS / sc) * clamp((1 - s.g) / (1 - 0.8))}px)` : "none";
-        set.head(1 - clamp((s.g - HEAD_FADE[0]) / (HEAD_FADE[1] - HEAD_FADE[0])));
+        set.head(s.h * (1 - clamp((s.g - HEAD_FADE[0]) / (HEAD_FADE[1] - HEAD_FADE[0]))));
         set.veil(s.v);
 
         // ---------- Le slider ----------
@@ -224,7 +249,7 @@ export function initBureauxMatieres() {
         const railF = RAIL && conditions.wide ? [e1 + e2, lagged(s.t1) + e2, lagged(s.t1) + lagged(s.t2)] : null;
         slides.forEach((_, k) => {
           const d = railF ? k - railF[k] : k - f;
-          set.titleX[k](railF ? (railX(RAIL.nodes[k], d) - RAIL.left) * u : d * pitch);
+          set.titleX[k]((railF ? (railX(RAIL.nodes[k], d) - RAIL.left) * u : d * pitch) + (TITLE_DX && conditions.wide ? TITLE_DX[k] * u : 0));
           set.titleY[k](RISE * (1 - enter) + TITLE_DY[k] * (conditions.wide ? u : 0));
           set.titleOp[k](lerp(1, INACTIVE, clamp(Math.abs(d))) * enter);
           set.textOp[k](textOp[k]);
@@ -285,6 +310,7 @@ export function initBureauxMatieres() {
         at += duration;
       };
       if (bandCtl) tl.to(s, { b: 1, duration: PHASE.pre }, 0); // Terrasses : la phase de la bande
+      if (HEAD_IN && conditions.wide) tl.to(s, { h: 1, duration: HEAD_IN }, 0); // Entretien : le titre apparaît au début du pin
       at = PHASE.pre;
       phase({ g: 1 }, PHASE.grow);
       phase({ v: 1 }, PHASE.veil);

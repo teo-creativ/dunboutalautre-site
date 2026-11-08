@@ -94,3 +94,11 @@ html.bx-why-anim .why-row.is-active .why-row__title { text-decoration-color: var
   /* La pastille de la frame 04 est droite (368 x 70 px, bord haut à 274 px sur toute sa longueur) et à 26 px du mot qui la précède. */
   body[data-page="page"] .why[data-bx-variant="scenographie"] .tag { --tag-rotate: 0deg; margin-left: 0.29em; }
 }
+
+/* Variante « entretien » (V7, frames entretien-03 à 05 et zoom 04) : mêmes lignes que Bureaux (183 px de pas, titres de 48 px) avec quatre entrées. Mesures de la frame 04 : le titre se
+   coupe après « tout » (« On s'occupe de [tout] » 520 px, « passage après passage. » 589 px : 38 vw), les paragraphes commencent à 875 px (colonne de titres de 707 px, la ligne
+   « Renouvellement des décors » mesure 662 px) et font 650 px au plus. */
+@media (min-width: 901px) {
+  body[data-page="page"] .why[data-bx-variant="entretien"] .why__title { max-width: 38vw; }
+  body[data-page="page"] .why[data-bx-variant="entretien"] .why-row { grid-template-columns: minmax(0, 50.8fr) minmax(0, 49.2fr); min-height: 10.59vw; }
+}

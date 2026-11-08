@@ -1,0 +1,104 @@
+/* « Nos formules d'abonnement » de la page Entretien (V7, frames entretien-05 à 09 et zoom 06, canvas 1728 x 1030). Mesures lues sur la frame 06, en px à 1728
+   de large multipliées par --bx-u (échelle de la scène, posée par scripts/bureaux-formules.js avec la hauteur de l'écran ; le repli suit la largeur) :
+   étiquette à 208 px, titre de 48 px centré sur deux lignes, trois cartes de 449 px de large et de 439 px de haut (de 436 à 875 px) à 21 px les unes des autres,
+   rayon de 28 px, texte à 23 px du bord ; le groupe est centré à 871 px, 7 px à droite du centre de la page (étiquette, titre et cartes). Les cartes ont la même
+   hauteur (grille) : le bouton est en bas. Règles préfixées body[data-page="page"] : l'accueil et Noël ne peuvent pas être atteints. */
+body[data-page="page"] .fml {
+  --bx-u: calc(100vw / 1728);
+  position: relative;
+  isolation: isolate;
+  padding: calc(var(--section-y) * 1.4) var(--gutter) calc(var(--section-y) * 1.2);
+  background: var(--cream);
+  color: var(--olive-deep);
+  text-align: center;
+}
+body[data-page="page"] .fml__inner { display: flex; flex-direction: column; align-items: center; }
+body[data-page="page"] .fml .section-head { align-items: center; }
+body[data-page="page"] .fml__title { max-width: none; }
+body[data-page="page"] .fml__list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; width: 100%; max-width: 30rem; margin-top: 2.5rem; padding: 0; list-style: none; }
+
+/* ---------- Carte : blanche, ou orange pour la formule mise en avant ---------- */
+body[data-page="page"] .fml-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.75rem 1.5rem 1.5rem;
+  border-radius: var(--radius-card);
+  background: var(--white);
+  color: var(--olive-deep);
+  text-align: left;
+}
+body[data-page="page"] .fml-card--featured { background: var(--orange); color: var(--white); }
+body[data-page="page"] .fml-card__title { font-size: 2.25rem; font-weight: 400; line-height: 1.2; }
+body[data-page="page"] .fml-card__text { margin-top: 0.8rem; font-size: 1.125rem; font-weight: 400; line-height: 1.5; color: var(--olive-soft); } /* gris des frames : --olive-soft tient l'AA (5,2:1 sur blanc) */
+body[data-page="page"] .fml-card--featured .fml-card__text { color: var(--white); }
+/* Liste : puces orange (blanches sur la carte orange), 16 px sur un pas de 38,5 px. */
+body[data-page="page"] .fml-card__list { display: flex; flex-direction: column; gap: 0.9rem; margin: 1.5rem 0 2rem; padding: 0; list-style: none; }
+body[data-page="page"] .fml-card__list li { position: relative; padding-left: 0.9rem; font-size: 1rem; font-weight: 400; line-height: 1.5; color: var(--orange); }
+body[data-page="page"] .fml-card--featured .fml-card__list li { color: var(--white); }
+body[data-page="page"] .fml-card__list li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+/* Bouton : toute la largeur de la carte, texte centré (le calque de survol suit). */
+body[data-page="page"] .fml-card .cta { width: 100%; margin-top: auto; }
+body[data-page="page"] .fml-card .cta__layer { flex: 1; justify-content: center; }
+
+/* ---------- Disque orange : posé par scripts/bureaux-formules.js, seulement avec mouvement sur ordinateur ---------- */
+body[data-page="page"] .fml__disc {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: var(--disc, var(--orange));
+  clip-path: circle(0 at 50% 50%);
+  pointer-events: none;
+}
+html.bx-fml-anim .fml__disc { display: block; }
+
+/* ---------- Ordinateur ---------- */
+@media (min-width: 901px) {
+  body[data-page="page"] .fml {
+    min-height: 100svh;
+    padding: calc(var(--bx-u) * 207) 0 calc(var(--bx-u) * 120);
+  }
+  body[data-page="page"] .fml__inner { margin-left: calc(var(--bx-u) * 14); } /* groupe centré à 871 px (7 px à droite du centre) */
+  body[data-page="page"] .fml .section-head { gap: calc(var(--bx-u) * 26.5); }
+  body[data-page="page"] .fml .label { letter-spacing: 0; } /* 325 px sur la frame, 334 avec 0,02 em */
+  body[data-page="page"] .fml .tag { --tag-rotate: -2deg; padding: 0.113em 0.5em 0.173em; } /* pastille de 77 px de haut sur la frame (70 par défaut) */
+  body[data-page="page"] .fml__title { max-width: calc(var(--bx-u) * 540); line-height: 1.396; } /* « Une formule [adaptée] » (514 px) puis « à vos locaux. » */
+  body[data-page="page"] .fml__list {
+    grid-template-columns: repeat(3, calc(var(--bx-u) * 449));
+    gap: calc(var(--bx-u) * 21);
+    width: auto;
+    max-width: none;
+    margin-top: calc(var(--bx-u) * 46.5);
+  }
+  body[data-page="page"] .fml-card {
+    min-height: calc(var(--bx-u) * 439);
+    padding: calc(var(--bx-u) * 28) calc(var(--bx-u) * 23) calc(var(--bx-u) * 21);
+  }
+  body[data-page="page"] .fml-card__title { font-size: max(1.5rem, calc(var(--bx-u) * 34)); } /* « Sur mesure » mesure 190 px sur la frame (202 à 36 px) */
+  body[data-page="page"] .fml-card__text { margin-top: calc(var(--bx-u) * 13); font-size: max(0.9375rem, calc(var(--bx-u) * 18)); line-height: 1.5; }
+  body[data-page="page"] .fml-card__list { gap: calc(var(--bx-u) * 14.5); margin: calc(var(--bx-u) * 28) 0 calc(var(--bx-u) * 24); }
+  body[data-page="page"] .fml-card__list li { padding-left: calc(var(--bx-u) * 14); font-size: max(0.875rem, calc(var(--bx-u) * 16)); }
+  /* Écarts propres à chaque carte, mesurés sur la frame 06 (les trois ne sont pas alignées, la maquette est composée à la main) : la phrase d'Essentiel passe à la ligne avant « vos » (318 px
+     de la première ligne, « vos » en ferait 354), la liste de Confort commence 9,6 px plus haut que celle d'Essentiel et celle de Sur mesure 5,6 px, les boutons d'Essentiel et de Confort sont
+     3 px plus hauts, 4 px plus à gauche et 3 px plus larges (406 px) que celui de Sur mesure (404 px, 3 px plus bas). */
+  body[data-page="page"] .fml[data-bx-variant="entretien"] .fml-card:nth-child(1) .fml-card__text { max-width: calc(var(--bx-u) * 340); }
+  body[data-page="page"] .fml[data-bx-variant="entretien"] .fml-card:nth-child(2) .fml-card__list { margin-top: calc(var(--bx-u) * 18.5); }
+  body[data-page="page"] .fml[data-bx-variant="entretien"] .fml-card:nth-child(3) .fml-card__list { margin-top: calc(var(--bx-u) * 22.5); }
+  body[data-page="page"] .fml[data-bx-variant="entretien"] .fml-card:nth-child(-n + 2) { padding-bottom: calc(var(--bx-u) * 24); }
+  body[data-page="page"] .fml[data-bx-variant="entretien"] .fml-card:nth-child(3) { padding-bottom: calc(var(--bx-u) * 18); }
+  body[data-page="page"] .fml[data-bx-variant="entretien"] .fml-card:nth-child(-n + 2) .cta { width: calc(100% + var(--bx-u) * 2); margin-left: calc(var(--bx-u) * -4); }
+}
+
+/* Écrans étroits : cartes empilées, section à sa hauteur de contenu, pas de disque (la section orange suit directement). */
+@media (max-width: 900px) {
+  body[data-page="page"] .fml { padding: 4.5rem var(--gutter) 4rem; }
+  body[data-page="page"] .fml__list { max-width: 32rem; }
+  body[data-page="page"] .fml-card__title { font-size: 1.75rem; }
+}
+
+/* ---------- Avec mouvement : section épinglée un écran et demi, au-dessus de la section orange qui la suit ----------
+   La section suivante (bx-follow, posée par le script) remonte d'un écran par une marge négative : elle arrive sous la section épinglée, qui est opaque et passe par-dessus (z-index), donc elle
+   est déjà en place, orange sous le disque orange, quand le pin finit : pas d'écran orange vide à défiler. */
+html.bx-fml-anim .fml { z-index: 2; height: 100svh; min-height: 100svh; overflow: clip; }
+html.bx-fml-anim .bx-follow { margin-top: -100svh; }

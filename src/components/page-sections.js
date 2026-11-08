@@ -5,6 +5,7 @@ import ctaFinal from "./sections/cta-final.js";
 import articleBody from "./sections/article-body.js";
 import articles from "./sections/articles.js";
 import bureauxChiffres from "./sections/bureaux-chiffres.js";
+import bureauxFormules from "./sections/bureaux-formules.js";
 import bureauxInstalle from "./sections/bureaux-installe.js";
 import bureauxGalerie from "./sections/bureaux-galerie.js";
 import bureauxMatieres from "./sections/bureaux-matieres.js";
@@ -31,7 +32,7 @@ import fichePhoto from "./sections/fiche-photo.js";
 import ficheTexte from "./sections/fiche-texte.js";
 import testimonials from "./sections/testimonials.js";
 
-const renderers = { "bureaux-chiffres": bureauxChiffres, "bureaux-galerie": bureauxGalerie, "bureaux-installe": bureauxInstalle, "bureaux-matieres": bureauxMatieres, "bureaux-photo-texte": bureauxPhotoTexte, "bureaux-pourquoi": bureauxPourquoi, "bureaux-styles": bureauxStyles, hero, intro, offers, cards, figures, form, "contact-coordonnees": contactCoordonnees, "fiche-entete": ficheEntete, "fiche-photo": fichePhoto, "fiche-texte": ficheTexte, "fiche-galerie": ficheGalerie, "fiche-autres": ficheAutres, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
+const renderers = { "bureaux-chiffres": bureauxChiffres, "bureaux-formules": bureauxFormules, "bureaux-galerie": bureauxGalerie, "bureaux-installe": bureauxInstalle, "bureaux-matieres": bureauxMatieres, "bureaux-photo-texte": bureauxPhotoTexte, "bureaux-pourquoi": bureauxPourquoi, "bureaux-styles": bureauxStyles, hero, intro, offers, cards, figures, form, "contact-coordonnees": contactCoordonnees, "fiche-entete": ficheEntete, "fiche-photo": fichePhoto, "fiche-texte": ficheTexte, "fiche-galerie": ficheGalerie, "fiche-autres": ficheAutres, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
 
 export default ({ page }) => {
   const data = pages[page];

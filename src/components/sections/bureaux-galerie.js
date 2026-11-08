@@ -10,7 +10,7 @@ import { linkTo } from "../links.js";
 import img from "../img.js";
 import { withTags } from "../tags-text.js";
 import { titleHtml } from "../title.js";
-import { esc, fr } from "../utils.js";
+import { esc } from "../utils.js";
 
 // V7 (Décoration) : `cta` peut être { label, to } pour un bouton qui mène à une autre page (linkTo) ; une chaîne garde le bouton vers le contact.
 // V6 (page Design, « logo reconstitué » puis « Le branding végétal », frames design-24 à 33) : la même galerie, sans étiquette (`label` facultatif),

@@ -38,14 +38,13 @@ body[data-page="page"] .card__use-label { color: var(--olive-deep); font-weight:
   body[data-page="page"] .cards__list { grid-template-columns: 1fr; }
 }
 
-/* Logo du client en tête de carte (niveaux de gris, comme la frise) ; sans logo fourni, la mention [À compléter]. */
+/* Logo du client en tête de carte (en couleur depuis la V8 : plus aucun filtre de désaturation, G4) ; sans logo fourni, la mention [À compléter]. */
 body[data-page="page"] .card__logo {
   align-self: flex-start;
   width: auto;
   height: clamp(2rem, 2.6vw, 3rem);
   max-width: 10rem;
   object-fit: contain;
-  filter: grayscale(1);
   mix-blend-mode: multiply;
 }
 body[data-page="page"] .card__logo--missing { display: flex; align-items: center; height: clamp(2rem, 2.6vw, 3rem); font-size: var(--fs-body); }

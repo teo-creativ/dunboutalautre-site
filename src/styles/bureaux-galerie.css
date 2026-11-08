@@ -30,8 +30,6 @@ body[data-page="page"] .gal__title {
   font-size: var(--fs-h2); /* 68 px */
   line-height: 1.47; /* 98 px entre les deux lignes */
 }
-/* Pastille crème de la frame : 241 px de large, 100 de haut (boîte englobante), inclinée de -2,4° (bord haut mesuré sur les frames 43, 45 et 47). */
-body[data-page="page"] .gal .tag { --tag-rotate: -2.4deg; padding: 0.11em 0.38em 0.17em; }
 body[data-page="page"] .gal__cta { margin-top: 1.45vw; } /* 25 px sous le titre */
 
 /* ---------- Photos : grille par défaut ---------- */
@@ -119,11 +117,11 @@ body[data-page="page"] .gal__grow-photo { position: absolute; inset: 0; z-index:
 body[data-page="page"] .gal__grow-photo img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 body[data-page="page"] .gal__grow-veil { position: absolute; inset: 0; z-index: -1; background: var(--veil); }
 body[data-page="page"] .gal__grow-text { display: flex; flex-direction: column; align-items: center; gap: 2.7vw; }
-/* Texte : 48 px, graisse 400 (« Nous reconstituons votre logo, vos initiales ou un » mesure 1 156 px sur la frame 31), interligne de 72 px, cinq
-   lignes (la boîte de 1 370 px les casse comme la frame). Pastilles inclinées de -1° (orange) et +1° (crème), mesurées sur la frame 31. */
-body[data-page="page"] .gal__grow-p { max-width: 79.3vw; font-size: var(--fs-text-lg); font-weight: 400; line-height: 1.5; }
-body[data-page="page"] .gal__grow-p .tag--orange { --tag-rotate: -1deg; }
-body[data-page="page"] .gal__grow-p .tag--cream { --tag-rotate: 1deg; }
+/* Texte : 48 px, graisse 400 (« Nous reconstituons votre logo, vos initiales ou un » mesure 1 156 px sur la frame 31), interligne de 72 px.
+   Retours V8 (G8) : lignes équilibrées (text-wrap: balance) : les cinq lignes mesurent de 1 164 à 1 309 px à 1728 px, au lieu d'une première ligne courte
+   suivie de lignes pleines (les pastilles ne se coupent pas). Ce paragraphe fait 250 caractères : à 48 px il ne tient ni sur 2 lignes ni sur 4 (voir
+   docs/POINTS-A-VALIDER.md, V8). */
+body[data-page="page"] .gal__grow-p { max-width: 79.3vw; font-size: var(--fs-text-lg); font-weight: 400; line-height: 1.5; text-wrap: balance; }
 @media (max-width: 900px) {
   body[data-page="page"] .gal__grow { min-height: 80svh; }
   body[data-page="page"] .gal__grow-text { gap: 1.5rem; }
@@ -170,7 +168,6 @@ html.bx-gal-anim body[data-page="page"] .gal__grow-text { position: absolute; le
 @media (min-width: 901px) {
   body[data-page="page"] .gal[data-bx-variant="saisonniere"] .gal__title { max-width: 66vw; margin-top: 0; line-height: 1.5; }
   /* Pastille droite (frame 11 : 499 x 92 px, bord haut à 427 px sur toute sa longueur). */
-  body[data-page="page"] .gal[data-bx-variant="saisonniere"] .tag { --tag-rotate: 0deg; padding: 0.05em 0.45em 0.11em; }
   /* Sans étiquette, le bloc (titre et bouton) est centré 46 px sous le milieu de l'écran (frame 11 : titre à 427 px, bouton de 650 à 697 px). */
   html.bx-gal-anim body[data-page="page"] .gal[data-bx-variant="saisonniere"] .gal__content { padding-top: 5.3vw; }
 }

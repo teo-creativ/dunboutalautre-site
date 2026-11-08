@@ -105,7 +105,6 @@
 /* Variante « v7 » (frame scenographie-10, ordinateur seulement) : la pastille du titre monte vers la droite (-2,3°, comme sur la page Bureaux) ; cartes fermées de
    119 px (115 par défaut), titre 5 px plus bas par rapport aux cartes et 5 px plus loin de l'étiquette. */
 @media (min-width: 901px) {
-  .faq[data-bx-variant^="v7"] .tag { --tag-rotate: -2.3deg; padding: 0.08em 0.5em 0.14em; }
   .faq[data-bx-variant^="v7"] .faq__trigger { padding-block: 2.3vw; }
   .faq[data-bx-variant^="v7"] .faq__trigger[aria-expanded="true"] { padding-bottom: var(--faq-pad); }
   .faq[data-bx-variant^="v7"] .faq__intro { padding-top: 0.3vw; }

@@ -116,7 +116,8 @@
   font-weight: 300;
   line-height: 1.25;
 }
-/* La pilule est plus haute que l'interligne : on rogne sa marge pour garder le pas de 60 px de la frame. */
+/* Même compensation que le titre du footer : la pilule est plus haute que l'interligne, on rogne sa marge verticale pour garder le pas de 60 px de
+   la frame (le padding, la marge horizontale et l'absence de rotation sont ceux de tag.css). */
 .menu__title .tag { margin-block: -0.14em; }
 .menu__photo {
   margin-top: calc(var(--u) * 2.3);

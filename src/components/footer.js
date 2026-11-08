@@ -8,10 +8,9 @@ import { esc } from "./utils.js";
 import { wordmark } from "./logo.js";
 import { tag } from "./tag.js";
 
-// Pictos de 16 px en currentColor : un cercle pour Facebook, un carré arrondi pour Instagram.
+// Picto de 16 px en currentColor : un carré arrondi pour Instagram (le seul réseau du footer depuis la V8).
 const icons = {
   instagram: `<svg class="footer__icon" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true" focusable="false"><rect x="1.6" y="1.6" width="12.8" height="12.8" rx="3.6"/><circle cx="8" cy="8" r="3.1"/><circle cx="11.8" cy="4.2" r="0.5" fill="currentColor" stroke="none"/></svg>`,
-  facebook: `<svg class="footer__icon" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.4"/><path d="M8.9 14.2V9h1.7l.3-2H8.9V5.8c0-.6.3-1 1-1h1V3.1c-.3 0-.9-.1-1.5-.1-1.5 0-2.5.9-2.5 2.5V7H5.2v2h1.7v5.2" fill="currentColor" stroke="none"/></svg>`,
 };
 
 const link = (item, extra = "") => `<a class="footer__link" href="${esc(href(item))}"${extra}>${esc(item.label)}</a>`;

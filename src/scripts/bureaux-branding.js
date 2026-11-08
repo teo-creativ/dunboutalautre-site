@@ -167,7 +167,6 @@ export function initBureauxBranding() {
       // Texte : l'étiquette, les lignes qui montent une à une sous leur masque, les mots de 25 % à 100 %, puis les pastilles qui se remplissent
       // (même écriture que « Notre approche », approach.js, dont les durées sont déjà en écrans).
       const tags = [...text.querySelectorAll(".tag")];
-      const rotations = tags.map((tag) => parseFloat(getComputedStyle(tag).getPropertyValue("--tag-rotate")));
       const split = SplitText.create(text, { type: "lines,words", mask: "lines", linesClass: "split-line", ignore: ".tag", aria: "none" });
       const words = split.words.filter((word) => !word.querySelector(".tag"));
       tl.fromTo(label, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, textAt)
@@ -175,7 +174,6 @@ export function initBureauxBranding() {
         .fromTo(words, { opacity: 0.25 }, { opacity: 1, duration: 0.25, ease: "none", stagger: 0.009 }, textAt + 0.15);
       tags.forEach((tag, i) => {
         const at = textAt + 0.25 + i * 0.22;
-        tl.fromTo(tag, { rotation: 0 }, { rotation: rotations[i], duration: 0.22, ease: "power3.out" }, at);
         // Le point collé au tag fait partie de son « mot » : il apparaît avec le fond, pas avant.
         const word = split.words.find((w) => w.contains(tag));
         if (word) tl.fromTo(word, { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, at);

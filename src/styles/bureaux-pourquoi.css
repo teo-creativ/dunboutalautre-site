@@ -1,9 +1,9 @@
 /* « Pourquoi végétaliser vos bureaux ? » de la page Bureaux V5 (frames bureaux-34 et 35, canvas 1728 x 1030). Quatre lignes : titre à gauche
    (de 169 à 811 px), paragraphe à droite (de 811 à 1559 px), un filet fin de 1 px entre les lignes (pas de filet en haut ni en bas), 183 px de
    pas. Mesures lues sur la frame, converties en vw. Règles préfixées body[data-page="page"] : l'accueil et Noël ne peuvent pas être atteints.
-   Par défaut (JavaScript absent, mouvement réduit, moins de 900 px) toutes les lignes sont lisibles : titres en olive foncé, paragraphes en
-   olive doux. L'état « éteint » (sable) et la ligne active (soulignée d'orange) n'existent que sous html.bx-why-anim, que le script pose
-   pour l'ordinateur avec mouvement (scripts/bureaux-pourquoi.js). */
+   Retours V8 (G7) : par défaut (tactile, moins de 900 px, JavaScript absent) toutes les lignes sont lisibles, titres en olive foncé, paragraphes
+   en olive doux, aucune ligne active. Sur ordinateur avec souris elles sont toutes au repos (éteintes, en sable) et seule la ligne survolée ou
+   focalisée s'allume, comme la liste de l'accueil (services.css) : voir « Ordinateur avec souris » plus bas. */
 body[data-page="page"] .why {
   padding: calc(var(--section-y) * 1.56) var(--section-x) calc(var(--section-y) * 1.4); /* l'étiquette est à 156 px du haut sur la frame 34 */
   background: var(--cream);
@@ -48,17 +48,26 @@ body[data-page="page"] .why-row__text {
   line-height: 1.5;
   color: var(--olive-soft); /* 4,8:1 : le gris de la frame ne passe pas l'AA (docs/POINTS-A-VALIDER.md ligne 81) */
 }
-/* Focus clavier : l'anneau de focus global (base.css) ; les lignes sont atteignables au clavier seulement avec le script. */
+/* Focus clavier : l'anneau de focus global (base.css) ; le script donne un tabindex aux lignes quand elles réagissent au survol. */
 body[data-page="page"] .why-row:focus-visible { outline-offset: 0.4vw; border-radius: 4px; }
 
-/* ---------- Ordinateur avec mouvement : une ligne active, les autres éteintes ---------- */
-html.bx-why-anim .why-row__title,
-html.bx-why-anim .why-row__text { transition: color 0.4s ease, text-decoration-color 0.4s ease; }
-html.bx-why-anim .why-row:not(.is-active) .why-row__title,
-html.bx-why-anim .why-row:not(.is-active) .why-row__text { color: color-mix(in srgb, var(--sand) 85%, var(--olive-deep)); }
-html.bx-why-anim .why-row.is-active .why-row__title { text-decoration-color: var(--orange); }
+/* ---------- Ordinateur avec souris (G7) : toutes les lignes au repos, la ligne survolée ou focalisée s'allume ----------
+   Au repos aucune ligne n'est soulignée ni opaque : titres et paragraphes sont tous au même état éteint (sable). Au survol, comme à l'accueil,
+   le titre passe en olive foncé avec un soulignement orange et le paragraphe devient opaque. Le focus clavier (:focus-visible) fait pareil :
+   le script donne alors un tabindex aux lignes. Aucune classe d'état, aucun suivi du scroll. */
+@media (hover: hover) and (min-width: 901px) {
+  body[data-page="page"] .why-row__title,
+  body[data-page="page"] .why-row__text {
+    color: color-mix(in srgb, var(--sand) 85%, var(--olive-deep));
+    transition: color 0.4s ease, text-decoration-color 0.4s ease;
+  }
+  body[data-page="page"] .why-row:hover .why-row__title,
+  body[data-page="page"] .why-row:focus-visible .why-row__title { color: var(--olive-deep); text-decoration-color: var(--orange); }
+  body[data-page="page"] .why-row:hover .why-row__text,
+  body[data-page="page"] .why-row:focus-visible .why-row__text { color: var(--olive-soft); }
+}
 
-/* ---------- Écrans étroits : une colonne, titre puis paragraphe, toutes les lignes lisibles (la ligne active n'est qu'un style) ---------- */
+/* ---------- Écrans étroits : une colonne, titre puis paragraphe, toutes les lignes lisibles, sans ligne active ---------- */
 @media (max-width: 900px) {
   body[data-page="page"] .why { padding: 4.5rem var(--gutter) 4rem; }
   body[data-page="page"] .why__title { max-width: none; }
@@ -91,8 +100,6 @@ html.bx-why-anim .why-row.is-active .why-row__title { text-decoration-color: var
   body[data-page="page"] .why[data-bx-variant="scenographie"] { padding-top: calc(var(--section-y) * 1.56 + 0.52vw); } /* étiquette à 163 px du haut du crème (frame 03) */
   body[data-page="page"] .why[data-bx-variant="scenographie"] .why__list { margin-top: calc(2vw + 4px); }
   body[data-page="page"] .why[data-bx-variant="scenographie"] .why__title { max-width: 39vw; }
-  /* La pastille de la frame 04 est droite (368 x 70 px, bord haut à 274 px sur toute sa longueur) et à 26 px du mot qui la précède. */
-  body[data-page="page"] .why[data-bx-variant="scenographie"] .tag { --tag-rotate: 0deg; margin-left: 0.29em; }
 }
 
 /* Variante « entretien » (V7, frames entretien-03 à 05 et zoom 04) : mêmes lignes que Bureaux (183 px de pas, titres de 48 px) avec quatre entrées. Mesures de la frame 04 : le titre se

@@ -21,13 +21,7 @@ body[data-page="page"] .mat .section-title {
   max-width: 69vw; /* « Trois matières, un même objectif : » (1138 px sur la frame) puis « un espace qui vous ressemble. » */
   font-size: var(--fs-h2);
 }
-/* Pastilles crème, texte orange : inclinaisons mesurées sur les frames (titre +0,85°, slides +1,27°, +1,28° et +0,57°). */
-body[data-page="page"] .mat .section-title .tag { --tag-rotate: 0.85deg; padding: 0.11em 0.38em 0.17em; }
 /* Les pastilles de la frame sont 16 px moins larges que celles de tag.css (marge de 0,38 em au lieu de 0,5) et un peu plus hautes. */
-body[data-page="page"] .mat-slide__title .tag { padding: 0.085em 0.45em 0.145em; }
-body[data-page="page"] .mat-slide:nth-child(1) .tag { --tag-rotate: 1.27deg; }
-body[data-page="page"] .mat-slide:nth-child(2) .tag { --tag-rotate: 1.28deg; }
-body[data-page="page"] .mat-slide:nth-child(3) .tag { --tag-rotate: 0.57deg; }
 
 /* ---------- Photos et slides : trois blocs, chaque slide sur sa photo ---------- */
 body[data-page="page"] .mat__photo,
@@ -171,7 +165,6 @@ html.bx-mat-anim .mat-slide__text {
 @media (min-width: 901px) {
   body[data-page="page"] .mat[data-bx-variant="design"] .section-title { max-width: 83vw; }
   /* La pastille « vraiment » est plus serrée entre « convient » et « ? » (16 et 13 px d'écart sur la frame 09, 29 et 29 avec les marges de tag.css). */
-  body[data-page="page"] .mat[data-bx-variant="design"] .section-title .tag { margin-inline: -0.07em -0.12em; }
   html.bx-mat-anim .mat[data-bx-variant="design"] .mat__head { top: calc(var(--bx-u) * 399); }
   html.bx-mat-anim .mat[data-bx-variant="design"] .section-title { max-width: calc(var(--bx-u) * 1440); margin-top: calc(var(--bx-u) * 8); }
   html.bx-mat-anim .mat[data-bx-variant="design"] .mat-slide__title {

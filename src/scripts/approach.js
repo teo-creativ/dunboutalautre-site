@@ -10,9 +10,6 @@ export function addApproach(tl, { stage, T }) {
   const text = content.querySelector(".approach__text");
   const tags = [...text.querySelectorAll(".tag")];
 
-  // Rotation finale des tags, lue dans le CSS avant que GSAP y touche.
-  const rotations = tags.map((tag) => parseFloat(getComputedStyle(tag).getPropertyValue("--tag-rotate")));
-
   tl.fromTo(stage.querySelector(".approach__veil"), { opacity: 0 }, { opacity: 1, duration: T.veilDur, ease: "none" }, T.veil);
 
   // Texte : les lignes montent une à une sous leur masque, les mots passent de 25 % à 100 % d'opacité (effet de lecture).
@@ -23,10 +20,9 @@ export function addApproach(tl, { stage, T }) {
     .fromTo(split.lines, { yPercent: 105 }, { yPercent: 0, duration: 0.3, ease: "power3.out", stagger: 0.1 }, T.text + 0.05)
     .fromTo(words, { opacity: 0.25 }, { opacity: 1, duration: 0.25, ease: "none", stagger: 0.009 }, T.text + 0.15);
 
-  // Title tags : le fond (pilule) se remplit de gauche à droite en s'inclinant, puis le texte de la pilule apparaît.
+  // Title tags : le fond (pilule) se remplit de gauche à droite, puis le texte de la pilule apparaît (la pilule reste droite).
   tags.forEach((tag, i) => {
     const at = T.text + 0.25 + i * 0.22;
-    tl.fromTo(tag, { rotation: 0 }, { rotation: rotations[i], duration: 0.22, ease: "power3.out" }, at);
     // Le point collé au tag fait partie de son « mot » : il apparaît avec le fond, pas avant.
     tl.fromTo(split.words.find((word) => word.contains(tag)), { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, at);
     fillTag(tl, tag, at, { duration: 0.22 });

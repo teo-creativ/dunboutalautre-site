@@ -1,4 +1,4 @@
-/* Frise de logos clients des pages secondaires : logos en niveaux de gris (DESIGN.md §5.9), `multiply` pour que les fonds blancs
+/* Frise de logos clients des pages secondaires : logos dans leurs couleurs d'origine (V8, G4 : plus aucun niveau de gris), `multiply` pour que les fonds blancs
    disparaissent sur le crème. Statique par défaut : centrée, elle passe à la ligne. src/scripts/logos.js ajoute .is-marquee (ligne
    unique qui défile). Clients sans logo : leur nom en texte et [À compléter]. */
 body[data-page="page"] .logos {
@@ -24,7 +24,6 @@ body[data-page="page"] .logo__img {
   height: var(--logo-h);
   max-width: 12rem;
   object-fit: contain;
-  filter: grayscale(1);
   mix-blend-mode: multiply;
 }
 body[data-page="page"] .logo--missing { flex-direction: column; gap: 0.25rem; text-align: center; }

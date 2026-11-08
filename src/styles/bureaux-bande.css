@@ -19,7 +19,6 @@ body[data-page="page"] .mat .band__head .section-title.band__title { --title-col
 @media (min-width: 901px) {
   body[data-page="page"] .mat .band__head .section-title.band__title { max-width: 33vw; } /* « Les spécificités des » puis « terrasses [parisiennes]. » */
 }
-body[data-page="page"] .mat .band__title .tag { --tag-rotate: -2.5deg; padding: 0.1em 0.55em 0.16em; } /* frame 10 : la pastille (286 x 78 px) monte vers la droite */
 body[data-page="page"] .band__lead { max-width: 25em; margin-top: 0.93vw; font-size: var(--fs-body); line-height: 1.5; color: var(--olive-soft); }
 body[data-page="page"] .band__rows { display: grid; gap: 0.87vw; width: 100%; margin-top: 3.4vw; }
 body[data-page="page"] .band__row { overflow: clip; --set: calc(var(--sum) * var(--band-h) + var(--n) * var(--band-gap)); }

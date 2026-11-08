@@ -135,5 +135,4 @@ body[data-page="page"] .hero--compact { min-height: 60svh; }
   body[data-page="page"] .cta-final[data-bx-variant="saisonniere"] .cta-final__inner { gap: 1.39vw; }
   body[data-page="page"] .cta-final[data-bx-variant="terrasses"] .cta-final__inner { max-width: 36vw; gap: 1.39vw; } /* 30 px entre le texte et le bouton (51 sur Scénographie) */
   /* Pastille « mérite » (frame 12) : 232 x 69 px (203 par défaut), presque droite, qui dépasse de 21 px à gauche du texte et touche presque « un » (8 px). */
-  body[data-page="page"] .cta-final:is([data-bx-variant="v7"], [data-bx-variant="terrasses"]) .tag { --tag-rotate: -0.5deg; padding-inline: 0.8em; margin-inline: -0.44em -0.08em; }
 }

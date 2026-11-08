@@ -2,7 +2,7 @@
 // (DESIGN.md §5.9) et bouton vers les réalisations. Chaque client est { name } avec { logo } (clé de src/data/logos.js) ; sans logo
 // fourni, son nom s'affiche en texte avec [À compléter]. src/scripts/logos.js en fait un défilement continu (sans JavaScript ou en
 // mouvement réduit : la liste reste statique et passe à la ligne). `color` : logos dans leurs couleurs d'origine (page Bureaux V5, frames 38
-// et 39) au lieu des niveaux de gris des pages de services ; les autres pages ne le passent pas et leur HTML ne change pas.
+// et 39) sans `multiply` (depuis la V8 aucun logo n'est plus en niveaux de gris) ; les autres pages ne le passent pas et leur HTML ne change pas.
 import { cta } from "../cta.js";
 import { logos } from "../../data/logos.js";
 import { linkTo } from "../links.js";

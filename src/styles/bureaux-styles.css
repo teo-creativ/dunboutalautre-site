@@ -22,7 +22,6 @@ body[data-page="page"] .sty__body { padding-top: 0.46vw; } /* l'étiquette est 6
 body[data-page="page"] .sty__body .section-head { gap: 0.78vw; }
 body[data-page="page"] .sty__title { max-width: 36.5vw; }
 /* Pastille de 183 x 73 px qui monte vers la droite (-2,3°), un peu plus haute que celle de tag.css, 10 px plus à gauche (frame 07). */
-body[data-page="page"] .sty__title .tag { --tag-rotate: -2.3deg; padding: 0.1em 0.52em 0.17em; margin-left: -0.09em; } /* « Votre terrasse [mérite] un » puis « style d'aménagement qui » et « lui ressemble. » */
 body[data-page="page"] .sty__list { display: flow-root; margin: 5.7vw 0 0; padding: 0; list-style: none; } /* flow-root : la marge de l'entrée active ne se fond pas dans celle de la liste */ /* 111 px entre le titre et la première entrée */
 
 body[data-page="page"] .sty-row { position: relative; padding-block: 0.77vw; } /* pas de 72 px ; l'entrée active gagne 14 px au-dessus (marge) et 11 px sous sa description (frame 07 : 86 px avant, 135 px après), plus bas */
@@ -83,7 +82,10 @@ body[data-page="page"] .sty-row:focus-visible { outline-offset: 0.4vw; border-ra
    sur toute sa longueur) ; la description de l'entrée active est 11 px plus bas sous son titre (56 px entre le haut du titre et la 1re ligne, 45 par défaut), et prend
    ces 11 px sur la marge sous elle. Le composant de Terrasses est inchangé. */
 @media (min-width: 901px) {
-  body[data-page="page"] .sty[data-bx-variant="saisonniere"] .sty__title .tag { --tag-rotate: 0deg; padding-inline: 0.36em; }
+  /* Titre (G2, G11) : la pastille a maintenant le padding et la marge de tag.css, 17 px plus large que celle de la frame : la boîte de 36,5 vw cassait
+     « chaque moment de l'année. » sur 3 lignes. 37,5 vw (648 px à 1728) garde « Une décoration pour » puis « [chaque moment] de l'année. ».
+     Terrasses garde ses 36,5 vw. */
+  body[data-page="page"] .sty[data-bx-variant="saisonniere"] .sty__title { max-width: 37.5vw; }
   body[data-page="page"] .sty[data-bx-variant="saisonniere"] .sty-row__text { margin-top: 0.875rem; }
   html.bx-sty-anim body[data-page="page"] .sty[data-bx-variant="saisonniere"] .sty-row.is-active { padding-bottom: 0.8vw; }
 }

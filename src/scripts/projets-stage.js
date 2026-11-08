@@ -194,22 +194,20 @@ function addPhoto(tl, stage, T) {
 }
 
 // ---------- Texte : label, titre ligne par ligne avec sa pastille, CTA ----------
-// Même séquence que « Notre volonté » de Noël (noel-volonte.js) : label, lignes sous masque, pastille qui se remplit de gauche à droite avec
-// une rotation d'entrée de ±4° vers ±2°.
+// Même séquence que « Notre volonté » de Noël (noel-volonte.js) : label, lignes sous masque, pastille qui se remplit de gauche à droite
+// (sans rotation, G2).
 function addText(tl, stage, T) {
   const content = stage.querySelector(".pphoto__content");
   const label = content.querySelector(".label");
   const title = content.querySelector(".pphoto__title");
   const tags = [...title.querySelectorAll(".tag")];
   const cta = content.querySelector(".cta");
-  const rotations = tags.map((tag) => parseFloat(getComputedStyle(tag).getPropertyValue("--tag-rotate")));
 
   const split = SplitText.create(title, { type: "lines,words", mask: "lines", linesClass: "split-line", ignore: ".tag", aria: "none" });
   tl.fromTo(label, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, T.text)
     .fromTo(split.lines, { yPercent: 105 }, { yPercent: 0, duration: 0.3, ease: "power3.out", stagger: 0.07 }, T.text + 0.05);
   tags.forEach((tag, i) => {
     const at = T.text + 0.3 + i * 0.2;
-    tl.fromTo(tag, { rotation: rotations[i] * 2 }, { rotation: rotations[i], duration: 0.25, ease: "power3.out" }, at);
     // Seul un tag suivi directement d'une ponctuation est enveloppé dans un « mot » avec elle : il apparaît avec le fond, pas avant.
     const word = split.words.find((w) => w.contains(tag));
     if (word) tl.fromTo(word, { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, at);

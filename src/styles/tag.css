@@ -1,14 +1,20 @@
-/* Title tag : mot mis en avant dans un titre, vraie pilule inclinée en Playfair Display italique (DESIGN.md §5.1,
-   retours-v2 01 §2). Balisage : <span class="tag tag--orange"><span class="tag__bg"></span><span class="tag__text">…</span></span>
-   (components/tag.js). Le fond est un calque à part : il se dessine en clip-path avec rayon de pilule (src/scripts/tag.js),
-   jamais en scaleX, qui déformerait les demi-cercles. Aucune ponctuation ne se sépare du tag : <!--@tag-->. */
+/* Title tag : mot mis en avant dans un titre, vraie pilule droite en Playfair Display italique (DESIGN.md §5.1, retours-v2 01 §2).
+   Retours V8 (G2 et G11) : la pilule n'est plus jamais inclinée (aucune rotation, ni ici ni dans les animations d'entrée) et son padding est
+   réglé ICI, une seule fois, pour toutes les pages et toutes les sections : aucune feuille de page ne le surcharge. Elle a la taille de
+   texte du titre qui la porte (elle n'en définit pas) et se pose sur sa ligne de base.
+   Balisage : <span class="tag tag--orange"><span class="tag__bg"></span><span class="tag__text">…</span></span> (components/tag.js).
+   Le fond est un calque à part : il se dessine en clip-path avec rayon de pilule (src/scripts/tag.js), jamais en scaleX, qui déformerait
+   les demi-cercles. Aucune ponctuation ne se sépare du tag : <!--@tag-->. */
 .tag {
   --tag-bg: var(--orange);
   --tag-fg: var(--cream);
   position: relative;
   display: inline-block;
-  /* Le padding horizontal laisse passer les jambages et les hampes de l'italique (f, p, g, l) sans toucher le bord du fond. */
-  padding: 0.04em 0.5em 0.1em;
+  /* Padding réglé à l'œil sur « mérite » (Terrasses) : la pilule épouse son texte et laisse l'espace normal d'un mot avant et après.
+     0,28 em de chaque côté suffisent aux jambages et aux hampes de l'italique (f, p, g, l). En hauteur, 0,02 em des deux côtés (valeur de départ
+     du doc) laissait dépasser la queue du « p » et du « g » sous la pilule (« scénographie », « conception ») : le bas garde 0,08 em, le haut 0,03 em. */
+  padding-block: 0.03em 0.08em;
+  padding-inline: 0.28em;
   margin-inline: 0.12em;
   font-family: var(--font-serif);
   font-style: italic;
@@ -17,10 +23,9 @@
   white-space: nowrap;
   vertical-align: baseline;
   color: var(--tag-fg);
-  transform: rotate(var(--tag-rotate, -2deg));
 }
-.tag--cream { --tag-bg: var(--cream); --tag-fg: var(--orange); --tag-rotate: -2deg; }
-.tag--orange { --tag-bg: var(--orange); --tag-fg: var(--cream); --tag-rotate: 2deg; }
+.tag--cream { --tag-bg: var(--cream); --tag-fg: var(--orange); }
+.tag--orange { --tag-bg: var(--orange); --tag-fg: var(--cream); }
 
 .tag__bg {
   position: absolute;
@@ -30,8 +35,8 @@
 }
 .tag__text { position: relative; display: inline-block; }
 
-/* Masques de SplitText (overflow: clip, posé en style inline) : ils épousent la boîte non tournée du mot ou de la ligne, donc rognent les
-   coins d'un tag incliné. On étend la zone rognée de 0,3 em avec overflow-clip-margin : aucun effet sur la mise en page.
+/* Masques de SplitText (overflow: clip, posé en style inline) : ils épousent la boîte du mot ou de la ligne. On étend la zone rognée de
+   0,3 em avec overflow-clip-margin pour que la pilule et les jambages de l'italique ne soient jamais coupés : aucun effet sur la mise en page.
    Mots (inline-block) : le repli sans overflow-clip-margin est un padding compensé par une marge négative, sans effet sur la mise en page.
    Lignes (blocs) : le même repli ferait fusionner les marges négatives de deux lignes voisines et ajouterait 0,25 em à chaque interligne
    (le pas de « Notre approche » était de 84 px au lieu de 72 px sur la frame) : il est réservé aux navigateurs sans overflow-clip-margin,

@@ -43,7 +43,8 @@
   font-weight: 300;
   line-height: 1.25; /* pas de 60 px entre les deux lignes */
 }
-/* La pilule est plus haute que l'interligne : on rogne sa marge pour garder le pas de 60 px du design. */
+/* La pilule (1,31 em de haut) reste plus haute que l'interligne (1,25) : on rogne sa marge verticale pour garder le pas de 60 px du design.
+   Seule la marge verticale : le padding, la marge horizontale et l'absence de rotation sont ceux de tag.css. */
 .footer__title .tag { margin-block: -0.14em; }
 .footer__intro .cta { margin-top: 2.28vw; }
 

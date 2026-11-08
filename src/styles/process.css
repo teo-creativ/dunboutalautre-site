@@ -76,6 +76,11 @@
   /* Le titre reste à l'écran pendant que les étapes défilent (il s'arrête avec la dernière). */
   .process__head { gap: 0.6vw; position: sticky; top: 20svh; }
   .process__title { max-width: 30vw; } /* « Du premier [échange] » puis « au démontage. » */
+  /* Bureaux et Design (G8) : « Notre démarche pour » puis « [végétaliser vos bureaux]. » ou « De votre idée à la pose, on » puis « travaille [en collaboration]. » :
+     deux lignes comme la variante v7, dont la pastille d'une ligne demande 38 vw. La landing Noël (body[data-page="noel"]) garde ses 30 vw.
+     text-wrap: balance est posé ici seulement : en global il ajoutait une ligne à 9 titres validés et changeait la coupure du titre du footer
+     (relevé de tous les h2 sur 13 pages et 4 largeurs, docs/POINTS-A-VALIDER.md, V8). */
+  body[data-page="page"] .process:not([data-bx-variant]) .process__title { max-width: 38vw; text-wrap: balance; }
   .process__timeline { margin: 2.6vw 0 0; }
   .step { padding-left: 3.06vw; } /* 53 px entre le trait et le texte */
   .step__desc { max-width: 33vw; margin-top: 0.9vw; }
@@ -86,7 +91,6 @@
 @media (min-width: 901px) {
   .process[data-bx-variant="v7"] .process__head { top: max(14.4svh, 6.5rem); gap: 1vw; } /* étiquette à 146 px du haut quand le titre tient (frame 08), 206 px pour le composant de Noël, plancher de 104 px sous le header sur un écran court ; 7 px de plus entre l'étiquette et le titre */
   .process[data-bx-variant="v7"] .process__title { max-width: 38vw; }
-  .process[data-bx-variant="v7"] .tag { --tag-rotate: -2.3deg; padding: 0.08em 0.5em 0.14em; } /* frame 08 : la pastille monte vers la droite, 79 px de haut (75 par défaut) */
 }
 
 /* Variante « entretien » (frames entretien-24 à 27, zoom 26) : le composant de Noël tel quel (étiquette à 206 px, frame 25), sauf le titre : « Un suivi [simple], » (386 px) puis
@@ -95,5 +99,4 @@
   .process[data-bx-variant="entretien"] .process__title { max-width: 25vw; }
   .process[data-bx-variant="entretien"] .label { letter-spacing: 0; }
   .process[data-bx-variant="entretien"] .process__head { top: calc(20svh - 3px); } /* étiquette à 206 px (209 avec les 20 svh de Noël) */
-  .process[data-bx-variant="entretien"] .tag { --tag-rotate: -1.9deg; } /* la pastille monte vers la droite (-1,88° sur la frame 25) */
 }

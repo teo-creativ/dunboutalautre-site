@@ -9,15 +9,13 @@ body[data-page="page"] .hero--bx .hero__tagline { text-transform: uppercase; let
 
 /* Titre : 82 px à 1728 (« Végétalisation » mesure 583 px sur la frame, 484 px à 68 px), « Végétalisation de bureaux à Paris : » sur
    toute la première ligne (1406 px), puis « de [la conception] à l'entretien. » avec un pas de 101 px entre les lignes. La pastille a le
-   corps du titre (« conception » : 372 px sur la frame), le fond de tag.css en hauteur et 0,3 em de marge de chaque côté (518 px de
-   large), inclinée de -1° (elle monte vers la droite) : mesuré sur les frames 01 et 02. L'intro (intro.js) lit --tag-rotate et retombe
-   donc sur cet angle. Ses marges verticales négatives l'empêchent d'agrandir sa ligne (110 px de haut pour 101 px de pas). */
+   corps du titre (« conception » : 372 px sur la frame). Depuis la V8 (retours G2 et G11) la pastille est droite et son padding est celui
+   de tag.css, le même partout : plus aucun réglage propre à la page. */
 body[data-page="page"] .hero--bx .hero__title {
   max-width: 84vw;
   font-size: min(clamp(2.5rem, 4.75vw, 5.7rem), 8vw);
   line-height: 1.24;
 }
-body[data-page="page"] .hero--bx .hero__title .tag { --tag-rotate: -1deg; padding: 0.06em 0.31em 0.12em; margin: -0.1em 0; }
 
 /* Paragraphe : 24 px sur 36 px d'interligne, deux lignes de 677 et 709 px sur la frame. */
 body[data-page="page"] .hero--bx .hero__lead {
@@ -46,7 +44,6 @@ body[data-page="page"] .hero--bx .hero__lead {
    3 px. La somme des marges est celle de Bureaux : le bloc, centré, ne bouge pas (mots-clés à 308 px, bouton à 712 px). */
 @media (min-width: 901px) {
   body[data-page="page"] .hero--bx[data-bx-variant="design"] .hero__title { margin-top: 1.81vw; }
-  body[data-page="page"] .hero--bx[data-bx-variant="design"] .hero__title .tag { margin-inline: 0.18em 0.14em; position: relative; top: 0.055em; }
   body[data-page="page"] .hero--bx[data-bx-variant="design"] .hero__lead { max-width: 46vw; margin-top: 1.21vw; }
   body[data-page="page"] .hero--bx[data-bx-variant="design"] .hero__inner .cta { margin-top: 1.91vw; }
 }
@@ -80,24 +77,21 @@ html.bx-hero-anim .bx-hero-next {
   body[data-page="page"] .hero--bx:is([data-bx-variant="scenographie"], [data-bx-variant="saisonniere"]) .hero__title { margin-top: 1.17vw; }
   body[data-page="page"] .hero--bx[data-bx-variant="scenographie"] .hero__title { max-width: 76vw; }
   body[data-page="page"] .hero--bx[data-bx-variant="saisonniere"] .hero__title { max-width: 70vw; } /* « Décoration saisonnière pour » (1 150 px) puis « entreprises : [un décor végétal] » (frame 01) ; « qui » n'y tient pas */
-  body[data-page="page"] .hero--bx[data-bx-variant="saisonniere"] .hero__title .tag { --tag-rotate: 0deg; } /* pastille droite de 619 px, bord haut à 460 px sur toute sa longueur */
-  body[data-page="page"] .hero--bx[data-bx-variant="scenographie"] .hero__title .tag { --tag-rotate: 0deg; padding-inline: 0.555em; }
   body[data-page="page"] .hero--bx:is([data-bx-variant="scenographie"], [data-bx-variant="saisonniere"]) .hero__lead { max-width: 35vw; margin-top: 0.98vw; }
   body[data-page="page"] .hero--bx:is([data-bx-variant="scenographie"], [data-bx-variant="saisonniere"]) .hero__inner .cta { margin-top: 2.08vw; }
 }
 
-/* Variante « terrasses » (V7, frames terrasses-01 à 03, canvas 1728 x 1030) : mêmes mots-clés, titre de 82 px et pastille inclinée de -1° que Bureaux. Mesures prises
+/* Variante « terrasses » (V7, frames terrasses-01 à 03, canvas 1728 x 1030) : mêmes mots-clés, titre de 82 px que Bureaux. Mesures prises
    sur la frame 01 : le titre se coupe après « à » puis après « de » (« Aménagement de terrasse à » mesure 1 176 px, « Paris : [votre espace extérieur] , de » 1 195 px et « la »
    n'y tient pas : 72 vw) ; le paragraphe se coupe après « en passant » (583 px : 36 vw) ; le bloc est un peu sous le centre (mots-clés à 262 px, bouton de 769 à 818 px). */
 @media (min-width: 901px) {
   body[data-page="page"] .hero--bx[data-bx-variant="terrasses"] .hero__inner { padding-top: 2.95vw; }
   body[data-page="page"] .hero--bx[data-bx-variant="terrasses"] .hero__title { max-width: 72vw; margin-top: 1.52vw; }
-  body[data-page="page"] .hero--bx[data-bx-variant="terrasses"] .hero__title .tag { padding-inline: 0.195em; } /* pastille de 796 px (815 avec les 0,31 em de Bureaux) */
   body[data-page="page"] .hero--bx[data-bx-variant="terrasses"] .hero__lead { max-width: 36vw; margin-top: 1.39vw; }
   body[data-page="page"] .hero--bx[data-bx-variant="terrasses"] .hero__inner .cta { margin-top: 2.66vw; }
 }
 
-/* Variante « entretien » (V7, frames entretien-01 à 03, canvas 1728 x 1030) : mêmes mots-clés, titre de 82 px et pastille inclinée de -1° que Bureaux. Mesures prises sur
+/* Variante « entretien » (V7, frames entretien-01 à 03, canvas 1728 x 1030) : mêmes mots-clés, titre de 82 px que Bureaux. Mesures prises sur
    la frame 01 : « Entretien de [végétaux] » (881 px) puis « pour entreprises à Paris » (955 px) : 60 vw, « pour » ne tient pas sur la première ligne ; le paragraphe se coupe après
    « l'année, » (516 px, la ligne suivante 400 px) : 32 vw ; mots-clés à 306 px, bouton de 727 à 776 px. */
 @media (min-width: 901px) {
@@ -105,6 +99,5 @@ html.bx-hero-anim .bx-hero-next {
   body[data-page="page"] .hero--bx[data-bx-variant="entretien"] .hero__lead { max-width: 32vw; margin-top: 1.74vw; }
   body[data-page="page"] .hero--bx[data-bx-variant="entretien"] .hero__inner { padding-top: 3.06vw; }
   body[data-page="page"] .hero--bx[data-bx-variant="entretien"] .hero__title { margin-top: 2.45vw; }
-  body[data-page="page"] .hero--bx[data-bx-variant="entretien"] .hero__title .tag { padding-inline: 0.395em; } /* pastille de 376 px (362 avec les 0,31 em de Bureaux) */
   body[data-page="page"] .hero--bx[data-bx-variant="entretien"] .hero__inner .cta { margin-top: 2.49vw; }
 }

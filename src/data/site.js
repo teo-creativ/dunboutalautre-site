@@ -22,10 +22,9 @@ export const site = {
   email: "hello@dunboutalautre.co",
   phone: { display: "+33 6 03 34 23 12", href: "tel:+33603342312" }, // à confirmer (copywriting : 07 70 44 77 59)
   instagram: { label: "@dunboutalautre.co", href: "https://www.instagram.com/dunboutalautre.co" },
-  // Colonne RÉSEAUX du footer. Facebook : URL à confirmer (docs/POINTS-A-VALIDER.md, ligne 74).
+  // Colonne RÉSEAUX du footer : Instagram seul (retours V8, G3).
   social: [
     { label: "Instagram", href: "https://www.instagram.com/dunboutalautre.co", icon: "instagram" },
-    { label: "Facebook", href: "#", icon: "facebook" },
   ],
   // Barre basse du footer : pages légales pas encore créées (href() renvoie « # » tant qu'elles ne sont pas live).
   legal: [

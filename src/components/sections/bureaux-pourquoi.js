@@ -1,8 +1,8 @@
 // « Pourquoi végétaliser vos bureaux ? » de la page Bureaux V5 (retours-v5/docs/03-SECTIONS-6-A-10.md §6, frames bureaux-34 et 35) : label, titre
 // à pastille, puis quatre lignes (titre à gauche, paragraphe à droite) séparées par des filets. Toutes les lignes sont dans le HTML et lisibles :
-// la ligne active (en olive, soulignée d'orange) et les lignes éteintes (en sable) ne sont qu'un état de style, posé par
-// scripts/bureaux-pourquoi.js avec mouvement sur ordinateur ; sans JavaScript, en mouvement réduit ou sous 900 px, toutes les lignes restent
-// lisibles (bureaux-pourquoi.css). Le filet est un élément à part (aria-hidden) : il se dessine en scaleX au scroll.
+// V8 (G7) : aucune ligne n'est active au repos. Sur ordinateur avec souris toutes les lignes sont éteintes (en sable) et la ligne survolée ou
+// focalisée s'allume (en olive, soulignée d'orange), en CSS pur, comme la liste de l'accueil ; sans souris, sous 900 px ou sans JavaScript, toutes
+// les lignes restent lisibles (bureaux-pourquoi.css). Le filet est un élément à part (aria-hidden) : il se dessine en scaleX au scroll.
 // V6 (« Nos 5 créations » de Design) : la même liste. `variant` : mesures propres à la page (data-bx-variant) ; `hold` : la liste reste en
 // place un écran pendant que la section suivante monte par-dessus (data-bx-hold, scripts/bureaux-hold.js) ; `endRule` : un filet sous la dernière
 // ligne (frames design-05 à 08 ; Bureaux n'en a pas).

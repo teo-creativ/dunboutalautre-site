@@ -63,10 +63,9 @@ const textBlock = (block) => {
   let fired = false; // le déclencheur est parti : une animation créée ensuite (polices arrivées après coup) se joue aussitôt
   const start = (animation) => animation && (fired ? animation.play() : null);
 
-  // 1. Pastille : elle se remplit de gauche à droite en s'inclinant (scale de 0,92 vers 1), comme partout sur le site.
-  const rotation = parseFloat(getComputedStyle(tag).getPropertyValue("--tag-rotate"));
+  // 1. Pastille : elle se remplit de gauche à droite (scale de 0,92 vers 1, sans rotation), comme partout sur le site.
   const pill = gsap.timeline({ paused: true });
-  pill.fromTo(tag, { rotation: rotation * 2, scale: 0.92 }, { rotation, scale: 1, duration: 0.7, ease: "power3.out" }, 0);
+  pill.fromTo(tag, { scale: 0.92 }, { scale: 1, duration: 0.7, ease: "power3.out" }, 0);
   fillTag(pill, tag, 0, { duration: 0.7 });
 
   // 2. Titre : les mots montent depuis leur masque ; la pastille, ignorée, n'est pas déplacée.

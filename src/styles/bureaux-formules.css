@@ -62,8 +62,9 @@ html.bx-fml-anim .fml__disc { display: block; }
   body[data-page="page"] .fml__inner { margin-left: calc(var(--bx-u) * 14); } /* groupe centré à 871 px (7 px à droite du centre) */
   body[data-page="page"] .fml .section-head { gap: calc(var(--bx-u) * 26.5); }
   body[data-page="page"] .fml .label { letter-spacing: 0; } /* 325 px sur la frame, 334 avec 0,02 em */
-  body[data-page="page"] .fml .tag { --tag-rotate: -2deg; padding: 0.113em 0.5em 0.173em; } /* pastille de 77 px de haut sur la frame (70 par défaut) */
-  body[data-page="page"] .fml__title { max-width: calc(var(--bx-u) * 540); line-height: 1.396; } /* « Une formule [adaptée] » (514 px) puis « à vos locaux. » */
+  /* « Une formule [adaptée] » (514 px sur la frame) puis « à vos locaux. » : 11,3 em du titre (540 px à 1728), en em et non en --bx-u, qui suit la
+     hauteur de l'écran alors que la police suit la largeur : sur un écran court la boîte devenait plus étroite que le texte et le titre passait sur 3 lignes (G8). */
+  body[data-page="page"] .fml__title { max-width: 11.3em; line-height: 1.396; text-wrap: balance; }
   body[data-page="page"] .fml__list {
     grid-template-columns: repeat(3, calc(var(--bx-u) * 449));
     gap: calc(var(--bx-u) * 21);

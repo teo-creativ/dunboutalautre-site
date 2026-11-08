@@ -14,7 +14,6 @@ body[data-page="page"] .install {
 /* ---------- Titre : « Plantes, bacs, cloisons, murs : le » puis « végétal là où [vous en avez besoin]. » ----------
    Sur la frame 06 la pastille est à sa place (pas relevée comme sur la frame 05) et 5 px plus à droite : elle vient de bureaux-titres.css. */
 body[data-page="page"] .install .section-title { max-width: 50vw; }
-body[data-page="page"] .install .tag { top: 0; margin-left: 0.05em; }
 
 /* ---------- Carte ---------- */
 body[data-page="page"] .install__track {

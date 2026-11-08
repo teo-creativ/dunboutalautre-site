@@ -142,7 +142,6 @@ body[data-page="page"] .fothers[data-bx-variant="v7"] { background: var(--cream)
   body[data-page="page"] .fothers[data-bx-variant="v7"] .fothers__title { max-width: 38vw; }
   /* Étiquette de 23 px (« NOS RÉALISATIONS » mesure 213 px sur la frame 06, 184 à 20 px), pastille droite à 26 px du mot (frame 06). */
   body[data-page="page"] .fothers[data-bx-variant="v7"] .label { font-size: var(--fs-label-lg); }
-  body[data-page="page"] .fothers[data-bx-variant="v7"] .tag { --tag-rotate: 0deg; margin-left: 0.29em; }
   /* Cartes de 680 x 392 px (frame 06 : 392 px de photo, légende 9 px plus bas, bouton 55 px sous la légende) au lieu de 680 x 370. */
   body[data-page="page"] .fothers[data-bx-variant="v7"] .fothers__list { margin-top: 1.7vw; }
   body[data-page="page"] .fothers[data-bx-variant="v7"] .pcard__photo { aspect-ratio: 680 / 392; }

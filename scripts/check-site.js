@@ -15,8 +15,8 @@ const ARBO = join(ROOT, "docs", "arborescence-et-strategie.md");
 const LISTING = process.argv.includes("--placeholders");
 const STRICT_LINKS = process.argv.includes("--links");
 const MARK = "[À compléter]";
-// Liens fictifs voulus après la mise en ligne : pages hors périmètre et réseau social sans URL confirmée.
-const ALLOWED_HASH = ["Facebook", "Mentions légales", "Politique de confidentialité"];
+// Liens fictifs voulus après la mise en ligne : pages hors périmètre (le footer n'a plus qu'Instagram depuis la V8).
+const ALLOWED_HASH = ["Mentions légales", "Politique de confidentialité"];
 
 if (!existsSync(DIST)) {
   console.error("dist/ absent : lancer npm run build d'abord.");

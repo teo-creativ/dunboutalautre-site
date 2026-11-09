@@ -26,6 +26,7 @@ export default defineConfig({
         scenographie: resolve(__dirname, "scenographie-vegetale-evenementiel-paris/index.html"),
         saisonniere: resolve(__dirname, "decoration-vegetale-saisonniere-paris/index.html"),
         entretien: resolve(__dirname, "entretien-abonnement-plantes-entreprise-paris/index.html"),
+        ateliers: resolve(__dirname, "ateliers-vegetaux-paris/index.html"),
         contact: resolve(__dirname, "contact/index.html"),
         realisations: resolve(__dirname, "realisations/index.html"),
         "floral-fashion-show": resolve(__dirname, "realisations/floral-fashion-show/index.html"),

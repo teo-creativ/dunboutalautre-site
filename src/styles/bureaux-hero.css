@@ -101,3 +101,9 @@ html.bx-hero-anim .bx-hero-next {
   body[data-page="page"] .hero--bx[data-bx-variant="entretien"] .hero__title { margin-top: 2.45vw; }
   body[data-page="page"] .hero--bx[data-bx-variant="entretien"] .hero__inner .cta { margin-top: 2.49vw; }
 }
+
+/* Ateliers (V8, frames ateliers-01 et 02, 1728 x 1030) : surtitre « ATELIERS VÉGÉTAUX », titre sur deux lignes (« Créez, apprenez, repartez » puis « avec [votre création]. » : « avec » ne tient pas sur la première), paragraphe sur deux lignes. */
+@media (min-width: 901px) {
+  body[data-page="page"] .hero--bx[data-bx-variant="ateliers"] .hero__title { max-width: 62vw; }
+  body[data-page="page"] .hero--bx[data-bx-variant="ateliers"] .hero__lead { max-width: 45vw; }
+}

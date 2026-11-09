@@ -41,10 +41,11 @@ export const site = {
   ],
   // Lignes de la section Services de l'accueil (6).
   services,
-  // Sous-liens du menu (7) : les 6 services puis la landing Noël.
+  // Sous-liens du menu (8) : les 6 services, la landing Noël puis les ateliers (V8, G12 : une seule fois ici, le menu et la colonne Services du footer suivent).
   menuServices: [
     ...services,
     { label: "Décors de Noël", path: "/decoration-noel-entreprises-paris/", live: true },
+    { label: "Ateliers végétaux", path: "/ateliers-vegetaux-paris/" },
   ],
   // Valeurs de la maquette, à confirmer avec la cliente.
   stats: [

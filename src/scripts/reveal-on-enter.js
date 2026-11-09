@@ -89,8 +89,10 @@ export function initRevealOnEnter() {
         start: root.dataset.revealStart || "top 75%",
         end: "max", // si on saute au-delà de la section, la révélation est quand même jouée
         once,
-        onToggle: once ? undefined : (self) => (self.isActive ? tl.play() : tl.reverse()),
-        onEnter: once ? () => tl.play() : undefined,
+        // La révélation se joue à l'entrée et se défait en remontant au-dessus du départ. Pas de onToggle : avec end: "max", une section tout en bas de la page (le bandeau final avant le footer) atteint
+        // sa fin au défilement maximal, isActive y repasse à faux et la révélation se défaisait au moment de lire le texte.
+        onEnter: () => tl.play(),
+        onLeaveBack: once ? undefined : () => tl.reverse(),
       });
     });
     // Clavier : un élément focalisé dans une section pas encore révélée la révèle aussitôt, le focus ne doit jamais se trouver sur un élément invisible.

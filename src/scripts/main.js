@@ -1,5 +1,6 @@
 import "../styles/main.css";
 import { ScrollTrigger, fontsLoaded, initCore } from "./core.js";
+import { initAnchors } from "./anchors.js";
 import { initCursor } from "../components/cursor.js";
 import { initContact } from "./contact.js";
 import { initContactForm } from "./contact-form.js";
@@ -47,7 +48,7 @@ async function boot() {
   // Ordre utile : les pins avant ce qui dépend de leur position (header-theme : refreshPriority et data-pin-length).
   // Landing Noël : chaque module ne fait rien si ses éléments sont absents de la page.
   const groups = [
-    [initCta, initMenu, initCursor],
+    [initCta, initMenu, initCursor, initAnchors],
     [initStage, initNoelStage, initProjetsStage, ...(bx ? [bx.initBureaux] : [])],
     [initRealisations, initServices, initStats],
     [initProcess, initTestimonials, initReveal, initRevealOnEnter, initFaq, initLogos, initContactForm, initContact, initProjetsGrid, initFiche],

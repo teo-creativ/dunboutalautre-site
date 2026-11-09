@@ -6,6 +6,7 @@ import { designVegetal } from "./design-vegetal.js";
 import { scenographie } from "./scenographie.js";
 import { saisonniere } from "./saisonniere.js";
 import { entretien } from "./entretien.js";
+import { ateliers } from "./ateliers-vegetaux.js";
 import { contact } from "./contact.js";
 import { realisationsPage } from "./realisations.js";
 import { ficheFloralFashionShow } from "./fiche-floral-fashion-show.js";
@@ -15,4 +16,4 @@ import { articleVegetaliserBureaux } from "./article-vegetaliser-bureaux.js";
 // Domaine final supposé, comme pour la landing Noël (docs/POINTS-A-VALIDER.md).
 export const origin = "https://dunboutalautre.co";
 
-export const pages = { terrasses, bureaux, "design-vegetal": designVegetal, scenographie, saisonniere, entretien, contact, "realisations": realisationsPage, "floral-fashion-show": ficheFloralFashionShow, blog, "article-bureaux": articleVegetaliserBureaux };
+export const pages = { terrasses, bureaux, "design-vegetal": designVegetal, scenographie, saisonniere, entretien, ateliers, contact, "realisations": realisationsPage, "floral-fashion-show": ficheFloralFashionShow, blog, "article-bureaux": articleVegetaliserBureaux };

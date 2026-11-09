@@ -109,3 +109,8 @@ body[data-page="page"] .why-row:focus-visible { outline-offset: 0.4vw; border-ra
   body[data-page="page"] .why[data-bx-variant="entretien"] .why__title { max-width: 38vw; }
   body[data-page="page"] .why[data-bx-variant="entretien"] .why-row { grid-template-columns: minmax(0, 50.8fr) minmax(0, 49.2fr); min-height: 10.59vw; }
 }
+
+/* Ateliers (V8, frames ateliers-08 à 10) : « Pourquoi [un atelier végétal] est une » (833 px) puis « bonne activité pour vos équipes. » : « bonne » ne tient pas sur la première ligne. */
+@media (min-width: 901px) {
+  body[data-page="page"] .why[data-bx-variant="ateliers"] .why__title { max-width: 50vw; }
+}

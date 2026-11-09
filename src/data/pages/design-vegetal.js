@@ -46,6 +46,8 @@ export const designVegetal = {
       type: "bureaux-pourquoi",
       variant: "design",
       hold: true,
+      // V8 (partie C, Design fb-03) : l'orange « Naturel, stabilisé ou artificiel » arrive en 1,5 écran (x1,5), lissée et `power2.inOut` (scripts/bureaux-scene.js : slowArrival).
+      overlapScreens: 1.5,
       endRule: true,
       label: "NOS 5 CRÉATIONS",
       title: "Cinq façons d'apporter une création végétale unique chez vous.",
@@ -78,6 +80,7 @@ export const designVegetal = {
       // trois matières (titres seuls, sans pastille) sur trois fonds. Les lignes « Idéal pour » du copywriting (`use`) ne sont pas sur la maquette.
       type: "bureaux-matieres",
       variant: "design",
+      reveal: true, // V8 : étiquette et titre révélés (reveal-on-enter) pendant que l'orange arrive, avant la montée de la photo
       label: "NATUREL, STABILISÉ OU ARTIFICIEL ?",
       title: "Naturel, stabilisé ou artificiel... Comment choisir ce qui vous convient vraiment ?",
       tag: "vraiment",
@@ -114,6 +117,7 @@ export const designVegetal = {
       // photos de gauche sur le titre.
       type: "bureaux-galerie",
       variant: "design",
+      reveal: true, // V8 : titre et bouton révélés à l'arrivée, photos à leur entrée dans l'écran
       title: "Votre logo ou identité de marque reconstitué en végétaux.",
       tag: "en végétaux",
       cta: "Discutons de votre projet",

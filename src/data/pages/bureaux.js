@@ -202,6 +202,10 @@ export const bureaux = {
       // Avis de la maquette (frames 36 et 41) : l'avis fictif de la première version, à remplacer avant la mise en ligne (`fictif`, point 5
       // de retours-v5/docs/05-POINTS-A-VALIDER-V5.md). Un seul avis : pas d'autre avis inventé. `bx` : la page épingle le bloc pendant que la
       // galerie monte par-dessus, montre les deux flèches (inertes avec un seul avis) et pose le logo du client après le poste.
+      // V8 (retours-v8/docs/02, partie C, Bureaux fb-04) : l'avis reste seul à l'écran un palier de lecture (`overlapHold`, 0,8 écran, soit 2 s de scroll naturel et plus), puis la galerie orange
+      // arrive en 1,2 écran au lieu d'un, lissée (`scrub: 1`, `power2.inOut`) : le pin des témoignages passe de 1 à 2 écrans (scripts/bureaux-avis.js).
+      overlapHold: 0.8,
+      overlapScreens: 1.2,
       type: "testimonials",
       bx: true,
       items: [avisFictif],
@@ -217,6 +221,7 @@ export const bureaux = {
       // (components/gallery.js) : à gauche 02 puis 01 dessous, à droite 04 puis 03 dessous (`under` : indice de la photo du dessus, `gap` : écart en vw). Le départ de la photo
       // du dessous se déduit de celle du dessus (à 1728 x 1030 il est celui des frames) et elle ne monte jamais plus vite qu'elle.
       type: "bureaux-galerie",
+      reveal: true, // V8 : étiquette, titre et bouton révélés à l'arrivée, photos à leur entrée dans l'écran (components/sections/bureaux-galerie.js)
       label: "GALERIE",
       title: "Vos bureaux deviennent vivant.",
       tag: "vivant",

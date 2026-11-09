@@ -122,10 +122,10 @@ body[data-page="page"] .gal__grow-photo img { display: block; width: 100%; heigh
 body[data-page="page"] .gal__grow-veil { position: absolute; inset: 0; z-index: -1; background: var(--veil); }
 body[data-page="page"] .gal__grow-text { display: flex; flex-direction: column; align-items: center; gap: 2.7vw; }
 /* Texte : 48 px, graisse 400 (« Nous reconstituons votre logo, vos initiales ou un » mesure 1 156 px sur la frame 31), interligne de 72 px.
-   Retours V8 (G8) : lignes équilibrées (text-wrap: balance) : les cinq lignes mesurent de 1 164 à 1 309 px à 1728 px, au lieu d'une première ligne courte
-   suivie de lignes pleines (les pastilles ne se coupent pas). Ce paragraphe fait 250 caractères : à 48 px il ne tient ni sur 2 lignes ni sur 4 (voir
-   docs/POINTS-A-VALIDER.md, V8). */
-body[data-page="page"] .gal__grow-p { max-width: 79.3vw; font-size: var(--fs-text-lg); font-weight: 400; line-height: 1.5; text-wrap: balance; }
+   Retours V8 (G8) : lignes équilibrées (text-wrap: balance, pastilles à 0° et à la taille du texte). Boîte de 90 vw (79,3 vw sur la frame) : le paragraphe de 250 caractères tient sur QUATRE lignes
+   équilibrées au lieu de cinq (à 1728 px : 1 451 à 1 553 px de large pour les quatre ; 1440 et 1280 px aussi), sans toucher à la police. À 79,3 vw il fait 5 lignes à 1728 px, 6 à 1440 px, 7 à 1280 px.
+   Deux lignes sont impossibles à 48 px (voir docs/POINTS-A-VALIDER.md, V8). */
+body[data-page="page"] .gal__grow-p { max-width: 90vw; font-size: var(--fs-text-lg); font-weight: 400; line-height: 1.5; text-wrap: balance; }
 @media (max-width: 900px) {
   body[data-page="page"] .gal__grow { min-height: 80svh; }
   body[data-page="page"] .gal__grow-text { gap: 1.5rem; }

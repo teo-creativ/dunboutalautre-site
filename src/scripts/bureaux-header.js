@@ -6,7 +6,7 @@
 // Une demande est un dégradé (chaîne : thème sombre) ou un objet { theme, gradient } (Entretien : le disque orange couvre le bord haut avant le logo).
 import { setHeaderOverride } from "./header-theme.js";
 
-const ORDER = ["cercle", "matieres", "branding"]; // ordre de la page : la dernière demande l'emporte
+const ORDER = ["arrivee", "cercle", "matieres", "branding"]; // ordre de la page : la dernière demande l'emporte
 const claims = {};
 
 export function claimHeader(scene, gradient) {

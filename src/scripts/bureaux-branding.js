@@ -16,7 +16,7 @@
 import { gsap, SplitText } from "./core.js";
 import { loadLater } from "./bureaux-images.js";
 import { claimHeader } from "./bureaux-header.js";
-import { MEDIA, addPhotoRise, clamp, markOverlap, monotone, overlapOptions, scaleSetter } from "./bureaux-scene.js";
+import { MEDIA, addPhotoRise, clamp, markOverlap, monotone, overlapOptions, revealPhotos, scaleSetter } from "./bureaux-scene.js";
 import { fillTag } from "./tag.js";
 
 const REF_W = 1728;
@@ -185,8 +185,10 @@ export function initBureauxBranding() {
       // Point d'accroche : la section crème (processus) remonte d'un écran par-dessus la photo.
       const wrap = section.closest(".pin-spacer") ?? section;
       const releaseNext = markOverlap(wrap.nextElementSibling, OVERLAP);
+      const unreveal = revealPhotos(section, visible); // V8 : photos révélées à leur entrée dans l'écran (reveal: true des données)
 
       return () => {
+        unreveal();
         releaseNext();
         claimHeader("branding", null);
         content.removeAttribute("inert");

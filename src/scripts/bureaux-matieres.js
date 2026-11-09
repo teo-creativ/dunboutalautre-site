@@ -45,6 +45,7 @@ const PROFILES = {
     GROW_SCALE: [0.494, 0.494, 0.664, 0.806, 0.936, 1], // largeur de la photo / largeur de l'écran
     GROW_DX: [0, -0.5, -5.5, -5.5, -18, 0], // px à 1728 : la photo est un peu à gauche du centre en route (marges 37 et 74 px sur la frame 24)
     ZOOM: null, // zoom de l'image dans la photo (Design seulement)
+    GROW_EASE: "none", // courbe de la croissance de la photo (V8 : Design l'adoucit)
     RADIUS: 12, // px à l'écran, jusqu'à 80 % de la croissance, puis il se résorbe
     HEAD_FADE: [0.5, 0.8], // le titre s'estompe de 1 à 0 entre ces deux points de la croissance (frames 22 à 24)
     VEIL_FROM: 0.25, // le texte du slider entre quand le voile atteint cette part
@@ -57,7 +58,11 @@ const PROFILES = {
     HEADER_RELEASE: 0.94, // part du recouvrement où le crème atteint le header : on rend la main aux sections
   },
   design: {
-    PHASE: { pre: 0.35, grow: 1.0, veil: 0.3, hold1: 0.2, glide: 1, hold2: 0.2, hold3: 0.3, overlap: 1 },
+    // Retours V8 (Design fb-03) : le titre se lit AVANT que la photo ne monte (texte seul 0,9 écran au lieu de 0,35, le titre se révèle pendant l'arrivée de l'orange : reveal-on-enter) et la photo
+    // monte plus lentement (1,5 écran au lieu de 1, x1,5), en douceur au départ et à l'arrivée (sine.inOut) : elle n'apparaît plus d'un coup. Le titre s'estompe avant qu'elle ne le touche (le bord haut
+    // de la photo passe sous le titre vers 38 % de la croissance) : plus de titre coupé par la photo.
+    PHASE: { pre: 0.9, grow: 1.5, veil: 0.3, hold1: 0.2, glide: 1, hold2: 0.2, hold3: 0.3, overlap: 1 },
+    GROW_EASE: "sine.inOut",
     // Frames 10 à 13 (p = 0,25 ; 0,5 ; 0,75 ; 1) : bord haut de la photo à 802, 549, 249 puis 0 px, largeur 979, 1439, 1629 puis 1728 px, centrée.
     GROW_P: [0, 0.25, 0.5, 0.75, 1],
     GROW_TOP: [1030, 801, 548, 248, 0],
@@ -67,7 +72,7 @@ const PROFILES = {
     // grossit de 20 % en fin de croissance, ancrée en haut au centre (frame 13 : logo de 767 px).
     ZOOM: { p: [0, 0.75, 1], v: [1, 1, 1.2], ratio: 2000 / 1100 }, // ratio : largeur / hauteur de l'image (fond-01)
     RADIUS: 12,
-    HEAD_FADE: [0.3, 0.7],
+    HEAD_FADE: [0.08, 0.34], // frames : 0,3 à 0,7 ; V8 : avant le contact de la photo
     VEIL_FROM: 0.25,
     RISE: 12,
     RAIL_GAP: 220,
@@ -149,7 +154,7 @@ export function initBureauxMatieres() {
   if (figures.length !== 3 || slides.length !== 3) return; // la scène est écrite pour trois matières
 
   // Profil de la section (data-bx-variant) : les noms sont ceux des constantes de V5, le reste du code n'a pas changé.
-  const { PHASE, BAND, HEAD_IN, GROW_P, GROW_TOP, GROW_SCALE, GROW_DX, ZOOM, RADIUS, HEAD_FADE, VEIL_FROM, RISE, RAIL_GAP, ENTER_SCALE, INACTIVE, GLIDE, HEADER_PHOTO, HEADER_RELEASE } =
+  const { PHASE, BAND, HEAD_IN, GROW_EASE, GROW_P, GROW_TOP, GROW_SCALE, GROW_DX, ZOOM, RADIUS, HEAD_FADE, VEIL_FROM, RISE, RAIL_GAP, ENTER_SCALE, INACTIVE, GLIDE, HEADER_PHOTO, HEADER_RELEASE } =
     PROFILES[section.dataset.bxVariant] ?? PROFILES.bureaux;
   // Arrivée de la section suivante par-dessus : au moins 1 écran, lissage 1 (réglables par page, overlapOptions).
   const { screens: OVERLAP, scrub } = overlapOptions(section, { screens: PHASE.overlap });
@@ -305,7 +310,7 @@ export function initBureauxMatieres() {
       if (bandCtl) tl.to(s, { b: 1, duration: PHASE.pre }, 0); // Terrasses : la phase de la bande
       if (HEAD_IN && conditions.wide) tl.to(s, { h: 1, duration: HEAD_IN }, 0); // Entretien : le titre apparaît au début du pin
       at = PHASE.pre;
-      phase({ g: 1 }, PHASE.grow);
+      phase({ g: 1, ease: GROW_EASE }, PHASE.grow);
       phase({ v: 1 }, PHASE.veil);
       at += PHASE.hold1;
       phase({ t1: 1 }, PHASE.glide);

@@ -11,7 +11,7 @@
 // grille, rien d'épinglé.
 import { gsap } from "./core.js";
 import { loadLater } from "./bureaux-images.js";
-import { MEDIA, addPhotoRise, markOverlap, overlapOptions } from "./bureaux-scene.js";
+import { MEDIA, addPhotoRise, markOverlap, overlapOptions, revealPhotos } from "./bureaux-scene.js";
 
 const PHOTOS = { wide: 3, solo: 2.5 }; // durée de la montée des photos, en écrans de scroll
 // La FAQ monte par-dessus pendant le dernier écran du pin : sa durée (au moins 1 écran) et son lissage se règlent par page (overlapOptions, bureaux-scene.js).
@@ -66,8 +66,10 @@ export function initBureauxGalerie() {
       // Point d'accroche : la FAQ remonte d'un écran par-dessus la galerie.
       const wrap = section.closest(".pin-spacer") ?? section;
       const releaseNext = markOverlap(wrap.nextElementSibling, OVERLAP);
+      const unreveal = revealPhotos(section, visible); // V8 : photos révélées à leur entrée dans l'écran (reveal: true des données)
 
       return () => {
+        unreveal();
         releaseNext();
         root.classList.remove("bx-gal-anim");
         delete section.dataset.pinLength;

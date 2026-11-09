@@ -50,7 +50,9 @@ const bandBlock = ({ label, title, tag, lead, rows }, id) => `<div class="mat__b
           </div>
         </div>`;
 
-export default ({ label, title, tag, items, variant, band, sliderLabel = "Les trois matières" }, { index }) => {
+// V8 : `reveal` (Design) remplace la révélation de l'en-tête de la section (data-reveal="head", reveal.js) par reveal-on-enter (scripts/reveal-on-enter.js) : étiquette et titre en lignes sous masque,
+// déclenchés quand la section arrive (data-reveal-start), avant la montée de la photo.
+export default ({ label, title, tag, items, variant, band, reveal, sliderLabel = "Les trois matières" }, { index }) => {
   const id = `bx-mat-${index}`;
   const photos = items
     .map(({ photo, alt }) => `<figure class="mat__bg">${img({ src: photo, alt, class: "mat__bg-img", sizes: "100vw" })}</figure>`)
@@ -65,11 +67,11 @@ export default ({ label, title, tag, items, variant, band, sliderLabel = "Les tr
     .join("\n          ");
   const head = band
     ? bandBlock(band, id)
-    : `<div class="mat__head section-head" data-reveal="head">
-          <p class="label label--light label--lg"><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>
-          <h2 class="section-title" id="${id}-title">${titleHtml(title, tag, "cream")}</h2>
+    : `<div class="mat__head section-head"${reveal ? "" : ' data-reveal="head"'}>
+          <p class="label label--light label--lg"${reveal ? ' data-reveal-part="eyebrow"' : ""}><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>
+          <h2 class="section-title" id="${id}-title"${reveal ? ' data-reveal-part="title"' : ""}>${titleHtml(title, tag, "cream")}</h2>
         </div>`;
-  return `<section class="mat" data-bx="matieres"${variant ? ` data-bx-variant="${esc(variant)}"` : ""} ${band ? 'data-header-theme="light" data-header-gradient="cream"' : 'data-header-gradient="orange"'} aria-labelledby="${id}-title">
+  return `<section class="mat" data-bx="matieres"${reveal ? ' data-reveal="enter" data-reveal-start="top 35%"' : ""}${variant ? ` data-bx-variant="${esc(variant)}"` : ""} ${band ? 'data-header-theme="light" data-header-gradient="cream"' : 'data-header-gradient="orange"'} aria-labelledby="${id}-title">
         ${head}
         <div class="mat__photo">
           ${photos}

@@ -17,7 +17,10 @@ import { esc } from "../utils.js";
 // V6 (page Design, « logo reconstitué » puis « Le branding végétal », frames design-24 à 33) : la même galerie, sans étiquette (`label` facultatif),
 // suivie d'une grande photo qui grandit jusqu'au plein écran puis d'un texte à pastilles (`grow`, scripts/bureaux-branding.js : une seule scène
 // épinglée). `variant` : jeu de mesures propre à la page (data-bx-variant). Sans `grow` ni `label`, le HTML est celui de Bureaux.
-export default ({ label, title, tag, cta: button, photos, variant, grow }, { index }) => {
+// V8 : `reveal` (Bureaux, Design) pose le composant reveal-on-enter (scripts/reveal-on-enter.js) sur l'étiquette, le titre et le bouton, déclenchés quand la section arrive (data-reveal-start) ;
+// les photos se révèlent par clip-path au fur et à mesure de leur entrée dans l'écran, scrubées avec la montée (bureaux-scene.js : revealPhotos), pas à l'arrivée de la section : elles
+// entrent bien après (certaines partent à plus de 100 svh).
+export default ({ label, title, tag, cta: button, photos, variant, grow, reveal }, { index }) => {
   const id = `bx-gal-${index}`;
   // Position, écart sous la photo du dessus et vitesse de chaque photo : components/gallery.js (V8, G5 : aucune photo n'en recouvre une autre ni le texte).
   const placed = placePhotos(photos);
@@ -38,11 +41,12 @@ export default ({ label, title, tag, cta: button, photos, variant, grow }, { ind
           </div>
         </div>`
     : "";
-  return `<section class="gal" data-bx="galerie"${variant ? ` data-bx-variant="${esc(variant)}"` : ""} data-header-gradient="orange" aria-labelledby="${id}-title">
+  const part = (name) => (reveal ? ` data-reveal-part="${name}"` : "");
+  return `<section class="gal" data-bx="galerie"${reveal ? ' data-reveal="enter" data-reveal-start="top 55%"' : ""}${variant ? ` data-bx-variant="${esc(variant)}"` : ""} data-header-gradient="orange" aria-labelledby="${id}-title">
         <div class="gal__content">
-          ${label ? `<p class="label label--light"><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>
-          ` : ""}<h2 class="section-title gal__title" id="${id}-title">${titleHtml(title, tag, "cream")}</h2>
-          <div class="gal__cta">${typeof button === "string" ? cta({ label: button, variant: "on-orange" }) : cta({ label: button.label, variant: "on-orange", href: linkTo(button.to) })}</div>
+          ${label ? `<p class="label label--light"${part("eyebrow")}><span class="label__dot" aria-hidden="true"></span>${esc(label)}</p>
+          ` : ""}<h2 class="section-title gal__title" id="${id}-title"${part("title")}>${titleHtml(title, tag, "cream")}</h2>
+          <div class="gal__cta"${part("cta")}>${typeof button === "string" ? cta({ label: button, variant: "on-orange" }) : cta({ label: button.label, variant: "on-orange", href: linkTo(button.to) })}</div>
         </div>
         <ul class="gal__photos" role="list">
           ${items}

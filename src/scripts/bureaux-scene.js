@@ -1,7 +1,8 @@
 // Briques communes aux scènes épinglées des pages Bureaux et Design (chunk bureaux.js) : requêtes de media, petites fonctions de calcul, montée des
 // photos d'une galerie, épinglage par le bas avec recouvrement par la section suivante. Chaque scène garde ses propres mesures (profils, constantes) ;
 // ce fichier ne contient que ce qui était écrit deux fois.
-import { gsap } from "./core.js";
+import { gsap, ScrollTrigger } from "./core.js";
+import { claimHeader } from "./bureaux-header.js";
 
 // Deux cas pour chaque scène : ordinateur avec mouvement, et écran étroit avec mouvement (sans mouvement, rien n'est épinglé).
 export const MEDIA = {
@@ -67,10 +68,81 @@ export function addPhotoRise(tl, photos, { wide, rise, section, drift = 0 }) {
 // (lissage), posés depuis les données de la page (`overlapScreens`, `overlapScrub` d'une section, components/page-sections.js). `base` : les valeurs propres à la scène.
 export const OVERLAP_MIN = 1;
 export const OVERLAP_SCRUB = 1;
+// data-overlap-hold : palier de lecture, en écrans de scroll, pendant lequel la section recouverte reste seule à l'écran avant que l'autre n'arrive (témoignages de Bureaux).
 export function overlapOptions(section, base = {}) {
   const screens = Math.max(OVERLAP_MIN, Number(section.dataset.overlapScreens) || base.screens || OVERLAP_MIN);
   const scrub = Number(section.dataset.overlapScrub) || base.scrub || OVERLAP_SCRUB;
-  return { screens, scrub };
+  const hold = Math.max(0, Number(section.dataset.overlapHold) || base.hold || 0);
+  return { screens, scrub, hold };
+}
+
+// Arrivée ralentie (retours V8, partie C) : une section pleine hauteur qui monte par-dessus une autre suit le scroll un pour un, sa course visible ne peut donc pas dépasser un écran.
+// Pour qu'elle dure `screens` écrans (1,2 pour Bureaux après les témoignages, 1,5 pour Design), elle est retardée par un transform y : sa position visible est celle d'une progression
+// u (0 à 1) lissée par un scrub, `sine.inOut` (voir arriveEase), dont la durée est `screens` écrans de scroll à partir de `start()` (le scroll où son bord haut touche le bas de l'écran), moins sa position
+// naturelle (celle du scroll), qui est donc annulée à chaque image : l'orange ne saute jamais, elle glisse plus lentement, jamais au-dessus de sa place naturelle (y >= 0).
+// Le header : tant que le bord haut de la section n'a pas atteint le header, c'est la section recouverte qui est dessous (`from`), alors que la position naturelle l'y a déjà amenée :
+// la demande « arrivee » de bureaux-header.js garde son thème jusque-là. Renvoie la fonction qui défait tout.
+// Courbe : doux au départ et à l'arrivée (« inOut »), mais pas `power2.inOut` comme le demande le doc : sa pente au milieu est 3, donc 2,5 fois la vitesse du scroll pour 1,2 écran
+// (2,3 mesurés sur Bureaux) : l'orange arriverait plus vite qu'avant au milieu. `sine.inOut` a une pente de 1,57 au plus (1,3 fois pour 1,2 écran, 1,05 pour 1,5).
+const arriveEase = gsap.parseEase("sine.inOut");
+const HEADER_LINE = 55; // le bord haut de la section atteint le centre du header (header-theme.js)
+export function slowArrival(target, { start, screens, scrub = OVERLAP_SCRUB, from = { theme: "light", gradient: "cream" } }) {
+  if (!target || screens < OVERLAP_MIN + 0.01) return () => {};
+  const state = { u: 0 };
+  const apply = () => {
+    const h = window.innerHeight;
+    const s = window.scrollY;
+    const natural = clamp(h - (s - start()), 0, h); // position naturelle du bord haut de la section
+    const wanted = h * (1 - arriveEase(state.u)); // position voulue, lissée
+    gsap.set(target, { y: wanted - natural });
+    claimHeader("arrivee", s >= start() - 1 && wanted > HEADER_LINE ? from : null);
+  };
+  // Les positions de ScrollTrigger se mesurent sans décalage : le transform est retiré le temps du recalcul.
+  const reset = () => gsap.set(target, { y: 0 });
+  ScrollTrigger.addEventListener("refreshInit", reset);
+  const tween = gsap.to(state, {
+    u: 1,
+    ease: "none",
+    onUpdate: apply,
+    scrollTrigger: { start: () => start(), end: () => start() + screens * window.innerHeight, scrub, invalidateOnRefresh: true, onRefresh: apply },
+  });
+  window.addEventListener("scroll", apply, { passive: true }); // un défilement natif (clavier, tactile) ne passe pas par Lenis : la position naturelle est relue aussitôt
+  return () => {
+    window.removeEventListener("scroll", apply);
+    ScrollTrigger.removeEventListener("refreshInit", reset);
+    tween.scrollTrigger?.kill();
+    tween.kill();
+    gsap.set(target, { clearProps: "transform" });
+    claimHeader("arrivee", null);
+  };
+}
+
+// Révélation des photos d'une galerie qui montent (retours V8, partie B ; `reveal: true` de la section, DESIGN.md §5.12) : chaque photo se révèle par clip-path de bas en haut, avec son image qui
+// revient de 1,15 à 1, pendant qu'elle entre dans l'écran (de son bord haut au bas de l'écran à 0,42 écran plus haut), donc au fur et à mesure de sa montée et non d'un coup à l'arrivée de la
+// section : plusieurs photos entrent bien après (départ à plus de 100 svh). Lue sur la position réelle de chaque photo à chaque image (la section recouvre une autre, puis est épinglée), seulement
+// quand la section est à l'écran. Le transform de la photo (sa montée) reste libre. Renvoie la fonction qui défait tout.
+export function revealPhotos(section, photos) {
+  if (section.dataset.reveal !== "enter") return () => {};
+  const items = photos.map((li) => ({ li, img: li.querySelector("img") }));
+  const update = () => {
+    const h = window.innerHeight;
+    const box = section.getBoundingClientRect();
+    if (box.top > h + 200 || box.bottom < -200) return;
+    for (const { li, img } of items) {
+      const p = clamp((h * 0.98 - li.getBoundingClientRect().top) / (0.42 * h));
+      li.style.clipPath = p >= 1 ? "" : `inset(${((1 - p) * 100).toFixed(2)}% 0 0 0)`;
+      if (img) img.style.transform = p >= 1 ? "" : `scale(${(1.15 - 0.15 * p).toFixed(4)})`;
+    }
+  };
+  update();
+  gsap.ticker.add(update);
+  return () => {
+    gsap.ticker.remove(update);
+    items.forEach(({ li, img }) => {
+      li.style.clipPath = "";
+      if (img) img.style.transform = "";
+    });
+  };
 }
 
 // Marque la section qui arrive par-dessus (bx-overlap : marge négative de `screens` écrans, bureaux-installe.css). Renvoie la fonction qui défait tout.

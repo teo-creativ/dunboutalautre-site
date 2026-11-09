@@ -18,7 +18,7 @@ export function placePhotos(photos) {
       const photo = photos[i];
       const own = key === "wide" ? photo : photo.mobile;
       if (!own) return (done[i] = null);
-      const placed = { x: own.x, w: own.w, ratio: own.ratio ?? photo.ratio, y: own.y, oy: 0, speed: own.speed ?? photo.speed };
+      const placed = { x: own.x, w: own.w, ratio: own.ratio ?? photo.ratio, y: own.y, oy: 0, speed: own.speed ?? photo.speed, b: own.b };
       if (own.under !== undefined) {
         const above = get(own.under);
         if (!above) throw new Error(`galerie : la photo ${i} est sous la photo ${own.under}, qui est absente (${key})`);
@@ -35,7 +35,8 @@ export function placePhotos(photos) {
 
 // Variables CSS d'une photo (--x, --w, --y, --oy, --ratio, et --mx, --mw, --my, --moy sous 900 px) : le CSS pose top = y svh + oy vw.
 export function photoVars({ wide, mobile }) {
-  const vars = { x: wide.x, y: wide.y, oy: +wide.oy.toFixed(3), w: wide.w, ratio: wide.ratio, ...(mobile && { mx: mobile.x, my: mobile.y, moy: +mobile.oy.toFixed(3), mw: mobile.w }) };
+  // mb : bas maximal de la photo en svh sous 900 px (Réalisations : la photo rétrécit plutôt que de toucher le titre).
+  const vars = { x: wide.x, y: wide.y, oy: +wide.oy.toFixed(3), w: wide.w, ratio: wide.ratio, ...(mobile && { mx: mobile.x, my: mobile.y, moy: +mobile.oy.toFixed(3), mw: mobile.w, ...(mobile.b !== undefined && { mb: mobile.b }) }) };
   return Object.entries(vars)
     .map(([name, value]) => `--${name}: ${value}`)
     .join("; ");

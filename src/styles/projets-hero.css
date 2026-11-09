@@ -17,7 +17,7 @@ body[data-page="page"] .phero {
   color: var(--white);
   text-align: center;
 }
-/* Le titre est centré sans son compteur : « (32) » est posé à sa droite (frame 01, « Nos projets. » centré à 864 px). */
+/* Titre simple « Nos projets. » centré à 864 px (frame 01). Retours V8 : le compteur « (32) » posé à sa droite est supprimé. */
 body[data-page="page"] .phero__inner { position: relative; z-index: 2; } /* le texte est toujours au-dessus des photos */
 body[data-page="page"] .phero__title {
   position: relative;
@@ -28,21 +28,18 @@ body[data-page="page"] .phero__title {
   line-height: 1.3;
   white-space: nowrap;
 }
-body[data-page="page"] .phero__count {
+body[data-page="page"] .phero__photos {
   position: absolute;
-  left: 100%;
-  bottom: 0.75em;
-  margin-left: 0.12em;
-  font-size: 0.375em;
-  font-style: italic;
-  font-weight: 300;
-  line-height: 1;
+  inset: 0;
+  z-index: 1;
+  /* V8 (G5) : aucune photo sous le header (voir bureaux-galerie.css). */
+  clip-path: inset(var(--gallery-top) 0 0 0);
+  mask-image: linear-gradient(to bottom, transparent var(--gallery-top), var(--veil-dim) calc(var(--gallery-top) + var(--gallery-fade)));
 }
-body[data-page="page"] .phero__photos { position: absolute; inset: 0; z-index: 1; }
 body[data-page="page"] .phero__photo {
   position: absolute;
   left: calc(var(--x) * 1vw);
-  top: calc(var(--y) * 1svh);
+  top: calc(var(--y) * 1svh + var(--oy, 0) * 1vw); /* oy : écart sous la photo du dessus, en vw (components/gallery.js) */
   width: calc(var(--w) * 1vw);
   aspect-ratio: var(--ratio);
   overflow: hidden;
@@ -95,8 +92,7 @@ body[data-page="page"] .pphoto__title {
 
 @media (max-width: 900px) {
   body[data-page="page"] .phero__title { font-size: min(var(--fs-h1), 10.5vw); }
-  /* Sous 900 px le compteur reste dans le flux (à droite, il sortirait de l'écran) et trois photos seulement, plus petites. */
-  body[data-page="page"] .phero__count { position: static; margin-left: 0.15em; }
+  /* Sous 900 px, trois photos seulement, plus petites. */
   /* Largeur en vw, plafonnée pour que le bas de la photo ne dépasse pas --mb (en svh) : sur un écran plus haut que large (tablette en portrait),
      36 vw donnerait une photo qui recouvre le titre ; sur un téléphone en portrait le plafond n'est pas atteint. */
   body[data-page="page"] .phero__photo {

@@ -9,9 +9,9 @@ const OUT = "public/assets/optimized";
 const WIDTHS = [480, 800, 1400, 2200];
 // Le grain des photos N&B se compresse mal : qualité plus haute pour éviter l'effet empâté.
 const QUALITY = 82;
-// La grande photo plein cadre de « Notre approche » est vue sous un voile de 45 % : son grain y est peu lisible, et c'est
-// la plus lourde du site (700 Ko à 82, 515 Ko à 74 pour 3 dB de moins).
-const QUALITY_BY_IMAGE = { "home-scroll/bw-lavande-tour-eiffel-large": 74 };
+// La grande photo plein cadre de « Notre approche » (V8 : couleur) est vue sous un voile de 45 %, et sert aussi de photo au menu ; elle est floue (lavande devant Paris) donc se
+// compresse bien. Le portrait de la carte (home-photo-5) a les mêmes pixels et passe par-dessus au début de la croissance : même qualité pour que le relais ne se voie pas.
+const QUALITY_BY_IMAGE = { "home/home-photo-5-extended": 80, "home/home-photo-5": 80 };
 const EFFORT = 6;
 
 // Une sortie est à jour si elle est plus récente que la source ET que ce script (réglages changés : on régénère).

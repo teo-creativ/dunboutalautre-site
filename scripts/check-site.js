@@ -161,11 +161,12 @@ if (existsSync(registry)) {
     if (design.size) designReport.push(`${id} : ${outside.length} texte(s) hors copywriting, pris sur la maquette : ${outside.map((text) => `« ${text} »`).join(", ")}`);
   }
 
-  // Réalisations : le compteur du menu et du hero (site.realisationsCount) est celui de la grille, et les compteurs des filtres s'additionnent.
+  // Réalisations : retours V8, plus aucun compteur « (32) » dans le titre ni le menu, ni donnée de comptage résiduelle (site.realisationsCount, count: true du menu) ; les compteurs des filtres s'additionnent.
   const { site } = await import(pathToFileURL(join(ROOT, "src", "data", "site.js")).href);
+  if ("realisationsCount" in site) fail("données realisations", "site.realisationsCount existe encore : le compteur est supprimé (retours V8)");
+  if (site.nav.some((item) => "count" in item)) fail("données realisations", "un lien du menu porte encore `count`");
   const grid = data.realisations?.sections.find((section) => section.type === "projets-grid");
   if (grid) {
-    if (grid.items.length !== site.realisationsCount) fail("données realisations", `${grid.items.length} cartes pour realisationsCount = ${site.realisationsCount}`);
     // Aucun état « vide » n'existe : un filtre sans carte afficherait une grille vide, la donnée doit donc toujours en avoir une.
     for (const f of grid.filters.filter((f) => f.key !== "all")) {
       if (!grid.items.some((item) => item.category === f.key)) fail("données realisations", `le filtre « ${f.label} » n'a aucune carte`);

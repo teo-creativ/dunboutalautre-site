@@ -7,7 +7,7 @@
 // Le test ne lit que la page : aucune dépendance ajoutée au dépôt. Il demande `playwright-core` (le dossier .baseline/ en contient un, ignoré par git) et un Chrome installé.
 //
 //   npm run build && npx vite preview --port 4173        (dans un autre terminal ; sinon le test le lance lui-même)
-//   node tests/galeries.mjs [--pages bureaux,design,decoration,noel,accueil] [--sizes 1728x1030,1440x900,1280x720,768x1024,390x844] [--step 50]
+//   node tests/galeries.mjs [--pages bureaux,design,decoration,noel,accueil,realisations] [--sizes 1728x1030,1440x900,1280x720,768x1024,390x844] [--step 50]
 //                           [--settle 120] [--out dossier] [--min-free 700]     (--min-free : arrêt si la mémoire libre passe sous ce nombre de Mo)
 // Code de sortie 0 : aucun chevauchement ; 1 : au moins un ; 2 : arrêt (mémoire, page introuvable).
 import { spawn, spawnSync } from "node:child_process";
@@ -47,6 +47,7 @@ const PAGES = {
   decoration: { path: "/decoration-vegetale-saisonniere-paris/", photos: ".gal__photo", texts: [".gal__content .label", ".gal__title", ".gal__cta .cta"] },
   noel: { path: "/decoration-noel-entreprises-paris/", photos: ".flux__photo", texts: [".flux__title", ".flux__content .cta"] },
   accueil: { path: "/", photos: ".float-photo", texts: [".experience__title", ".experience__content .cta"] },
+  realisations: { path: "/realisations/", photos: ".phero__photo", texts: [".phero__title"] },
 };
 const WANTED = opt("pages", Object.keys(PAGES).join(",")).split(",");
 

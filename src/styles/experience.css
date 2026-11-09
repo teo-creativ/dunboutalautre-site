@@ -65,11 +65,12 @@
 .float-photo img { width: 100%; height: 100%; object-fit: cover; }
 
 /* Retours V8 (G5) : les deux cartes d'une colonne ne se recouvrent à aucune hauteur d'écran : la carte du dessous est posée sous celle du dessus, à une hauteur de carte (largeur / ratio, en vw)
-   plus 2,4 vw et 6 vw : à 1728 x 1030 elles tombent à 720 et 888 px, soit les 70 % et 86 % de la frame 04 (721 et 886 px). La pile monte d'un bloc (scripts/photos-scroll.js) : cet écart ne change jamais. */
+   plus 2,4 vw à gauche : à 1728 x 1030 elle tombe à 720 px, soit les 70 % de la frame 04 (721 px). La pile monte d'un bloc (scripts/photos-scroll.js) : cet écart ne change jamais.
+   Photos couleur (V8, numérotation home-photo-1 à 4 suivie, voir index.html) : le rapport de chaque carte est celui de sa photo (1, 2, 3 et 4 : 1333, 1154, 1333 et 1276 pour 1000 de large). */
 .float-photo--1 { --x: 6vw;    --y: 27%; --w: 17.4vw; --ratio: 1000 / 1333; }
-.float-photo--2 { --x: 81.4vw; --y: 32%; --w: 19.7vw; --ratio: 1000 / 1333; }
-.float-photo--3 { --x: -1.3vw; --y: calc(27% + 25.6vw); --w: 20.8vw; --ratio: 1000 / 1154; }
-/* Zone centrale libre : le titre occupe 27 à 73 vw, aucune carte n'y entre (retours-v2 01 §3). */
+.float-photo--2 { --x: 81.4vw; --y: 32%; --w: 19.7vw; --ratio: 1000 / 1154; }
+.float-photo--3 { --x: -1.3vw; --y: calc(27% + 25.6vw); --w: 20.8vw; --ratio: 1000 / 1333; }
+/* Zone centrale libre : le titre occupe 27 à 73 vw, aucune carte n'y entre (retours-v2 01 §3). La carte 4 est 9,6 vw sous la 2 (frame 04 : 86 %, 886 px). */
 .float-photo--4 { --x: 78vw;   --y: calc(32% + 32.3vw); --w: 20.1vw; --ratio: 1000 / 1276; }
 
 @media (max-width: 900px) {

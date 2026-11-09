@@ -8,9 +8,8 @@ import img from "./img.js";
 import { tag } from "./tag.js";
 
 const link = (item, { sub = false, current } = {}) => {
-  const count = item.count ? `<span class="menu-link__count">(${site.realisationsCount})</span>` : "";
   const classes = `menu-link${sub ? " menu-link--sub" : ""}`;
-  const body = `<span class="menu-link__dot" aria-hidden="true"></span><span class="menu-link__body"><span class="menu-link__text">${esc(item.label)}</span>${count}</span>`;
+  const body = `<span class="menu-link__dot" aria-hidden="true"></span><span class="menu-link__body"><span class="menu-link__text">${esc(item.label)}</span></span>`;
   if (item.children) {
     return `<button class="${classes}" type="button" aria-expanded="false" aria-controls="menu-services" data-services-button>${body}</button>`;
   }
@@ -50,7 +49,7 @@ export default ({ current = "/" } = {}) => {
         <div class="menu__col menu__col--aside">
           <div class="menu__panel menu__panel--default">
             <p class="menu__title">Parlons de la transformation de ${tag({ text: "votre espace", variant: "orange" })} ensemble.</p>
-            <div class="menu__photo">${img({ src: "home-scroll/bw-lavande-tour-eiffel-large", alt: "", sizes: "(min-width: 900px) 42vw, 90vw", class: "menu__photo-img" })}</div>
+            <div class="menu__photo">${img({ src: "home/home-photo-5-extended", alt: "", sizes: "(min-width: 900px) 42vw, 90vw", class: "menu__photo-img" })}</div>
             <p class="menu__label">CONTACT</p>
             <address class="menu__contact">
               <a href="mailto:${esc(site.email)}">${esc(site.email)}</a>

@@ -62,6 +62,9 @@ export function initStage() {
       root.style.setProperty("--overlap", T.overlap); // marge négative des services, voir stage.css
 
       const build = () => {
+        // Retours V8 : la photo large qui grandit (photos-scroll.js) recalcule sa géométrie à chaque refresh et se nettoie quand la scène est défaite.
+        const refreshers = [];
+        const cleanups = [];
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
@@ -75,10 +78,11 @@ export function initStage() {
             // La scène est reconstruite au changement de largeur : son pin est alors recréé après ceux qui la suivent (Réalisations,
             // chiffres clés). Sans priorité, il serait recalculé en dernier et les pins suivants partiraient d'une page trop courte.
             refreshPriority: 1,
+            onRefresh: () => refreshers.forEach((refresh) => refresh()),
           },
         });
 
-        const ctx = { stage, T };
+        const ctx = { stage, T, refreshers, cleanups };
         addCircle(tl, ctx);
         addOrangeText(tl, ctx);
         addPhotos(tl, ctx);
@@ -105,6 +109,7 @@ export function initStage() {
         return () => {
           cta.removeEventListener("focus", onFocus);
           setHeaderOverride(null);
+          cleanups.forEach((clean) => clean());
         };
       };
 

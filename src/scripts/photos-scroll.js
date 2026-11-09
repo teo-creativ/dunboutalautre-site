@@ -22,7 +22,7 @@ export function addOrangeText(tl, { stage, T }) {
 
 const PERSPECTIVE = 1200; // même valeur que .experience__photos en CSS
 
-export function addPhotos(tl, { stage, T }) {
+export function addPhotos(tl, { stage, T, refreshers, cleanups }) {
   const height = () => stage.clientHeight;
 
   // Cartes : chacune a sa vitesse et sa profondeur. Elle part sous l'écran et sort par le haut, en ligne droite : le
@@ -75,35 +75,69 @@ export function addPhotos(tl, { stage, T }) {
     );
   });
 
-  // Photo large : elle apparaît par le bas sous la forme d'une carte, puis grandit. Le cadre (clip-path) et l'image
-  // (échelle et position) grandissent ensemble, donc la carte montre d'abord la photo entière, comme sur les frames 07 à 10.
+  // Photo large (retours V8) : elle apparaît par le bas sous la forme d'une carte (la même que sur les frames 07 à 10 : 38 % de la largeur, rapport 1,81, posée à 70 % de la hauteur), puis
+  // s'ouvre jusqu'au plein écran. Le cadre (clip-path de .approach__media, en pixels d'écran) et la photo (le cadre .approach__frame, dont l'échelle et le décalage sont calculés à chaque image)
+  // grandissent ensemble, dans l'espace de la photo large (home-photo-5-extended, 2709 x 1497) : la fenêtre part d'une bande du portrait (home-photo-5, qui est un recadrage exact de la photo
+  // large, x 0 à 1000 et y 62 à 1332) et s'ouvre sur toute la photo, cadrée « cover » à l'écran. La lavande reste donc au même endroit visuel du début à la fin : la photo large est dessous en
+  // permanence, le portrait par-dessus (mêmes pixels) tant que la fenêtre est petite, puis il s'efface : aucun saut de recadrage. L'échelle ne varie que de 0,96 à 1 (à 1728 x 1030) : c'est la fenêtre
+  // qui s'ouvre, la photo ne zoome pas. Coins : le clip-path est posé sur le média, qui n'est pas mis à l'échelle : son rayon est en pixels d'écran, sans compensation. Il part de 24 px, passe
+  // à 30 px au plein écran (jamais à 0 pendant la croissance, `power2.inOut` comme la fenêtre), et ne se resserre vers 0 que quand les services recouvrent la photo (fin de la scène).
   const media = stage.querySelector(".approach__media");
-  const photo = media.querySelector("img");
-  const pose = () => {
+  const frame = media.querySelector(".approach__frame");
+  const cardPhoto = frame.querySelector(".approach__photo--card");
+  const fullPhoto = frame.querySelector(".approach__photo--full");
+  const WIDE = { w: 2709, h: 1497 }; // photo large
+  const PORTRAIT = { x: 0, y: 62, w: 1000, h: 1270 }; // place du portrait dans la photo large (recalage au pixel, écart de 1,3 / 255)
+  const FOCAL = 0.5; // la bande du portrait montrée par la carte est centrée à cette part de sa hauteur (la hampe de la lavande)
+  const R0 = 24; // rayon au départ, en px
+  const R1 = 30; // rayon des angles de l'écran au plein écran, en px (28 à 32)
+  const state = { p: 0, q: 0 }; // p : ouverture de la fenêtre (0 carte, 1 plein écran), q : resserrement des coins
+  const lerp = (a, b, t) => a + (b - a) * t;
+  let size = ""; // taille du cadre déjà posée
+  const render = () => {
     const w = stage.clientWidth;
     const h = height();
+    const c = Math.max(w / WIDE.w, h / WIDE.h); // échelle « cover » de la photo large à l'écran
+    const fw = WIDE.w * c;
+    const fh = WIDE.h * c;
+    const fx = (w - fw) / 2;
+    const fy = (h - fh) / 2;
+    if (size !== `${fw}x${fh}x${fx}x${fy}`) {
+      size = `${fw}x${fh}x${fx}x${fy}`;
+      Object.assign(frame.style, { width: `${fw}px`, height: `${fh}px`, left: `${fx}px`, top: `${fy}px` });
+    }
+    // Fenêtre sur l'écran : de la carte au plein écran.
     const cardW = w * T.card.width;
     const cardH = cardW / T.card.ratio;
-    const top = h * T.card.top;
-    return { w, h, cardW, cardH, top, side: (w - cardW) / 2 };
+    const screen = { x: lerp((w - cardW) / 2, 0, state.p), y: lerp(h * T.card.top, 0, state.p), w: lerp(cardW, w, state.p), h: lerp(cardH, h, state.p) };
+    // Fenêtre dans le cadre (pixels du cadre à l'échelle 1) : de la bande du portrait à l'écran entier.
+    const bandW = PORTRAIT.w * c;
+    const bandH = bandW / T.card.ratio;
+    const band = { x: PORTRAIT.x * c, y: PORTRAIT.y * c + (PORTRAIT.h * c - bandH) * FOCAL, w: bandW, h: bandH };
+    const view = { x: lerp(band.x, -fx, state.p), y: lerp(band.y, -fy, state.p), w: lerp(band.w, w, state.p), h: lerp(band.h, h, state.p) };
+    const s = screen.w / view.w; // échelle du cadre : la fenêtre du cadre remplit la fenêtre de l'écran
+    const tx = screen.x - fx - s * view.x;
+    const ty = screen.y + screen.h / 2 - fy - s * (view.y + view.h / 2);
+    frame.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`;
+    const radius = lerp(R0, R1, state.p) * (1 - state.q);
+    // Quatre insets et un rayon écrits en toutes lettres (le bas de la carte est sous l'écran : son inset est négatif).
+    media.style.clipPath = `inset(${screen.y}px ${w - screen.x - screen.w}px ${h - screen.y - screen.h}px ${screen.x}px round ${radius}px)`;
+    // Le portrait (mêmes pixels que la photo large) n'est utile qu'au début, avant que la photo large soit chargée ; il s'efface à mi-chemin si elle est là.
+    cardPhoto.style.opacity = state.p >= 0.5 && fullPhoto.complete && fullPhoto.naturalWidth > 0 ? "0" : "";
   };
-  // Les deux extrémités du clip-path sont écrites en toutes lettres (4 insets et un rayon) : à partir de la valeur relue dans
-  // le style, que Chrome abrège (« inset(a b c round r) »), GSAP associait le rayon à l'inset gauche et le perdait en route.
-  // Le rayon de 14 px (--radius-photo) tient jusqu'au plein écran, il ne tombe à 0 qu'une fois l'écran rempli.
-  const cardClip = () => {
-    const p = pose();
-    return `inset(${p.top}px ${p.side}px ${p.h - p.top - p.cardH}px ${p.side}px round 14px)`;
-  };
-  const fullRounded = "inset(0px 0px 0px 0px round 14px)";
-  const fullSquare = "inset(0px 0px 0px 0px round 0px)";
-  const SQUARE = 0.04; // les derniers pixels de scroll de l'agrandissement : les coins de l'écran passent de 14 px à 0
+  render();
+  refreshers?.push(render); // recalculé à chaque refresh du ScrollTrigger (stage.js) : la hauteur de l'écran peut changer sans reconstruction
+  cleanups?.push(() => {
+    // Sans scène (mouvement réduit, écran étroit sans animation) : la photo large est un simple fond (approach.css).
+    media.style.clipPath = "";
+    frame.removeAttribute("style");
+    cardPhoto.style.opacity = "";
+  });
 
-  tl.set(media, { clipPath: cardClip }, 0)
-    .set(photo, { scale: () => pose().cardW / pose().w, y: () => pose().top + pose().cardH / 2 - pose().h / 2 }, 0)
-    .fromTo(media, { y: () => pose().h - pose().top + 24 }, { y: 0, duration: T.appearDur, ease: "power2.out" }, T.appear)
-    .fromTo(media, { clipPath: cardClip }, { clipPath: fullRounded, duration: T.growDur, ease: "power2.inOut" }, T.grow)
-    .fromTo(media, { clipPath: fullRounded }, { clipPath: fullSquare, duration: SQUARE, ease: "none" }, T.grow + T.growDur)
-    .to(photo, { scale: 1, y: 0, duration: T.growDur, ease: "power2.inOut" }, T.grow);
+  tl.fromTo(media, { y: () => height() - height() * T.card.top + 24 }, { y: 0, duration: T.appearDur, ease: "power2.out" }, T.appear)
+    .to(state, { p: 1, duration: T.growDur, ease: "power2.inOut", onUpdate: render }, T.grow)
+    // Les angles ne se resserrent vers 0 que sur la seconde moitié de l'arrivée des services, quand ils recouvrent presque toute la photo.
+    .to(state, { q: 1, duration: T.overlap * 0.45, ease: "power2.inOut", onUpdate: render }, T.total - T.overlap + T.overlap * 0.45);
 
   // Voile orange sous le logo : une photo qui sort par le haut ne passe plus sous un logo illisible. Il apparaît quand le cercle
   // a couvert l'écran, et la photo plein écran de « Notre approche » le recouvre ensuite (couche supérieure).

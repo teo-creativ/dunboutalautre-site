@@ -88,11 +88,6 @@
   height: 2px;
 }
 
-.menu-link__count {
-  margin-left: 0.12em;
-  font-size: 0.38em;
-}
-
 .menu-link:hover .menu-link__body,
 .menu-link:focus-visible .menu-link__body,
 .menu-link[aria-expanded="true"] .menu-link__body { transform: translateX(0.4em); }

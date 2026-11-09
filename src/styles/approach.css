@@ -13,9 +13,20 @@
   text-align: center;
 }
 
-/* Le média est découpé et déplacé au scroll (clip-path) : le voile reste à part pour apparaître après la photo plein écran. */
+/* Le média est découpé au scroll (clip-path, posé par scripts/photos-scroll.js) : le voile reste à part pour apparaître après la photo plein écran. Dedans, .approach__pan monte un peu quand
+   les services recouvrent la photo, et .approach__frame porte la photo.
+   Sans scène (mouvement réduit, JavaScript absent) le cadre remplit le média et seule la photo large est montrée, en « cover ». */
 .approach__media { position: absolute; inset: 0; z-index: -2; }
+.approach__pan,
+.approach__frame { position: absolute; inset: 0; }
 .approach__photo { width: 100%; height: 100%; object-fit: cover; }
+.approach__photo--card { display: none; }
+/* Avec la scène (retours V8) : le cadre a la taille de la photo large « cover » à l'écran (posée par le script), il est déplacé et mis à l'échelle par transform. La photo large le remplit ; le
+   portrait (home-photo-5, un recadrage exact de la photo large : x 0 à 1000 et y 62 à 1332 sur 2709 x 1497) est posé au même endroit, par-dessus. */
+html.stage-anim .approach__frame { inset: auto; left: 0; top: 0; transform-origin: 0 0; }
+html.stage-anim .approach__photo { position: absolute; max-width: none; object-fit: fill; }
+html.stage-anim .approach__photo--full { left: 0; top: 0; width: 100%; height: 100%; }
+html.stage-anim .approach__photo--card { display: block; left: 0; top: 4.1416%; width: 36.9141%; height: 84.8364%; }
 .approach__veil,
 .approach__shade {
   position: absolute;

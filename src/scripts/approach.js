@@ -33,5 +33,6 @@ export function addApproach(tl, { stage, T }) {
   // Opacité seule : le texte reste dans l'arbre d'accessibilité une fois recouvert par les services.
   tl.to(content, { opacity: 0, scale: 0.92, duration: T.overlap * 0.8, ease: "power1.in" }, overlap)
     .fromTo(stage.querySelector(".approach__shade"), { opacity: 0 }, { opacity: 1, duration: T.overlap, ease: "none" }, overlap)
-    .to(stage.querySelector(".approach__media img"), { yPercent: -8, duration: T.overlap, ease: "none" }, overlap);
+    // La photo monte un peu : c'est la couche .approach__pan qui bouge (la fenêtre de la photo, son clip-path, est posée par photos-scroll.js).
+    .to(stage.querySelector(".approach__media .approach__pan"), { yPercent: -8, duration: T.overlap, ease: "none" }, overlap);
 }

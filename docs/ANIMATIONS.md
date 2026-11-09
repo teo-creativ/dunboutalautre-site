@@ -33,7 +33,7 @@ Frames : `home-animation-01` à `03`.
 Frames : `home-animation-04` à `07`.
 - Contenu centré : titre « On crée de véritables expériences [végétales]. » (title tag clair), CTA « Discutons de votre projet » (variante `on-orange`). Le texte est révélé comme dans l'intro (mots depuis un masque) juste après la fin du cercle.
 - Section épinglée sur ~**300 vh** de scroll (valeur max : 3 écrans de scroll, 2 si possible, à ajuster à l'œil).
-- **Photos flottantes** (`public/assets/images/home-scroll/`) : `bw-graminees-sacre-coeur`, `bw-facade-fleurie`, `bw-ailes-floral-fashion-show`, `bw-feuillage` (+ optionnellement `bw-lavande-gros-plan`). Cartes de 280 à 360 px de large, ratio portrait, rayon 14 px, ombre nulle.
+- **Photos flottantes** (V8 : couleur, `public/assets/images/home/`, numérotation suivie) : emplacement 1 `home-photo-1` (Sacré-Cœur, graminées), 2 `home-photo-2` (ailes de fleurs séchées), 3 `home-photo-3` (façade fleurie), 4 `home-photo-4` (branche) ; `home-photo-5` est la carte de la photo finale (§5). Cartes de 280 à 360 px de large, ratio portrait (celui de la photo), rayon 14 px, ombre nulle. Retours V8 (G5, `DESIGN.md` §5.13) : les deux cartes d'une colonne (1 et 3 à gauche, 2 et 4 à droite) montent d'un bloc, à l'écart de leur pose de repos, jamais l'une sur l'autre ; aucune sous le header.
   - Conteneur avec `perspective: 1200px`.
   - Chaque carte démarre sous l'écran (`y: 120 vh`, `z: -300 à 0`, `rotateX` léger) et traverse l'écran vers le haut avec une **vitesse propre** (parallaxe : cartes plus « proches » plus rapides). Positions horizontales alternées gauche et droite, certaines **tronquées par le bord de l'écran** comme sur les frames (une carte à gauche à 104 px, une à droite coupée au bord, une en bas à gauche coupée, une en bas à droite).
   - Jamais plus de 3 à 4 cartes visibles en même temps. Aucune ne doit recouvrir le titre ni le CTA (zone centrale libre, ~40 % de la largeur).
@@ -43,8 +43,9 @@ Frames : `home-animation-04` à `07`.
 ## 5. Photo qui s'agrandit, dégradé noir, texte « Notre approche »
 
 Frames : `home-animation-08` à `11`.
-- La **dernière photo** est `bw-lavande-tour-eiffel-large.png` (version « extended »). Elle apparaît par le **bas** au centre, taille d'une carte (~280 × 190 px), puis **s'agrandit** au scroll jusqu'à couvrir **toute la section** et devenir son fond.
-- Implémentation recommandée : une image `position: absolute; inset: 0` plein écran dont on anime `clip-path: inset(top right bottom left round 14px)` depuis un petit rectangle centré en bas vers `inset(0 round 0)`, plus un léger `scale: 1.15 → 1` sur l'image. Pas d'animation de `width`/`height`.
+- La **dernière photo** (V8, couleur) est la lavande : `home-photo-5` (portrait) sur la carte, `home-photo-5-extended` (large, avec la Tour Eiffel) en plein écran. Elle apparaît par le **bas** au centre, taille d'une carte (38 % de la largeur, rapport 1,81), puis **s'agrandit** au scroll jusqu'à couvrir **toute la section** et devenir son fond. Le portrait est un recadrage exact de la photo large (x 0 à 1000, y 62 à 1332 sur 2709 x 1497, écart de 1,3 sur 255 mesuré) : la photo large est dessous en permanence, le portrait par-dessus au début, puis il s'efface (à mi-ouverture, si la photo large est chargée) : aucun saut de recadrage. L'ouverture est une **fenêtre** dans l'espace de la photo large (bande du portrait vers l'écran entier, échelle de 0,96 à 1 à 1728 x 1030), calculée à chaque image (`scripts/photos-scroll.js`), sur la même courbe `power2.inOut` et le même `scrub`.
+- **Coins** (V8) : le `clip-path: inset(... round R)` est posé sur le média, qui n'est pas mis à l'échelle : R est en pixels d'écran, sans compensation. R part de 24 px, passe à 30 px au plein écran (jamais à 0 pendant la croissance), tient 30 px pendant le texte, et ne se resserre vers 0 que dans la seconde moitié de l'arrivée des services, quand ils recouvrent presque toute la photo.
+- Implémentation d'origine (remplacée en V8 par la fenêtre ci-dessus) : une image `position: absolute; inset: 0` plein écran dont on anime `clip-path: inset(top right bottom left round 14px)` depuis un petit rectangle centré en bas vers `inset(0 round 0)`, plus un léger `scale: 1.15 → 1` sur l'image. Pas d'animation de `width`/`height`.
 - Pendant l'agrandissement, le titre et le CTA orange montent légèrement et s'effacent (`opacity → 0`), car la photo passe devant.
 - Une fois la photo plein écran : **dégradé noir** (`linear-gradient` de `rgba(0,0,0,.0)` à `rgba(0,0,0,.55)`, ou voile uniforme `.45`) dont l'opacité passe de 0 à 1 en scrub. Voile de fond doux, la photo reste visible.
 - Puis le **bloc de texte** apparaît (centré, ~1100 px de large max) :
@@ -102,7 +103,7 @@ Références : `references/menu/*.png`.
 1. Le bouton devient « Fermer » (changement de texte avec un fondu court).
 2. **Fond :** un panneau olive apparaît avec un fondu d'opacité (0 → 1, 0,5 s) accompagné d'un **balayage de dégradé** depuis le coin haut droit (radial-gradient dont le rayon grandit), pas de coupure sèche. Option plus riche : `clip-path: circle(0% at 96% 4%)` vers `circle(150% at 96% 4%)`.
 3. Le **filet vertical central** se dessine du haut vers le bas (`scaleY: 0 → 1`, 0,8 s).
-4. Les **liens de gauche** montent depuis un masque (`yPercent: 110 → 0`, stagger 0,07 s). « (32) » apparaît en fondu juste après « Réalisations ».
+4. Les **liens de gauche** montent depuis un masque (`yPercent: 110 → 0`, stagger 0,07 s). Retours V8 : « Réalisations » n'a plus de compteur « (32) ».
 5. Colonne de droite : titre (mots en cascade, title tag « votre espace » qui se remplit), photo N&B (clip-path `inset(100% 0 0 0)` → `inset(0)` avec `scale 1.15 → 1`), puis label, e-mail, téléphone en fondu montant, stagger 0,06.
 - Le scroll de la page est bloqué pendant que le menu est ouvert (`lenis.stop()`), puis relancé.
 - **Fermeture :** inverse, plus rapide (0,5 s). Échap ferme. Le focus est piégé dans le menu et revient au bouton à la fermeture.

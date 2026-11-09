@@ -37,9 +37,8 @@ export function initMenu() {
       .fromTo(q(".menu__bg"), { clipPath: "circle(0% at 96% 4%)" }, { clipPath: "circle(150% at 96% 4%)", duration: 0.9 }, 0)
       .fromTo(q(".menu__bg"), { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power1.out" }, 0)
       .fromTo(q(".menu__line"), { scaleY: 0 }, { scaleY: 1, duration: 0.8 }, 0.1)
-      // Liens de gauche : montée depuis un masque, « (32) » en fondu juste après.
+      // Liens de gauche : montée depuis un masque.
       .fromTo(links, { yPercent: 110 }, { yPercent: 0, duration: 0.8, stagger: 0.07 }, 0.15)
-      .fromTo(q(".menu-link__count"), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 0.55)
       // Colonne de droite : titre mot à mot, tag qui se remplit, photo qui se dévoile, puis coordonnées.
       .fromTo(split.words, { yPercent: 110 }, { yPercent: 0, duration: 0.8, stagger: 0.045 }, 0.25)
       .fromTo(q(".menu__photo"), { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.9 }, 0.3)

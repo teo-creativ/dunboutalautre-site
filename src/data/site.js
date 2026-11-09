@@ -31,12 +31,11 @@ export const site = {
     { label: "Mentions légales", path: "/mentions-legales" },
     { label: "Politique de confidentialité", path: "/politique-de-confidentialite" },
   ],
-  realisationsCount: 32, // provisoire, sera dynamique avec le CMS
   zone: "Paris & Île-de-France",
   nav: [
     { label: "Accueil", path: "/", live: true },
     { label: "Services", children: true }, // parent sans page propre : ouvre la liste des services
-    { label: "Réalisations", path: "/realisations/", count: true },
+    { label: "Réalisations", path: "/realisations/" },
     { label: "Contact", ...contact },
     { label: "Blog", path: "/blog/" },
   ],

@@ -2,7 +2,7 @@
 // copywriting 09-realisations.md : ceux qui n'y figurent pas sont listés dans `designTexts`, et scripts/check-site.js les compte au lieu
 // de les refuser. Title et meta sont ceux de docs/arborescence-et-strategie.md.
 // Les 7 filtres suivent la maquette (« Décoration de Noël » séparée de « Décoration saisonnière », pas d'« Ateliers végétaux »).
-// 32 projets en tout (compteur du menu, `realisationsCount` de site.js) : 8 sont fournis, les 24 autres sont des cartes `todo` (titre
+// 32 projets en tout (le compteur « (32) » du titre et du menu est supprimé en V8) : 8 sont fournis, les 24 autres sont des cartes `todo` (titre
 // [À compléter], photos réutilisées) à remplacer par les vrais projets. Leurs catégories suivent les compteurs de la maquette
 // (12, 3, 4, 5, 6 et 2), pour que chaque filtre affiche son nombre. La microcopie fonctionnelle est sous `micro`, à valider.
 import { todo } from "../../components/placeholder.js";
@@ -64,6 +64,8 @@ export const realisationsPage = {
       // (100 = la vitesse de la page) : 02 rapide, 03 lente, 01 et 04 moyennes. mobile : x, y, w sous 900 px, ou null (3 photos seulement) ;
       // b : bas maximal de la photo en svh, la photo rétrécit plutôt que de toucher le titre (44 : au-dessus de lui) sur une tablette en
       // portrait, où la largeur en vw donne des photos plus hautes que l'espace libre.
+      // V8 (G5, components/gallery.js) : la photo 03 est sous la 01 (`under` : indice de la photo du dessus, `gap` : écart en vw) et la 04 sous la 02 : elles se recouvraient sur un
+      // écran plus large que 1728 x 1030 (rapport 2,1) ; l'écart est maintenant en vw, donc le même à toute taille d'écran, et la photo du dessous ne monte pas plus vite que celle du dessus.
       photos: [
         {
           src: "projets/realisation-01",
@@ -80,13 +82,13 @@ export const realisationsPage = {
         {
           src: "projets/realisation-03",
           alt: "Mannequin devant des arches de roses roses et rouges lors du Floral Fashion Show",
-          x: 0, y: 68.74, w: 20.72, ratio: 0.8627, speed: 84,
+          x: 0, w: 20.72, ratio: 0.8627, speed: 84, under: 0, gap: 4.9,
           mobile: { x: 6, y: 66, w: 34, b: 98 },
         },
         {
           src: "projets/realisation-04",
           alt: "Table dressée avec bouquets d'oiseaux de paradis et verres en cristal",
-          x: 68.69, y: 85.05, w: 20.02, ratio: 0.7828, speed: 100,
+          x: 68.69, w: 20.02, ratio: 0.7828, speed: 100, under: 1, gap: 7.9,
           mobile: null,
         },
       ],

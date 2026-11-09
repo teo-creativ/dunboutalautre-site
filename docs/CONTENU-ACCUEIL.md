@@ -22,7 +22,7 @@ Notation : `[mot]` = title tag (voir `DESIGN.md` §5.1). Pas de tiret long dans 
 ## 2. Section orange
 - Titre : `On crée de véritables expériences [végétales].` (title tag clair)
 - CTA (`on-orange`) : `Discutons de votre projet`
-- Photos flottantes puis photo plein écran : voir `docs/ANIMATIONS.md` §4 et §5. Photos : `public/assets/images/home-scroll/`.
+- Photos flottantes puis photo plein écran : voir `docs/ANIMATIONS.md` §4 et §5. Photos (V8, couleur) : `public/assets/images/home/`.
 
 ## 3. Notre approche (sur la photo plein écran)
 - Label : `• NOTRE APPROCHE`
@@ -66,10 +66,10 @@ Note : la maquette affichait par erreur la description de l'entretien sur la lig
 - Wordmark géant crème : `D'UN BØUT À L'AUTRE` (SVG `logo-wordmark-cream.svg`, pleine largeur, rogné en bas)
 
 ## 7. Menu plein écran
-- Liens principaux : `Accueil`, `Services`, `Réalisations (32)`, `Contact`, `Blog`
+- Liens principaux : `Accueil`, `Services`, `Réalisations`, `Contact`, `Blog` (V8 : plus de compteur « (32) »)
 - Colonne droite par défaut :
   - Titre : `Parlons de la transformation de [votre espace] ensemble.` (title tag orange)
-  - Photo N&B arrondie : `public/assets/images/home-scroll/bw-lavande-tour-eiffel-large.png` (recadrée en bandeau 16:5)
+  - Photo arrondie en couleur (V8) : `public/assets/images/home/home-photo-5-extended.jpg` (recadrée en bandeau 16:5)
   - Label `CONTACT`, `hello@dunboutalautre.co`, téléphone
 - Colonne droite au survol de « Services » : label `SERVICES` puis :
   1. Végétalisation de bureaux

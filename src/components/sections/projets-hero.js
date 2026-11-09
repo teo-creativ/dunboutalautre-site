@@ -1,4 +1,4 @@
-// Scène d'ouverture de la page Réalisations (V4, frames realisations-01 à 15) : hero orange « Nos projets. (32) » dont les photos montent à
+// Scène d'ouverture de la page Réalisations (V4, frames realisations-01 à 15) : hero orange « Nos projets. » (V8 : sans compteur) dont les photos montent à
 // des vitesses différentes, puis la photo des tournesols qui grandit jusqu'au plein écran et porte le texte et le CTA. C'est le même
 // principe que la landing Noël : position des photos en variables CSS (x, w en vw ; y en svh ; ratio), vitesse en data-speed, lues par
 // src/scripts/projets-stage.js, qui les épingle dans une seule scène. Sans animation (mouvement réduit, sans JavaScript, ou sous la
@@ -7,8 +7,8 @@
 import { readFileSync } from "node:fs";
 import { cta } from "../cta.js";
 import img from "../img.js";
+import { photoVars, placePhotos } from "../gallery.js";
 import { titleHtml } from "../title.js";
-import { site } from "../../data/site.js";
 import { esc, fr } from "../utils.js";
 
 const manifestUrl = new URL("../../../public/assets/optimized/manifest.json", import.meta.url);
@@ -19,22 +19,20 @@ const ratioOf = (src) => {
   return (entry.w / entry.h).toFixed(4);
 };
 
-const vars = (p) =>
-  Object.entries({ x: p.x, y: p.y, w: p.w, ratio: p.ratio, ...(p.mobile && { mx: p.mobile.x, my: p.mobile.y, mw: p.mobile.w, mb: p.mobile.b }) })
-    .map(([name, value]) => `--${name}: ${value}`)
-    .join("; ");
-
 export default ({ heading, photos, big, label, statement, tag, cta: ctaLabel }) => {
+  // Retours V8 (G5, components/gallery.js) : deux photos d'une même colonne forment une pile (`under`, `gap` dans les données) : celle du dessous part sous l'autre, à l'écart de sa
+  // hauteur, et ne monte pas plus vite : aucune ne se recouvre, au chargement comme au scroll, quelle que soit la taille de l'écran. Position et dimensions sont en CSS dès le premier rendu.
+  const placed = placePhotos(photos);
   const items = photos
     .map(
-      (p) =>
-        `<li class="phero__photo" style="${vars(p)}" data-speed="${p.speed}"${p.mobile ? "" : ' data-mobile="off"'}>${img({ src: p.src, alt: p.alt, sizes: "(min-width: 901px) 21vw, 40vw", loading: "eager" })}</li>`,
+      (p, i) =>
+        `<li class="phero__photo" style="${photoVars(placed[i])}" data-speed="${placed[i].wide.speed}"${p.mobile ? "" : ' data-mobile="off"'}>${img({ src: p.src, alt: p.alt, sizes: "(min-width: 901px) 21vw, 40vw", loading: "eager" })}</li>`,
     )
     .join("\n            ");
   return `<div class="pstage" id="pstage">
         <section class="phero" aria-labelledby="phero-title">
           <div class="phero__inner">
-            <h1 class="hero__title phero__title" id="phero-title">${esc(fr(heading))}<span class="phero__count">(${site.realisationsCount})</span></h1>
+            <h1 class="hero__title phero__title" id="phero-title">${esc(fr(heading))}</h1>
           </div>
           <ul class="phero__photos">
             ${items}

@@ -89,8 +89,8 @@ Carte blanche, rayon 28 px, padding 32 px, légère rotation (entre −2° et +1
 
 ### 5.7 Menu plein écran
 Deux colonnes séparées par un **filet vertical** `--olive-line` (1 px), fond `--olive`.
-- Gauche : liens énormes (Accueil, Services, Réalisations (32), Contact, Blog). Lien actif : point orange à gauche, texte décalé vers la droite (~35 px), soulignement orange épais.
-- « (32) » : petit nombre en italique (Poppins italique ou Playfair), à droite de « Réalisations », dynamique.
+- Gauche : liens énormes (Accueil, Services, Réalisations, Contact, Blog). Lien actif : point orange à gauche, texte décalé vers la droite (~35 px), soulignement orange épais.
+- Retours V8 : plus de compteur « (32) » à droite de « Réalisations » (menu), ni dans le titre de la page Réalisations (« Nos projets. »).
 - Droite, état par défaut : titre « Parlons de la transformation de [votre espace] ensemble. » (title tag orange), photo N&B arrondie, label « CONTACT » (gris), e-mail et téléphone.
 - Droite, au survol de « Services » : la colonne de droite est remplacée par le label « SERVICES » et la liste des 7 sous-liens. Voir `references/menu/`.
 
@@ -125,4 +125,4 @@ Accueil, Noël, Bureaux, Design, Décoration : **aucune photo n'en recouvre une 
 
 ## 7. Contenu image
 
-Photos N&B grainées de l'accueil : `public/assets/images/home-scroll/`. Photos couleur : `public/assets/images/photos/`. Pour la landing Noël, utiliser les photos `noel-*`. Texte alternatif en français décrivant la scène.
+Photos de l'accueil (V8 : couleur) : `public/assets/images/home/` (`home-photo-1` à `home-photo-5`, `home-photo-5-extended`). Photos couleur : `public/assets/images/photos/`. Pour la landing Noël, utiliser les photos `noel-*`. Texte alternatif en français décrivant la scène.

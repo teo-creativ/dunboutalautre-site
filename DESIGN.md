@@ -103,6 +103,9 @@ Fond `--olive`. Label « • RÉALISATIONS » blanc (20 px, point blanc). Liste 
 ### 5.9 Logos clients
 Frise défilante (marquee) en niveaux de gris, `filter: grayscale(1)` (et `brightness`/`contrast` si nécessaire), fond clair. Les logos sont dans `public/assets/logos-clients/` (certains fichiers ont un fond blanc : utiliser `mix-blend-mode: multiply` sur fond crème). Les logos d'Eataly, de l'ONF et de l'Ambassade d'Italie manquent : prévoir un emplacement texte provisoire.
 
+### 5.10 Curseur feuille (V8)
+La feuille du « O » de BOUT (tracé de `public/assets/brand/leaf.svg`, extrait du wordmark, jamais redessiné) remplace le curseur système quand le pointeur est fin (souris, stylet) et l'écran fait plus de 900 px. 28 px (`--cursor-size`), pleine (`--cursor-fill: 1`), inclinée de -20°, point actif au centre. Deux jeux de couleurs fondus par l'opacité en 150 ms : `ink` (`--olive-deep`, liseré `--cream`) sur les fonds clairs, `paper` (`--cream`, liseré `--olive-deep`) sur les fonds sombres, orange, les photos, les CTA et les pastilles. Sur un lien ou un bouton : x1,8, contour (`--cursor-fill-link: 0`), un point central sur les CTA ; sur un texte : x0,6 ; sur un slider ou carrousel : allongée avec une flèche de chaque côté. Détails, états et garde-fous : `docs/ANIMATIONS.md` §11 quater. Code : `src/components/cursor.js`, `src/styles/cursor.css`.
+
 ## 6. Mouvement (principes généraux)
 
 - Easings : entrées `expo.out` ou `power3.out`, sorties `power2.in`, scrub de scroll `none` avec `scrub: 0.6` à `1` pour du lissé.

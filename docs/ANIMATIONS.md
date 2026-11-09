@@ -161,6 +161,16 @@ Source : DESIGN.md §5.9 (décision du fondateur : marquee GSAP, statique en mou
 - **Refait** quand la largeur du cadre change (observateur de taille, 150 ms de délai).
 - **Statique** : sous 900 px, avec `prefers-reduced-motion: reduce`, ou sans JavaScript, la liste reste centrée et passe à la ligne ; les logos sont de simples images (`ul` de `li`). Nettoyage par `gsap.matchMedia` (les copies et le cadre sont retirés).
 
+## 11 quater. Curseur feuille (V8, `retours-v8/docs/01-CURSEUR-FEUILLE.md`)
+
+Un seul élément DOM (`div.cursor` et son SVG, ajouté au body par `src/components/cursor.js`, importé par `main.js`), aucune dépendance. Seuls `transform` et `opacity` bougent.
+
+- **Actif** seulement avec `(hover: hover) and (pointer: fine)`, au-dessus de 900 px, hors contraste forcé, hors iframe. Le curseur système est masqué (`html.has-cursor`) ; il revient à la touche Tab (la feuille s'efface jusqu'au prochain vrai mouvement). La feuille n'apparaît qu'au premier mouvement, posée sous le pointeur ; à la sortie de la fenêtre elle s'estompe (0,2 s) et revient sous le pointeur, sans glisser depuis un coin.
+- **Suivi** : `gsap.quickTo` sur `x` et `y` (0,22 s, `power3`), une seule écoute `pointermove` passive. Rotation : -20° au repos, elle suit le sens du mouvement (0,9° par pixel, au plus 20°, amorti 0,45 s) puis revient. Le point actif est le **centre** de la feuille : le clic tombe sous son centre.
+- **Thème**, lu une fois par frame sur l'élément sous le pointeur (celui du dernier `pointermove`, `elementFromPoint` quand la page défile sous un pointeur immobile) : `data-cursor-theme` s'il existe ; `.cta`, `.tag` et les photos (`img` et `video` d'au moins 20 000 px²) en `paper` ; le header suit son dégradé (menu ouvert : `paper`) ; sinon `data-header-gradient` puis `data-header-theme` de la section (les attributs du header, aucun de plus) ; la page nue (`html`, `body`, `main`) est crème ; tout le reste est sombre, comme pour le header.
+- **États** (`data-state`) : repos ; lien (`a[href]`, `button`, `[data-cursor]`...) : x1,8 en `back.out` 0,35 s, contour, un quart de tour puis retour, un point central sur les CTA ; texte (`p`, titres, champs de saisie, `data-cursor="text"`) : x0,6 ; glisser (`[data-cursor="drag"]` et tout `[aria-roledescription="carousel"]`) : feuille horizontale allongée (x1,7 sur x0,8) et deux flèches ; clic : x0,8 puis retour (`back.out`). Le plus proche ancêtre interactif l'emporte ; le texte est le dernier recours.
+- **Mouvement réduit** : aucun amorti, aucune rotation, aucune échelle, aucune impulsion ; la feuille suit directement la souris et ne change que de couleur et de forme (plein ou contour, point).
+
 ## 12. Responsive et mouvement réduit
 
 - `(max-width: 900px)` : cercle et photos simplifiés (cercle conservé, photos réduites à 2, pins ≤ 200 vh), menu en une colonne avec sous-liens en accordéon, chiffres clés en pile verticale, footer en révélation conservé si fluide, sinon statique.

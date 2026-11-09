@@ -1,0 +1,66 @@
+/* Curseur feuille (retours-v8/docs/01-CURSEUR-FEUILLE.md, module src/components/cursor.js). Un seul élément : div.cursor et son SVG.
+   Variables (modifiables par page ou par section, sur :root ou sur .cursor) :
+   --cursor-size : largeur de la feuille au repos (28 px) ;
+   --cursor-fill : 1 feuille pleine au repos, 0 contour seul ;
+   --cursor-fill-link : la même chose sur un lien ou un bouton (contour par défaut, il laisse voir le bouton dessous).
+   Deux calques de couleur se fondent par l'opacité (jamais de couleur animée) : ink (olive foncé, fonds clairs) et paper (crème, fonds sombres,
+   orange et photos). Chacun a un liseré de la couleur opposée : la feuille reste lisible même sur un fond que le thème n'avait pas prévu.
+   Transformations (échelle, rotation, suivi) : GSAP, transform seul. */
+:root {
+  --cursor-size: 28px;
+  --cursor-fill: 1;
+  --cursor-fill-link: 0;
+}
+
+/* Le curseur système est masqué seulement quand le curseur feuille est actif (pointeur fin, plus de 900 px) ; la touche Tab le rend. */
+html.has-cursor:not(.cursor-keyboard),
+html.has-cursor:not(.cursor-keyboard) * { cursor: none !important; }
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* au-dessus du header (50), du lien d'évitement (100) et du menu (40) */
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+/* Seul GSAP anime la position, l'échelle, la rotation et l'opacité du conteneur. En mouvement réduit, base.css donne 0,2 s de transition à tout : sans
+   ceci la feuille glisserait derrière le pointeur au lieu de le suivre. */
+.cursor, .cursor__svg, .cursor__leaf { transition-property: none; }
+.cursor__svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: var(--cursor-size);
+  height: calc(var(--cursor-size) * var(--cursor-ratio));
+  margin: calc(var(--cursor-size) * var(--cursor-ratio) / -2) 0 0 calc(var(--cursor-size) / -2); /* le centre de la feuille est le point actif */
+  overflow: visible; /* les flèches de l'état « glisser » sortent du cadre de la feuille */
+}
+
+/* Couleurs : les mêmes tokens que le reste du site. */
+.cursor__layer { opacity: 0; transition: opacity 0.15s linear; }
+.cursor__layer--ink { --cursor-fg: var(--olive-deep); --cursor-edge: var(--cream); }
+.cursor__layer--paper { --cursor-fg: var(--cream); --cursor-edge: var(--olive-deep); }
+.cursor[data-scheme="ink"] .cursor__layer--ink,
+.cursor[data-scheme="paper"] .cursor__layer--paper { opacity: 1; }
+
+.cursor__edge { fill: none; stroke: var(--cursor-edge); }
+.cursor__ring { fill: none; stroke: var(--cursor-fg); }
+.cursor__body { fill: var(--cursor-fg); opacity: var(--cursor-fill); transition: opacity 0.35s; }
+.cursor__dot { fill: var(--cursor-fg); stroke: var(--cursor-edge); stroke-width: 2; opacity: 0; transition: opacity 0.2s; }
+.cursor__arrows { opacity: 0; transition: opacity 0.2s; }
+.cursor__arrows path { stroke-linecap: round; stroke-linejoin: round; }
+
+.cursor[data-state="link"] { --cursor-fill: var(--cursor-fill-link); }
+.cursor[data-state="drag"] .cursor__arrows { opacity: 1; }
+/* Sur un CTA (orange ou blanc), le centre de la feuille accueille un point : le même que celui du bouton. */
+.cursor[data-dot] .cursor__dot { opacity: 1; }
+
+/* Mouvement réduit : la feuille ne change que de couleur, sans transition de forme. */
+@media (prefers-reduced-motion: reduce) {
+  .cursor__body, .cursor__dot, .cursor__arrows { transition: none; }
+}
+@media print { .cursor { display: none; } }

@@ -18,19 +18,19 @@ export const noel = {
   // x et w : en vw, mesurés sur les frames noel-vertical-04 à 08 (1728 px de large) ; ratio : largeur sur hauteur du cadre, pour que la
   // photo garde ses proportions à toutes les hauteurs d'écran. y : en svh, position de départ de la montée, sous le bord bas de l'écran
   // (au moins 100) : plus elle est grande, plus la photo arrive tard. speed : svh montés par écran de scroll (100 = la vitesse de la page),
-  // la profondeur. Deux photos qui se recouvrent en largeur (plafond sous branches, sapins sous portail) ne doivent jamais se toucher :
-  // celle de derrière n'est pas plus rapide que celle de devant, et part au moins 6 svh sous elle, hauteur comprise, jusqu'à un écran de
-  // rapport 2,1. La profondeur vient donc des écarts entre colonnes. mobile : x, w et y sous 900 px, ou null (photo absente) ;
-  // trois photos seulement. Le salon, au centre, recouvre les deux autres en largeur : il passe donc devant (le plus rapide), les autres
-  // derrière, au moins 6 svh sous lui jusqu'à une tablette portrait (768 x 1024).
+  // la profondeur. V8 (G5, components/gallery.js) : deux colonnes de chaque côté du titre (il occupe de 24 à 76 vw), jamais de photo sur le titre ni
+  // sur le bouton ni l'une sur l'autre. Deux photos de la même colonne forment une pile : celle du dessous porte `under` (l'indice de celle du
+  // dessus) et `gap` (écart en vw) : elle part sous elle, à l'écart de sa hauteur, et ne monte jamais plus vite qu'elle, à toute taille d'écran.
+  // À gauche : branches, plafond puis salon ; à droite : portail puis sapins (le salon, au centre sur les frames, passe à gauche : au centre il traversait le
+  // titre). mobile : x, w et y sous 900 px (`under`, `gap` comme sur ordinateur), ou null (photo absente) ; trois photos seulement.
   flux: {
     photos: [
       {
         id: "branches",
         src: "noel-v2/noel-bw-branches-givrees",
         alt: "Branches givrées, bûches de bouleau et bougies dans un salon baigné de lumière",
-        x: 15, y: 100, w: 16, ratio: 0.75, speed: 90,
-        mobile: { x: 4, w: 42, y: 150 },
+        x: 4, y: 100, w: 16, ratio: 0.75, speed: 104,
+        mobile: { x: 4, w: 42, under: 3, gap: 30 },
       },
       {
         id: "portail",
@@ -43,21 +43,21 @@ export const noel = {
         id: "plafond",
         src: "noel-v2/noel-bw-eataly-plafond-large",
         alt: "Plafond d'un restaurant recouvert de lierre, de fougères blanches et de suspensions en verre",
-        x: 0, y: 151, w: 20, ratio: 0.95, speed: 80,
+        x: 0, w: 20, ratio: 0.95, speed: 100, under: 0, gap: 4,
         mobile: null,
       },
       {
         id: "salon",
         src: "noel-v2/noel-bw-salon-dore",
         alt: "Salon aux boiseries sculptées et au grand miroir, avec des branches givrées devant la cheminée",
-        x: 47, y: 200, w: 17, ratio: 0.75, speed: 108,
-        mobile: { x: 28, w: 44, y: 100 },
+        x: 5, w: 17, ratio: 0.75, speed: 96, under: 2, gap: 4,
+        mobile: { x: 4, w: 42, y: 100 },
       },
       {
         id: "sapins",
         src: "noel-v2/noel-bw-sapins-verriere",
         alt: "Trois grands sapins décorés de guirlandes lumineuses et de lanternes, sous une grande verrière métallique",
-        x: 84, y: 182, w: 16, ratio: 0.65, speed: 92,
+        x: 84, w: 16, ratio: 0.65, speed: 92, under: 1, gap: 4,
         mobile: null,
       },
     ],

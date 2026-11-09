@@ -1,0 +1,12 @@
+/* Composant reveal-on-enter (retours V8, partie B, scripts/reveal-on-enter.js) : l'état de départ de ce qui se révèle, posé en CSS pour qu'aucun contenu final ne clignote avant
+   l'initialisation (html.js est posé par le <head>, retiré à la fin de l'intro ; le script prend alors le relais en style en ligne). Rien n'est caché sans html.js (JavaScript
+   absent) ni en mouvement réduit : tout est visible. Attributs : data-reveal="enter" sur la section, data-reveal-part = eyebrow | title | text | cta | photo sur ce qui se révèle. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal="enter"] [data-reveal-part="eyebrow"],
+  html.js [data-reveal="enter"] [data-reveal-part="title"],
+  html.js [data-reveal="enter"] [data-reveal-part="text"],
+  html.js [data-reveal="enter"] [data-reveal-part="cta"] { opacity: 0; }
+  html.js [data-reveal="enter"] [data-reveal-part="photo"] { clip-path: inset(100% 0 0 0); }
+}
+/* Le média d'une photo qui se révèle grandit depuis 1,15 : le cadre rogne ce qui dépasse. */
+[data-reveal="enter"] [data-reveal-part="photo"] { overflow: clip; }

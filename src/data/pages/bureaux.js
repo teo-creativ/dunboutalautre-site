@@ -213,6 +213,9 @@ export const bureaux = {
       // Sur les frames les quatre photos gardent le même écart à chaque instant (même vitesse, comme un bloc qui défile) ; le doc 03 demande des
       // vitesses différentes (rapide pour 04, lente pour 01). Les vitesses sont donc resserrées autour de celle de la page, et les départs en
       // sont déduits pour que la frame 45 soit exacte au bout de 0,8 écran de scroll (docs/POINTS-A-VALIDER.md).
+      // V8 (G5) : deux colonnes de chaque côté du texte (le titre occupe de 31 à 69 vw), jamais de photo sur le titre ni sur le bouton, jamais l'une sur l'autre
+      // (components/gallery.js) : à gauche 02 puis 01 dessous, à droite 04 puis 03 dessous (`under` : indice de la photo du dessus, `gap` : écart en vw). Le départ de la photo
+      // du dessous se déduit de celle du dessus (à 1728 x 1030 il est celui des frames) et elle ne monte jamais plus vite qu'elle.
       type: "bureaux-galerie",
       label: "GALERIE",
       title: "Vos bureaux deviennent vivant.",
@@ -222,25 +225,25 @@ export const bureaux = {
         {
           photo: "bureaux/galerie-01",
           alt: "Mur végétal fourni où une enseigne lumineuse jaune en forme d'étoile côtoie de grandes lettres blanches.",
-          x: -11.2, y: 112.1, w: 31.9, ratio: 1.333, speed: 54,
+          x: -11.2, w: 31.9, ratio: 1.333, speed: 54, under: 1, gap: 3.2,
         },
         {
           photo: "bureaux/galerie-02",
           alt: "Salle de réunion aux portes vitrées à cadre noir, avec une grande table en bois et des plantes suspendues sous la verrière.",
           x: 11.1, y: 67.8, w: 17.4, ratio: 0.75, speed: 60,
-          mobile: { x: 6, y: 78, w: 36, speed: 60 },
+          mobile: { x: 6, y: 78, w: 36, speed: 70 },
         },
         {
           photo: "bureaux/galerie-03",
           alt: "Étagères en bois clair surmontées de plantes retombantes, avec une suspension noire au-dessus d'un coin de travail.",
-          x: 68.7, y: 136.2, w: 21.5, ratio: 0.75, speed: 64,
-          mobile: { x: 22, y: 142, w: 36, speed: 68 },
+          x: 71, w: 21.5, ratio: 0.75, speed: 64, under: 3, gap: 5.3,
+          mobile: { x: 22, w: 36, speed: 68, under: 1, gap: 55 },
         },
         {
           photo: "bureaux/galerie-04",
           alt: "Mur végétal dense de feuillages variés, vu depuis un espace lumineux.",
           x: 81.5, y: 83.2, w: 19.7, ratio: 0.75, speed: 70,
-          mobile: { x: 58, y: 104, w: 36, speed: 74 },
+          mobile: { x: 59, y: 104, w: 35, speed: 74 },
         },
       ],
     },

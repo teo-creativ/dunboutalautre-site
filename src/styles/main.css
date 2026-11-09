@@ -32,6 +32,7 @@
 @import "./bureaux-styles.css";
 @import "./bureaux-bande.css";
 @import "./bureaux-formules.css";
+@import "./reveal-on-enter.css";
 @import "./intro.css";
 @import "./cards.css";
 @import "./gallery.css";

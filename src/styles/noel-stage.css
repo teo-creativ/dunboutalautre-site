@@ -182,11 +182,14 @@ html.nstage-anim .flux__photos {
   z-index: 1;
   display: block;
   width: auto;
+  /* V8 (G5) : aucune photo sous le header (voir bureaux-galerie.css). */
+  clip-path: inset(var(--gallery-top) 0 0 0);
+  mask-image: linear-gradient(to bottom, transparent var(--gallery-top), var(--veil-dim) calc(var(--gallery-top) + var(--gallery-fade)));
 }
 html.nstage-anim .flux__photo {
   position: absolute;
   left: calc(var(--x) * 1vw);
-  top: calc(var(--y) * 1svh);
+  top: calc(var(--y) * 1svh + var(--oy, 0) * 1vw); /* oy : écart sous la photo du dessus, en vw (components/gallery.js) */
   width: calc(var(--w) * 1vw);
   aspect-ratio: var(--ratio);
 }
@@ -198,7 +201,7 @@ html.nstage-anim .flux__photo {
   }
   html.nstage-anim .flux__photo {
     left: calc(var(--mx) * 1vw);
-    top: calc(var(--my) * 1svh);
+    top: calc(var(--my) * 1svh + var(--moy, 0) * 1vw);
     width: calc(var(--mw) * 1vw);
   }
 }

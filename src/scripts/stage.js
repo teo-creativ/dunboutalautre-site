@@ -20,8 +20,9 @@ const DESKTOP = {
   cards: [
     { index: 0, rest: 2, duration: 1.54, z: -200, rx: 6, rot: -1.5, dx: 40 },
     { index: 1, rest: 2, duration: 1.45, z: -100, rx: 4, rot: 2, dx: -50 },
-    { index: 2, rest: 2.05, duration: 1.74, z: -300, rx: 8, rot: -2, dx: 30 },
-    { index: 3, rest: 2.1, duration: 1.37, z: 0, rx: 3, rot: 1.5, dx: -40 },
+    // V8 (G5) : `under` : la carte est sous celle de sa colonne (2 sous 0 à gauche, 3 sous 1 à droite) : la pile monte d'un bloc, avec le `rest` et la `duration` de la carte du dessous (photos-scroll.js).
+    { index: 2, rest: 2.05, duration: 1.74, z: -300, rx: 8, rot: -2, dx: 30, under: 0 },
+    { index: 3, rest: 2.1, duration: 1.37, z: 0, rx: 3, rot: 1.5, dx: -40, under: 1 },
   ],
   // Photo large : carte de 38 % de la largeur, ratio 1,81:1, posée à 70 % de la hauteur (frame 07).
   card: { width: 0.384, ratio: 1.81, top: 0.7 },

@@ -109,6 +109,9 @@ export const designVegetal = {
       // relevées sur les frames 24 à 27 à 1728 x 1030 (la frame 24 est 42 px avant le début du pin : départs de 42 px plus haut) : les trois dernières photos montent ensemble (la maquette les fait défiler d'un bloc, le doc 01
       // demande des vitesses différentes : les frames priment), la première 13 % moins vite. `mobile` : les trois photos gardées sous 900 px. `grow` :
       // la grande photo qui grandit jusqu'au plein écran, puis l'étiquette et le texte à deux pastilles (frame 31).
+      // V8 (G5) : le titre occupe de 17 à 83 vw : les photos sont en deux colonnes sur les bords, en partie hors de l'écran (jamais sur le titre ni sur le bouton, jamais l'une
+      // sur l'autre : components/gallery.js ; à gauche 03 puis 04 dessous, à droite 01 puis 02 dessous). La dérive vers la droite des frames est supprimée : elle ramènerait les
+      // photos de gauche sur le titre.
       type: "bureaux-galerie",
       variant: "design",
       title: "Votre logo ou identité de marque reconstitué en végétaux.",
@@ -118,25 +121,25 @@ export const designVegetal = {
         {
           photo: "design-vegetal/galerie-03",
           alt: "Bureau Studapart : mur blanc au logo en relief au-dessus d'une table en bois et de chaises couleur terre cuite, sous des suspensions à rayons bleus et orange.",
-          x: 3.82, y: 25.4, w: 18.06, ratio: 0.879, speed: 118,
+          x: -2.2, y: 25.4, w: 18.06, ratio: 0.879, speed: 118,
           mobile: { x: 6, y: 78, w: 36, speed: 120 },
         },
         {
           photo: "design-vegetal/galerie-01",
           alt: "Lettre U en bois couronnée d'un bouquet de fleurs séchées rouges et roses, sur un mur beige.",
-          x: 80.32, y: 34.6, w: 19.68, ratio: 0.75, speed: 136,
-          mobile: { x: 22, y: 142, w: 36, speed: 125 },
+          x: 83.9, y: 34.6, w: 19.68, ratio: 0.75, speed: 136,
+          mobile: { x: 22, w: 36, speed: 120, under: 0, gap: 55 },
         },
         {
           photo: "design-vegetal/galerie-04",
           alt: "Mur de feuillages variés reconstituant un logo blanc, avec une enseigne néon jaune et de grandes feuilles de monstera.",
-          x: -3.125, y: 75.4, w: 27.14, ratio: 1.333, speed: 136,
+          x: -5, w: 21, ratio: 1.333, speed: 110, under: 0, gap: 4,
         },
         {
           photo: "design-vegetal/galerie-02",
           alt: "Pièce de bureau lumineuse aux grandes fenêtres, avec des fauteuils en bois sur un tapis kilim, un cactus et des plantes.",
-          x: 66.6, y: 87.9, w: 20.08, ratio: 0.75, speed: 136,
-          mobile: { x: 58, y: 104, w: 36, speed: 122 },
+          x: 83.9, w: 20.08, ratio: 0.75, speed: 128, under: 1, gap: 4.5,
+          mobile: { x: 59, y: 104, w: 35, speed: 122 },
         },
       ],
       grow: {

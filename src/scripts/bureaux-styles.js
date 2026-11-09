@@ -8,11 +8,11 @@
 // suivante (la bande de photos) arrive dans le flux, comme sur la frame 08.
 // Sous 900 px ou en mouvement réduit : aucun épinglage, la liste reste entière (html n'a pas la classe bx-sty-anim).
 import { gsap, ScrollTrigger } from "./core.js";
+import { markOverlap, overlapOptions } from "./bureaux-scene.js";
 
 const PRE = 0.25; // écrans avant la première bascule
 const STEP = 0.55; // écrans par entrée
 const POST = 0.35; // écrans de tenue de la dernière entrée
-const OVERLAP = 1; // data-overlap : la section suivante monte par-dessus pendant un dernier écran (Décoration, frame 08), sans fondu : la liste reste entière
 
 export function initBureauxStyles() {
   const section = document.querySelector('[data-bx="styles"]');
@@ -20,7 +20,10 @@ export function initBureauxStyles() {
   const rows = [...section.querySelectorAll(".sty-row")];
   const photos = [...section.querySelectorAll(".sty__img")];
   if (rows.length < 2) return;
+  // data-overlap : la section suivante monte par-dessus pendant un dernier écran (Décoration, frame 08), sans fondu : la liste reste entière. Durée : au moins 1 écran, réglable par page
+  // (data-overlap-screens, bureaux-scene.js).
   const overlap = section.hasAttribute("data-overlap");
+  const { screens: OVERLAP } = overlapOptions(section);
   const total = PRE + rows.length * STEP + POST + (overlap ? OVERLAP : 0);
 
   const mm = gsap.matchMedia();
@@ -83,8 +86,7 @@ export function initBureauxStyles() {
     });
 
     // Point d'accroche : la section suivante remonte d'un écran par-dessus (bureaux-installe.css).
-    const next = overlap ? (section.closest(".pin-spacer") ?? section).nextElementSibling : null;
-    next?.classList.add("bx-overlap");
+    const releaseNext = markOverlap(overlap ? (section.closest(".pin-spacer") ?? section).nextElementSibling : null, OVERLAP);
 
     const listeners = rows.map((row, i) => {
       row.tabIndex = 0; // atteignable au clavier : le focus active l'entrée (anneau de focus-visible, base.css)
@@ -100,7 +102,7 @@ export function initBureauxStyles() {
     });
 
     return () => {
-      next?.classList.remove("bx-overlap");
+      releaseNext();
       section.removeAttribute("inert");
       trigger.kill();
       listeners.forEach((off) => off());

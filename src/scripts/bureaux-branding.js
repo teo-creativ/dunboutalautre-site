@@ -16,14 +16,14 @@
 import { gsap, SplitText } from "./core.js";
 import { loadLater } from "./bureaux-images.js";
 import { claimHeader } from "./bureaux-header.js";
-import { MEDIA, addPhotoRise, clamp, monotone, scaleSetter } from "./bureaux-scene.js";
+import { MEDIA, addPhotoRise, clamp, markOverlap, monotone, overlapOptions, scaleSetter } from "./bureaux-scene.js";
 import { fillTag } from "./tag.js";
 
 const REF_W = 1728;
 const REF_H = 1030;
 
 const RISE = { wide: 1.8, solo: 1.6 }; // durée de la montée des photos, en écrans
-const DRIFT = 0.042; // px vers la droite par px monté
+// V8 (G5) : plus de dérive vers la droite des photos (0,042 px par px monté sur les frames) : elle ramenait les photos de gauche sur le titre.
 const GROW_AT = 0.59; // la grande photo entre par le bas (frame 27 à 0,71 écran : 120 px sous le bord)
 const GROW = 1.0; // montée du bas au haut à la vitesse du scroll
 const FADE = [0.7, 1.25]; // le titre et le bouton s'estompent (1 à la frame 27, 0,5 à la 28, 0,25 à la 29)
@@ -31,7 +31,7 @@ const VEIL = 0.3;
 const TEXT_GAP = 0.1; // le texte commence juste après le plein écran
 const TEXT = 0.65; // durée de l'entrée du texte : étiquette, lignes, mots, pastilles
 const HOLD = 0.55;
-const OVERLAP = 1; // la section crème monte par-dessus (frames 32 et 33), dernier écran du pin
+// La section crème monte par-dessus (frames 32 et 33), dernier écran du pin : durée (au moins 1 écran) et lissage réglables par page (overlapOptions, bureaux-scene.js).
 const VEIL_FROM = 0.25; // le header n'a plus besoin du dégradé « photo » quand le voile atteint cette part
 const COVERED = 0.66; // part de la croissance où le titre et le bouton sont recouverts et ont fini de s'estomper (écran 1,25 de la scène)
 const HEADER_PHOTO = 0.95;
@@ -81,6 +81,7 @@ export function initBureauxBranding() {
       // Les photos (300 Ko en 480 px) et la grande photo sont lues d'avance (bureaux-images.js).
       loadLater([...visible.map((li) => li.querySelector("img")), img]);
 
+      const { screens: OVERLAP, scrub } = overlapOptions(section);
       const growEnd = GROW_AT + GROW;
       const textAt = growEnd + TEXT_GAP;
       const overlapAt = textAt + TEXT + HOLD;
@@ -141,7 +142,7 @@ export function initBureauxBranding() {
             return `+=${total * height}`;
           },
           pin: true,
-          scrub: 0.6,
+          scrub, // 1 par défaut (retours V8)
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: sync,
@@ -154,8 +155,8 @@ export function initBureauxBranding() {
         },
       });
 
-      // Galerie : les photos montent (et dérivent un peu vers la droite) derrière le titre fixe.
-      addPhotoRise(tl, visible, { wide: conditions.wide, rise, section, drift: DRIFT });
+      // Galerie : les photos montent sur les côtés du titre fixe (chaque photo à sa vitesse, bureaux-scene.js).
+      addPhotoRise(tl, visible, { wide: conditions.wide, rise, section });
       // Le titre et le bouton s'estompent sous la grande photo (opacité seule : ils restent dans l'arbre d'accessibilité).
       tl.to(content, { opacity: 0, duration: FADE[1] - FADE[0] }, FADE[0]);
 
@@ -183,11 +184,10 @@ export function initBureauxBranding() {
 
       // Point d'accroche : la section crème (processus) remonte d'un écran par-dessus la photo.
       const wrap = section.closest(".pin-spacer") ?? section;
-      const next = wrap.nextElementSibling;
-      next?.classList.add("bx-overlap");
+      const releaseNext = markOverlap(wrap.nextElementSibling, OVERLAP);
 
       return () => {
-        next?.classList.remove("bx-overlap");
+        releaseNext();
         claimHeader("branding", null);
         content.removeAttribute("inert");
         root.classList.remove("bx-gal-anim");

@@ -26,7 +26,8 @@ body[data-page="page"] .mat .section-title {
 /* ---------- Photos et slides : trois blocs, chaque slide sur sa photo ---------- */
 body[data-page="page"] .mat__photo,
 body[data-page="page"] .mat__slider { display: contents; }
-body[data-page="page"] .mat__veil { display: none; }
+body[data-page="page"] .mat__veil,
+body[data-page="page"] .mat__dim { display: none; }
 body[data-page="page"] .mat__bg {
   position: relative;
   overflow: clip;
@@ -106,33 +107,45 @@ html.bx-mat-anim .mat__photo {
 html.bx-mat-anim .mat__bg { position: absolute; inset: 0; grid-area: auto; background: transparent; }
 html.bx-mat-anim .mat__bg::after { display: none; }
 html.bx-mat-anim .mat__veil { display: block; position: absolute; inset: 0; background: var(--veil); opacity: 0; }
+/* Voile d'échange (V8) : par-dessus le voile de lecture. Son opacité monte au pic de chaque glissement, au moment où la photo change (scripts/bureaux-matieres.js). */
+html.bx-mat-anim .mat__dim { display: block; position: absolute; inset: 0; background: var(--veil-dim); opacity: 0; pointer-events: none; }
+/* Slider (V8) : une grille centrée dans la section, deux rangées communes aux trois slides (titre, paragraphe). Le bloc est centré à la verticale, le titre reste à la même
+   hauteur d'une slide à l'autre (il glisse sur un rail horizontal) et l'écart entre le titre et le paragraphe est fixe (2 rem à 1728 px). Les slides sont empilées dans la
+   même cellule (sous-grille) : le script en montre une à la fois. Aucune marge de côté : le titre actif est centré sur la fenêtre. */
 html.bx-mat-anim .mat__slider {
-  display: block;
+  display: grid;
   position: absolute;
-  inset: 0 0 0 calc(var(--bx-u) * 90); /* le texte des slides est centré à 909 px, pas à 864 */
+  inset: 0;
   z-index: 3;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-content: center;
+  row-gap: clamp(1.25rem, calc(var(--bx-u) * 32), 2.5rem);
 }
-html.bx-mat-anim .mat-slide { position: absolute; inset: 0; display: block; grid-area: auto; min-height: 0; padding: 0; }
-/* Titre sur une ligne : 68 px, centre à 497 px. Paragraphe : 24 px, 830 px de large (la frame casse « luminosité » / « et du volume » ...),
-   première ligne à 683 px. Les deux sont à l'opacité 0 tant que le script ne les a pas posés (opacité seule, jamais visibility). */
+html.bx-mat-anim body[data-page="page"] .mat-slide {
+  position: static;
+  grid-area: 1 / 1 / span 2 / auto;
+  display: grid;
+  grid-template-rows: subgrid;
+  min-height: 0;
+  padding: 0;
+}
+/* Titre sur une ligne : 68 px. Paragraphe : 24 px, une soixantaine de caractères de large, centré. Les deux sont à l'opacité 0 tant que le script ne les a pas posés
+   (opacité seule, jamais visibility). */
 html.bx-mat-anim .mat-slide__title {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--bx-u) * 452);
+  grid-row: 1;
+  justify-self: center;
   display: flex;
   justify-content: center;
+  width: max-content;
   white-space: nowrap;
   font-size: max(1.75rem, calc(var(--bx-u) * 68));
 }
 html.bx-mat-anim .mat-slide__text {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--bx-u) * 665);
-  width: calc(var(--bx-u) * 830);
-  max-width: calc(100% - 2 * var(--gutter));
-  margin-inline: auto;
+  grid-row: 2;
+  justify-self: center;
+  max-width: min(58ch, calc(100% - 2 * var(--gutter)));
+  margin: 0;
   font-size: max(1rem, calc(var(--bx-u) * 24));
 }
 
@@ -144,17 +157,16 @@ html.bx-mat-anim .mat-slide__text {
   html.bx-mat-anim .mat__head { top: 32svh; padding-inline: var(--gutter); }
   html.bx-mat-anim .mat .section-title { max-width: none; font-size: var(--fs-text-lg); }
   /* Titre sur une ligne : « Végétaux artificiels » avec sa pastille fait 327 px à 34 px, plus large qu'un écran de 320 px. */
-  html.bx-mat-anim .mat-slide__title { top: 30svh; font-size: min(var(--fs-h2), 9vw); }
+  html.bx-mat-anim .mat__slider { row-gap: 1.5rem; }
+  html.bx-mat-anim .mat-slide__title { font-size: min(var(--fs-h2), 9vw); }
   html.bx-mat-anim .mat-slide__text {
-    top: calc(30svh + 7.5rem);
-    width: auto;
+    max-width: none;
     margin-inline: var(--gutter);
     font-size: 1.0625rem;
   }
 }
 @media (max-width: 900px) and (max-height: 700px) {
-  html.bx-mat-anim .mat-slide__title { top: 24svh; }
-  html.bx-mat-anim .mat-slide__text { top: calc(24svh + 6.5rem); font-size: 1rem; line-height: 1.4; }
+  html.bx-mat-anim .mat-slide__text { font-size: 1rem; line-height: 1.4; }
 }
 
 /* ---------- Variante « design » (V6, frames design-09 à 24, même canvas 1728 x 1030) ----------
@@ -167,14 +179,6 @@ html.bx-mat-anim .mat-slide__text {
   /* La pastille « vraiment » est plus serrée entre « convient » et « ? » (16 et 13 px d'écart sur la frame 09, 29 et 29 avec les marges de tag.css). */
   html.bx-mat-anim .mat[data-bx-variant="design"] .mat__head { top: calc(var(--bx-u) * 399); }
   html.bx-mat-anim .mat[data-bx-variant="design"] .section-title { max-width: calc(var(--bx-u) * 1440); margin-top: calc(var(--bx-u) * 8); }
-  html.bx-mat-anim .mat[data-bx-variant="design"] .mat-slide__title {
-    left: calc(var(--bx-u) * 677.5); /* le slider commence à 90 px : bord de la boîte à 767,5 px */
-    right: auto;
-    justify-content: flex-start;
-    top: calc(var(--bx-u) * 443);
-  }
-  html.bx-mat-anim .mat[data-bx-variant="design"] .mat-slide__text { top: calc(var(--bx-u) * 664); }
-  html.bx-mat-anim .mat[data-bx-variant="design"] .mat-slide:nth-child(3) .mat-slide__text { width: calc(var(--bx-u) * 865); }
   /* La première photo (fond-01, 2000 x 1100) entre à la largeur de la photo, sans recadrage, ancrée en haut ; elle grossit ensuite de 20 % depuis
      le haut au centre (profil « design » : ZOOM), ce qui la recadre sur l'écran. */
   html.bx-mat-anim .mat[data-bx-variant="design"] .mat__bg:first-of-type .mat__bg-img {
@@ -207,12 +211,6 @@ body[data-page="page"] .mat[data-bx-variant="terrasses"] .mat__band { min-width:
   html.bx-mat-anim .mat[data-bx-variant="entretien"] .mat__head { top: calc(var(--bx-u) * 399); }
   html.bx-mat-anim .mat[data-bx-variant="entretien"] .section-title { margin-top: calc(var(--bx-u) * 31); }
 }
-/* Largeur du paragraphe de chaque slide (frames 16, 19 et 22 : lignes de 519 et 370 px, de 669, 679 et 313 px, de 723 et 686 px) : chaque largeur est comprise entre la plus longue ligne et celle qu'un mot de plus
-   ferait dépasser. Les décalages horizontaux du texte et des titres sont dans le profil (scripts/bureaux-matieres.js). */
-@media (min-width: 901px) {
-  html.bx-mat-anim .mat[data-bx-variant="entretien"] .mat-slide:nth-child(1) .mat-slide__text { width: calc(var(--bx-u) * 556); }
-  html.bx-mat-anim .mat[data-bx-variant="entretien"] .mat-slide:nth-child(2) .mat-slide__text { width: calc(var(--bx-u) * 710); }
-  html.bx-mat-anim .mat[data-bx-variant="entretien"] .mat-slide:nth-child(3) .mat-slide__text { width: calc(var(--bx-u) * 760); }
-}
+/* V8 : la largeur du paragraphe de chaque slide (frames 16, 19 et 22) et les décalages des titres ne suivent plus les frames : même mesure et même centrage pour toutes les slides. */
 /* Les trois fonds sont l'image entière à la largeur de l'écran (frames 14, 19 et 22 : 2 000 px ramenés à 1 728 px) : pas de débord de 0,7 % (les coins noirs cuits de bg-01 sont refaits à la préparation de l'image). */
 body[data-page="page"] .mat[data-bx-variant="entretien"] .mat__bg-img { inset: 0; width: 100%; height: 100%; }

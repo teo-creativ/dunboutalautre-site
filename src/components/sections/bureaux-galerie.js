@@ -8,6 +8,7 @@
 import { cta } from "../cta.js";
 import { linkTo } from "../links.js";
 import img from "../img.js";
+import { photoVars, placePhotos } from "../gallery.js";
 import { withTags } from "../tags-text.js";
 import { titleHtml } from "../title.js";
 import { esc } from "../utils.js";
@@ -18,13 +19,12 @@ import { esc } from "../utils.js";
 // épinglée). `variant` : jeu de mesures propre à la page (data-bx-variant). Sans `grow` ni `label`, le HTML est celui de Bureaux.
 export default ({ label, title, tag, cta: button, photos, variant, grow }, { index }) => {
   const id = `bx-gal-${index}`;
+  // Position, écart sous la photo du dessus et vitesse de chaque photo : components/gallery.js (V8, G5 : aucune photo n'en recouvre une autre ni le texte).
+  const placed = placePhotos(photos);
   const items = photos
-    .map(({ photo, alt, x, y, w, ratio, speed, mobile }) => {
-      const vars = { x, y, w, ratio, ...(mobile && { mx: mobile.x, my: mobile.y, mw: mobile.w }) };
-      const style = Object.entries(vars)
-        .map(([name, value]) => `--${name}: ${value}`)
-        .join("; ");
-      return `<li class="gal__photo" style="${style}" data-speed="${speed}"${mobile ? ` data-speed-mobile="${mobile.speed}"` : ' data-mobile="off"'}>${img({ src: photo, alt, sizes: `(min-width: 901px) ${w}vw, ${mobile ? mobile.w : 40}vw` })}</li>`;
+    .map(({ photo, alt }, i) => {
+      const { wide, mobile } = placed[i];
+      return `<li class="gal__photo" style="${photoVars(placed[i])}" data-speed="${wide.speed}"${mobile ? ` data-speed-mobile="${mobile.speed}"` : ' data-mobile="off"'}>${img({ src: photo, alt, sizes: `(min-width: 901px) ${wide.w}vw, ${mobile ? mobile.w : 40}vw` })}</li>`;
     })
     .join("\n          ");
   const growHtml = grow

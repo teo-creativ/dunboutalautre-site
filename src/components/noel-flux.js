@@ -3,17 +3,15 @@
 // src/scripts/noel-flux.js. Une photo sans version mobile porte data-mobile="off" : le CSS la masque sous 900 px. Sans animation
 // (mouvement réduit), les photos sont une grille simple (noel-stage.css).
 import { noel } from "../data/noel.js";
+import { photoVars, placePhotos } from "./gallery.js";
 import img from "./img.js";
 
+// Position, écart sous la photo du dessus et vitesse de chaque photo : components/gallery.js (V8, G5 : aucune photo n'en recouvre une autre ni le texte).
+const placed = placePhotos(noel.flux.photos);
 const items = noel.flux.photos
-  .map((p) => {
-    const vars = { x: p.x, y: p.y, w: p.w, ratio: p.ratio, ...(p.mobile && { mx: p.mobile.x, mw: p.mobile.w, my: p.mobile.y }) };
-    const style = Object.entries(vars)
-      .filter(([, value]) => value !== undefined)
-      .map(([name, value]) => `--${name}: ${value}`)
-      .join("; ");
-    const mobile = p.mobile ? "" : ' data-mobile="off"';
-    return `<li class="flux__photo" style="${style}" data-speed="${p.speed}"${mobile}>${img({ src: p.src, alt: p.alt, sizes: "(min-width: 901px) 22vw, 44vw" })}</li>`;
+  .map((p, i) => {
+    const { wide, mobile } = placed[i];
+    return `<li class="flux__photo" style="${photoVars(placed[i])}" data-speed="${wide.speed}"${mobile ? ` data-speed-mobile="${mobile.speed}"` : ' data-mobile="off"'}>${img({ src: p.src, alt: p.alt, sizes: "(min-width: 901px) 22vw, 44vw" })}</li>`;
   })
   .join("\n          ");
 

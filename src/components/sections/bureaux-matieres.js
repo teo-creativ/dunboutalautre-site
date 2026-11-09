@@ -74,6 +74,7 @@ export default ({ label, title, tag, items, variant, band, sliderLabel = "Les tr
         <div class="mat__photo">
           ${photos}
           <div class="mat__veil" aria-hidden="true"></div>
+          <div class="mat__dim" aria-hidden="true"></div>
         </div>
         <div class="mat__slider" role="group" aria-roledescription="carousel" aria-label="${esc(sliderLabel)}">
           ${slides}

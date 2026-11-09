@@ -18,6 +18,7 @@ import { initProjetsGrid } from "./projets-grid.js";
 import { initProjetsStage } from "./projets-stage.js";
 import { initRealisations } from "./realisations.js";
 import { initReveal } from "./reveal.js";
+import { initRevealOnEnter } from "./reveal-on-enter.js";
 import { restoreScroll, rememberScroll } from "./scroll-memory.js";
 import { initServices } from "./services.js";
 import { initSkipLink } from "./skip-link.js";
@@ -50,7 +51,7 @@ async function boot() {
     [initCta, initMenu, initCursor],
     [initStage, initNoelStage, initProjetsStage, ...(bx ? [bx.initBureaux] : [])],
     [initRealisations, initServices, initStats, initUniverses],
-    [initProcess, initTestimonials, initReveal, initFaq, initLogos, initContactForm, initContact, initProjetsGrid, initFiche],
+    [initProcess, initTestimonials, initReveal, initRevealOnEnter, initFaq, initLogos, initContactForm, initContact, initProjetsGrid, initFiche],
     [initReducedMotion, initFooterReveal, initHeaderTheme],
   ];
   for (const group of groups) {

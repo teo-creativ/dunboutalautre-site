@@ -61,12 +61,34 @@ export function addPhotoRise(tl, photos, { wide, rise, section, drift = 0 }) {
   });
 }
 
-// Épinglage par le bas : la section (qui peut être plus haute que l'écran, elle n'est jamais coupée) reste en place un écran pendant que la suivante
+// Réglages de l'arrivée d'une section par-dessus une autre (retours V8, partie C de retours-v8/docs/02-SLIDERS-ET-SECTIONS-ORANGE.md) : toute arrivée de section en
+// recouvrement dure au moins un écran de scroll (100 % de la hauteur de l'écran), avec un scrub lissé (1) et un mouvement ample, jamais brusque. Ces valeurs se règlent par
+// page, sur la section recouverte : data-overlap-screens (durée en écrans de scroll, au moins 1 ; 1,2 pour Bureaux après les témoignages, par exemple) et data-overlap-scrub
+// (lissage), posés depuis les données de la page (`overlapScreens`, `overlapScrub` d'une section, components/page-sections.js). `base` : les valeurs propres à la scène.
+export const OVERLAP_MIN = 1;
+export const OVERLAP_SCRUB = 1;
+export function overlapOptions(section, base = {}) {
+  const screens = Math.max(OVERLAP_MIN, Number(section.dataset.overlapScreens) || base.screens || OVERLAP_MIN);
+  const scrub = Number(section.dataset.overlapScrub) || base.scrub || OVERLAP_SCRUB;
+  return { screens, scrub };
+}
+
+// Marque la section qui arrive par-dessus (bx-overlap : marge négative de `screens` écrans, bureaux-installe.css). Renvoie la fonction qui défait tout.
+export function markOverlap(next, screens = OVERLAP_MIN) {
+  next?.classList.add("bx-overlap");
+  if (screens !== 1) next?.style.setProperty("--overlap", screens);
+  return () => {
+    next?.classList.remove("bx-overlap");
+    next?.style.removeProperty("--overlap");
+  };
+}
+
+// Épinglage par le bas : la section (qui peut être plus haute que l'écran, elle n'est jamais coupée) reste en place `screens` écrans (un par défaut) pendant que la suivante
 // monte par-dessus. `extra` : scrub, etc. À passer à ScrollTrigger.create ou à `scrollTrigger` d'une timeline.
-export const bottomPin = (section, extra = {}) => ({
+export const bottomPin = (section, extra = {}, screens = OVERLAP_MIN) => ({
   trigger: section,
   start: "bottom bottom",
-  end: () => `+=${window.innerHeight}`,
+  end: () => `+=${screens * window.innerHeight}`,
   pin: true,
   anticipatePin: 1,
   invalidateOnRefresh: true,
@@ -76,13 +98,12 @@ export const bottomPin = (section, extra = {}) => ({
 // Recouvrement : la section qui suit reçoit bx-overlap (marge négative, bureaux-installe.css) et la zone du header de la section épinglée s'arrête
 // quand elle atteint le header (le pin est ce recouvrement, il n'ajoute rien à la zone : 1 px de débord, comme entre deux sections voisines, voir
 // header-theme.js). Renvoie la fonction qui défait tout. À appeler avant que la section suivante ne soit épinglée.
-export function overlapNext(section) {
+export function overlapNext(section, screens = OVERLAP_MIN) {
   section.dataset.pinLength = 1;
   const wrap = section.closest(".pin-spacer") ?? section;
-  const next = wrap.nextElementSibling;
-  next?.classList.add("bx-overlap");
+  const release = markOverlap(wrap.nextElementSibling, screens);
   return () => {
-    next?.classList.remove("bx-overlap");
+    release();
     delete section.dataset.pinLength;
   };
 }

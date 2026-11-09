@@ -73,11 +73,15 @@ html.bx-gal-anim body[data-page="page"] .gal__photos {
   display: block;
   margin: 0;
   pointer-events: none; /* aucune photo ne capte le survol ni le clic du bouton */
+  /* V8 (G5) : aucune photo sous le header. Le conteneur rogne tout ce qui passe sous le logo et le bouton Menu (--gallery-top) et estompe la photo sur --gallery-fade avant ce bord :
+     elle se fond dans l'orange au lieu de glisser sous le logo. */
+  clip-path: inset(var(--gallery-top) 0 0 0);
+  mask-image: linear-gradient(to bottom, transparent var(--gallery-top), var(--veil-dim) calc(var(--gallery-top) + var(--gallery-fade)));
 }
 html.bx-gal-anim body[data-page="page"] .gal__photo {
   position: absolute;
   left: calc(var(--x) * 1vw);
-  top: calc(var(--y) * 1svh);
+  top: calc(var(--y) * 1svh + var(--oy, 0) * 1vw); /* oy : écart sous la photo du dessus, en vw (components/gallery.js) : les deux ne se touchent jamais, quel que soit l'écran */
   width: calc(var(--w) * 1vw);
 }
 @media (max-width: 900px) {
@@ -86,7 +90,7 @@ html.bx-gal-anim body[data-page="page"] .gal__photo {
   html.bx-gal-anim body[data-page="page"] .gal__photo[data-mobile="off"] { display: none; }
   html.bx-gal-anim body[data-page="page"] .gal__photo {
     left: calc(var(--mx) * 1vw);
-    top: calc(var(--my) * 1svh);
+    top: calc(var(--my) * 1svh + var(--moy, 0) * 1vw);
     width: calc(var(--mw) * 1vw);
   }
   html.bx-gal-anim body[data-page="page"] .gal__title,

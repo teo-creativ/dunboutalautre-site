@@ -171,6 +171,23 @@ Un seul élément DOM (`div.cursor` et son SVG, ajouté au body par `src/compone
 - **États** (`data-state`) : repos ; lien (`a[href]`, `button`, `[data-cursor]`...) : x1,8 en `back.out` 0,35 s, contour, un quart de tour puis retour, un point central sur les CTA ; texte (`p`, titres, champs de saisie, `data-cursor="text"`) : x0,6 ; glisser (`[data-cursor="drag"]` et tout `[aria-roledescription="carousel"]`) : feuille horizontale allongée (x1,7 sur x0,8) et deux flèches ; clic : x0,8 puis retour (`back.out`). Le plus proche ancêtre interactif l'emporte ; le texte est le dernier recours.
 - **Mouvement réduit** : aucun amorti, aucune rotation, aucune échelle, aucune impulsion ; la feuille suit directement la souris et ne change que de couleur et de forme (plein ou contour, point).
 
+## 11 quinquies. Sliders, révélations, galeries et recouvrements (V8, `retours-v8/docs/02-SLIDERS-ET-SECTIONS-ORANGE.md` et G5)
+
+Seuls `transform`, `opacity` et `clip-path` bougent (le `clip-path` et le masque de la galerie sont fixes).
+
+**Slider « Trois matières »** (`scripts/bureaux-matieres.js`, une timeline scrubée, `scrub: 1`). Chaque glissement est une progression `t` de 0 à 1 :
+- les titres glissent sur le rail de 0 à 0,6 (`power2.inOut`) ;
+- le voile d'échange (`.mat__dim`) monte de 0 à 0,6 d'opacité de `t` = 0 à 0,45, tient jusqu'à 0,55 puis redescend (écran assombri à 78 % au pic) ;
+- à `t` = 0,5 la photo suivante passe à l'opacité 1 et la précédente à 0 : jamais deux photos à mi-opacité (mesuré : au plus un fond visible à chaque pas de 50 px) ;
+- la photo entrante se pose de l'échelle 1,06 à 1 de 0,5 à 1 ; le paragraphe sort de 0,4 à 0,5 et entre de 0,5 à 0,6 (jamais deux paragraphes lisibles ensemble) ;
+- le rail est mesuré à chaque refresh (largeur de chaque titre) : le centre du titre actif tombe sur `clientWidth / 2` (écart mesuré 0,02 px au plus), les voisins sont séparés de lui par `RAIL_GAP` de chaque côté ; sous 900 px un titre occupe un écran. Le bloc titre et paragraphe est centré par une grille (`align-content: center`, sous-grille partagée par les trois slides).
+
+**Révélation à l'entrée** (`scripts/reveal-on-enter.js`, `DESIGN.md` §5.12) : surtitre (0,5 s, 12 px), titre en lignes sous masque (`yPercent` 100 vers 0, décalage 0,08 s, `power3.out` 0,9 s), pastille par `clip-path` (0,6 s) après le texte voisin, paragraphe et bouton (0,7 s, 16 px, 0,15 s après le titre), photos par `clip-path` de bas en haut (1 s, `power3.inOut`, décalage 0,12 s) avec le média de 1,15 à 1. Déclenchée à `top 75%` ; se rejoue et se défait comme les autres révélations du site, ou une seule fois (`data-reveal-once`). Mouvement réduit : rien de caché.
+
+**Galeries qui montent** (`components/gallery.js`, `DESIGN.md` §5.13). Photos en colonnes de chaque côté du texte, piles (`under`, `gap`) : celle du dessous ne monte jamais plus vite que celle du dessus, l'écart est en vw. Accueil : la carte du dessous attend sous celle du dessus (`photos-scroll.js`, `under` dans `stage.js`) et sa durée est allongée au besoin pour ne pas la rattraper. Plus de dérive horizontale sur Design. Rognage sous le header : `clip-path: inset(var(--gallery-top) 0 0 0)` et masque dégradé sur `--gallery-fade`.
+
+**Arrivée d'une section par-dessus une autre** (`scripts/bureaux-scene.js`, `overlapOptions`, `markOverlap`). Durée : au moins 1 écran de scroll (100 % de la hauteur), `scrub: 1` ; la marge négative de la section qui arrive est `calc(var(--overlap, 1) * -100svh)`. Une page règle la durée et le lissage de l'arrivée de la section qui recouvre une autre par `overlapScreens` (en écrans, au moins 1) et `overlapScrub` dans les données de la section recouverte (`data-overlap-screens`, `data-overlap-scrub`, `components/page-sections.js`). Appliqué à la galerie de Bureaux et de Design, aux trois matières, à la tenue de l'avis et d'un écran (`bureaux-hold.js`) et à la section « styles » ; aucun réglage de page n'est posé par ce chantier (prompts 05 à 07).
+
 ## 12. Responsive et mouvement réduit
 
 - `(max-width: 900px)` : cercle et photos simplifiés (cercle conservé, photos réduites à 2, pins ≤ 200 vh), menu en une colonne avec sous-liens en accordéon, chiffres clés en pile verticale, footer en révélation conservé si fluide, sinon statique.

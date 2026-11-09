@@ -176,6 +176,6 @@ html.bx-hold-anim .bx-overlap,
 html.bx-sty-anim .bx-overlap {
   position: relative;
   z-index: 2;
-  min-height: 100svh;
-  margin-top: -100svh;
+  min-height: calc(var(--overlap, 1) * 100svh); /* --overlap : durée de l'arrivée en écrans de scroll, au moins 1 (scripts/bureaux-scene.js, retours V8) */
+  margin-top: calc(var(--overlap, 1) * -100svh);
 }

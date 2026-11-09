@@ -31,27 +31,47 @@ export function addPhotos(tl, { stage, T }) {
   // d'écran, puis converties, pour que la carte entre hors champ et passe par sa pose CSS (frame 04) à l'instant `rest`.
   const cards = stage.querySelectorAll(".float-photo");
   const MARGIN = 40;
-  T.cards.forEach(({ index, rest, duration, z, rx, rot, dx }) => {
-    const card = cards[index];
+  // Retours V8 (G5) : aucune carte n'en recouvre une autre, au chargement comme au scroll. Deux cartes de la même colonne forment une pile : la seconde porte `under` (l'indice de la carte du dessus). Une
+  // pile monte D'UN BLOC : toutes ses cartes gardent entre elles l'écart de leur pose de repos (frame 04, experience.css : une hauteur de carte plus 2,4 vw ou 6 vw), au chargement sous l'écran, pendant la
+  // montée et à la sortie, à la vitesse de la carte du dessous (sa trajectoire est celle d'avant, seulement prolongée ; celle du dessus ralentit de 11 % environ) et avec son `rest` : l'écart ne change jamais, quelle que soit la taille de l'écran. Les
+  // cartes d'une pile gardent chacune leur profondeur (z), leur inclinaison et leur dérive. Une carte seule est inchangée.
+  const byIndex = new Map(T.cards.map((c) => [c.index, c]));
+  const topOf = (i) => (byIndex.get(i).under === undefined ? i : topOf(byIndex.get(i).under)); // la carte du dessus de la pile
+  const centerY = (i) => cards[i].offsetTop + cards[i].offsetHeight / 2; // centre de la carte dans sa pose de repos
+  const pileOf = (i) => T.cards.map((c) => c.index).filter((j) => topOf(j) === topOf(i));
+  const bottomOf = (i) => pileOf(i).reduce((a, b) => (centerY(b) > centerY(a) ? b : a)); // la carte du dessous de la pile
+  const projection = (z) => {
     const k = PERSPECTIVE / (PERSPECTIVE - z); // facteur de projection
-    const scale = 1 + (1 / k - 1) * 0.5; // on compense la moitié du recul : la profondeur se voit sans réduire trop les cartes
-    const geometry = () => {
-      const h = height();
-      const cx = stage.clientWidth / 2;
-      const cy = h / 2;
-      const xc = card.offsetLeft + card.offsetWidth / 2;
-      const yc = card.offsetTop + card.offsetHeight / 2;
-      const half = (card.offsetHeight * k * scale) / 2;
-      const from = h + MARGIN + half; // centre à l'écran, juste sous le bord bas
-      const to = -MARGIN - half; // centre à l'écran, juste au-dessus du bord haut
-      const toLayout = (screenY) => cy + (screenY - cy) / k - yc;
-      return { x: cx + (xc - cx) / k - xc, y0: toLayout(from), y1: toLayout(to), rest: (from - yc) / (from - to) };
-    };
+    return { k, scale: 1 + (1 / k - 1) * 0.5 }; // on compense la moitié du recul : la profondeur se voit sans réduire trop les cartes
+  };
+  const halfOf = (i) => (cards[i].offsetHeight * projection(byIndex.get(i).z).k * projection(byIndex.get(i).z).scale) / 2; // demi-hauteur à l'écran
+  const geometryOf = (i) => {
+    const { k } = projection(byIndex.get(i).z);
+    const h = height();
+    const cx = stage.clientWidth / 2;
+    const cy = h / 2;
+    const top = topOf(i);
+    const bottom = bottomOf(i);
+    const xc = cards[i].offsetLeft + cards[i].offsetWidth / 2;
+    const yc = centerY(i);
+    const fromTop = h + MARGIN + halfOf(top); // centre de la carte du dessus, juste sous le bord bas
+    const toBottom = -MARGIN - halfOf(bottom); // centre de la carte du dessous, juste au-dessus du bord haut
+    const from = fromTop + (yc - centerY(top)); // la carte garde l'écart de sa pose de repos avec celle du dessus...
+    const to = toBottom + (yc - centerY(bottom)); // ... et avec celle du dessous
+    const path = fromTop - toBottom - centerY(top) + centerY(bottom); // trajet commun à toute la pile
+    const toLayout = (screenY) => cy + (screenY - cy) / k - yc;
+    return { x: cx + (xc - cx) / k - xc, y0: toLayout(from), y1: toLayout(to), rest: (from - yc) / path, path };
+  };
+  T.cards.forEach(({ index, z, rx, rot, dx }) => {
+    const { scale } = projection(z);
+    const lead = byIndex.get(bottomOf(index)); // `rest` et `duration` de la pile : ceux de la carte du dessous (la seule visible aux repères de la frame 04 et du scroll à 20 %)
+    const g = geometryOf(index);
+    const length = (lead.duration * g.path) / (height() + 2 * MARGIN + 2 * halfOf(bottomOf(index))); // même vitesse que la carte du dessous seule : sa trajectoire est prolongée, pas accélérée
     tl.fromTo(
-      card,
-      { y: () => geometry().y0, x: () => geometry().x - dx / 2, z, scale, rotationX: rx, rotation: rot },
-      { y: () => geometry().y1, x: () => geometry().x + dx / 2, duration, ease: "none" },
-      rest - geometry().rest * duration,
+      cards[index],
+      { y: () => geometryOf(index).y0, x: () => geometryOf(index).x - dx / 2, z, scale, rotationX: rx, rotation: rot },
+      { y: () => geometryOf(index).y1, x: () => geometryOf(index).x + dx / 2, duration: length, ease: "none" },
+      lead.rest - g.rest * length,
     );
   });
 

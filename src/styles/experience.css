@@ -37,6 +37,9 @@
   z-index: 1;
   pointer-events: none;
   perspective: 1200px; /* profondeur de la traversée des cartes */
+  /* V8 (G5) : aucune carte sous le header (voir bureaux-galerie.css) : rognée sous le logo et le bouton Menu, estompée avant ce bord. */
+  clip-path: inset(var(--gallery-top) 0 0 0);
+  mask-image: linear-gradient(to bottom, transparent var(--gallery-top), var(--veil-dim) calc(var(--gallery-top) + var(--gallery-fade)));
 }
 
 /* Voile orange sous le logo, hauteur et dégradé du header (retours-v2 01 §5). Masqué tant que le cercle n'a pas couvert l'écran. */
@@ -61,11 +64,13 @@
 }
 .float-photo img { width: 100%; height: 100%; object-fit: cover; }
 
+/* Retours V8 (G5) : les deux cartes d'une colonne ne se recouvrent à aucune hauteur d'écran : la carte du dessous est posée sous celle du dessus, à une hauteur de carte (largeur / ratio, en vw)
+   plus 2,4 vw et 6 vw : à 1728 x 1030 elles tombent à 720 et 888 px, soit les 70 % et 86 % de la frame 04 (721 et 886 px). La pile monte d'un bloc (scripts/photos-scroll.js) : cet écart ne change jamais. */
 .float-photo--1 { --x: 6vw;    --y: 27%; --w: 17.4vw; --ratio: 1000 / 1333; }
 .float-photo--2 { --x: 81.4vw; --y: 32%; --w: 19.7vw; --ratio: 1000 / 1333; }
-.float-photo--3 { --x: -1.3vw; --y: 70%; --w: 20.8vw; --ratio: 1000 / 1154; }
+.float-photo--3 { --x: -1.3vw; --y: calc(27% + 25.6vw); --w: 20.8vw; --ratio: 1000 / 1154; }
 /* Zone centrale libre : le titre occupe 27 à 73 vw, aucune carte n'y entre (retours-v2 01 §3). */
-.float-photo--4 { --x: 78vw;   --y: 86%; --w: 20.1vw; --ratio: 1000 / 1276; }
+.float-photo--4 { --x: 78vw;   --y: calc(32% + 32.3vw); --w: 20.1vw; --ratio: 1000 / 1276; }
 
 @media (max-width: 900px) {
   .experience__title { max-width: none; }

@@ -1,4 +1,4 @@
-// « Trois matières » de la page Bureaux V5 (retours-v5/docs/02-SECTIONS-1-A-5.md §4 et §5, frames bureaux-18 à 33). Une section épinglée,
+// « Trois matières » de la page Bureaux V5 (retours-v5/docs/02-SECTIONS-1-A-5.md §4 et §5, frames bureaux-18 à 33), repris par Design, Terrasses et Entretien. Une section épinglée,
 // UNE timeline scrubée : des objets de progression (s.g croissance de la photo, s.v voile, s.t1 et s.t2 glissements, s.o recouvrement) dont
 // render() déduit tout le reste. Seuls transform, opacity et clip-path bougent. Phases, en écrans de scroll (1 unité = 1 écran) :
 //   texte seul sur l'orange 0,35 ; la photo monte et grandit 1,25 ; voile et première slide 0,3 ; pause 0,2 ; glissement 1 vers 2 : 1 ;
@@ -8,19 +8,32 @@
 // (largeur 854, 1148, 1392, 1618, puis 1728 px, et le haut du bord à 863, 689, 542, 261, puis 0 px) : un `scale` depuis le haut et une
 // translation, interpolés entre ces mesures (courbe monotone). Le `clip-path` ne sert qu'aux coins arrondis, à rayon constant de 12 px à
 // l'écran. Les trois fonds sont empilés dans le même élément : la photo qui grandit est déjà le fond du slider (aucune coupure).
-// Slider : le rail est rigide (pas de 920 px entre titres ; le titre actif est centré à x = 909, centre du slider qui commence à 90 px ; les autres à 0,4) ; sur chaque glissement le
-// fond suivant monte de 0 à 1 d'opacité par-dessus le précédent, qui reste dessous (aucun flash), et le paragraphe change autour du fondu (SWAP).
+//
+// Slider (retours V8, G6, retours-v8/docs/02-SLIDERS-ET-SECTIONS-ORANGE.md partie A), le même pour toutes les pages :
+//  - changement de photo : JAMAIS deux photos à mi-opacité. Sur chaque glissement un voile sombre (.mat__dim, par-dessus le voile de lecture) monte pendant la
+//    première moitié, au pic (SWAP_AT) la photo suivante prend la place de la précédente (opacité 1 et 0, l'écran est sombre : le changement ne se voit pas),
+//    puis le voile redescend pendant que la photo entrante se pose (échelle ENTER_SCALE vers 1) ; le paragraphe sort juste avant l'échange et entre juste après ;
+//  - le titre actif est centré sur le milieu de la fenêtre (la largeur de chaque titre est mesurée à chaque refresh), ses voisins sont à gauche et à droite, séparés de lui
+//    par le même écart ; le bloc titre et paragraphe est centré verticalement dans la section par une grille (bureaux-matieres.css), les trois slides partagent les mêmes
+//    rangées : le titre reste à la même hauteur d'une slide à l'autre.
 import { gsap } from "./core.js";
 import { loadLater } from "./bureaux-images.js";
-import { MEDIA, clamp, lerp, monotone, scaleSetter } from "./bureaux-scene.js";
+import { MEDIA, clamp, lerp, markOverlap, monotone, overlapOptions, scaleSetter } from "./bureaux-scene.js";
 import { claimHeader } from "./bureaux-header.js";
 import { createBand } from "./bureaux-bande.js";
 
 const REF_W = 1728;
 const REF_H = 1030;
 
+// Réglages du changement de photo, communs à toutes les variantes (part de la progression d'un glissement, de 0 à 1).
+const SWAP_AT = 0.5; // instant de l'échange des photos : pic du voile
+const DIM = 0.6; // opacité du voile d'échange à son pic, par-dessus le voile de lecture (0,45 : l'écran est alors assombri à 78 %)
+const DIM_HOLD = 0.45; // le voile monte de 0 à 0,45 de la progression, tient jusqu'à 0,55, puis redescend (phases 1 à 3 du doc)
+const SWAP = [0.4, 0.6]; // paragraphe : sort de 0,4 à 0,5, entre de 0,5 à 0,6 (jamais deux paragraphes lisibles en même temps)
+
 // Deux jeux de mesures lues sur les frames : « bureaux » (V5, frames bureaux-18 à 33, valeurs par défaut) et « design » (V6, frames design-09 à
-// 24, section portant data-bx-variant="design"). Le code de la scène ne change pas : il lit le profil de sa section.
+// 24, section portant data-bx-variant="design"). Le code de la scène ne change pas : il lit le profil de sa section. Les mesures de position des titres et des
+// paragraphes des frames (décalages, rail de Design) ont cédé la place au centrage exact de V8.
 const PROFILES = {
   bureaux: {
     // Phases, en écrans de scroll (1 unité = 1 écran) : texte seul, la photo monte et grandit, voile et première slide, pauses, deux glissements,
@@ -32,23 +45,14 @@ const PROFILES = {
     GROW_SCALE: [0.494, 0.494, 0.664, 0.806, 0.936, 1], // largeur de la photo / largeur de l'écran
     GROW_DX: [0, -0.5, -5.5, -5.5, -18, 0], // px à 1728 : la photo est un peu à gauche du centre en route (marges 37 et 74 px sur la frame 24)
     ZOOM: null, // zoom de l'image dans la photo (Design seulement)
-    RAIL: null, // positions propres des titres du slider (Design seulement) ; sinon un rail rigide de pas PITCH
-    TEXT_OFF: null, // décalage propre du paragraphe de chaque slide (Design seulement)
     RADIUS: 12, // px à l'écran, jusqu'à 80 % de la croissance, puis il se résorbe
     HEAD_FADE: [0.5, 0.8], // le titre s'estompe de 1 à 0 entre ces deux points de la croissance (frames 22 à 24)
     VEIL_FROM: 0.25, // le texte du slider entre quand le voile atteint cette part
     RISE: 12, // px, montée du texte qui entre et du paragraphe qui change
-    PITCH: 920, // px à 1728, entre deux titres
+    RAIL_GAP: 220, // px à 1728, entre le bord d'un titre et celui de son voisin (ordinateur ; sous 900 px un titre occupe un écran)
     ENTER_SCALE: 1.06, // échelle de départ du fond qui entre (le doc : 1,06)
     INACTIVE: 0.4, // opacité d'un titre qui n'est pas au centre
-    TITLE_DY: [0, 19, 15], // px à 1728 : sur les frames le titre des slides 2 et 3 est plus bas que celui de la 1 (pastilles à 469 et 466 px contre 449)
-    GLIDE: 0.6, // part du glissement où les titres bougent ; le fond se fond ensuite (0,5 à 1)
-    // Changement de paragraphe (sortie puis entrée) : frame 29 = fond 2 à 26 % avec le nouveau texte déjà là ; frame 32 = fond 3 à 54 % avec l'ancien
-    // texte encore là. Le premier glissement change donc de texte avant la moitié du fondu, le second après.
-    SWAP: [
-      [0.45, 0.65],
-      [0.8, 1],
-    ],
+    GLIDE: 0.6, // part du glissement où les titres bougent ; l'échange des photos tombe à SWAP_AT
     HEADER_PHOTO: 0.95, // à partir de cette part de la croissance, la photo couvre le header : dégradé « photo »
     HEADER_RELEASE: 0.94, // part du recouvrement où le crème atteint le header : on rend la main aux sections
   },
@@ -66,30 +70,10 @@ const PROFILES = {
     HEAD_FADE: [0.3, 0.7],
     VEIL_FROM: 0.25,
     RISE: 12,
-    PITCH: 920,
+    RAIL_GAP: 220,
     ENTER_SCALE: 1.06,
     INACTIVE: 0.5,
-    TITLE_DY: [0, 22, 15.5],
     GLIDE: 0.6,
-    // Frames 15 à 21 : les titres sont alignés à gauche (bord de la boîte à 767,5 px quand le titre est actif), et le rail n'est pas rigide : à
-    // un même instant le titre qui sort a fait 0,71 de son trajet et celui qui entre 0,52 (frame 16), 0,66 et 0,38 au second glissement (frame
-    // 19) ; avec la courbe de glissement (power2.inOut) cela fait un retard de 0,16 et de 0,20 : l'entrant suit le sortant de 0,18 du glissement. nodes : par titre, [distance au centre en titres, bord gauche
-    // de sa boîte en px à 1728] (parqué à gauche, actif, parqué à droite : mesures des frames 15, 16, 18, 19 et 21).
-    RAIL: {
-      left: 767.5,
-      lag: 0.18,
-      nodes: [
-        [[-2, -920], [-1, -80], [0, 767.5]], // Naturel
-        [[-2, -915], [-1, -71], [0, 768.3], [1, 1573]], // Stabilisé
-        [[0, 767.3], [1, 1510], [2, 2350]], // Artificiel
-      ],
-    },
-    // Le paragraphe de la troisième slide est centré à 899 px (frame 21), les autres à 908 ; sa première ligne est 2 px plus haut.
-    TEXT_OFF: { x: [0, 0, -9], y: [0, 0, -2] },
-    SWAP: [
-      [0.45, 0.65],
-      [0.8, 1],
-    ],
     HEADER_PHOTO: 0.95,
     HEADER_RELEASE: 0.94,
   },
@@ -97,7 +81,7 @@ const PROFILES = {
 
 // Terrasses (V7, frames terrasses-17 à 28) : la bande de photos (scripts/bureaux-bande.js) précède la croissance de la photo, sur le crème. La photo part de la taille de
 // la frame 17 (702 x 441 px, centrée, bord haut à 138 px : le cadre a le rapport de son image, voir bureaux-matieres.css) puis grandit en gardant son bord haut jusqu'à la
-// frame 18 (1 200 x 753 px) avant de monter au plein écran (frame 19). Le texte du slider a les mesures de Bureaux (titres à 50 % de la hauteur sur les frames 21 à 27).
+// frame 18 (1 200 x 753 px) avant de monter au plein écran (frame 19).
 // PHASE.pre : montée des rangées (0,69 écran), puis fondu et recentrage de l'olivier (0,4 écran).
 PROFILES.terrasses = {
   ...PROFILES.bureaux,
@@ -108,7 +92,6 @@ PROFILES.terrasses = {
   GROW_SCALE: [0.406, 0.699, 1], // largeur du cadre / largeur de l'écran (frame 18 : 1 208 x 760 px)
   GROW_DX: [0, -20, 0], // px à 1728 : à la frame 18 le cadre est centré à 844 px, pas à 864
   INACTIVE: 0.5,
-  TITLE_DY: [0, 24, 18],
 };
 
 // Entretien (V7, frames entretien-10 à 24) : « Quels végétaux entretient-on ? » arrive sur l'orange que le disque des formules a posé (scripts/bureaux-formules.js), puis la photo monte
@@ -127,22 +110,28 @@ PROFILES.entretien = {
   GROW_TOP: [1030, 743, 545, 247, 0],
   GROW_SCALE: [0.6736, 0.6736, 0.8738, 0.9444, 1],
   GROW_DX: [14.5, 14.5, -0.5, -1.5, 0],
-  // Texte du slide (frames 16, 19 et 22, mesures du premier mot blanc et des lignes du paragraphe comparées au rendu de Bureaux) : le texte n'apparaît qu'aux deux tiers du voile (frame 15 : voile à 45 %,
-  // pas de texte ; frame 16 : texte entier), les titres ne sont pas centrés au même point (centres à 909, 853 et 864 px : décalages de +3, -53 et -45 px), plus ou moins hauts que ceux de Bureaux (-11, +1 et -11 px, soit
-  // TITLE_DY de -11, 20 et 4), et les paragraphes sont centrés à 877, 863 et 862 px, 2, 20 et 10 px plus bas (largeurs de chaque slide : bureaux-matieres.css).
+  // Le texte n'apparaît qu'aux deux tiers du voile (frame 15 : voile à 45 %, pas de texte ; frame 16 : texte entier).
   VEIL_FROM: 0.62,
-  TITLE_DX: [3, -53, -45],
-  TITLE_DY: [-10, 20, 4],
-  TEXT_OFF: { x: [-32, -45.5, -47], y: [3, 20, 10] },
 };
 
 const glideEase = gsap.parseEase("power2.inOut"); // mouvement à l'écran : ease-in-out
-// Position (bord gauche de la boîte, px à 1728) d'un titre à la distance d du centre, par interpolation linéaire entre ses nodes [d, x].
-const railX = (nodes, d) => {
-  if (d <= nodes[0][0]) return nodes[0][1];
-  for (let i = 1; i < nodes.length; i++) if (d <= nodes[i][0]) return lerp(nodes[i - 1][1], nodes[i][1], (d - nodes[i - 1][0]) / (nodes[i][0] - nodes[i - 1][0]));
-  return nodes.at(-1)[1];
-};
+// Voile d'échange : 0 aux deux bouts du glissement, 1 de DIM_HOLD à 1 - DIM_HOLD (courbe en cloche, pic à SWAP_AT).
+const dimAt = (t) => glideEase(clamp((t < SWAP_AT ? t : 1 - t) / DIM_HOLD));
+
+// Position (centre du titre, px depuis le milieu de la fenêtre) de chaque titre k quand le titre j est actif : le titre actif est au milieu ; ses voisins sont placés bord à bord
+// avec le même écart `gap` de chaque côté. Sous 900 px (`solo`), un titre occupe un écran : le pas est la largeur de la fenêtre.
+export function railOffsets(widths, gap, solo, viewport) {
+  return widths.map((_, j) =>
+    widths.map((__, k) => {
+      if (k === j) return 0;
+      if (solo) return (k - j) * viewport;
+      const [a, b] = k > j ? [j, k] : [k, j];
+      let x = 0;
+      for (let m = a; m < b; m++) x += widths[m] / 2 + gap + widths[m + 1] / 2;
+      return k > j ? x : -x;
+    }),
+  );
+}
 
 export function initBureauxMatieres() {
   const section = document.querySelector('[data-bx="matieres"]');
@@ -151,6 +140,7 @@ export function initBureauxMatieres() {
   const photo = section.querySelector(".mat__photo");
   const figures = [...section.querySelectorAll(".mat__bg")];
   const veil = section.querySelector(".mat__veil");
+  const dim = section.querySelector(".mat__dim");
   const slides = [...section.querySelectorAll(".mat-slide")].map((el) => ({
     el,
     title: el.querySelector(".mat-slide__title"),
@@ -159,9 +149,11 @@ export function initBureauxMatieres() {
   if (figures.length !== 3 || slides.length !== 3) return; // la scène est écrite pour trois matières
 
   // Profil de la section (data-bx-variant) : les noms sont ceux des constantes de V5, le reste du code n'a pas changé.
-  const { PHASE, BAND, HEAD_IN, TITLE_DX, GROW_P, GROW_TOP, GROW_SCALE, GROW_DX, ZOOM, RAIL, TEXT_OFF, RADIUS, HEAD_FADE, VEIL_FROM, RISE, PITCH, ENTER_SCALE, INACTIVE, TITLE_DY, GLIDE, SWAP, HEADER_PHOTO, HEADER_RELEASE } =
+  const { PHASE, BAND, HEAD_IN, GROW_P, GROW_TOP, GROW_SCALE, GROW_DX, ZOOM, RADIUS, HEAD_FADE, VEIL_FROM, RISE, RAIL_GAP, ENTER_SCALE, INACTIVE, GLIDE, HEADER_PHOTO, HEADER_RELEASE } =
     PROFILES[section.dataset.bxVariant] ?? PROFILES.bureaux;
-  const TOTAL = PHASE.pre + PHASE.grow + PHASE.veil + PHASE.hold1 + PHASE.glide + PHASE.hold2 + PHASE.glide + PHASE.hold3 + PHASE.overlap;
+  // Arrivée de la section suivante par-dessus : au moins 1 écran, lissage 1 (réglables par page, overlapOptions).
+  const { screens: OVERLAP, scrub } = overlapOptions(section, { screens: PHASE.overlap });
+  const TOTAL = PHASE.pre + PHASE.grow + PHASE.veil + PHASE.hold1 + PHASE.glide + PHASE.hold2 + PHASE.glide + PHASE.hold3 + OVERLAP;
   const topAt = monotone(GROW_P, GROW_TOP);
   const scaleAt = monotone(GROW_P, GROW_SCALE);
   const dxAt = monotone(GROW_P, GROW_DX);
@@ -175,6 +167,7 @@ export function initBureauxMatieres() {
     photoX: gsap.quickSetter(photo, "x", "px"),
     photoScale: scaleSetter(photo),
     veil: gsap.quickSetter(veil, "opacity"),
+    dim: dim ? gsap.quickSetter(dim, "opacity") : () => {},
     head: head ? gsap.quickSetter(head, "opacity") : () => {}, // Terrasses : la bande remplace le texte sur l'orange
     fig: figures.map((f) => gsap.quickSetter(f, "opacity")),
     figScale: figures.map((f) => scaleSetter(f.querySelector("img"))),
@@ -182,7 +175,6 @@ export function initBureauxMatieres() {
     titleY: slides.map((s) => gsap.quickSetter(s.title, "y", "px")),
     titleOp: slides.map((s) => gsap.quickSetter(s.title, "opacity")),
     textY: slides.map((s) => gsap.quickSetter(s.text, "y", "px")),
-    textX: slides.map((s) => gsap.quickSetter(s.text, "x", "px")),
     textOp: slides.map((s) => gsap.quickSetter(s.text, "opacity")),
   };
 
@@ -207,6 +199,7 @@ export function initBureauxMatieres() {
       const bandCtl = BAND ? createBand(section, { target }) : null;
       const scale = () => Math.min(document.documentElement.clientWidth / REF_W, window.innerHeight / REF_H);
       let u = scale();
+      let rail = railOffsets(slides.map(() => 0), 0, !conditions.wide, document.documentElement.clientWidth); // mesuré à chaque refresh (sync)
       let headerState = null; // null : les sections décident ; "photo" : photo claire sous le logo ; "off" : le voile suffit
 
       const render = () => {
@@ -237,31 +230,29 @@ export function initBureauxMatieres() {
         const e1 = glideEase(clamp(s.t1 / GLIDE));
         const e2 = glideEase(clamp(s.t2 / GLIDE));
         const f = e1 + e2; // position du rail : 0 (matière 1 au centre) à 2
-        const pitch = conditions.wide ? PITCH * u : document.documentElement.clientWidth;
         const enter = clamp((s.v - VEIL_FROM) / (1 - VEIL_FROM)); // le texte entre avec le voile
-        const swap = (t, [from, to]) => [clamp((t - from) / ((to - from) / 2)), clamp((t - (from + to) / 2) / ((to - from) / 2))]; // [sortie, entrée]
-        const swap1 = swap(s.t1, SWAP[0]);
-        const swap2 = swap(s.t2, SWAP[1]);
+        const swap = (t) => [clamp((t - SWAP[0]) / ((SWAP[1] - SWAP[0]) / 2)), clamp((t - (SWAP[0] + SWAP[1]) / 2) / ((SWAP[1] - SWAP[0]) / 2))]; // [sortie, entrée]
+        const swap1 = swap(s.t1);
+        const swap2 = swap(s.t2);
         const textOp = [(1 - swap1[0]) * enter, swap1[1] * (1 - swap2[0]) * enter, swap2[1] * enter];
         const textY = [-RISE * swap1[0] + RISE * (1 - enter), RISE * (1 - swap1[1]) - RISE * swap2[0], RISE * (1 - swap2[1])];
-        // Design (RAIL) : chaque titre a son propre trajet (sortant en avance, entrant en retard), position lue dans la table de ses nodes.
-        const lagged = (t) => glideEase(clamp((t / GLIDE - (RAIL?.lag ?? 0)) / (1 - (RAIL?.lag ?? 0))));
-        const railF = RAIL && conditions.wide ? [e1 + e2, lagged(s.t1) + e2, lagged(s.t1) + lagged(s.t2)] : null;
+        // Rail : entre deux matières, chaque titre glisse de sa place à sa place suivante (décalages mesurés, voir railOffsets).
+        const i = Math.min(Math.floor(f), slides.length - 2);
         slides.forEach((_, k) => {
-          const d = railF ? k - railF[k] : k - f;
-          set.titleX[k]((railF ? (railX(RAIL.nodes[k], d) - RAIL.left) * u : d * pitch) + (TITLE_DX && conditions.wide ? TITLE_DX[k] * u : 0));
-          set.titleY[k](RISE * (1 - enter) + TITLE_DY[k] * (conditions.wide ? u : 0));
-          set.titleOp[k](lerp(1, INACTIVE, clamp(Math.abs(d))) * enter);
+          set.titleX[k](lerp(rail[i][k], rail[i + 1][k], f - i));
+          set.titleY[k](RISE * (1 - enter));
+          set.titleOp[k](lerp(1, INACTIVE, clamp(Math.abs(k - f))) * enter);
           set.textOp[k](textOp[k]);
-          set.textY[k](TEXT_OFF && conditions.wide ? textY[k] + TEXT_OFF.y[k] * u : textY[k]);
-          if (TEXT_OFF && conditions.wide) set.textX[k](TEXT_OFF.x[k] * u);
+          set.textY[k](textY[k]);
         });
 
-        // ---------- Les fonds : le suivant monte par-dessus, le précédent reste dessous ----------
-        const bg = [1, clamp((s.t1 - 0.5) / 0.5), clamp((s.t2 - 0.5) / 0.5)];
+        // ---------- Les fonds : voile sombre, échange au pic, la photo entrante se pose ----------
+        // Une seule photo est visible à la fois (opacité 1 ou 0, jamais entre les deux) : le fond suivant prend la place du précédent quand le voile est au plus sombre.
+        set.dim(DIM * Math.max(dimAt(s.t1), dimAt(s.t2)));
+        const shown = s.t2 >= SWAP_AT ? 2 : s.t1 >= SWAP_AT ? 1 : 0;
         figures.forEach((_, k) => {
-          set.fig[k](bg[k]);
-          if (k) set.figScale[k](ENTER_SCALE - (ENTER_SCALE - 1) * bg[k]); // le fond qui entre se pose de ENTER_SCALE à 1
+          set.fig[k](k === shown ? 1 : 0);
+          if (k) set.figScale[k](ENTER_SCALE - (ENTER_SCALE - 1) * glideEase(clamp(((k === 1 ? s.t1 : s.t2) - SWAP_AT) / (1 - SWAP_AT)))); // se pose de ENTER_SCALE à 1 après l'échange
         });
         if (zoomNorm && conditions.wide) set.figScale[0](1 + (kEnd - 1) * zoomNorm(s.g)); // Design : l'image de la première photo grossit en fin de croissance (ancrée en haut)
 
@@ -278,6 +269,8 @@ export function initBureauxMatieres() {
         if (ZOOM) kEnd = Math.max(ZOOM.v.at(-1), ((window.innerHeight * ZOOM.ratio) / document.documentElement.clientWidth) * 1.005);
         section.style.setProperty("--bx-u", `${u}px`);
         bandCtl?.sync();
+        // Largeur de chaque titre (la grille les centre ; leur place sur le rail se déduit de leurs largeurs), mesurée au refresh : police, largeur d'écran.
+        rail = railOffsets(slides.map((x) => x.title.offsetWidth), RAIL_GAP * u, !conditions.wide, document.documentElement.clientWidth);
         render();
       };
       sync();
@@ -291,11 +284,11 @@ export function initBureauxMatieres() {
             const length = TOTAL * section.offsetHeight;
             // Lu par le thème du header : la zone de la section dure tant qu'elle est seule à l'écran, donc sans le dernier écran du pin, où la
             // section suivante monte par-dessus (sinon le header garde son thème un écran de trop).
-            section.dataset.pinLength = length - PHASE.overlap * section.offsetHeight;
+            section.dataset.pinLength = length - OVERLAP * section.offsetHeight;
             return `+=${length}`;
           },
           pin: true,
-          scrub: 0.6,
+          scrub, // 1 par défaut : lissage du slider (retours V8 : 0,8 à 1,2)
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: sync,
@@ -319,23 +312,22 @@ export function initBureauxMatieres() {
       at += PHASE.hold2;
       phase({ t2: 1 }, PHASE.glide);
       at += PHASE.hold3;
-      phase({ o: 1 }, PHASE.overlap);
+      phase({ o: 1 }, OVERLAP);
       tl.set({}, {}, TOTAL);
 
       // Point d'accroche : la section qui suit (Pourquoi végétaliser) remonte d'un écran par-dessus la photo.
       const wrap = section.closest(".pin-spacer") ?? section;
-      const next = wrap.nextElementSibling;
-      next?.classList.add("bx-overlap");
+      const releaseNext = markOverlap(wrap.nextElementSibling, OVERLAP);
 
       return () => {
-        next?.classList.remove("bx-overlap");
+        releaseNext();
         claimHeader("matieres", null);
         bandCtl?.destroy();
         root.classList.remove("bx-mat-anim");
         delete section.dataset.pinLength;
         section.style.removeProperty("--bx-u");
         photo.style.cssText = "";
-        gsap.set([...(head ? [head] : []), veil, ...figures, ...figures.map((f) => f.querySelector("img")), ...slides.flatMap((x) => [x.title, x.text])], { clearProps: "transform,opacity" });
+        gsap.set([...(head ? [head] : []), veil, ...(dim ? [dim] : []), ...figures, ...figures.map((f) => f.querySelector("img")), ...slides.flatMap((x) => [x.title, x.text])], { clearProps: "transform,opacity" });
       };
     },
   );

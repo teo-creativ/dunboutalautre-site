@@ -34,6 +34,15 @@ import testimonials from "./sections/testimonials.js";
 
 const renderers = { "bureaux-chiffres": bureauxChiffres, "bureaux-formules": bureauxFormules, "bureaux-galerie": bureauxGalerie, "bureaux-installe": bureauxInstalle, "bureaux-matieres": bureauxMatieres, "bureaux-photo-texte": bureauxPhotoTexte, "bureaux-pourquoi": bureauxPourquoi, "bureaux-styles": bureauxStyles, hero, intro, offers, cards, figures, form, "contact-coordonnees": contactCoordonnees, "fiche-entete": ficheEntete, "fiche-photo": fichePhoto, "fiche-texte": ficheTexte, "fiche-galerie": ficheGalerie, "fiche-autres": ficheAutres, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
 
+// Arrivée d'une section par-dessus la précédente (retours V8, partie C, scripts/bureaux-scene.js) : une section de la page peut régler la durée (`overlapScreens`, en écrans de scroll, au
+// moins 1) et le lissage (`overlapScrub`) de l'arrivée de la section qui la RECOUVRE : ils deviennent data-overlap-screens et data-overlap-scrub sur sa balise <section>.
+const withOverlap = (html, { overlapScreens, overlapScrub }) => {
+  if (!overlapScreens && !overlapScrub) return html;
+  const attrs = `${overlapScreens ? ` data-overlap-screens="${overlapScreens}"` : ""}${overlapScrub ? ` data-overlap-scrub="${overlapScrub}"` : ""}`;
+  if (!html.startsWith("<section")) throw new Error("page-sections : overlapScreens et overlapScrub demandent une section dont le HTML commence par <section");
+  return html.replace("<section", `<section${attrs}`);
+};
+
 export default ({ page }) => {
   const data = pages[page];
   if (!data) throw new Error(`page-sections : page « ${page} » absente de src/data/pages/index.js`);
@@ -41,7 +50,7 @@ export default ({ page }) => {
     .map((section, index) => {
       const render = renderers[section.type];
       if (!render) throw new Error(`page-sections : type de section inconnu « ${section.type} » (${page}, n° ${index + 1})`);
-      return render(section, { page: data, index });
+      return withOverlap(render(section, { page: data, index }), section);
     })
     .join("\n      ");
 };

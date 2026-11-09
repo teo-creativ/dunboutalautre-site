@@ -5,7 +5,7 @@
 // Sous 900 px ou en mouvement réduit : aucun épinglage, les sections restent empilées. Doit être appelé avant le pin de la section suivante
 // (les pins se créent dans l'ordre de la page).
 import { gsap, ScrollTrigger } from "./core.js";
-import { MEDIA, bottomPin, overlapNext } from "./bureaux-scene.js";
+import { MEDIA, bottomPin, overlapNext, overlapOptions } from "./bureaux-scene.js";
 
 export function initBureauxHold() {
   const section = document.querySelector("[data-bx-hold]");
@@ -16,9 +16,10 @@ export function initBureauxHold() {
     const root = document.documentElement;
     root.classList.add("bx-hold-anim"); // la section suivante remonte d'un écran (bureaux-installe.css)
 
-    // Épinglage par le bas pendant un écran, la section suivante monte par-dessus (bureaux-scene.js).
-    const pin = ScrollTrigger.create(bottomPin(section));
-    const release = overlapNext(section);
+    // Épinglage par le bas pendant un écran au moins (réglable par page : data-overlap-screens, bureaux-scene.js), la section suivante monte par-dessus.
+    const { screens } = overlapOptions(section);
+    const pin = ScrollTrigger.create(bottomPin(section, {}, screens));
+    const release = overlapNext(section, screens);
 
     return () => {
       release();

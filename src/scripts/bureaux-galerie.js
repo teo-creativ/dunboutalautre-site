@@ -11,10 +11,10 @@
 // grille, rien d'épinglé.
 import { gsap } from "./core.js";
 import { loadLater } from "./bureaux-images.js";
-import { MEDIA, addPhotoRise } from "./bureaux-scene.js";
+import { MEDIA, addPhotoRise, markOverlap, overlapOptions } from "./bureaux-scene.js";
 
 const PHOTOS = { wide: 3, solo: 2.5 }; // durée de la montée des photos, en écrans de scroll
-const OVERLAP = 1; // la FAQ monte par-dessus : le dernier écran du pin
+// La FAQ monte par-dessus pendant le dernier écran du pin : sa durée (au moins 1 écran) et son lissage se règlent par page (overlapOptions, bureaux-scene.js).
 const FADE = [0.41, 0.72]; // part de la montée de la FAQ où le texte s'estompe
 
 export function initBureauxGalerie() {
@@ -30,6 +30,7 @@ export function initBureauxGalerie() {
     ({ conditions }) => {
       const root = document.documentElement;
       const rise = conditions.wide ? PHOTOS.wide : PHOTOS.solo;
+      const { screens: OVERLAP, scrub } = overlapOptions(section);
       const total = rise + OVERLAP;
       const visible = photos.filter((li) => li.dataset.mobile !== "off" || conditions.wide);
       root.classList.add("bx-gal-anim");
@@ -50,7 +51,7 @@ export function initBureauxGalerie() {
             return `+=${total * height}`;
           },
           pin: true,
-          scrub: 0.6,
+          scrub, // 1 par défaut (retours V8)
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onToggle: (self) => {
@@ -64,11 +65,10 @@ export function initBureauxGalerie() {
 
       // Point d'accroche : la FAQ remonte d'un écran par-dessus la galerie.
       const wrap = section.closest(".pin-spacer") ?? section;
-      const next = wrap.nextElementSibling;
-      next?.classList.add("bx-overlap");
+      const releaseNext = markOverlap(wrap.nextElementSibling, OVERLAP);
 
       return () => {
-        next?.classList.remove("bx-overlap");
+        releaseNext();
         root.classList.remove("bx-gal-anim");
         delete section.dataset.pinLength;
         gsap.set([content, ...photos], { clearProps: "transform,opacity,willChange" });

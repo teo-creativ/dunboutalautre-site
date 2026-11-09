@@ -106,6 +106,8 @@ export const saisonniere = {
       // de la section au début du pin), proportions et vitesse relevées sur les frames 09 à 14 à 1728 x 1030 : les quatre photos montent ensemble (même écart à
       // chaque instant d'une frame à l'autre : 313 px entre les frames 10 et 11 pour les quatre), le doc 03 demande des vitesses différentes, les frames priment.
       // Le texte est devant les photos sur les frames 11 et 12 (comme Bureaux). `mobile` : les trois photos gardées sous 900 px.
+      // V8 (G5) : le titre occupe de 17,5 à 82,5 vw : les photos sont en deux colonnes sur les bords, en partie hors de l'écran, jamais sur le titre ni sur le bouton (le « V » de « Vous »
+      // n'est plus coupé), jamais l'une sur l'autre (components/gallery.js ; à gauche 03 puis 02 dessous, à droite 04 puis 01 dessous). Les vitesses diffèrent d'une colonne à l'autre.
       type: "bureaux-galerie",
       variant: "saisonniere",
       title: "Vous recevez vos clients dans un espace qui change avec l'année.",
@@ -115,25 +117,25 @@ export const saisonniere = {
         {
           photo: "decoration/gallery-03",
           alt: "Portail en fer noir encadré d'une grande couronne de feuillages et de fruits rouges, avec un ruban rouge, dans une cour d'immeuble parisien.",
-          x: 2.26, y: 39.5, w: 18, ratio: 0.7456, speed: 39,
+          x: -1.7, y: 39.5, w: 18, ratio: 0.7456, speed: 40,
           mobile: { x: 6, y: 78, w: 36, speed: 40 },
         },
         {
           photo: "decoration/gallery-04",
           alt: "Façade d'immeuble parisien couverte de fleurs bleues, jaunes et rouges, vue d'en bas sous un ciel bleu.",
-          x: 81.37, y: 45, w: 18.75, ratio: 0.75, speed: 39,
-          mobile: { x: 22, y: 142, w: 36, speed: 40 },
+          x: 83.7, y: 45, w: 18.75, ratio: 0.75, speed: 46,
+          mobile: { x: 22, w: 36, speed: 40, under: 0, gap: 55 },
         },
         {
           photo: "decoration/gallery-02",
           alt: "Table dressée avec des verres en cristal et des bouquets d'oiseaux de paradis, dans un restaurant aux murs tapissés.",
-          x: -7, y: 86.1, w: 30.15, ratio: 1.5819, speed: 39,
+          x: -5.7, w: 22, ratio: 1.5819, speed: 34, under: 0, gap: 4,
         },
         {
           photo: "decoration/gallery-01",
           alt: "Enseigne de l'Atelier Du Geste à l'Emotion entourée de guirlandes de tournesols.",
-          x: 66.84, y: 97.8, w: 19.85, ratio: 0.8793, speed: 39,
-          mobile: { x: 58, y: 104, w: 36, speed: 40 },
+          x: 83.7, w: 19.85, ratio: 0.8793, speed: 40, under: 1, gap: 4.5,
+          mobile: { x: 59, y: 104, w: 35, speed: 40 },
         },
       ],
     },

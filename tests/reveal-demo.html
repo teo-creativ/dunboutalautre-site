@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- Démo du composant reveal-on-enter (retours V8, partie B) : une section de test avec chaque part, à ouvrir avec `npx vite` (http://localhost:5173/tests/reveal-demo.html).
+     Elle n'est pas dans la build du site. Le composant n'est pas encore appliqué aux pages (prompts 05 à 08). -->
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Démo reveal-on-enter</title>
+    <script>document.documentElement.classList.add("js");</script>
+  </head>
+  <body data-page="page">
+    <div style="height: 120vh; background: var(--cream)"></div>
+    <section id="demo" data-reveal="enter" style="min-height: 100vh; padding: 12vh var(--gutter); background: var(--orange); color: var(--white); text-align: center">
+      <p class="label label--light" data-reveal-part="eyebrow"><span class="label__dot" aria-hidden="true"></span>SURTITRE</p>
+      <h2 class="section-title" data-reveal-part="title" style="--title-color: var(--white); max-width: 46vw; margin-inline: auto">
+        Un titre assez long pour passer sur deux lignes, avec <span class="tag tag--cream"><span class="tag__bg"></span><span class="tag__text">une pastille</span></span> droite.
+      </h2>
+      <p data-reveal-part="text" style="max-width: 34em; margin: 2rem auto">Un paragraphe de démonstration qui entre après le titre, en fondu et en montant de seize pixels.</p>
+      <div data-reveal-part="cta"><a class="cta cta--on-orange" href="#"><span class="cta__label">Un bouton</span></a></div>
+      <div style="display: flex; gap: 2rem; justify-content: center; margin-top: 4rem">
+        <figure data-reveal-part="photo" style="width: 22vw; margin: 0; border-radius: 12px"><img src="/assets/optimized/bureaux/carte-01-1000.webp" alt="" width="1000" height="750" style="display: block; width: 100%; height: auto" /></figure>
+        <figure data-reveal-part="photo" style="width: 22vw; margin: 0; border-radius: 12px"><img src="/assets/optimized/bureaux/carte-01-1000.webp" alt="" width="1000" height="750" style="display: block; width: 100%; height: auto" /></figure>
+      </div>
+    </section>
+    <div style="height: 120vh; background: var(--cream)"></div>
+    <script type="module" src="./reveal-demo.js"></script>
+  </body>
+</html>

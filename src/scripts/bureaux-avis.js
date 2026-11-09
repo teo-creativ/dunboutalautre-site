@@ -5,7 +5,7 @@
 // (marge négative, bureaux-installe.css), donc le scroll total n'augmente pas. L'entrée du bloc (icône, citation par lignes, nom) et le
 // changement d'avis sont ceux de testimonials.js, non modifiés. Sous 900 px ou en mouvement réduit : aucun épinglage, les sections restent empilées.
 import { gsap } from "./core.js";
-import { MEDIA, bottomPin, overlapNext } from "./bureaux-scene.js";
+import { MEDIA, bottomPin, overlapNext, overlapOptions } from "./bureaux-scene.js";
 
 // Opacité mesurée sur la frame 42 (l'orange a monté de 54 % de l'écran) : l'icône à 0,38 et la citation à 0,64, soit 0,5 en moyenne. Une pente
 // constante de 1 à 0,1 sur toute la montée donne 0,51 à ce point.
@@ -21,16 +21,18 @@ export function initBureauxAvis() {
   mm.add(MEDIA.wide, () => {
     const root = document.documentElement;
     const inner = section.querySelector(".testi__inner");
-    root.classList.add("bx-avis-anim"); // l'avis occupe l'écran et la galerie remonte d'un écran (bureaux-avis.css, bureaux-installe.css)
+    root.classList.add("bx-avis-anim"); // l'avis occupe l'écran et la galerie remonte par-dessus (bureaux-avis.css, bureaux-installe.css)
+    // Durée de la montée de la galerie : au moins un écran, lissage 1 (retours V8, partie C) ; la page peut l'allonger (data-overlap-screens, bureaux-scene.js).
+    const { screens, scrub } = overlapOptions(section);
     gsap
       .timeline({
         defaults: { ease: "none" },
-        scrollTrigger: bottomPin(section, { scrub: 0.6 }),
+        scrollTrigger: bottomPin(section, { scrub }, screens),
       })
-      .fromTo(inner, { opacity: 1 }, { opacity: FADE_TO, duration: 1 }, 0)
-      .set({}, {}, 1);
-    // La galerie remonte d'un écran par-dessus l'avis ; la zone du header de l'avis s'arrête quand elle atteint le header (bureaux-scene.js).
-    const release = overlapNext(section);
+      .fromTo(inner, { opacity: 1 }, { opacity: FADE_TO, duration: screens }, 0)
+      .set({}, {}, screens);
+    // La galerie remonte par-dessus l'avis ; la zone du header de l'avis s'arrête quand elle atteint le header (bureaux-scene.js).
+    const release = overlapNext(section, screens);
 
     return () => {
       release();

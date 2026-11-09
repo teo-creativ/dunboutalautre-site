@@ -1,6 +1,6 @@
 /* Landing Noël, première partie (retours-v2/docs/04-NOEL-STRUCTURE-ET-CONTENU.md §1 à §3, retours-v3/docs/01-NOEL-SCROLL-VERTICAL.md) :
    hero centré, « Notre volonté » (photo plein écran), cercle orange qui grandit, puis le flux de photos qui montent sur fond orange, et
-   la section Nos univers (universes.css) qui monte par-dessus.
+   la section Nos univers (le composant « styles » partagé, bureaux-styles.css) qui monte par-dessus.
    Base : sections empilées, sans épinglage (mouvement réduit, JavaScript absent). Avec mouvement : html.nstage-anim, posée par
    src/scripts/noel-stage.js, superpose « Notre volonté » et le flux dans un seul écran épinglé (avec le hero sur ordinateur). */
 
@@ -209,9 +209,9 @@ html.nstage-anim .flux__photo {
 html.nstage-anim .is-live .flux__circle,
 html.nstage-anim .is-live .flux__photo { will-change: transform; }
 
-/* Nos univers : elle suit la scène dans la page, remontée d'un écran (la hauteur de la scène) : pendant le dernier écran de scroll de la
-   scène, c'est le scroll qui la fait monter par-dessus l'orange. Section opaque, plus haute qu'un écran. */
-html.nstage-anim .univers {
+/* Nos univers (V8 : le composant « styles » partagé, .sty, épinglé par scripts/bureaux-styles.js) : elle suit la scène dans la page, remontée d'un écran (la hauteur de la scène) :
+   pendant le dernier écran de scroll de la scène, c'est le scroll qui la fait monter par-dessus l'orange. Section opaque, plus haute qu'un écran. */
+html.nstage-anim .sty {
   position: relative;
   z-index: 5;
   min-height: 100svh;

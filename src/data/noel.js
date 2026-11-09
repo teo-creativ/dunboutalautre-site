@@ -10,7 +10,7 @@ export const noel = {
     "Décoration de Noël pour entreprises à Paris : sapins, scénographies, décors aux couleurs de votre marque. Conception, fabrication, installation, démontage.",
   // Image de partage (Open Graph) : à remplacer par un visuel 1200 x 630, voir docs/POINTS-A-VALIDER.md ligne 54.
   share: {
-    src: "noel-v2/noel-salon-dore-couleur",
+    src: "noel/noel-04",
     alt: "Salon aux boiseries dorées décoré de branches givrées, de bûches de bouleau et de bougies devant une cheminée",
   },
 
@@ -21,58 +21,61 @@ export const noel = {
   // la profondeur. V8 (G5, components/gallery.js) : deux colonnes de chaque côté du titre (il occupe de 24 à 76 vw), jamais de photo sur le titre ni
   // sur le bouton ni l'une sur l'autre. Deux photos de la même colonne forment une pile : celle du dessous porte `under` (l'indice de celle du
   // dessus) et `gap` (écart en vw) : elle part sous elle, à l'écart de sa hauteur, et ne monte jamais plus vite qu'elle, à toute taille d'écran.
-  // À gauche : branches, plafond puis salon ; à droite : portail puis sapins (le salon, au centre sur les frames, passe à gauche : au centre il traversait le
-  // titre). mobile : x, w et y sous 900 px (`under`, `gap` comme sur ordinateur), ou null (photo absente) ; trois photos seulement.
+  // À gauche : branches (noel-01), plafond (noel-05) puis salon (noel-04) ; à droite : portail (noel-02) puis sapins (noel-03). V8 : photos en couleur (retours-v8/docs/08-ASSETS.md) ; la
+  // capture service-noel-fb-03 place noel-04 « bas centre », mais au centre il traverserait le titre (G5) : il reste en bas de la colonne de gauche. Les rapports sont ceux des photos
+  // (noel-01 à 04 : 1000 x 1333, noel-05 : 1000 x 1055), le cadre ne les rogne plus.
+  // mobile : x, w et y sous 900 px (`under`, `gap` comme sur ordinateur), ou null (photo absente) ; trois photos seulement.
   flux: {
     photos: [
       {
         id: "branches",
-        src: "noel-v2/noel-bw-branches-givrees",
+        src: "noel/noel-01",
         alt: "Branches givrées, bûches de bouleau et bougies dans un salon baigné de lumière",
         x: 4, y: 100, w: 16, ratio: 0.75, speed: 104,
         mobile: { x: 4, w: 42, under: 3, gap: 30 },
       },
       {
         id: "portail",
-        src: "noel-v2/noel-bw-portail-couronne",
+        src: "noel/noel-02",
         alt: "Grille de fer noir entourée d'une grande couronne de sapin avec un nœud, dans une cour parisienne",
-        x: 78, y: 112, w: 22, ratio: 0.726, speed: 100,
+        x: 78, y: 112, w: 22, ratio: 0.75, speed: 100,
         mobile: { x: 54, w: 42, y: 156 },
       },
       {
         id: "plafond",
-        src: "noel-v2/noel-bw-eataly-plafond-large",
+        src: "noel/noel-05",
         alt: "Plafond d'un restaurant recouvert de lierre, de fougères blanches et de suspensions en verre",
-        x: 0, w: 20, ratio: 0.95, speed: 100, under: 0, gap: 4,
+        x: 0, w: 20, ratio: 0.948, speed: 100, under: 0, gap: 4,
         mobile: null,
       },
       {
         id: "salon",
-        src: "noel-v2/noel-bw-salon-dore",
+        src: "noel/noel-04",
         alt: "Salon aux boiseries sculptées et au grand miroir, avec des branches givrées devant la cheminée",
         x: 5, w: 17, ratio: 0.75, speed: 96, under: 2, gap: 4,
         mobile: { x: 4, w: 42, y: 100 },
       },
       {
         id: "sapins",
-        src: "noel-v2/noel-bw-sapins-verriere",
+        src: "noel/noel-03",
         alt: "Trois grands sapins décorés de guirlandes lumineuses et de lanternes, sous une grande verrière métallique",
-        x: 84, w: 16, ratio: 0.65, speed: 92, under: 1, gap: 4,
+        x: 84, w: 16, ratio: 0.75, speed: 92, under: 1, gap: 4,
         mobile: null,
       },
     ],
   },
 
-  // Nos univers (04 §4). Une seule photo-carte pour les cinq univers pour l'instant : un champ `photo` ({ src, alt }) sur un univers
-  // la remplace, la photo change alors en fondu enchaîné de 0,5 s à chaque changement d'univers (universes.js).
-  // default : indice de l'univers ouvert au chargement sur ordinateur (« Noël immersif », comme sur la maquette) ; sur tactile, le premier.
+  // Nos univers (04 §4). V8 : la section est le composant « styles » partagé de Terrasses et de Décoration (components/sections/bureaux-styles.js, scripts/bureaux-styles.js) : épinglée, l'univers
+  // actif avance avec le scroll (une entrée à la fois, sa description visible sans survol), `step` écrans de scroll par univers (1 : « environ 100 % de la hauteur d'écran par style »).
+  // Une seule photo est fournie pour les cinq univers (noel-04) : `photo` et `alt` d'un univers la remplacent, l'image change alors par voile sombre et échange (jamais deux photos à demi
+  // transparentes). Textes et ordre inchangés.
   univers: {
     label: "NOS UNIVERS",
-    photo: {
-      src: "noel-v2/noel-salon-dore-couleur",
-      alt: "Salon aux boiseries dorées décoré de branches givrées, de bûches de bouleau et de bougies devant une cheminée",
-    },
-    default: 2,
+    title: "Choisissez l'univers de votre Noël.",
+    tag: "votre Noël",
+    photo: "noel/noel-04",
+    alt: "Salon aux boiseries dorées décoré de branches givrées, de bûches de bouleau et de bougies devant une cheminée",
+    step: 1,
     items: [
       { title: "Noël naturel", text: "Sapin, branches, pommes de pin et végétaux naturels. Une ambiance chaleureuse, qui sent la forêt." },
       { title: "Noël chic", text: "Blanc, doré et végétal. Un Noël élégant et sobre, pour les lieux qui reçoivent une clientèle exigeante." },

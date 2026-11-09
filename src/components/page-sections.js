@@ -23,7 +23,6 @@ import gallery from "./sections/gallery.js";
 import hero from "./sections/hero.js";
 import intro from "./sections/intro.js";
 import logos from "./sections/logos.js";
-import offers from "./sections/offers.js";
 import process from "./sections/process.js";
 import ficheAutres from "./sections/fiche-autres.js";
 import ficheEntete from "./sections/fiche-entete.js";
@@ -32,7 +31,7 @@ import fichePhoto from "./sections/fiche-photo.js";
 import ficheTexte from "./sections/fiche-texte.js";
 import testimonials from "./sections/testimonials.js";
 
-const renderers = { "bureaux-chiffres": bureauxChiffres, "bureaux-formules": bureauxFormules, "bureaux-galerie": bureauxGalerie, "bureaux-installe": bureauxInstalle, "bureaux-matieres": bureauxMatieres, "bureaux-photo-texte": bureauxPhotoTexte, "bureaux-pourquoi": bureauxPourquoi, "bureaux-styles": bureauxStyles, hero, intro, offers, cards, figures, form, "contact-coordonnees": contactCoordonnees, "fiche-entete": ficheEntete, "fiche-photo": fichePhoto, "fiche-texte": ficheTexte, "fiche-galerie": ficheGalerie, "fiche-autres": ficheAutres, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
+const renderers = { "bureaux-chiffres": bureauxChiffres, "bureaux-formules": bureauxFormules, "bureaux-galerie": bureauxGalerie, "bureaux-installe": bureauxInstalle, "bureaux-matieres": bureauxMatieres, "bureaux-photo-texte": bureauxPhotoTexte, "bureaux-pourquoi": bureauxPourquoi, "bureaux-styles": bureauxStyles, hero, intro, cards, figures, form, "contact-coordonnees": contactCoordonnees, "fiche-entete": ficheEntete, "fiche-photo": fichePhoto, "fiche-texte": ficheTexte, "fiche-galerie": ficheGalerie, "fiche-autres": ficheAutres, articles, "article-body": articleBody, logos, testimonials, gallery, process, faq, "projets-hero": projetsHero, "projets-grid": projetsGrid, "cta-final": ctaFinal };
 
 // Arrivée d'une section par-dessus la précédente (retours V8, partie C, scripts/bureaux-scene.js) : une section de la page peut régler la durée (`overlapScreens`, en écrans de scroll, au
 // moins 1), le lissage (`overlapScrub`) et un palier de lecture avant l'arrivée (`overlapHold`, en écrans) de la section qui la RECOUVRE : ils deviennent data-overlap-screens,

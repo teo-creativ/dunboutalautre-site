@@ -109,14 +109,19 @@ PROFILES.terrasses = {
 // glissement commence 0,85 écran après la fin de la croissance (frame 17 : titres à 60 % de leur course, frame 18 : fond à 50 %) ; pause de 0,23 écran avant le second (frame 20 : titres à 50 %, frame 21 : fond à 40 %), puis 0,24 écran
 // avant que le crème ne monte (frame 23 : bord haut à 764 px, soit 266 px de recouvrement, frame 24 : 528 px).
 // HEAD_IN : le titre n'est pas là au début du pin (frame 09 : écran tout orange, le disque vient de finir) mais sur la frame 10 : il apparaît en fondu pendant les premiers 0,25 écran.
+// Retours V8 (Entretien fb-03) : la photo qui montait saccadait. Mesurée au scroll, sa vitesse oscillait (0,83 puis 0,65 puis 1,13 px par px de scroll) parce que sa trajectoire passait par les positions
+// des frames 11 à 14, espacées de 287, 198, 298 puis 247 px : la photo ralentissait puis repartait. Elle monte maintenant d'un mouvement continu et amorti : trajectoire droite entre le bas de l'écran et le plein
+// écran (position, largeur et décalage latéral interpolés d'un bout à l'autre, sans passer par les frames intermédiaires), courbe de croissance sine.inOut (départ et arrivée en douceur, comme Design).
+// Le titre n'a plus de fondu au scroll (HEAD_IN) : il se révèle par reveal-on-enter (data-reveal de la section).
 PROFILES.entretien = {
   ...PROFILES.bureaux,
+  GROW_EASE: "sine.inOut",
   PHASE: { pre: 0.39, grow: 1.59, veil: 0.7, hold1: 0.15, glide: 1, hold2: 0.23, hold3: 0.24, overlap: 1 },
   HEAD_IN: 0.25,
-  GROW_P: [0, 0.25, 0.5, 0.75, 1],
-  GROW_TOP: [1030, 743, 545, 247, 0],
-  GROW_SCALE: [0.6736, 0.6736, 0.8738, 0.9444, 1],
-  GROW_DX: [14.5, 14.5, -0.5, -1.5, 0],
+  GROW_P: [0, 1],
+  GROW_TOP: [1030, 0],
+  GROW_SCALE: [0.6736, 1], // largeur de la photo / largeur de l'écran : celle de la frame 11 au départ
+  GROW_DX: [14.5, 0],
   // Le texte n'apparaît qu'aux deux tiers du voile (frame 15 : voile à 45 %, pas de texte ; frame 16 : texte entier).
   VEIL_FROM: 0.62,
 };
@@ -196,7 +201,8 @@ export function initBureauxMatieres() {
       // Les trois fonds (1,2 Mo en 2000 px) sont chargés d'avance : aucun flash au changement de fond (bureaux-images.js).
       loadLater(section.querySelectorAll("img"));
 
-      const s = { b: 0, g: 0, v: 0, t1: 0, t2: 0, o: 0, h: HEAD_IN && conditions.wide ? 0 : 1 }; // h : entrée du titre (Entretien)
+      const headIn = HEAD_IN && conditions.wide && section.dataset.reveal !== "enter"; // le titre qui se révèle par reveal-on-enter n'a pas de fondu au scroll
+      const s = { b: 0, g: 0, v: 0, t1: 0, t2: 0, o: 0, h: headIn ? 0 : 1 }; // h : entrée du titre
       // Rectangle de départ de la photo (g = 0), en px : le relais de la bande s'y arrête.
       const target = () => {
         const vw = document.documentElement.clientWidth;
@@ -311,7 +317,7 @@ export function initBureauxMatieres() {
         at += duration;
       };
       if (bandCtl) tl.to(s, { b: 1, duration: PHASE.pre }, 0); // Terrasses : la phase de la bande
-      if (HEAD_IN && conditions.wide) tl.to(s, { h: 1, duration: HEAD_IN }, 0); // Entretien : le titre apparaît au début du pin
+      if (headIn) tl.to(s, { h: 1, duration: HEAD_IN }, 0); // le titre apparaît au début du pin
       at = PHASE.pre;
       phase({ g: 1, ease: GROW_EASE }, PHASE.grow);
       phase({ v: 1 }, PHASE.veil);

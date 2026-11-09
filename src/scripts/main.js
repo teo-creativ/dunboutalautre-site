@@ -25,7 +25,6 @@ import { initSkipLink } from "./skip-link.js";
 import { initStage } from "./stage.js";
 import { initStats } from "./stats.js";
 import { initTestimonials } from "./testimonials.js";
-import { initUniverses } from "./universes.js";
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // Rend la main au navigateur entre deux groupes d'initialisation : il peut peindre et répondre, aucune tâche ne reste longue.
@@ -50,7 +49,7 @@ async function boot() {
   const groups = [
     [initCta, initMenu, initCursor],
     [initStage, initNoelStage, initProjetsStage, ...(bx ? [bx.initBureaux] : [])],
-    [initRealisations, initServices, initStats, initUniverses],
+    [initRealisations, initServices, initStats],
     [initProcess, initTestimonials, initReveal, initRevealOnEnter, initFaq, initLogos, initContactForm, initContact, initProjetsGrid, initFiche],
     [initReducedMotion, initFooterReveal, initHeaderTheme],
   ];

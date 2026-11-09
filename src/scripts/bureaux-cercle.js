@@ -3,11 +3,12 @@
 // elle ne connaît ni la section ni sa couleur, seulement un centre (px dans la section, recalculé à chaque rafraîchissement) et une couleur facultative
 // (une valeur CSS, de préférence un jeton : « var(--olive) »). Seul `clip-path` bouge : le rayon va de 0 au coin le plus éloigné du centre ; `radius(p)` donne
 // la part du rayon final à la progression p (linéaire par défaut ; Entretien : courbe lue sur les frames 07 et 08, 398,5 et 730 px sur 1 014 px au plein écran). `onProgress(p, { cx, cy, r, rMax })` est appelée à chaque mise à jour
-// et au rafraîchissement : elle sert au header et à l'inertie des cartes. Sans mouvement (mouvement réduit, moins de 900 px) la fonction n'est pas appelée :
+// et au rafraîchissement : elle sert au header et à l'inertie des cartes. V8 : `hold` (écrans de scroll, de 0 à `length`) est un palier de lecture au début de l'épinglage : le disque reste à rayon 0 pendant ce
+// temps, p ne commence à monter qu'ensuite (la croissance dure `length - hold` écrans) ; `scrub` règle le lissage de la croissance. Sans mouvement (mouvement réduit, moins de 900 px) la fonction n'est pas appelée :
 // le disque n'existe pas (display: none) et la section suivante, de la même couleur, suit directement.
 import { gsap } from "./core.js";
 
-export function circleReveal(section, { disc, length = 1, center, color, radius = (p) => p, onProgress }) {
+export function circleReveal(section, { disc, length = 1, hold = 0, scrub = 0.6, center, color, radius = (p) => p, onProgress }) {
   if (color) disc.style.setProperty("--disc", color);
   const s = { p: 0 };
   const geo = { cx: 0, cy: 0, rMax: 0 };
@@ -40,7 +41,7 @@ export function circleReveal(section, { disc, length = 1, center, color, radius 
         return `+=${px}`;
       },
       pin: true,
-      scrub: 0.6,
+      scrub,
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onRefresh: () => {
@@ -52,7 +53,7 @@ export function circleReveal(section, { disc, length = 1, center, color, radius 
       },
     },
   });
-  tl.to(s, { p: 1, duration: 1 });
+  tl.to(s, { p: 1, duration: length - hold }, hold); // durée de la timeline = length : un palier de hold écrans, puis la croissance
 
   return {
     scrollTrigger: tl.scrollTrigger,

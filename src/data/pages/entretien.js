@@ -136,6 +136,8 @@ export const entretien = {
       // de départ est le fond du premier slide ; le fond change en fondu avec le slide actif.
       type: "bureaux-matieres",
       variant: "entretien",
+      reveal: true, // V8 : étiquette et titre révélés par reveal-on-enter (scripts/reveal-on-enter.js), quand le disque orange des formules a fini de recouvrir l'écran
+      revealStart: "top top",
       sliderLabel: "Les trois végétaux entretenus",
       label: "QUELS VÉGÉTAUX ENTRETIENT-ON ?",
       title: "Chaque installation a ses besoins.",

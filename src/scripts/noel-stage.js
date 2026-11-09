@@ -21,7 +21,6 @@ const DESKTOP = {
   circle: 2, circleDur: 1.2,
   title: 3, cta: 3.45,
   photos: 2.8, photosDur: 2.7,
-  reveal: true,
 };
 // Mobile : la scène commence à « Notre volonté », déjà en place. 450 vh ; les photos finissent de sortir pendant l'arrivée des univers,
 // sans jamais l'atteindre (elles sont en haut de l'écran, la crème monte du bas).
@@ -31,7 +30,6 @@ const MOBILE = {
   circle: 1.2, circleDur: 0.8,
   title: 1.85, cta: 2.2,
   photos: 1.75, photosDur: 2.35,
-  reveal: false,
 };
 
 export function initNoelStage() {
@@ -66,9 +64,9 @@ function scene(stage, T) {
 
     const ctx = { stage, T };
     addVolonte(tl, ctx);
-    addFlux(tl, ctx);
+    const unreveal = addFlux(tl, ctx);
     tl.set({}, {}, T.total); // fixe la durée : 1 unité de timeline = 1 écran de scroll
-    addUnivers(stage, T);
+    addUnivers(stage);
 
     // Clavier : le CTA du flux vit dans la scène épinglée, invisible tant que le scroll n'est pas arrivé à son entrée. Quand il reçoit
     // le focus avant, on amène le scroll jusqu'à l'instant où il est visible.
@@ -79,6 +77,7 @@ function scene(stage, T) {
     };
     cta.addEventListener("focus", onCtaFocus);
     return () => {
+      unreveal();
       cta.removeEventListener("focus", onCtaFocus);
       stage.classList.remove("is-live");
     };

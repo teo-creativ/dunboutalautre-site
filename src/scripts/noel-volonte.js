@@ -3,7 +3,7 @@
 // orange (noel-flux.js) qui le recouvre. Sous 900 px le hero est hors de la scène : la photo est déjà en place, seul le texte se révèle.
 // Positions et durées sont exprimées en unités de la timeline maîtresse (1 unité = 1 écran de scroll).
 import { SplitText } from "./core.js";
-import { fillTag } from "./tag.js";
+import { TAG_HIDDEN, TAG_SHOWN } from "./tag.js";
 
 export function addVolonte(tl, { stage, T }) {
   const hero = stage.querySelector(".hero");
@@ -33,13 +33,10 @@ export function addVolonte(tl, { stage, T }) {
   tl.fromTo(label, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, T.text)
     .fromTo(split.lines, { yPercent: 105 }, { yPercent: 0, duration: 0.3, ease: "power3.out", stagger: 0.07 }, T.text + 0.05);
 
-  // Les tags se remplissent de gauche à droite en pilule, sans rotation (G2). Le mot du tag (le tag et son
-  // ponctuation collée) apparaît avec le fond, pas avant.
+  // Les tags se remplissent de gauche à droite en pilule, sans rotation (G2). V8 : jamais de pastille vide. Le texte du tag se révèle avec sa ligne (il monte sous le masque comme le reste du
+  // paragraphe, sans opacité propre) et le fond se dessine ensuite derrière lui : à aucun instant du scroll, avant comme après, la pastille orange n'est visible sans son texte.
   tags.forEach((tag, i) => {
     const at = T.text + 0.3 + i * 0.2;
-    // Seul un tag suivi directement d'une ponctuation est enveloppé dans un « mot » avec elle.
-    const word = split.words.find((w) => w.contains(tag));
-    if (word) tl.fromTo(word, { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, at);
-    fillTag(tl, tag, at, { duration: 0.25 });
+    tl.fromTo(tag.querySelector(".tag__bg"), { clipPath: TAG_HIDDEN }, { clipPath: TAG_SHOWN, duration: 0.25, ease: "power3.out" }, at);
   });
 }

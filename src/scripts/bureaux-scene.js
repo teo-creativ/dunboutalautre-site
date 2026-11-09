@@ -121,18 +121,19 @@ export function slowArrival(target, { start, screens, scrub = OVERLAP_SCRUB, fro
 // revient de 1,15 à 1, pendant qu'elle entre dans l'écran (de son bord haut au bas de l'écran à 0,42 écran plus haut), donc au fur et à mesure de sa montée et non d'un coup à l'arrivée de la
 // section : plusieurs photos entrent bien après (départ à plus de 100 svh). Lue sur la position réelle de chaque photo à chaque image (la section recouvre une autre, puis est épinglée), seulement
 // quand la section est à l'écran. Le transform de la photo (sa montée) reste libre. Renvoie la fonction qui défait tout.
-export function revealPhotos(section, photos) {
-  if (section.dataset.reveal !== "enter") return () => {};
+export function revealPhotos(section, photos, { always = false } = {}) {
+  if (!always && section.dataset.reveal !== "enter") return () => {}; // always : une scène qui n'a pas de [data-reveal] sur sa section (Noël : le flux dans la scène épinglée)
   const items = photos.map((li) => ({ li, img: li.querySelector("img") }));
   const update = () => {
     const h = window.innerHeight;
     const box = section.getBoundingClientRect();
     if (box.top > h + 200 || box.bottom < -200) return;
-    for (const { li, img } of items) {
-      const p = clamp((h * 0.98 - li.getBoundingClientRect().top) / (0.42 * h));
+    const tops = items.map(({ li }) => li.getBoundingClientRect().top); // toutes les positions d'abord, puis les styles : une seule mise en page par image
+    items.forEach(({ li, img }, i) => {
+      const p = clamp((h * 0.98 - tops[i]) / (0.42 * h));
       li.style.clipPath = p >= 1 ? "" : `inset(${((1 - p) * 100).toFixed(2)}% 0 0 0)`;
       if (img) img.style.transform = p >= 1 ? "" : `scale(${(1.15 - 0.15 * p).toFixed(4)})`;
-    }
+    });
   };
   update();
   gsap.ticker.add(update);

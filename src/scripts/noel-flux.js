@@ -3,6 +3,7 @@
 // restent fixes, toujours au-dessus des photos, qui montent du bas à des vitesses différentes (profondeur) et sortent par le haut.
 // Positions et durées sont exprimées en unités de la timeline maîtresse (1 unité = 1 écran de scroll).
 import { SplitText } from "./core.js";
+import { revealPhotos } from "./bureaux-scene.js";
 import { fillTag } from "./tag.js";
 
 const DOT = 0.02; // échelle de départ du cercle : un point de 38 px
@@ -40,11 +41,13 @@ export function addFlux(tl, { stage, T }) {
   // Vitesse en svh par écran de scroll (data-speed) : une photo de 100 suit la page.
   // Sous 900 px la vitesse de la photo est celle de sa version mobile (data-speed-mobile, V8 G5 : une photo posée sous une autre ne monte jamais plus vite qu'elle, components/gallery.js).
   const narrow = window.matchMedia("(max-width: 900px)").matches;
-  [...layer.querySelectorAll(".flux__photo")]
-    .filter((li) => li.offsetHeight > 0) // sous 900 px, certaines photos sont masquées
-    .forEach((li) => {
-      const speed = Number((narrow && li.dataset.speedMobile) || li.dataset.speed);
-      const distance = () => (speed / 100) * T.photosDur * height();
-      tl.fromTo(li, { y: 0 }, { y: () => -distance(), duration: T.photosDur, ease: "none" }, T.photos);
-    });
+  const photos = [...layer.querySelectorAll(".flux__photo")].filter((li) => li.offsetHeight > 0); // sous 900 px, certaines photos sont masquées
+  photos.forEach((li) => {
+    const speed = Number((narrow && li.dataset.speedMobile) || li.dataset.speed);
+    const distance = () => (speed / 100) * T.photosDur * height();
+    tl.fromTo(li, { y: 0 }, { y: () => -distance(), duration: T.photosDur, ease: "none" }, T.photos);
+  });
+  // V8 (reveal-on-enter, partie B de retours-v8/docs/02) : chaque photo se révèle par clip-path de bas en haut, son image revenant de 1,15 à 1, pendant qu'elle entre dans l'écran (sa
+  // position réelle est lue à chaque image : le transform de sa montée reste libre). Renvoie la fonction qui défait tout.
+  return revealPhotos(layer, photos, { always: true });
 }

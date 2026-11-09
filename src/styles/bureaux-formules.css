@@ -52,6 +52,8 @@ body[data-page="page"] .fml__disc {
   pointer-events: none;
 }
 html.bx-fml-anim .fml__disc { display: block; }
+/* V8 : la carte Confort se voit à travers un trou du disque (masque posé par le script) ; quand le disque l'a recouverte en entier, son contenu se fond dans l'orange (--fade, de 1 à 0). */
+html.bx-fml-anim body[data-page="page"] .fml-card--featured > * { opacity: var(--fade, 1); }
 
 /* ---------- Ordinateur ---------- */
 @media (min-width: 901px) {

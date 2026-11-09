@@ -2,16 +2,17 @@
 // active de la liste avance avec le scroll. L'état est discret (une entrée active à la fois, jamais scrubé). La mise en page de l'entrée ouverte (description, marges) change
 // d'un coup, par classe (bureaux-styles.css) ; le mouvement est un FLIP en transform seul : les lignes partent de leur ancienne place et glissent vers la nouvelle
 // (aucune hauteur, marge ni position animée), la description apparaît en fondu (opacité, en CSS). Une interruption repart de la position en cours. La puce, le
-// soulignement et le décalage du titre sont en CSS (classe .is-active). Si l'entrée a sa propre image, l'image change en fondu (opacité seule, 0,6 s) ; avec une seule
-// image rien ne bouge. La liste est ouverte au clavier : le focus d'une entrée l'active, et l'emporte sur le scroll.
-// Durées, en écrans de scroll (1 écran = la hauteur de la section) : une attente, 0,55 écran par entrée, une tenue de la dernière. Pas de recouvrement : la section
+// soulignement et le décalage du titre sont en CSS (classe .is-active). Si l'entrée a sa propre image, l'image change par voile sombre et échange (V8, G6 : le voile monte, les images
+// s'échangent à son pic, il redescend ; jamais deux photos à demi transparentes) ; avec une seule image rien ne bouge. La liste est ouverte au clavier : le focus d'une entrée l'active, et l'emporte sur le scroll.
+// Durées, en écrans de scroll (1 écran = la hauteur de la section) : une attente, 0,55 écran par entrée (data-step de la section : 1 pour Noël), une tenue de la dernière. Pas de recouvrement : la section
 // suivante (la bande de photos) arrive dans le flux, comme sur la frame 08.
 // Sous 900 px ou en mouvement réduit : aucun épinglage, la liste reste entière (html n'a pas la classe bx-sty-anim).
 import { gsap, ScrollTrigger } from "./core.js";
 import { markOverlap, overlapOptions } from "./bureaux-scene.js";
 
 const PRE = 0.25; // écrans avant la première bascule
-const STEP = 0.55; // écrans par entrée
+const DEFAULT_STEP = 0.55; // écrans par entrée, par défaut (data-step de la section)
+const VEIL = { up: 0.3, down: 0.45, peak: 0.6 }; // voile d'échange des images : montée, descente (s), opacité au pic (--veil-dim est plein, bureaux-styles.css)
 const POST = 0.35; // écrans de tenue de la dernière entrée
 
 export function initBureauxStyles() {
@@ -19,6 +20,8 @@ export function initBureauxStyles() {
   if (!section) return;
   const rows = [...section.querySelectorAll(".sty-row")];
   const photos = [...section.querySelectorAll(".sty__img")];
+  const veil = section.querySelector(".sty__veil");
+  const STEP = Number(section.dataset.step) || DEFAULT_STEP;
   if (rows.length < 2) return;
   // data-overlap : la section suivante monte par-dessus pendant un dernier écran (Décoration, frame 08), sans fondu : la liste reste entière. Durée : au moins 1 écran, réglable par page
   // (data-overlap-screens, bureaux-scene.js).
@@ -42,12 +45,19 @@ export function initBureauxStyles() {
       });
     };
 
+    // Échange d'images : le voile sombre monte par-dessus la photo sortante (qui reste à 100 %), les images s'échangent au pic, le voile redescend. Une interruption repart du voile en cours.
     let shown = Math.max(0, photos.findIndex((img) => !img.classList.contains("is-hidden")));
+    let swap = null;
     const showPhoto = (i) => {
       const target = Number(rows[i].dataset.photo);
-      if (photos.length < 2 || target === shown) return;
-      photos.forEach((img, k) => gsap.to(img, { opacity: k === target ? 1 : 0, duration: 0.6, ease: "power2.inOut", overwrite: "auto" }));
+      if (photos.length < 2 || !veil || target === shown) return;
       shown = target;
+      swap?.kill();
+      swap = gsap
+        .timeline()
+        .to(veil, { opacity: VEIL.peak, duration: VEIL.up, ease: "power2.in", overwrite: "auto" })
+        .add(() => photos.forEach((img, k) => gsap.set(img, { opacity: k === target ? 1 : 0 })))
+        .to(veil, { opacity: 0, duration: VEIL.down, ease: "power2.out" });
     };
 
     let current = -1;
@@ -109,7 +119,8 @@ export function initBureauxStyles() {
       gsap.killTweensOf(rows);
       gsap.set(rows, { clearProps: "transform" });
       rows.forEach((row) => row.classList.remove("is-active"));
-      gsap.set(photos, { clearProps: "opacity" });
+      swap?.kill();
+      gsap.set([...photos, ...(veil ? [veil] : [])], { clearProps: "opacity" });
       delete section.dataset.pinLength;
       root.classList.remove("bx-sty-anim");
     };

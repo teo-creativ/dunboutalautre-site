@@ -1,6 +1,6 @@
 /* Pages secondaires (services, contact, réalisations, blog). Même design system que l'accueil et Noël : tokens, title tags, labels, CTA.
    Toute règle de ce fichier et des feuilles des composants de page est préfixée body[data-page="page"] : l'accueil (sans attribut) et
-   Noël (data-page="noel") ne peuvent pas être atteints. Les CSS existants (faq, process, testimonials, universes, cta-final) sont
+   Noël (data-page="noel") ne peuvent pas être atteints. Les CSS existants (faq, process, testimonials, cta-final) sont
    réutilisés tels quels. */
 body[data-page="page"] { --pad-y: calc(var(--section-y) * 1.4); } /* lu par .cta-final (noel.css), défini pour Noël seulement */
 
@@ -60,7 +60,6 @@ body[data-page="page"] .placeholder-tile {
   font-size: var(--fs-body);
   text-align: center;
 }
-body[data-page="page"] .univers__card .placeholder-tile { position: absolute; inset: 0; }
 
 /* ---------- Hero : lien secondaire ----------
    « Voir nos réalisations » à côté du CTA. Ce n'est pas un .cta : intro.js ne l'anime pas, il apparaît donc en fondu à la même
@@ -97,16 +96,6 @@ body[data-page="page"] .nobr { white-space: nowrap; }
 /* ---------- Avis unique ----------
    src/scripts/testimonials.js montre toujours les flèches (nav.hidden = false) : avec un seul avis (citation à fournir), elles ne servent à rien. */
 body[data-page="page"] .testi[data-single] .testi__nav { display: none; }
-
-/* ---------- Offres : « Idéal pour » ----------
-   Deuxième ligne du panneau d'une offre (les « encarts » du copywriting), sous le texte que universes.js anime. */
-body[data-page="page"] .universe__use {
-  margin-top: 0.75rem;
-  font-size: var(--fs-body);
-  line-height: 1.5;
-  color: var(--olive-soft);
-}
-body[data-page="page"] .universe__use-label { color: var(--olive-deep); font-weight: 500; }
 
 /* ---------- Hero compact (Contact, Réalisations, Blog) ----------
    Un titre court et un sous-titre, sans CTA : plus bas qu'un hero de page de service. */

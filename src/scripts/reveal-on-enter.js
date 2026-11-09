@@ -54,12 +54,12 @@ export function createReveal(root, { delay = Number(root.dataset.revealDelay) ||
   });
 
   // Paragraphe et bouton : fondu et montée de 16 px
-  const rise = [...parts(root, "text"), ...parts(root, "cta")];
-  if (rise.length) {
-    gsap.set(rise, { opacity: 0, y: 16 });
-    tl.to(parts(root, "text"), { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, textEnd + 0.15);
-    tl.to(parts(root, "cta"), { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, textEnd + 0.25);
-  }
+  // (une liste vide ferait avertir GSAP : « target not found », d'où les gardes : les galeries n'ont pas de paragraphe, le texte sur photo n'a pas de bouton)
+  const texts = parts(root, "text");
+  const buttons = parts(root, "cta");
+  if (texts.length || buttons.length) gsap.set([...texts, ...buttons], { opacity: 0, y: 16 });
+  if (texts.length) tl.to(texts, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, textEnd + 0.15);
+  if (buttons.length) tl.to(buttons, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 }, textEnd + 0.25);
 
   // Photos : clip-path de bas en haut, média de 1,15 à 1
   parts(root, "photo").forEach((photo, i) => {

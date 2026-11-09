@@ -60,6 +60,7 @@ export const terrasses = {
       // « Le branding végétal » (frames 02 à 06) : l'intitulé semble sorti d'un autre projet (le texte parle de la ville, pas de branding),
       // reproduit tel quel (point 3 des points à valider V7). La photo monte sur le hero, le texte est tenu avec elle un écran.
       type: "bureaux-photo-texte",
+      reveal: true, // V8 : texte (lignes, pastilles droites) et photo (clip-path, parallaxe douce) révélés à l'arrivée (reveal-on-enter)
       label: "Le branding végétal",
       photo: "terrasses/amenagement-01",
       alt: "Olivier dans un grand pot en pierre sur une terrasse parisienne, devant un immeuble aux fenêtres à volets et un canapé crème.",

@@ -110,6 +110,7 @@ export const saisonniere = {
       // n'est plus coupé), jamais l'une sur l'autre (components/gallery.js ; à gauche 03 puis 02 dessous, à droite 04 puis 01 dessous). Les vitesses diffèrent d'une colonne à l'autre.
       type: "bureaux-galerie",
       variant: "saisonniere",
+      reveal: true, // V8 : titre et bouton révélés à l'arrivée de l'orange, photos à leur entrée dans l'écran (reveal-on-enter, bureaux-scene.js : revealPhotos)
       title: "Vous recevez vos clients dans un espace qui change avec l'année.",
       tag: "vos clients",
       cta: { label: "Découvrez nos formules d'entretiens", to: "/entretien-abonnement-plantes-entreprise-paris/" },

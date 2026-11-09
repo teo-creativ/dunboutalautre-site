@@ -20,7 +20,7 @@ import { gsap } from "./core.js";
 import { loadLater } from "./bureaux-images.js";
 import { MEDIA, clamp, lerp, markOverlap, monotone, overlapOptions, scaleSetter } from "./bureaux-scene.js";
 import { claimHeader } from "./bureaux-header.js";
-import { createBand } from "./bureaux-bande.js";
+import { bandSolo, bandStatic, createBand } from "./bureaux-bande.js";
 
 const REF_W = 1728;
 const REF_H = 1030;
@@ -87,15 +87,17 @@ const PROFILES = {
 // Terrasses (V7, frames terrasses-17 à 28) : la bande de photos (scripts/bureaux-bande.js) précède la croissance de la photo, sur le crème. La photo part de la taille de
 // la frame 17 (702 x 441 px, centrée, bord haut à 138 px : le cadre a le rapport de son image, voir bureaux-matieres.css) puis grandit en gardant son bord haut jusqu'à la
 // frame 18 (1 200 x 753 px) avant de monter au plein écran (frame 19).
-// PHASE.pre : montée des rangées (0,69 écran), puis fondu et recentrage de l'olivier (0,4 écran).
+// PHASE.pre : montée et défilement des rangées jusqu'à p_align (75 %), puis fondu et agrandissement centré de l'olivier (25 %).
+// Retours V8 : les rangées sont pilotées par le scroll (scripts/bureaux-bande.js) et la phase passe de 1,1 à 2,8 écrans (au moins 2,5 pour l'ensemble de la bande) : chaque photo a le temps
+// d'être vue (les rangées parcourent 1,4 largeur d'écran en 2,1 écrans) ; l'olivier est au milieu de l'écran à p_align : le cadre ne bouge plus latéralement ensuite (GROW_DX à 0).
 PROFILES.terrasses = {
   ...PROFILES.bureaux,
   BAND: true,
-  PHASE: { pre: 1.1, grow: 1.0, veil: 0.3, hold1: 0.2, glide: 1, hold2: 0.2, hold3: 0.3, overlap: 1 },
+  PHASE: { pre: 2.8, grow: 1.0, veil: 0.3, hold1: 0.2, glide: 1, hold2: 0.2, hold3: 0.3, overlap: 1 },
   GROW_P: [0, 0.5, 1],
   GROW_TOP: [138, 138, 0], // px à 1030 de haut : bord haut du cadre
   GROW_SCALE: [0.406, 0.699, 1], // largeur du cadre / largeur de l'écran (frame 18 : 1 208 x 760 px)
-  GROW_DX: [0, -20, 0], // px à 1728 : à la frame 18 le cadre est centré à 844 px, pas à 864
+  GROW_DX: [0, 0, 0], // px à 1728 : sur la frame 18 le cadre est centré à 844 px (-20), mais V8 veut aucun mouvement latéral de la photo cible : toujours centré
   INACTIVE: 0.5,
 };
 
@@ -187,8 +189,8 @@ export function initBureauxMatieres() {
   mm.add(
     MEDIA,
     ({ conditions }) => {
-      // Terrasses : sous 900 px la bande et les trois fonds restent empilés, sans épinglage (le relais de la bande est écrit pour l'ordinateur).
-      if (BAND && !conditions.wide) return;
+      // Terrasses : sous 900 px la bande et les trois fonds restent empilés, sans épinglage (le relais de la bande est écrit pour l'ordinateur) ; une seule rangée suit le scroll (bandSolo).
+      if (BAND && !conditions.wide) return bandSolo(section);
       const root = document.documentElement;
       root.classList.add("bx-mat-anim");
       // Les trois fonds (1,2 Mo en 2000 px) sont chargés d'avance : aucun flash au changement de fond (bureaux-images.js).
@@ -201,7 +203,7 @@ export function initBureauxMatieres() {
         const w = scaleAt(0) * vw;
         return { left: (vw - w) / 2 + (dxAt(0) * vw) / REF_W, top: (topAt(0) / REF_H) * window.innerHeight, w };
       };
-      const bandCtl = BAND ? createBand(section, { target }) : null;
+      const bandCtl = BAND ? createBand(section, { target, length: () => PHASE.pre * section.offsetHeight }) : null;
       const scale = () => Math.min(document.documentElement.clientWidth / REF_W, window.innerHeight / REF_H);
       let u = scale();
       let rail = railOffsets(slides.map(() => 0), 0, !conditions.wide, document.documentElement.clientWidth); // mesuré à chaque refresh (sync)
@@ -299,6 +301,7 @@ export function initBureauxMatieres() {
           onRefresh: sync,
           onToggle: (self) => {
             photo.style.willChange = self.isActive ? "transform" : ""; // will-change seulement pendant que la scène est active
+            bandCtl?.active(self.isActive);
           },
         },
       });
@@ -336,4 +339,6 @@ export function initBureauxMatieres() {
       };
     },
   );
+  // Mouvement réduit : la scène n'existe pas, les rangées de la bande sont fixes et l'olivier est centré (retours V8).
+  if (BAND) mm.add("(prefers-reduced-motion: reduce)", () => bandStatic(section));
 }

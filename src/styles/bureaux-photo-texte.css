@@ -17,6 +17,10 @@ body[data-page="page"] .ptx {
 body[data-page="page"] .ptx__photo { position: absolute; inset: 0; z-index: -2; margin: 0; }
 body[data-page="page"] .ptx__photo img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 body[data-page="page"] .ptx__veil { position: absolute; inset: 0; z-index: -1; background: var(--veil); }
+/* V8 (reveal-on-enter) : la photo et son voile sont dans un même calque, rogné par clip-path pendant la révélation (la photo seule laisserait le voile apparaître avant elle). */
+body[data-page="page"] .ptx__media { position: absolute; inset: 0; z-index: -2; overflow: clip; }
+body[data-page="page"] .ptx__media .ptx__photo,
+body[data-page="page"] .ptx__media .ptx__veil { z-index: auto; }
 body[data-page="page"] .ptx__text { display: flex; flex-direction: column; align-items: center; gap: 2.3vw; }
 body[data-page="page"] .ptx__p { max-width: 83vw; font-size: var(--fs-text-lg); font-weight: 400; line-height: 1.5; }
 
